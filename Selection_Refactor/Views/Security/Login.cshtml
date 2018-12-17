@@ -1,0 +1,22 @@
+﻿@{
+    ViewBag.Title = "登录";
+}
+@section css{
+    <link rel="stylesheet" type="text/css" href="~/Content/css/pages/login.css" />
+}
+
+<div class="login-box">
+    <div class="item">
+        <label>用户名：</label>
+        <input id="userid-input" class="form-control" placeholder="请输入用户名" />
+    </div>
+    <div class="item">
+        <label>密码：</label>
+        <input id="passwd-input" class="form-control" type="password" placeholder="请输入密码" />
+    </div>
+    <button id="login-btn" class="btn btn-default login-btn">登录</button>
+</div>
+
+@section script{
+    <script src="~/Content/js/pages/login.js"></script>
+}

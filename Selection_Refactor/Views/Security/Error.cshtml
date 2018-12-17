@@ -1,0 +1,21 @@
+﻿@{
+    ViewBag.Title = "错误";
+}
+<h2>你当前未登录或网站发生错误</h2>
+<h2>
+    <span id="second-span" style="font-size:larger">5</span> 秒后跳转至登录页面，或者直接点击<a href="/">这里</a>跳转
+</h2>
+
+@section script{
+    <script>
+        $(document).ready(function () {
+            var second = 5;
+            //设置5秒倒计时
+            setInterval(function () {
+                $("#second-span").text(--second);
+                if (second == 0)
+                    location.href = "/";
+            }, 1000);
+        })
+    </script>
+}
