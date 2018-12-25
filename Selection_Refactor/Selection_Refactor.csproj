@@ -166,6 +166,7 @@
     <Content Include="Content\js\gy-alert.js" />
     <Content Include="Content\js\jquery-3.3.1.min.js" />
     <Content Include="Content\js\pages\login.js" />
+    <Content Include="Content\js\render.js" />
     <Content Include="Content\plugins\bootstrap-3.3.7\css\bootstrap.css" />
     <Content Include="Content\plugins\bootstrap-3.3.7\css\bootstrap.min.css" />
     <Content Include="Content\plugins\bootstrap-3.3.7\js\bootstrap.js" />
@@ -204,7 +205,9 @@
     <Content Include="Views\Security\Login.cshtml" />
     <Content Include="Views\Student\Profile.cshtml" />
     <Content Include="Views\Security\Error.cshtml" />
-    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

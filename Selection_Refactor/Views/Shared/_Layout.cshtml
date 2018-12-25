@@ -7,7 +7,7 @@
     <title>师生双选系统-@ViewBag.Title</title>
     @Styles.Render("~/css/bootstrap")
     @Styles.Render("~/css/site")
-    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
     @RenderSection("css", required: false)
 
 
@@ -22,7 +22,12 @@
                     <span class="icon-bar">2</span>
                     <span class="icon-bar">3</span>
                 </button>
-                <span class = "navbar-brand">师生双选系统</span>
+                <span class="navbar-brand">师生双选系统</span>
+                <div class="tab-container">
+                    <span class="page-tab" access-stage="0111111" href="/Student/profile">菜单甲</span>
+                    <span class="page-tab profile" access-stage="1111111" href="/Student/profile">菜单乙</span>
+                    <span class="page-tab" access-stage="0000000" error-msg="奏是点不开">菜单丙</span>
+                </div>
             </div>
             <div class="navbar-collapse collapse">
                 <span>别人的模版</span>
@@ -37,9 +42,19 @@
         </footer>
     </div>
 
-    @Scripts.Render("~/bundles/jquery")
+    <script>
+        //定义一些js全局变量
+        var currentPageTab ="@ViewBag.CurrentTab";
+        var stage = @ViewBag.Stage;
+    </script>
+
+    @Scripts.Render("~/bundles/render")
+
+    @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/site")
+
+
     @RenderSection("script", required: false)
 </body>
 </html>

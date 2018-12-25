@@ -17,6 +17,9 @@ namespace Selection_Refactor
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Content/plugins/bootstrap-3.3.7/js/bootstrap.min.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/render").Include(
+                      "~/Content/js/render.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/site").Include(
                       "~/Content/js/global.js",
                       "~/Content/js/gy-alert.js"));
