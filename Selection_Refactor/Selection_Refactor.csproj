@@ -154,6 +154,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Dao\StageDao.cs" />
+    <Compile Include="Models\Dao\UserDao.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Util\CryptoUtil.cs" />
   </ItemGroup>
@@ -175,7 +177,9 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -190,7 +194,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\image\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\fonts\glyphicons-halflings-regular.woff2" />
@@ -201,6 +204,7 @@
     <Content Include="Views\Security\Login.cshtml" />
     <Content Include="Views\Student\Profile.cshtml" />
     <Content Include="Views\Security\Error.cshtml" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Selection_Refactor.Models.Dao;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,9 +9,11 @@ namespace Selection_Refactor.Attribute
 {
     public class RoleAuthorizeAttribute : AuthorizeAttribute
     {
-        public new string[] Roles { get; set; }
         public new string Role { get; set; }
-        public new string cookieRole { get; set; }
+
+        private  string[] RoleInfos { get; set; }
+        private  string cookieRole { get; set; }
+        private int stage  { get; set; }
         protected override bool AuthorizeCore(HttpContextBase httpContext)
         {
             if (httpContext == null)
@@ -21,14 +24,32 @@ namespace Selection_Refactor.Attribute
             {
                 return false;
             }
-            if (Roles.Length == 0)
+            if (RoleInfos.Length == 0)
             {
                 return false;
             }
-            if (Roles.Contains(cookieRole))
+
+            try
             {
-                return true;
+                foreach (string item in RoleInfos)
+                {
+                    string[] role = item.Split('-');
+                    if (role[0] == cookieRole)
+                    {
+                        if (role.Length > 1 && role[1][stage - 1] == '0')
+                            return false;
+                        return true;
+                    }
+                    else
+                        return false;
+                }
             }
+            catch (Exception e)
+            {
+
+                throw new Exception("权限控制错误"+e.Message);
+            }
+
             return false;
         }
 
@@ -37,14 +58,19 @@ namespace Selection_Refactor.Attribute
             try
             {
                 HttpCookie accountCookie = System.Web.HttpContext.Current.Request.Cookies["Account"];
+                StageDao stageDao = new StageDao();
+                UserDao userDao = new UserDao();
                 string role = accountCookie["role"];
-                //TODO By 高晔 这边记得加强验证
-                if (!string.IsNullOrWhiteSpace(role))
+                string userId = accountCookie["userId"];
+                string passwd = accountCookie["passwd"];
+                if (!string.IsNullOrWhiteSpace(role) && userDao.certifyUser(userId,passwd,role)=="success")
                 {
                     this.cookieRole = role;
                 }
 
-                this.Roles = this.Role.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
+                stage = stageDao.getCurrentStage();
+
+                this.RoleInfos = this.Role.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
             }
             catch (Exception)
             {
