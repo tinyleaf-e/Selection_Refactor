@@ -1,4 +1,6 @@
 ﻿using Selection_Refactor.Attribute;
+using Selection_Refactor.Models.Dao;
+using Selection_Refactor.Models.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,10 +13,11 @@ namespace Selection_Refactor.Controllers
     {
         // GET: Student
 
-        [RoleAuthorize(Role = "student")]
+        [RoleAuthorize(Role = "student,teacher")]
         public ActionResult Profile()
         {
             return View();
         }
+        
     }
 }

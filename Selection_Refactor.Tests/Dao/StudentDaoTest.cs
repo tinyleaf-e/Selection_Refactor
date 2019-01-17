@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Diagnostics;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Selection_Refactor.Models.Dao;
 using Selection_Refactor.Models.Entity;
+using Selection_Refactor.Models.Validation;
 
 namespace Selection_Refactor.Tests.Dao
 {
@@ -14,12 +16,20 @@ namespace Selection_Refactor.Tests.Dao
             StudentDao studentDao = new StudentDao();
 
             Student student = new Student();
-            student.id = "zy1821103";
-            student.name = "高晔";
+            student.id = "zy1821104";
+            student.name = "高晔4";
             student.password = "hash123";
-            int result = studentDao.addStudent(student);
+            ValidResult result = ValidateHelper.IsValid(student);
+            if (!result.IsVaild)
+            {
+                foreach (ErrorMember errorMember in result.ErrorMembers)
+                {
+                    Debug.WriteLine(errorMember.ErrorMemberName + "：" + errorMember.ErrorMessage);
+                }
+            }
+            int result1 = studentDao.addStudent(student);
             Assert.AreEqual(1,result);
-            Console.WriteLine(result);
+            Debug.WriteLine(result);
         }
     }
 }

@@ -1,0 +1,38 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>师生双选系统-@ViewBag.Title</title>
+    @Styles.Render("~/css/bootstrap")
+    @Scripts.Render("~/bundles/jquery")
+    @RenderSection("css", required: false)
+
+
+
+</head>
+<body>
+    <div class="navbar navbar-fixed-top" style="background:#3c8dbc">
+        <div class="container">
+            <div class="navbar-header">
+                <span class="navbar-brand" style="color:white">师生双选系统</span>
+            </div>
+        </div>
+    </div>
+    <div class="container body-content" style="margin-top:50px">
+        @RenderBody()
+
+    </div>
+    <footer style="position:fixed;bottom:0;width:100%">
+        <hr style="margin-bottom:0" />
+        <p style="padding-bottom:0 15px;text-align:center">&copy; 信息化实验室</p>
+    </footer>
+
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/bootstrap")
+
+
+    @RenderSection("script", required: false)
+</body>
+</html>

@@ -7,39 +7,132 @@
     <title>师生双选系统-@ViewBag.Title</title>
     @Styles.Render("~/css/bootstrap")
     @Styles.Render("~/css/site")
+    @Styles.Render("~/css/AdminLTE")
     @Scripts.Render("~/bundles/jquery")
     @RenderSection("css", required: false)
 
 
 
 </head>
-<body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar">1</span>
-                    <span class="icon-bar">2</span>
-                    <span class="icon-bar">3</span>
-                </button>
-                <span class="navbar-brand">师生双选系统</span>
-                <div class="tab-container">
-                    <span class="page-tab" access-stage="0111111" href="/Student/profile">菜单甲</span>
-                    <span class="page-tab profile" access-stage="1111111" href="/Student/profile">菜单乙</span>
-                    <span class="page-tab" access-stage="0000000" error-msg="奏是点不开">菜单丙</span>
+<body class="hold-transition skin-blue sidebar-mini">
+
+    <div class="wrapper">
+
+        <header class="main-header">
+            <!-- Logo -->
+            <a href="index2.html" class="logo">
+                <!-- mini logo for sidebar mini 50x50 pixels -->
+                <span class="logo-mini">北航</span>
+                <!-- logo for regular state and mobile devices -->
+                <span class="logo-lg">北航软件学院双选系统</span>
+            </a>
+            <!-- Header Navbar: style can be found in header.less -->
+            <nav class="navbar navbar-static-top">
+                <!-- Sidebar toggle button-->
+                <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+                    <span class="sr-only">Toggle navigation</span>
+                </a>
+
+                <div class="navbar-custom-menu">
+                    <ul class="nav navbar-nav">
+                        <!-- User Account: style can be found in dropdown.less -->
+                        <li class="dropdown user user-menu">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <span class="hidden-xs">高晔</span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <!-- User image -->
+                                <li class="user-header">
+
+                                    <p>
+                                        高晔
+                                        <small>14211054</small>
+                                    </p>
+                                </li>
+                                <!-- Menu Footer-->
+                                <li class="user-footer">
+                                    <div class="pull-left">
+                                        <a href="#" class="btn btn-default btn-flat">个人信息</a>
+                                    </div>
+                                    <div class="pull-right">
+                                        <a href="#" class="btn btn-default btn-flat">退出登录</a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
                 </div>
-            </div>
-            <div class="navbar-collapse collapse">
-                <span>别人的模版</span>
-            </div>
+            </nav>
+        </header>
+        <!-- Left side column. contains the logo and sidebar -->
+        <aside class="main-sidebar">
+            <!-- sidebar: style can be found in sidebar.less -->
+            <section class="sidebar">
+                <!-- sidebar menu: : style can be found in sidebar.less -->
+                <ul class="sidebar-menu" data-widget="tree">
+                    <li class="header">MAIN NAVIGATION</li>
+                    <li class="page-tab profile" access-stage="1111111"  error-msg="奏是点不开">
+                        <a href="/Student/profile">
+                            <i class="fa fa-th"></i> 
+                            <span>个人信息</span>
+                        </a>
+                    </li>
+                    <li class="page-tab">
+                        <a href="#">
+                            <i class="fa fa-pie-chart"></i>
+                            <span>新页面</span>
+                        </a>
+                    </li>
+
+
+                </ul>
+            </section>
+            <!-- /.sidebar -->
+        </aside>
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <h1>
+                    个人信息
+                </h1>
+            </section>
+
+            <!-- Main content -->
+            <section class="content">
+                <!-- Main row -->
+                <div class="row">
+                    <!-- Left col -->
+                    <section class="col-lg-12 connectedSortable">
+
+                        <!-- Chat box -->
+                        <div class="box box-success">
+                            <div class="box-header">
+                                <i class="fa fa-comments-o"></i>
+
+                                <h3 class="box-title">标题</h3>
+
+                            </div>
+                            <div class="box-body chat" id="chat-box">
+                                @RenderBody()
+                            </div>
+                            <!-- /.chat -->
+                            <div class="box-footer">
+                                
+                            </div>
+                        </div>
+                        <!-- /.box (chat box) -->
+
+                    </section>
+                    <!-- /.Left col -->
+                </div>
+                <!-- /.row (main row) -->
+
+            </section>
+            <!-- /.content -->
         </div>
-    </div>
-    <div class="container body-content" style="margin-top:50px">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; 信息化实验室</p>
-        </footer>
+
     </div>
 
     <script>

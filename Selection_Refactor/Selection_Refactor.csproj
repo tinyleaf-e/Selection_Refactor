@@ -157,6 +157,8 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Attribute\ExceptionFilter.cs" />
+    <Compile Include="Attribute\FilterCharacterAttribute.cs" />
     <Compile Include="Attribute\RoleAuthorizeAttribute.cs" />
     <Compile Include="Controllers\SecurityController.cs" />
     <Compile Include="Controllers\StudentController.cs" />
@@ -167,12 +169,17 @@
     <Compile Include="Models\Dao\StudentDao.cs" />
     <Compile Include="Models\Dao\UserDao.cs" />
     <Compile Include="Models\Entity\Student.cs" />
+    <Compile Include="Models\Validation\ValidateHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Util\CryptoUtil.cs" />
+    <Compile Include="Util\LogUtil.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\css\AdminLTE.css" />
     <Content Include="Content\css\global.css" />
     <Content Include="Content\css\pages\login.css" />
+    <Content Include="Content\css\_all-skins.css" />
+    <Content Include="Content\js\adminlte.js" />
     <Content Include="Content\js\global.js" />
     <Content Include="Content\js\gy-alert.js" />
     <Content Include="Content\js\jquery-3.3.1.min.js" />
@@ -182,6 +189,10 @@
     <Content Include="Content\plugins\bootstrap-3.3.7\css\bootstrap.min.css" />
     <Content Include="Content\plugins\bootstrap-3.3.7\js\bootstrap.js" />
     <Content Include="Content\plugins\bootstrap-3.3.7\js\bootstrap.min.js" />
+    <Content Include="Content\plugins\font-awesome\css\font-awesome.css" />
+    <Content Include="Content\plugins\font-awesome\css\font-awesome.min.css" />
+    <Content Include="Content\plugins\font-awesome\fonts\fontawesome-webfont.svg" />
+    <Content Include="Content\plugins\font-awesome\HELP-US-OUT.txt" />
     <Content Include="Content\plugins\modernizr-2.8.3\js\modernizr-2.8.3.js" />
     <Content Include="favicon.ico" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
@@ -189,6 +200,7 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="log4netConfig.xml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -212,6 +224,44 @@
     <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\plugins\font-awesome\.bower.json" />
+    <Content Include="Content\plugins\font-awesome\.gitignore" />
+    <Content Include="Content\plugins\font-awesome\.npmignore" />
+    <Content Include="Content\plugins\font-awesome\bower.json" />
+    <Content Include="Content\plugins\font-awesome\css\font-awesome.css.map" />
+    <Content Include="Content\plugins\font-awesome\fonts\fontawesome-webfont.eot" />
+    <Content Include="Content\plugins\font-awesome\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\plugins\font-awesome\fonts\fontawesome-webfont.woff" />
+    <Content Include="Content\plugins\font-awesome\fonts\fontawesome-webfont.woff2" />
+    <Content Include="Content\plugins\font-awesome\fonts\FontAwesome.otf" />
+    <Content Include="Content\plugins\font-awesome\less\animated.less" />
+    <Content Include="Content\plugins\font-awesome\less\bordered-pulled.less" />
+    <Content Include="Content\plugins\font-awesome\less\core.less" />
+    <Content Include="Content\plugins\font-awesome\less\fixed-width.less" />
+    <Content Include="Content\plugins\font-awesome\less\font-awesome.less" />
+    <Content Include="Content\plugins\font-awesome\less\icons.less" />
+    <Content Include="Content\plugins\font-awesome\less\larger.less" />
+    <Content Include="Content\plugins\font-awesome\less\list.less" />
+    <Content Include="Content\plugins\font-awesome\less\mixins.less" />
+    <Content Include="Content\plugins\font-awesome\less\path.less" />
+    <Content Include="Content\plugins\font-awesome\less\rotated-flipped.less" />
+    <Content Include="Content\plugins\font-awesome\less\screen-reader.less" />
+    <Content Include="Content\plugins\font-awesome\less\stacked.less" />
+    <Content Include="Content\plugins\font-awesome\less\variables.less" />
+    <Content Include="Content\plugins\font-awesome\scss\font-awesome.scss" />
+    <Content Include="Content\plugins\font-awesome\scss\_animated.scss" />
+    <Content Include="Content\plugins\font-awesome\scss\_bordered-pulled.scss" />
+    <Content Include="Content\plugins\font-awesome\scss\_core.scss" />
+    <Content Include="Content\plugins\font-awesome\scss\_fixed-width.scss" />
+    <Content Include="Content\plugins\font-awesome\scss\_icons.scss" />
+    <Content Include="Content\plugins\font-awesome\scss\_larger.scss" />
+    <Content Include="Content\plugins\font-awesome\scss\_list.scss" />
+    <Content Include="Content\plugins\font-awesome\scss\_mixins.scss" />
+    <Content Include="Content\plugins\font-awesome\scss\_path.scss" />
+    <Content Include="Content\plugins\font-awesome\scss\_rotated-flipped.scss" />
+    <Content Include="Content\plugins\font-awesome\scss\_screen-reader.scss" />
+    <Content Include="Content\plugins\font-awesome\scss\_stacked.scss" />
+    <Content Include="Content\plugins\font-awesome\scss\_variables.scss" />
     <None Include="packages.config" />
     <Content Include="Views\Security\Login.cshtml" />
     <Content Include="Views\Student\Profile.cshtml" />
@@ -219,6 +269,7 @@
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml">
       <SubType>Designer</SubType>
     </None>
+    <Content Include="Views\Shared\_SecurityLayout.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -9,7 +9,7 @@ namespace Selection_Refactor.Attribute
 {
     public class RoleAuthorizeAttribute : AuthorizeAttribute
     {
-        public new string Role { get; set; }
+        public string Role { get; set; }
 
         private  string[] RoleInfos { get; set; }
         private  string cookieRole { get; set; }

@@ -8,15 +8,6 @@
     font-size:15px;
     color:#ccc;
 }
-.page-tab {
-    display: inline-block;
-    margin: auto 15px;
-    cursor:pointer;
-}
 .page-tab:hover {
     color:white;
-}
-.page-tab.active{
-    font-size:16px;
-    font-weight:bold;
 }

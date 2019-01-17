@@ -2,5 +2,5 @@
 try {
     $(".page-tab." + currentPageTab).addClass("active");
 } catch (e) {
-    alert("网站发生错误，请联系网站管理员");
+    console.log("网站发生错误，请联系网站管理员");
 }

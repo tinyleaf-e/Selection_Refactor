@@ -1,4 +1,5 @@
 ﻿using Selection_Refactor.Models.Entity;
+using Selection_Refactor.Util;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,6 +36,8 @@ namespace Selection_Refactor.Models.Dao
             }
             catch (Exception e)
             {
+                //throw e;
+                //LogUtil.writeLogToFile(e);
                 return -1;
             }
         }
