@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Selection_Refactor.Models.Entity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -15,6 +16,17 @@ namespace Selection_Refactor.Models.Dao
         {
             return "success";
         }
-    
+
+
+        /*
+         * Create By 高晔
+         * 创建和初始化本地数据库
+         */
+        public static void initLocalDB()
+        {
+            StudentDBContext studentDB = new StudentDBContext();
+            studentDB.students.Find("");
+        }
+
     }
 }
