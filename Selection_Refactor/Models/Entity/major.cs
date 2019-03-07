@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 namespace Selection_Refactor.Models.Entity
 {
     /*
-     by 付文欣
+     Create by 付文欣
      专业实体类
     */
     [Table("major")]
