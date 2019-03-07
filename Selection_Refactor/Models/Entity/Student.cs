@@ -55,7 +55,7 @@ namespace Selection_Refactor.Models.Entity
 
     public class StudentDBContext : DbContext
     {
-        public StudentDBContext() : base("DefaultConnection") { }
+        public StudentDBContext() : base("DefaultConnection_online") { }
 
         public DbSet<Student> students { get; set; }
 
