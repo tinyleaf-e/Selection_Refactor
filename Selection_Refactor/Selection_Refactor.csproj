@@ -188,6 +188,7 @@
     <Content Include="Content\js\render.js" />
     <Content Include="Content\plugins\bootstrap-3.3.7\css\bootstrap.css" />
     <Content Include="Content\plugins\bootstrap-3.3.7\css\bootstrap.min.css" />
+    <Content Include="Content\plugins\bootstrap-3.3.7\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\plugins\bootstrap-3.3.7\js\bootstrap.js" />
     <Content Include="Content\plugins\bootstrap-3.3.7\js\bootstrap.min.js" />
     <Content Include="Content\plugins\datatables.net-bs\css\dataTables.bootstrap.css" />
@@ -271,12 +272,16 @@
     <Content Include="Content\plugins\font-awesome\scss\_screen-reader.scss" />
     <Content Include="Content\plugins\font-awesome\scss\_stacked.scss" />
     <Content Include="Content\plugins\font-awesome\scss\_variables.scss" />
-    <Content Include="Content\plugins\datatables.net-bs\.bower.json" />
-    <Content Include="Content\plugins\datatables.net-bs\bower.json" />
-    <Content Include="Content\plugins\datatables.net-bs\Readme.md" />
     <Content Include="Content\plugins\datatables.net\.bower.json" />
     <Content Include="Content\plugins\datatables.net\bower.json" />
     <Content Include="Content\plugins\datatables.net\Readme.md" />
+    <Content Include="Content\plugins\datatables.net-bs\.bower.json" />
+    <Content Include="Content\plugins\datatables.net-bs\bower.json" />
+    <Content Include="Content\plugins\datatables.net-bs\Readme.md" />
+    <Content Include="Content\plugins\bootstrap-3.3.7\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\plugins\bootstrap-3.3.7\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Content\plugins\bootstrap-3.3.7\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Content\plugins\bootstrap-3.3.7\fonts\glyphicons-halflings-regular.woff2" />
     <None Include="packages.config" />
     <Content Include="Views\Security\Login.cshtml" />
     <Content Include="Views\Student\Profile.cshtml" />

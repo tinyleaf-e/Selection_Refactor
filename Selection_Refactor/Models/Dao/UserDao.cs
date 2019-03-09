@@ -25,7 +25,7 @@ namespace Selection_Refactor.Models.Dao
         public static void initLocalDB()
         {
             StudentDBContext studentDB = new StudentDBContext();
-            studentDB.students.Find("");
+            //studentDB.students.Find("");
         }
 
     }
