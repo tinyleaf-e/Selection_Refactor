@@ -160,6 +160,7 @@
     <Compile Include="Attribute\ExceptionFilter.cs" />
     <Compile Include="Attribute\FilterCharacterAttribute.cs" />
     <Compile Include="Attribute\RoleAuthorizeAttribute.cs" />
+    <Compile Include="Controllers\DeanController.cs" />
     <Compile Include="Controllers\SecurityController.cs" />
     <Compile Include="Controllers\StudentController.cs" />
     <Compile Include="Global.asax.cs">
@@ -270,6 +271,8 @@
       <SubType>Designer</SubType>
     </None>
     <Content Include="Views\Shared\_SecurityLayout.cshtml" />
+    <Content Include="Views\Dean\Professor.cshtml" />
+    <Content Include="Views\Dean\Student.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
