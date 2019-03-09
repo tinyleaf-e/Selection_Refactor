@@ -4,6 +4,7 @@
     ViewBag.CurrentTab = "professor";
     ViewBag.Stage = 2;
     ViewBag.BoxTitle = "教师列表";
+    ViewBag.Role = "Dean";
 }
 
 @section css{
@@ -12,13 +13,13 @@
 
 
     <div class="col-md-12 col-sm-12 col-xs-12">
-        <table class="table table-bordered table-striped" id="professorTable" data-toggle="table" data-url="/Gao_Admin/getProfessors?p=0" data-row-style="rowStyle">
+        <table class="table table-bordered table-striped" id="professorTable">
             <thead>
                 <tr>
-                    <th data-field="Order" style="font-size:small">序号</th>
-                    <th >姓名</th>
-                    <th data-field="ProTitle">职称</th>
-                    <th data-formatter="operateFormatter" data-align='center' data-events='operateEvents'>详情</th>
+                    <th>序号</th>
+                    <th>姓名</th>
+                    <th>职称</th>
+                    <th>详情</th>
                 </tr>
             </thead>
         </table>
@@ -38,14 +39,14 @@
             "columns": [
                 {
                     data: function (row, type, set,meta) {
-                        return meta.row;
+                        return meta.row+1;
                     }
                 },
                 { data: "ProName" },
                 { data: "ProTitle" },
                 {
                     data: function () {
-                        return "无"
+                        return "<button class='btn btn-default'>详情</button>"
                     }
                 }
             ]
