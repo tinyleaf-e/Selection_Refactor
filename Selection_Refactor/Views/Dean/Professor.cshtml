@@ -16,7 +16,7 @@
             <thead>
                 <tr>
                     <th data-field="Order" style="font-size:small">序号</th>
-                    <th data-field="ProName">姓名</th>
+                    <th >姓名</th>
                     <th data-field="ProTitle">职称</th>
                     <th data-formatter="operateFormatter" data-align='center' data-events='operateEvents'>详情</th>
                 </tr>
@@ -39,41 +39,20 @@
                 {
                     data: function (row, type, set,meta) {
                         return meta.row;
-                    }},
+                    }
+                },
                 { data: "ProName" },
                 { data: "ProTitle" },
                 {
                     data: function () {
                         return "无"
-                    }}
+                    }
+                }
             ]
         });
     </script>
 
 }
 
-<script>
-
-    function operateFormatter(value, row, index) {
-
-        return [
-            '<button type="button" class="btn btn-block btn-info">查看</button> ',
-        ].join('');
-    }
-
-    window.operateEvents = {
-
-        'click .btn-check': function (e, value, row, index) {
-            //  console.log(row);
-            var data = {
-                'UserId': row["UserId"]
-            }
-            //window.open(row["ProInfoUrl"]);
-            //这里需要换一个url
-            //window.location.href = ProfessorInformation(data.UserId).
-            window.location.href = "/Gao_JiaoWu/ProfessorInfo?UserId=" + row["UserId"];
-        }
-    };
-</script>
 
 
