@@ -3,25 +3,16 @@
     ViewBag.Title = "导师列表";
     ViewBag.CurrentTab = "professor";
     ViewBag.Stage = 2;
+    ViewBag.BoxTitle = "教师列表";
 }
-<div id="page-wrapper">
-    <div class="col-xs-12">
-        <div class="box">
-            <div class="box-header">
-                <h2 class="box-title">教师列表</h2>
-                <div class="box-tools">
-                    <div class="input-group input-group-sm" style="width: 150px;" id="dataTables-example_filter">
-                        <input type="text" id="professorName" placeholder="搜索教师姓名" required class="form-control pull-right">
-                        <div class="input-group-btn">
-                            <button type="submit" id="searchProfessors" class="btn btn-default"><i class="fa fa-search"></i></button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+
+@section css{
+    <link rel="stylesheet" type="text/css" href="~/Content/plugins/datatables.net-bs/css/dataTables.bootstrap.css" />
+}
+
+
     <div class="col-md-12 col-sm-12 col-xs-12">
-        <table class="table table-hover" id="professorTable" data-toggle="table" data-url="/Gao_Admin/getProfessors?p=0" data-row-style="rowStyle">
+        <table class="table table-bordered table-striped" id="professorTable" data-toggle="table" data-url="/Gao_Admin/getProfessors?p=0" data-row-style="rowStyle">
             <thead>
                 <tr>
                     <th data-field="Order" style="font-size:small">序号</th>
@@ -33,9 +24,36 @@
         </table>
     </div>
     <div style="clear:both"></div>
-</div>
+
+@section script{
+    <script src="~/Content/plugins/datatables.net/js/jquery.dataTables.js"></script>
+    <script src="~/Content/plugins/datatables.net-bs/js/dataTables.bootstrap.js"></script>
+    <script>
+
+        $('#professorTable').DataTable({
+            ajax: {
+                url: ' https://www.easy-mock.com/mock/5c8324b3e0e0f75c24623747/selection/getPro',
+                dataSrc: 'data'
+            },
+            "columns": [
+                {
+                    data: function (row, type, set,meta) {
+                        return meta.row;
+                    }},
+                { data: "ProName" },
+                { data: "ProTitle" },
+                {
+                    data: function () {
+                        return "无"
+                    }}
+            ]
+        });
+    </script>
+
+}
 
 <script>
+
     function operateFormatter(value, row, index) {
 
         return [
