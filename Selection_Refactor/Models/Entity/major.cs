@@ -23,7 +23,7 @@ namespace Selection_Refactor.Models.Entity
 
     public class MajorDBContext : DbContext
     {
-        public MajorDBContext() : base("DefaultConnection_online") { }
+        public MajorDBContext() : base("DefaultConnection") { }
 
         public DbSet<Major> majors { get; set; }
 

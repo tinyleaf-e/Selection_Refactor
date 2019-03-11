@@ -76,8 +76,28 @@ namespace Selection_Refactor.Models.Dao
             }
         }
 
-        //TODO update 函数
-
+        /*
+         * Create By 付文欣
+         * 修改更新设置信息
+         * 成功添加返回1，失败返回0，异常返回-1
+         */
+         public int update(Setting newSetting)
+         {
+            try
+            {
+                SettingDBContext settingDBContext = new SettingDBContext();
+                Setting setting = settingDBContext.settings.Where(m => m.yearId == newSetting.yearId).ToList()[0];
+                settingDBContext.settings.Remove(setting);
+                settingDBContext.settings.Add(newSetting);
+                return settingDBContext.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                //throw e;
+                //LogUtil.writeLogToFile(e);
+                return -1;
+            }
+         }
 
         /*
          * Create By 付文欣

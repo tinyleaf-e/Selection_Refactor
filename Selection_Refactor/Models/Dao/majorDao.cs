@@ -5,6 +5,7 @@ using System.Web;
 using Selection_Refactor.Models.Entity;
 
 
+
 namespace Selection_Refactor.Models.Dao
 {
     public class majorDao
@@ -63,18 +64,27 @@ namespace Selection_Refactor.Models.Dao
          */
         public int deleteByIds(List<String> ids)
         {
-            int flag = 1;
-            foreach(var id in ids)
+            try
             {
-                int curflag;
-                if ((curflag = deleteById(id)) != 1)
+                Major major;
+                MajorDBContext majorDBContext = new MajorDBContext();
+                foreach (var id in ids)
                 {
-                    //TODO : 是否需要恢复之前的删除，以及如何删除。。。。
-                    flag = curflag;
-                    break;
+                    if ((major = getById(id)) != null)
+                    {
+                        majorDBContext.majors.Remove(major);
+                    }
+                    else
+                        return 0;
                 }
+                return majorDBContext.SaveChanges();
             }
-            return flag;
+            catch (Exception e)
+            {
+                //throw e;
+                //LogUtil.writeLogToFile(e);
+                return -1;
+            }
         }
 
         /*
