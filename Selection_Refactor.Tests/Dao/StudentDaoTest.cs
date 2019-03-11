@@ -13,23 +13,23 @@ namespace Selection_Refactor.Tests.Dao
         [TestMethod]
         public void TestMethod()
         {
-            StudentDao studentDao = new StudentDao();
+            MajorDao majorDao = new MajorDao();
+            Major major = new Major();
+            major.id = "a123456";
+            major.name = "英语";
+            major.remark = "123sdaSDSA";
+            majorDao.add(major);
+            major = majorDao.getById(major.id);
+            ValidResult validResult = ValidateHelper.IsValid(major);
 
-            Student student = new Student();
-            student.id = "zy1821104";
-            student.name = "高晔4";
-            student.password = "hash123";
-            ValidResult result = ValidateHelper.IsValid(student);
-            if (!result.IsVaild)
+            if (!validResult.IsVaild)
             {
-                foreach (ErrorMember errorMember in result.ErrorMembers)
+                foreach (ErrorMember errorMember in validResult.ErrorMembers)
                 {
                     Debug.WriteLine(errorMember.ErrorMemberName + "：" + errorMember.ErrorMessage);
                 }
             }
-            int result1 = studentDao.addStudent(student);
-            Assert.AreEqual(1,result);
-            Debug.WriteLine(result);
+
         }
     }
 }

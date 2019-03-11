@@ -8,7 +8,7 @@ using Selection_Refactor.Models.Entity;
 
 namespace Selection_Refactor.Models.Dao
 {
-    public class majorDao
+    public class MajorDao
     {
         /*
          * Create by 付文欣  

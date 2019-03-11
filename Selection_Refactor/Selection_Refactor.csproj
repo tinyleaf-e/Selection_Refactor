@@ -165,7 +165,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\Dao\majorDao.cs" />
+    <Compile Include="Models\Dao\MajorDao.cs" />
     <Compile Include="Models\Dao\SettingDao.cs" />
     <Compile Include="Models\Dao\StageDao.cs" />
     <Compile Include="Models\Dao\StudentDao.cs" />
