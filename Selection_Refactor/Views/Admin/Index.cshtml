@@ -3,229 +3,161 @@
     ViewBag.Title = "Index";
     ViewBag.BoxTitle = "教师信息";
 }
-
+@section css{
+    <link href="~/Content/css/AdminLTE.min.css" rel="stylesheet" />
+    <link href="~/Content/plugins/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/plugins/bootstrap-3.3.7/css/bootstrap.min.css" rel="stylesheet" />
+}
 <h2>Index</h2>
 <div id="page-wrapper">
 
-    <div>
-        <div class="row">
-            <div class="col-sm-12">
-                <h2>
-                    <label>教师列表</label>
-                </h2>
+
+        <div class="box">
+            <div style="padding-left:10px;padding-top:10px">
+                <button id="uploadProfessors" class="btn btn-block btn-primary bg-light-blue color-palette" style="width:8%;display:inline;vertical-align:baseline;">上传教师</button>
+                <button id="uploadProfessors" class="btn btn-block btn-primary bg-green disabled color-palette" style="width:8%;margin-left:5px;display:inline;vertical-align:baseline;">新增教师</button>
             </div>
-        </div>
-        <div class="row col-md-12 col-sm-12 col-xs-12" id="toolbar">
-            <div class="col-sm-5">
-                <button id="uploadProfessors" class="btn btn-default">上传教师</button>
-                <a id="addProfessor" href="/Gao_Admin/AddProfessorInfo" class="btn btn-default">新增教师</a>
-            </div>
-            <div class="col-sm-3">
-                <div class="dataTables_filter" id="dataTables-example_filter">
-                    <label><input id="professorName" placeholder="搜索教师姓名" class="form-control input-sm" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="vmName" data-sort-order="desc" data-show-export="true" type="search"></label>
+            <div class="box-body">
+                <div id="professor-table" class="dataTables_wrapper form-inline dt-bootstrap">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <table id="example1" class="table table-bordered table-striped dataTable" role="grid" aria-describedby="example1_info">
+                                <thead>
+                                    <tr role="row">
+                                        <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-sort="ascending" data-field="ProName" style="width: 75px;">姓名</th>
+                                        <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" data-field="ProTitle" style="width: 75px;">职称</th>
+                                        <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" data-field="ProPlace" style="width: 60px;">最多名额</th>
+                                        <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" data-field="FirstChoice" style="width: 80px;">第一志愿已选人数</th>
+                                        <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" data-field="SecondChoice" style="width: 80px;">第二志愿已选人数</th>
+                                        <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" data-field="DistributeNumber" style="width: 60px;">分配人数</th>
+                                        <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" data-field="RestPlace" style="width: 60px;">剩余名额</th>
+                                        <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" style="width: 100px;" data-formatter="operateFormatter" data-align='center' data-events='operateEvents'>操作</th>
+                                    </tr>
+                                </thead>
+                                <tfoot>
+                                    <tr>
+                                        <th rowspan="1" colspan="1">姓名</th>
+                                        <th rowspan="1" colspan="1">职称</th>
+                                        <th rowspan="1" colspan="1">最多名额</th>
+                                        <th rowspan="1" colspan="1">第一志愿已选人数</th>
+                                        <th rowspan="1" colspan="1">第二志愿已选人数</th>
+                                        <th rowspan="1" colspan="1">分配人数</th>
+                                        <th rowspan="1" colspan="1">剩余名额</th>
+                                        <th rowspan="1" colspan="1">操作</th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="col-sm-3">
-                <div class="dataTables_filter" id="dataTables-example_length">
-                    <label>
-                        <select id="professAll" name="dataTables-example_length" class="form-control input-sm" aria-controls="dataTables-example">
-                            <option value="0">全部教师</option>
-                            <option value="1">只看名额未满教师</option>
-                        </select>
-                    </label>
-                </div>
-            </div>
-            <div class="col-sm-1" style="margin-left:0px">
-                <button id="searchProfessors" class="btn btn-default">搜索</button>
-            </div>
-
+            <!-- /.box-body -->
         </div>
 
-        <div class="col-md-12 col-sm-12 col-xs-12">
-            <table id="professorTable" data-toggle="table" data-url="/Gao_Admin/getProfessorsForAdmin?p=0" data-pagination="true" data-show-columns="true" data-toolbar="#toolbar">
-                <thead>
-                    <tr>
-                        <th data-field="ProName">姓名</th>
-                        <th data-field="ProTitle">职称</th>
-                        <th data-field="ProMaxNum">最多名额</th>
-                        <th data-field="ProFirstNum">第一志愿已选人数</th>
-                        <th data-field="ProSecondNum">第二志愿已选人数</th>
-                        <th data-field="ProAssignNum">分配人数</th>
-                        <th data-field="ProRemainNum" data-formatter="operateFormatter_remain">剩余名额</th>
-                        <th data-formatter="operateFormatter" data-align='center' data-events='operateEvents'>操作</th>
-                    </tr>
-                </thead>
-            </table>
-        </div>
-        <div style="clear:both"></div>
     </div>
-
-
-
+    <div style="clear:both">
 
     <!-- /. ROW  -->
 </div>
-<!-- /. PAGE INNER  -->
-        </div>
-<!-- /. PAGE WRAPPER  -->
-<!--以下是批量创建教师模态框-->
-<div class="modal" id="batchAdd-teachers-modal" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4>请上传xlsx或xls文件</h4>
+@*<!-- /. PAGE INNER  -->
             </div>
-            <div class="modal-body">
-                <a href="~/ExcelFiles/template/教师批量录入.xlsx" class="form-control" style="margin-bottom:10px">下载导入模板</a>
-                <input id="input-file" type="file" data-preview-file-type="text" name="file">
-            </div>
-        </div>
-    </div>
-</div>
-<!--以上是批量创建教师模态框-->
-<!--以下是更改密码模态框-->
-<div class="modal" id="change_password_modal" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4>更改密码</h4>
-            </div>
-            <div class="modal-body">
-                <input id="password_input" required class="send-text" style="margin-top: 10px; margin-left:20px; width: 200px;height: 34px;border-radius:3px ;  border: 1px solid rgb(204,204,204) ;">
-                <button id="change_password_submit_button" type="button" class="btn btn-default" style="left:auto">
-                    更新
-                </button>
+    <!-- /. PAGE WRAPPER  -->
+    <!--以下是批量创建教师模态框-->
+    <div class="modal" id="batchAdd-teachers-modal" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4>请上传xlsx或xls文件</h4>
+                </div>
+                <div class="modal-body">
+                    <a href="~/ExcelFiles/template/教师批量录入.xlsx" class="form-control" style="margin-bottom:10px">下载导入模板</a>
+                    <input id="input-file" type="file" data-preview-file-type="text" name="file">
+                </div>
             </div>
         </div>
     </div>
-</div>
+    <!--以上是批量创建教师模态框-->
+    <!--以下是更改密码模态框-->
+    <div class="modal" id="change_password_modal" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4>更改密码</h4>
+                </div>
+                <div class="modal-body">
+                    <input id="password_input" required class="send-text" style="margin-top: 10px; margin-left:20px; width: 200px;height: 34px;border-radius:3px ;  border: 1px solid rgb(204,204,204) ;">
+                    <button id="change_password_submit_button" type="button" class="btn btn-default" style="left:auto">
+                        更新
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>*@
 <!--以上是更改密码模态框-->
 <!-- /. WRAPPER  -->
 <!-- JS Scripts-->
 <!-- jQuery Js -->
-<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Content/js/jquery.min.js"></script>
 <!-- Bootstrap Js -->
-<script src="~/Scripts/bootstrap.min.js"></script>
-<script src="~/Scripts/bootstrap-table.js"></script>
-<script src="~/Scripts/bootstrap-table-export.js"></script>
-<!-- Metis Menu Js -->
-<script src="~/Scripts/jquery.metisMenu.js"></script>
-<script src="~/Scripts/fileinput.min.js"></script>
-<script src="~/Scripts/zh.js"></script>
+<script src="~/Content/plugins/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+<!-- DataTables -->
+<script src="~/Content/plugins/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="~/Content/plugins/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+<script>
+
+    $('#example1').DataTable({
+        ajax: {
+            url: 'https://www.easy-mock.com/mock/5b1fe0f0f71e0743260935e1/example/getProInfo',
+            dataSrc: 'data'
+        },
+        "columns": [
+            { data: "ProName" },
+            { data: "ProTitle" },
+            { data: "ProPlace" },
+            { data: "FirstChoice" },
+            { data: "SecondChoice" },
+            { data: "DistributeNumber" },
+            { data: "RestPlace" },
+            {
+                data: function (row, type, set, meta) {
+                    return [
+                        '<button type="button" class="btn btn-block btn-info" style="width:45%;display:inline;vertical-align:baseline;"> 查看</button> ',
+                        '<button type="button" class="btn btn-block btn-success" style="width:45%;display:inline;vertical-align:baseline;"> 删除</button> ',
+                    ].join('');
+                }
+            },
+        ]
+    });
+</script>
 
 <script>
 
-        var userType = 0;
-        $(document).ready(function () {
-            initJaowu();
-            var $table = $('#professorTable');
-            $("#searchProfessors").click(function () {
-                $table.bootstrapTable('refresh', { url: '/Gao_Admin/searchProfessors?professorName=' + $('#professorName').val() + '&p=' + $("#professAll").val() });
-            });
-            $("#uploadProfessors").click(function () {
-
-                $("#batchAdd-teachers-modal").modal('show');
-            });
-
-            $("#change_password_button").click(function () {
-                $("#change_password_modal").modal('show');
-            })
-
-            $("#change_password_submit_button").click(function () {
-                var data = {
-                    'password': $("#password_input").val(),
-                }
-
-                $.post("/Gao_Home/changePassword", data, function (rel) {
-                    alert(rel);
-                    $("#change_password_modal").modal('hide');
-                })
-            })
-
-
-
-         /*   var getProfessors = function () {
-                var professors;
-                var param = {
-                    'professorName':$('#professorName').val(),
-                    'p': $("#professAll").val()
-                };
-                $.post("/Gao_Admin/searchProfessors", param, function (data) {
-                    professors = data;
-                });
-                return professors;
-            }
-            */
-        })
-
-        var initJaowu = function () {
-            var s = document.cookie.split("=");
-            userType = s[s.length - 1];
-            if (userType == 1) {
-                $("#timesetting").remove();
-                $("#addProfessor").remove();
-                $("#uploadProfessors").remove();
-                $("#jiaowuinfo").remove();
-                $("#welcome").text("欢迎登陆 教务教师");
-            } else {
-                $("#welcome").text("欢迎登陆 管理员");
-
-            }
-        };
-
-        function operateFormatter(value, row, index) {
-            if (userType == 1) {
-                return [
-                  '<button type="button" class="btn btn-info"> 查看</button> ',
-                ].join('');
-            }
-
+    function operateFormatter(value, row, index) {
+        if (userType == 1) {
             return [
-                  '<button type="button" class="btn btn-info"> 查看</button> ',
-                  '<button type="button" class="btn btn-delete"> 删除</button> ',
+                '<button type="button" class="btn btn-info"> 查看</button> ',
             ].join('');
         }
 
-        function operateFormatter_remain(v, r, i) {
-            return parseInt(r["ProMaxNum"]) - parseInt(r["ProFirstNum"]) - parseInt(r["ProSecondNum"]) - parseInt(r["ProAssignNum"]);
+        return [
+            '<button type="button" class="btn btn-info"> 查看</button> ',
+            '<button type="button" class="btn btn-delete"> 删除</button> ',
+        ].join('');
+    }
+
+    window.operateEvents = {
+
+        'click .btn-check': function (e, value, row, index) {
+            //  console.log(row);
+            var data = {
+                'UserId': row["UserId"]
+            }
+            //window.open(row["ProInfoUrl"]);
+            //这里需要换一个url
+            //window.location.href = ProfessorInformation(data.UserId).
+            window.location.href = "/Gao_JiaoWu/ProfessorInfo?UserId=" + row["UserId"];
         }
-
-        window.operateEvents = {
-            'click .btn-info': function (e, value, row, index) {
-                //  console.log(row);
-                var data = {
-                    "UserId": row["UserId"]
-                }
-                window.location.href = "/Gao_Admin/ProfessorInformation?UserId="+data.UserId;
-            },
-
-            'click .btn-delete': function (e, value, row, index) {
-                //  console.log(row);
-                var data = {
-                    "UserId": row["UserId"]
-                }
-
-                var r = confirm("是否确认删除？")
-                if (r == true) {
-                    $.post("/Gao_Admin/deleteProfess", data, function (rel) {
-                        alert(rel);
-                        $('#professorTable').bootstrapTable('refresh', { silent: true });
-                    })
-                }
-
-            },
-        };
-        $("#input-file").fileinput({
-            language: 'zh', //设置语言
-            uploadUrl: '/Gao_Admin/batchCreateTeachers',
-            allowedFileExtensions: ['xlsx', 'xls'],//接收的文件后缀
-            previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
-            /*    initialPreview: "<div class='file-preview-text'>" +
-    "<h2><i class='glyphicon glyphicon-file'></i></h2>" +
-    "~/Content/img/bb.xlsx" + "</div>",
-    */
-            previewTemplates: "<img  src=\"~/Content/img/aa.jpg\"/>",
-        });
+    };
 </script>
