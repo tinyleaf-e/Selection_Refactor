@@ -1,86 +1,133 @@
 ﻿@{
-    Layout = null;
+    ViewBag.Title = "二次选择";
+    ViewBag.CurrentTab = "index";
+    ViewBag.Stage = 2;
+    ViewBag.BoxTitle = "二次选择";
+}
+@section css{
+    <link rel="stylesheet" type="text/css" href="~/Content/plugins/datatables.net-bs/css/dataTables.bootstrap.css" />
 }
 
-<!DOCTYPE html>
-
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title></title>
-</head>
-<body>
-    <div id="page-wrapper">
-
-        <div>
-            <div class="row">
-                <div class="col-sm-12">
-                    <h3>
-                        <label> 截至时间:@ViewData["EndTime"]</label>
-                    </h3>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-sm-6">
-                    <label> 申请学生列表</label>
-                </div>
-                <div class="col-sm-6">
-                    <label>您还可以选择学生数量为：</label><label id="selectNum">@ViewData["SelectNum"]</label>
-                </div>
-
-            </div>
-
-            <div class="col-md-12 col-sm-12 col-xs-12">
-                <table id="waitSelectTable" data-toggle="table" data-url="/GAO_Professor/getStudentsSecond">
-                    <thead>
-                        <tr>
-                            <th data-field="StuID">学号</th>
-                            <th data-field="StuName">姓名</th>
-                            <th data-field="Gender">性别</th>
-                            <th data-field="Age">年龄</th>
-                            <th data-field="StuMajor">专业方向</th>
-                            <th data-field="StuIfWork" data-formatter="operateFormatter_Work">脱产/在职</th>
-                            <th data-field="StuGraSchool">毕业学校</th>
-                            <th data-field="StuGraMajor">毕业专业</th>
-                            <th data-field="StuTel">电话</th>
-                            <th data-formatter="operateFormatter" data-align='center' data-events='operateEvents'>操作</th>
-                        </tr>
-                    </thead>
-                </table>
-            </div>
+<div>
+    <div class="row">
+        <div class="col-sm-12">
+            <h3>
+                <label> 截至时间:@ViewData["EndTime"]</label>
+            </h3>
         </div>
-
-        <div>
-
-            <div class="row">
-                <div class="col-sm-12">
-                    <label> 已选择学生列表</label>
-                </div>
-            </div>
-
-            <div class="col-md-12 col-sm-12 col-xs-12">
-                <table id="selectedTable" data-toggle="table" data-url="/GAO_Professor/getStudentsOfProfessorToStudent">
-                    <thead>
-                        <tr>
-                            <th data-field="StuID">学号</th>
-                            <th data-field="StuName">姓名</th>
-                            <th data-field="Gender">性别</th>
-                            <th data-field="Age">年龄</th>
-                            <th data-field="StuMajor">专业方向</th>
-                            <th data-field="StuIfWork" data-formatter="operateFormatter_Work">脱产/在职</th>
-                            <th data-field="StuGraSchool">毕业学校</th>
-                            <th data-field="StuGraMajor">毕业专业</th>
-                            <th data-field="StuTel">电话</th>
-                            <th data-formatter="operateFormatter2" data-align='center' data-events='operateEvents2'>操作</th>
-                        </tr>
-                    </thead>
-                </table>
-            </div>
-
-            <div style="clear:both"></div>
-        </div>
-        <!-- /. ROW  -->
     </div>
-</body>
-</html>
+
+    <div class="row">
+        <div class="col-sm-6">
+            <label> 申请学生列表</label>
+        </div>
+        <div class="col-sm-6">
+            <label>您还可以选择学生数量为：</label><label id="selectNum">@ViewData["SelectNum"]</label>
+        </div>
+
+    </div>
+
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <table id="waitChooseTable" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>学号</th>
+                    <th>姓名</th>
+                    <th>性别</th>
+                    <th>年龄</th>
+                    <th>专业方向</th>
+                    <th>脱产/在职</th>
+                    <th>毕业学校</th>
+                    <th>毕业专业</th>
+                    <th>邮箱</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+
+<div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <label> 已选择学生列表</label>
+        </div>
+    </div>
+
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <table id="selectedTable" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>学号</th>
+                    <th>姓名</th>
+                    <th>性别</th>
+                    <th>年龄</th>
+                    <th>专业方向</th>
+                    <th>脱产/在职</th>
+                    <th>毕业学校</th>
+                    <th>毕业专业</th>
+                    <th>邮箱</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+
+    <div style="clear:both"></div>
+</div>
+
+@section script{
+    <script src="~/Content/plugins/datatables.net/js/jquery.dataTables.js"></script>
+    <script src="~/Content/plugins/datatables.net-bs/js/dataTables.bootstrap.js"></script>
+    <script>
+
+        $('#waitChooseTable').DataTable({
+            ajax: {
+                url: 'https://www.easy-mock.com/mock/5c8368e622c6e01a284aae50/selection-mock/',
+
+                dataSrc: 'data'
+            },
+            "columns": [
+                {
+                    data: function (row, type, set,meta) {
+                        return meta.row;
+                    }
+                },
+                { data: "ProName" },
+                { data: "ProTitle" },
+                { data: "age"},
+                { data: "direction" },
+                { data: "boolean" },
+                { data: "school" },
+                { data: "major" },
+                { data: "email" },
+                { data: "operation" }
+            ]
+        });
+        $('#selectedTable').DataTable({
+            ajax: {
+                url: 'https://www.easy-mock.com/mock/5c8368e622c6e01a284aae50/selection-mock/',
+
+                dataSrc: 'data'
+            },
+            "columns": [
+                {
+                    data: function (row, type, set, meta) {
+                        return meta.row;
+                    }
+                },
+                { data: "ProName" },
+                { data: "ProTitle" },
+                { data: "age" },
+                { data: "direction" },
+                { data: "boolean" },
+                { data: "school" },
+                { data: "major" },
+                { data: "email" },
+                { data: "operation" }
+            ]
+        });
+    </script>
+
+}
