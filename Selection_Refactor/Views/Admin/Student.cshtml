@@ -1,7 +1,6 @@
-﻿
-@{
-    ViewBag.Title = "Index";
-    ViewBag.BoxTitle = "教师信息";
+﻿@{
+    ViewBag.Title = "Student";
+    ViewBag.BoxTitle = "学生信息";
 }
 @section css{
     <link href="~/Content/css/AdminLTE.min.css" rel="stylesheet" />
@@ -9,11 +8,12 @@
     <link href="~/Content/plugins/bootstrap-3.3.7/css/bootstrap.min.css" rel="stylesheet" />
     <link href="~/Content/css/fileinput.min.css" rel="stylesheet" />
 }
+
 <div id="page-wrapper">
     <div class="box">
         <div style="padding-left:10px;padding-top:10px">
-            <button id="uploadProfessors" class="btn btn-block btn-primary bg-light-blue color-palette" style="width:8%;display:inline;vertical-align:baseline;">上传教师</button>
-            <button id="addProfessors" class="btn btn-block btn-primary bg-green color-palette" style="width:8%;margin-left:5px;display:inline;vertical-align:baseline;">新增教师</button>
+            <button id="uploadStudents" class="btn btn-block btn-primary bg-light-blue color-palette" style="width:8%;display:inline;vertical-align:baseline;">上传学生</button>
+            <button id="addStudents" class="btn btn-block btn-primary bg-green color-palette" style="width:8%;margin-left:5px;display:inline;vertical-align:baseline;">新增学生</button>
         </div>
         <div class="box-body">
             <div id="professor-table" class="dataTables_wrapper form-inline dt-bootstrap">
@@ -22,25 +22,25 @@
                         <table id="example1" class="table table-bordered table-striped dataTable" role="grid" aria-describedby="example1_info">
                             <thead>
                                 <tr role="row">
-                                    <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-sort="ascending" data-field="ProName" style="width: 75px;">姓名</th>
-                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" data-field="ProTitle" style="width: 75px;">职称</th>
-                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" data-field="ProPlace" style="width: 60px;">最多名额</th>
-                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" data-field="FirstChoice" style="width: 80px;">第一志愿已选人数</th>
-                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" data-field="SecondChoice" style="width: 80px;">第二志愿已选人数</th>
-                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" data-field="DistributeNumber" style="width: 60px;">分配人数</th>
-                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" data-field="RestPlace" style="width: 60px;">剩余名额</th>
-                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" style="width: 100px;" data-formatter="operateFormatter" data-align='center' data-events='operateEvents'>操作</th>
+                                    <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-sort="ascending" data-field="OrderNumber" style="width: 55px;">序号</th>
+                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" data-field="StuNumber" style="width: 65px;">学号</th>
+                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" data-field="StuName" style="width: 60px;">姓名</th>
+                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" data-field="Major" style="width: 70px;">专业方向</th>
+                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" data-field="InfoCommited" style="width: 70px;">信息是否提交</th>
+                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" data-field="TwoWillCommited" style="width: 70px;">是否两个志愿提交</th>
+                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" data-field="FinalTutor" style="width: 70px;">最终确定导师</th>
+                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" style="width: 120px;" data-formatter="operateFormatter" data-align='center' data-events='operateEvents'>操作</th>
                                 </tr>
                             </thead>
                             <tfoot>
                                 <tr>
+                                    <th rowspan="1" colspan="1">序号</th>
+                                    <th rowspan="1" colspan="1">学号</th>
                                     <th rowspan="1" colspan="1">姓名</th>
-                                    <th rowspan="1" colspan="1">职称</th>
-                                    <th rowspan="1" colspan="1">最多名额</th>
-                                    <th rowspan="1" colspan="1">第一志愿已选人数</th>
-                                    <th rowspan="1" colspan="1">第二志愿已选人数</th>
-                                    <th rowspan="1" colspan="1">分配人数</th>
-                                    <th rowspan="1" colspan="1">剩余名额</th>
+                                    <th rowspan="1" colspan="1">专业方向</th>
+                                    <th rowspan="1" colspan="1">信息是否提交</th>
+                                    <th rowspan="1" colspan="1">是否两个志愿提交</th>
+                                    <th rowspan="1" colspan="1">最终确定导师</th>
                                     <th rowspan="1" colspan="1">操作</th>
                                 </tr>
                             </tfoot>
@@ -59,8 +59,8 @@
 </div>
 <!-- /. PAGE INNER  -->
 <!-- /. PAGE WRAPPER  -->
-<!--以下是批量创建教师模态框-->
-<div class="modal" id="batchAdd-teachers-modal" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static">
+<!--以下是批量创建学生模态框-->
+<div class="modal" id="batchAdd-students-modal" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -74,14 +74,14 @@
         </div>
     </div>
 </div>
-<!--以上是批量创建教师模态框-->
-<!--以下是直接新增教师模态框-->
-<div class="modal" id="directAdd-teachers-modal" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static">
+<!--以上是批量创建学生模态框-->
+<!--以下是直接新增学生模态框-->
+<div class="modal" id="directAdd-students-modal" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static">
     <div class="modal-dialog">
-        <div class="modal-content" style="height:435px">
+        <div class="modal-content" style="height:480px">
             <div class="modal-header" style="padding-left:25px">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4>新增教师</h4>
+                <h4>新增学生</h4>
             </div>
             <div class="modal-body">
                 <form style="height:80%">
@@ -91,40 +91,46 @@
                             <input type="text" class="form-control" placeholder="" style="width:200px;">
                         </div>
                         <div class="column" style="float:left;padding-left:50px">
-                            <label>工号</label>
+                            <label>学号</label>
                             <input type="text" class="form-control" placeholder="" style="width:200px;">
                         </div>
                     </div>
                     <div class="row" style="width:45%;display:inline;vertical-align:baseline;padding-left:50px;">
                         <div class="column" style="float:left;padding-left:20px">
-                            <label>职称</label>
+                            <label>年龄</label>
                             <input type="text" class="form-control" placeholder="" style="width:200px;">
                         </div>
                         <div class="column" style="float:left;padding-left:50px">
-                            <label>最大招收学生数</label>
+                            <label>专业</label>
                             <input type="text" class="form-control" placeholder="" style="width:200px;">
                         </div>
                     </div>
                     <div class="row" style="width:45%;display:inline;vertical-align:baseline;padding-left:50px;">
                         <div class="column" style="float:left;padding-left:20px">
-                            <label>介绍界面URL</label>
+                            <label>电话</label>
                             <input type="text" class="form-control" placeholder="" style="width:200px;">
                         </div>
                         <div class="column" style="float:left;padding-left:50px">
-                            <label>现在招收学生数</label>
+                            <label>在职</label>
+                            <input type="text" class="form-control" placeholder="" style="width:200px;">
+                        </div>
+                    </div>
+                    <div class="row" style="width:45%;display:inline;vertical-align:baseline;padding-left:50px;">
+                        <div class="column" style="float:left;padding-left:20px">
+                            <label>邮箱</label>
                             <input type="text" class="form-control" placeholder="" style="width:200px;">
                         </div>
                     </div>
                 </form>
-                <div style="float:right;padding-right:20px;padding-top:25px">
+                <div style="float:right;padding-right:25px">
                     <button type="submit" class="btn btn-primary">确认提交</button>
                 </div>
-                
+
             </div>
         </div>
     </div>
 </div>
-<!--以上是直接新增教师模态框-->
+<!--以上是直接新增学生模态框-->
 <!-- /. WRAPPER  -->
 <!-- JS Scripts-->
 <!-- jQuery Js -->
@@ -140,22 +146,23 @@
 
     $('#example1').DataTable({
         ajax: {
-            url: 'https://www.easy-mock.com/mock/5b1fe0f0f71e0743260935e1/example/getProInfo',
+            url: 'https://www.easy-mock.com/mock/5b1fe0f0f71e0743260935e1/example/getStuInfo',
             dataSrc: 'data'
         },
         "columns": [
-            { data: "ProName" },
-            { data: "ProTitle" },
-            { data: "ProPlace" },
-            { data: "FirstChoice" },
-            { data: "SecondChoice" },
-            { data: "DistributeNumber" },
-            { data: "RestPlace" },
+            { data: "OrderNumber" },
+            { data: "StuNumber" },
+            { data: "StuName" },
+            { data: "Major" },
+            { data: "InfoCommited" },
+            { data: "TwoWillCommited" },
+            { data: "FinalTutor" },
             {
                 data: function (row, type, set, meta) {
                     return [
-                        '<button type="button" class="btn btn-block btn-info" style="width:45%;display:inline;vertical-align:baseline;"> 查看</button> ',
-                        '<button type="button" class="btn btn-block btn-success" style="width:45%;display:inline;vertical-align:baseline;"> 删除</button> ',
+                        '<button type="button" class="btn btn-block btn-info" style="width:25%;display:inline;vertical-align:baseline;">查看</button> ',
+                        '<button type="button" class="btn btn-block btn-success" style="width:25%;display:inline;vertical-align:baseline;">删除</button> ',
+                        '<button type="button" class="btn btn-block btn-primary" style="width:40%;display:inline;vertical-align:baseline;background-color:#3c8dbc">重置密码</button> '
                     ].join('');
                 }
             },
@@ -168,11 +175,11 @@
     var userType = 0;
     $(document).ready(function () {
         //initJaowu();
-        $("#uploadProfessors").click(function () {
-            $("#batchAdd-teachers-modal").modal('show');
+        $("#uploadStudents").click(function () {
+            $("#batchAdd-students-modal").modal('show');
         });
-        $("#addProfessors").click(function () {
-            $("#directAdd-teachers-modal").modal('show')
+        $("#addStudents").click(function () {
+            $("#directAdd-students-modal").modal('show')
         });
     });
 
@@ -194,7 +201,7 @@
     //    if (userType == 1) {
     //        $("#timesetting").remove();
     //        $("#addProfessor").remove();
-    //        $("#uploadProfessors").remove();
+    //        $("#uploadStudents").remove();
     //        $("#jiaowuinfo").remove();
     //        $("#welcome").text("欢迎登陆 教务教师");
     //    } else {

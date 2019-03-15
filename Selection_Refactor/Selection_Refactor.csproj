@@ -179,12 +179,15 @@
   <ItemGroup>
     <Content Include="Content\css\AdminLTE.css" />
     <Content Include="Content\css\AdminLTE.min.css" />
+    <Content Include="Content\css\custom-styles.css" />
+    <Content Include="Content\css\fileinput.min.css" />
     <Content Include="Content\css\global.css" />
     <Content Include="Content\css\pages\login.css" />
     <Content Include="Content\css\_all-skins.css" />
     <Content Include="Content\js\adminlte.js" />
     <Content Include="Content\js\adminlte.min.js" />
     <Content Include="Content\js\demo.js" />
+    <Content Include="Content\js\fileinput.min.js" />
     <Content Include="Content\js\global.js" />
     <Content Include="Content\js\gy-alert.js" />
     <Content Include="Content\js\jquery-3.3.1.min.js" />
@@ -192,6 +195,7 @@
     <Content Include="Content\js\jquery.min.js" />
     <Content Include="Content\js\pages\login.js" />
     <Content Include="Content\js\render.js" />
+    <Content Include="Content\js\zh.js" />
     <Content Include="Content\plugins\bootstrap-3.3.7\css\bootstrap.css" />
     <Content Include="Content\plugins\bootstrap-3.3.7\css\bootstrap.min.css" />
     <Content Include="Content\plugins\bootstrap-3.3.7\fonts\glyphicons-halflings-regular.svg" />
@@ -299,8 +303,10 @@
     </None>
     <Content Include="Views\Shared\_SecurityLayout.cshtml" />
     <Content Include="Views\Dean\Professor.cshtml" />
-    <Content Include="Views\Dean\Student.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
+    <Content Include="Views\Dean\Student.cshtml" />
+    <Content Include="Views\Admin\Student.cshtml" />
+    <Content Include="Views\Admin\JiaoWu.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
