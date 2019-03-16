@@ -1,0 +1,45 @@
+﻿@{
+    ViewBag.Title = "学生信息";
+    ViewBag.CurrentTab = "index";
+    ViewBag.Stage = 2;
+    ViewBag.BoxTitle = "学生信息";
+}
+<div class="row">
+    <div class="col-sm-6">
+        <label style="padding-left:30px">姓名：</label>
+        <input name="StuName" value="张三" readonly required class="send-text" style="margin-top: 10px; margin-left:10px; width: 200px;height: 34px;border-radius:3px ;  border:none">
+    </div>
+    <div class="col-sm-6">
+        <label style="padding-left:30px">学号：</label>
+        <input id="StuID" name="StuID" value="00000000" readonly required class="send-text" style="margin-top: 10px; margin-left:10px; width: 200px;height: 34px;border-radius:3px ;  border:none">
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-6">
+        <label style="padding-left:30px">年龄：</label>
+        <input name="Age" value="21" readonly class="send-text" style="margin-top: 10px; margin-left:10px; width: 200px;height: 34px;border-radius:3px ;  border:none">
+    </div>
+    <div class="col-sm-6">
+        <label style="padding-left:30px">专业：</label>
+        <input name="Age" value="unknown" readonly class="send-text" style="margin-top: 10px; margin-left:10px; width: 200px;height: 34px;border-radius:3px ;  border:none">
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-6">
+        <label style="padding-left:30px">电话：</label>
+        <input name="StuTel" value="156xxxxxxxx" readonly class="send-text" style="margin-top: 10px; margin-left:10px; width: 200px;height: 34px;border-radius:3px ;  border:none">
+    </div>
+    <div class="col-sm-6">
+        <label style="padding-left:30px">在职：</label>
+        <input name="Age" value="unknown" readonly class="send-text" style="margin-top: 10px; margin-left:10px; width: 200px;height: 34px;border-radius:3px ;  border:none">
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-6">
+        <label style="padding-left:30px">邮箱：</label>
+        <input name="StuMail" value="123456789@qq.com" readonly class="send-text" style="margin-top: 10px; margin-left:10px; width: 200px;height: 34px;border-radius:3px ;  border:none;">
+    </div>
+    <div class="col-sm-6 button-class" style="padding: 10px 0px 0px 50px">
+        <input value="学生简历" type="button" style="border:none;color:gray; width:80px;height:25px;" onclick="window.location.href='@ViewData["StuResumeUrl"]'"/>
+    </div>
+</div>
