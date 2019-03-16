@@ -4,48 +4,66 @@
     ViewBag.CurrentTab = "student";
     ViewBag.Stage = 2;
 }
+<!-- DataTables -->
+<link rel="stylesheet" href="~/Content/plugins/datatables.net-bs/css/dataTables.bootstrap.min.css">
 
 <div id="page-wrapper">
-        <div class="row col-md-12 col-sm-12 col-xs-12">
-
-                <div class="box">
-                    <div class="box-header">
-                        <h2 class="box-title">学生列表</h2>
-                        <div class="box-tools">
-                            <div class="dataTables_filter" id="dataTables-example_length">
+    <div class="row col-md-12 col-sm-12 col-xs-12">
+        <div class="box">
+            <div class="box-header">
+                <h2 class="box-title">学生列表</h2>
+            </div>
+            <div class="box-tools">
+                <div class="row col-md-12 col-sm-12 col-xs-12">
+                    <div class="col-sm-6">
+                        <div class="dataTables_filter" id="dataTables-example_length">
+                            <label>
                                 <select id="professAll" name="dataTables-example_length" class="form-control input-sm" aria-controls="dataTables-example">
                                     <option value="0">全部学生</option>
                                     <option value="1">没有提交信息学生</option>
                                     <option value="2">没有提交志愿学生</option>
                                     <option value="3">没有确定导师学生</option>
                                 </select>
-                            </div>
-
+                            </label>
                         </div>
+                    </div>
+                    <div class="col-sm-6 ">
                         <div class="input-group input-group-sm" style="width: 150px;" id="dataTables-example_filter">
-                            <input class="form-control pull-right" placeholder="搜索教师姓名" type="text" id="professorName" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="vmName" data-sort-order="desc" data-show-export="true">
+                            <input class="form-control pull-right" id="professorName" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="vmName" data-sort-order="desc" data-show-export="true" type="search">
                             <div class="input-group-btn">
-                                <button type="submit" id="searchProfessors" class="btn btn-default"><i class="fa fa-search"></i></button>
+                                <button id="searchProfessors" class="btn btn-default"><i class="fa fa-search"></i></button>
                             </div>
                         </div>
                     </div>
-                        </div>
-                    </div>
+
                 </div>
-                <div class="col-md-12 col-sm-12 col-xs-12">
-                    <table class="table table-hover" id="professorTable" data-toggle="table" data-url="/Gao_JiaoWu/getStudents?p=0" data-row-style="rowStyle">
-                        <thead>
-                            <tr>
-                                <th data-field="Order">序号</th>
-                                <th data-field="StuID">学号</th>
-                                <th data-field="StuName">名字</th>
-                                <th data-field="StuInfoChecked">信息是否提交</th>
-                                <th data-field="StuWillChecked">是否两个志愿提交</th>
-                                <th data-field="StuFinalWill">最终确定导师</th>
-                                <th data-formatter="operateFormatter" data-align='center' data-events='operateEvents'>操作</th>
-                            </tr>
-                        </thead>
-                    </table>
-                </div>
-                <div style="clear:both"></div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="col-md-12 col-sm-12 col-xs-12">
+    <table id="example1" class="table table-bordered table-striped" data-toggle="table" data-url="/Gao_JiaoWu/getStudents?p=0" data-row-style="rowStyle">
+        <thead>
+            <tr>
+                <th data-field="Order">序号</th>
+                <th data-field="StuID">学号</th>
+                <th data-field="StuName">名字</th>
+                <th data-field="StuInfoChecked">信息是否提交</th>
+                <th data-field="StuWillChecked">是否两个志愿提交</th>
+                <th data-field="StuFinalWill">最终确定导师</th>
+                <th data-formatter="operateFormatter" data-align='center' data-events='operateEvents'>操作</th>
+            </tr>
+        </thead>
+    </table>
+</div>
+<div style="clear:both"></div>
+
+<!-- DataTables -->
+<script src="~/Content/plugins/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="~/Content/plugins/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+
+<script>
+        $('#example1').DataTable()
+</script>
 
