@@ -155,13 +155,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\BundleConfig2.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\FilterConfig2.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\RouteConfig2.cs" />
     <Compile Include="Attribute\ExceptionFilter.cs" />
     <Compile Include="Attribute\FilterCharacterAttribute.cs" />
     <Compile Include="Attribute\RoleAuthorizeAttribute.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\DeanController.cs" />
+    <Compile Include="Controllers\ProfessorController.cs" />
     <Compile Include="Controllers\SecurityController.cs" />
     <Compile Include="Controllers\StudentController.cs" />
     <Compile Include="Global.asax.cs">
@@ -179,6 +183,7 @@
   <ItemGroup>
     <Content Include="Content\css\AdminLTE.css" />
     <Content Include="Content\css\AdminLTE.min.css" />
+    <Content Include="Content\css\pages\professor.css" />
     <Content Include="Content\plugins\fileinput\css\fileinput.min.css" />
     <Content Include="Content\css\global.css" />
     <Content Include="Content\css\pages\login.css" />
@@ -302,8 +307,10 @@
     <Content Include="Views\Dean\Professor.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\Dean\Student.cshtml" />
-    <Content Include="Views\Admin\Student.cshtml" />
-    <Content Include="Views\Admin\JiaoWu.cshtml" />
+    <Content Include="Views\Professor\FinalStudents.cshtml" />
+    <Content Include="Views\Professor\Index.cshtml" />
+    <Content Include="Views\Professor\SecondSelect.cshtml" />
+    <Content Include="Views\Professor\Student.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -319,7 +326,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>64771</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
