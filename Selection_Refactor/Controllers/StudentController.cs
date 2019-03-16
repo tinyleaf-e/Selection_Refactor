@@ -18,6 +18,24 @@ namespace Selection_Refactor.Controllers
         {
             return View();
         }
-        
+
+        [RoleAuthorize(Role = "student,teacher")]
+        public ActionResult Index()
+        {
+            return View();
+        }
+
+        [RoleAuthorize(Role = "student,teacher")]
+        public ActionResult FinalWill()
+        {
+            return View();
+        }
+
+        [RoleAuthorize(Role = "student,teacher")]
+        public ActionResult Professor()
+        {
+            return View();
+        }
+
     }
 }

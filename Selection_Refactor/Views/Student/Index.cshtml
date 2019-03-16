@@ -1,0 +1,118 @@
+﻿
+    <!-- general form elements -->
+    <div class="box box-primary">
+        <form role="form">
+            <div class="box-body">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="name">姓名</label>
+                        <input type="text" class="form-control" id="stuName" readonly required>
+                    </div>
+                    <div class="form-group">
+                        <label for="age">年龄</label>
+                        <input type="text" class="form-control" id="stuAge">
+                    </div>
+                    <div class="form-group">
+                        <label for="tel">电话</label>
+                        <input type="tel" class="form-control" id="stuTel">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">邮箱</label>
+                        <input type="email" class="form-control" id="stuEmail">
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="id">学号</label>
+                        <input type="text" class="form-control" id="stuID" readonly required>
+                    </div>
+                    <div class="form-group">
+                        <label for="major">专业</label>
+                        <select id="stuMajorIDSelset" class="form-control">
+                            <option value="0">软件工程与管理</option>
+                            <option value="1">虚拟现实与应用</option>
+                            <option value="2">人工智能</option>
+                            <option value="3">大数据技术与应用</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="ifWork">在职</label>
+                        <select id="stuIfWorkSelect" class="form-control">
+                            <option value="false">不在职工作</option>
+                            <option value="true">在职工作</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="graSchool">本科毕业学校</label>
+                        <input type="text" class="form-control" id="stuGraSchool">
+                    </div>
+                    <div class="form-group">
+                        <label for="graMajor">本科毕业专业</label>
+                        <input type="text" class="form-control" id="stuGraMajor">
+                    </div>
+                </div>
+                <div class="box-footer center-block">
+                    <button class="btn btn-primary center-block" style="margin-top:10px">更新个人信息</button>
+                </div>
+
+            </div>
+        </form>
+
+        <div class="box-body" style="margin-top:35px;border-top:solid #999 1px;padding-top:20px"> </div>
+
+        <form class="form-horizontal">
+            <div class="box-body">
+                <div class="form-group">
+                    <label class="col-sm-6">请上传个人简历（doc/docx,小于5M）</label>
+                    <div class="col-sm-3" type="submit">
+                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#uploadFileModal">
+                            上传简历
+                        </button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-5 col-sm-offset-1">个人简历_XXX.docx</label>
+                    <div class="col-sm-3" type="submit">
+                        <button class="btn btn-default">删除</button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-6"> 更新个人资料并上传简历确认无误后，请点击确认</label>
+                    <div class="col-sm-3" type="submit">
+                        <button class="btn btn-danger">确认提交</button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-6"> 信息上传截至时间：</label>
+                </div>
+
+            </div>
+
+        </form>
+    </div>
+    <!-- /.box -->
+
+    <div class="modal fade" id="uploadFileModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">请上传doc或docx文件</h4>
+                </div>
+                <div class="modal-body">
+                    <input type="file" id="exampleInputFile">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary">确定</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
