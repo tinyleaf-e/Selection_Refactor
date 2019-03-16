@@ -3,6 +3,7 @@
     ViewBag.CurrentTab = "index";
     ViewBag.Stage = 2;
     ViewBag.BoxTitle = "二次选择";
+    ViewBag.Role = "Professor";
 }
 @section css{
     <link rel="stylesheet" type="text/css" href="~/Content/plugins/datatables.net-bs/css/dataTables.bootstrap.css" />
@@ -28,7 +29,7 @@
     </div>
 
     <div class="col-md-12 col-sm-12 col-xs-12">
-        <table id="waitChooseTable" class="table table-bordered table-striped">
+        <table id="waitChooseTable" class="table table-bordered table-striped table-hover">
             <thead>
                 <tr>
                     <th>学号</th>
@@ -56,7 +57,7 @@
     </div>
 
     <div class="col-md-12 col-sm-12 col-xs-12">
-        <table id="selectedTable" class="table table-bordered table-striped">
+        <table id="selectedTable" class="table table-bordered table-striped table-hover">
             <thead>
                 <tr>
                     <th>学号</th>
@@ -102,7 +103,14 @@
                 { data: "school" },
                 { data: "major" },
                 { data: "email" },
-                { data: "operation" }
+                {
+                    data: function (row, type, set, meta) {
+                        return [
+                            '<button type="button" class="btn btn-block btn-info" style="width:45%;display:inline;vertical-align:baseline;"> 查看学生信息</button> ',
+                            '<button type="button" class="btn btn-block btn-success" style="width:45%;display:inline;vertical-align:baseline;"> 下载个人简历</button> ',
+                        ].join('');
+                    }
+                }
             ]
         });
         $('#selectedTable').DataTable({
@@ -125,7 +133,14 @@
                 { data: "school" },
                 { data: "major" },
                 { data: "email" },
-                { data: "operation" }
+                {
+                    data: function (row, type, set, meta) {
+                        return [
+                            '<button type="button" class="btn btn-block btn-info" style="width:45%;display:inline;vertical-align:baseline;"> 查看学生信息</button> ',
+                            '<button type="button" class="btn btn-block btn-success" style="width:45%;display:inline;vertical-align:baseline;"> 下载个人简历</button> ',
+                        ].join('');
+                    }
+                }
             ]
         });
     </script>
