@@ -1,69 +1,45 @@
 ﻿@{
-    Layout = null;
+    ViewBag.Title = "学生信息";
+    ViewBag.CurrentTab = "index";
+    ViewBag.Stage = 2;
+    ViewBag.BoxTitle = "学生信息";
 }
-
-<!DOCTYPE html>
-
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title></title>
-</head>
-<body>
-    <div>
-        <div id="page-wrapper">
-            <div>
-                <div class="row">
-                    <div class="col-sm-6">
-                        <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;姓名</label>
-                        <input name="StuName" value="@ViewData["StuName"]" readonly required class="send-text" style="margin-top: 10px; margin-left:20px; width: 200px;height: 34px;border-radius:3px ;  border: 1px solid rgb(204,204,204) ;">
-                    </div>
-                    <div class="col-sm-6">
-                        <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;学号</label>
-                        <input id="StuID" name="StuID" value="@ViewData["StuID"]" readonly required class="send-text" style="margin-top: 10px; margin-left:20px; width: 200px;height: 34px;border-radius:3px ;  border: 1px solid rgb(204,204,204) ;">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-6">
-                        <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;年龄 </label>
-                        <input name="Age" value="@ViewData["Age"]" readonly class="send-text" style="margin-top: 10px; margin-left:20px; width: 200px;height: 34px;border-radius:3px ;  border: 1px solid rgb(204,204,204) ;">
-                    </div>
-                    <div class="col-sm-6">
-                        <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;专业 </label>
-                        <select name="StuMajorID" id="StuMajorIDSelset" class="send-text" style="margin-top: 10px; margin-left:20px; width: 200px;height: 34px;border-radius:3px ;  border: 1px solid rgb(204,204,204) ;">
-                            <option value="0">软件工程与管理</option>
-                            <option value="1">虚拟现实与应用</option>
-                            <option value="2">人工智能</option>
-                            <option value="3">大数据技术与应用</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-6">
-                        <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;电话 </label>
-                        <input name="StuTel" value="@ViewData["StuTel"]" readonly class="send-text" style="margin-top: 10px; margin-left:20px; width: 200px;height: 34px;border-radius:3px ;  border: 1px solid rgb(204,204,204) ;">
-                    </div>
-                    <div class="col-sm-6">
-                        <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在职 </label>
-                        <select name="StuIfWork" id="StuIfWorkSelect" class="send-text" style="margin-top: 10px; margin-left:20px; width: 200px;height: 34px;border-radius:3px ;  border: 1px solid rgb(204,204,204) ;">
-                            <option value="false">不在职工作</option>
-                            <option value="true">在职工作</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-6">
-                        <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;邮箱 </label>
-                        <input name="StuMail" value="@ViewData["StuMail"]" readonly class="send-text" style="margin-top: 10px; margin-left:20px; width: 200px;height: 34px;border-radius:3px ;  border: 1px solid rgb(204,204,204) ;">
-                    </div>
-                    <div class="col-sm-6">
-                        <a href="@ViewData["StuResumeUrl"] ">学生简历</a>
-                    </div>
-                </div>
-            </div>
-            <!-- /. ROW  -->
-        </div>
-        <!-- /. PAGE INNER  -->
+<div class="row">
+    <div class="col-sm-6">
+        <label style="padding-left:30px">姓名：</label>
+        <input name="StuName" value="张三" readonly required class="send-text" style="margin-top: 10px; margin-left:10px; width: 200px;height: 34px;border-radius:3px ;  border:none">
     </div>
-</body>
-</html>
+    <div class="col-sm-6">
+        <label style="padding-left:30px">学号：</label>
+        <input id="StuID" name="StuID" value="00000000" readonly required class="send-text" style="margin-top: 10px; margin-left:10px; width: 200px;height: 34px;border-radius:3px ;  border:none">
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-6">
+        <label style="padding-left:30px">年龄：</label>
+        <input name="Age" value="21" readonly class="send-text" style="margin-top: 10px; margin-left:10px; width: 200px;height: 34px;border-radius:3px ;  border:none">
+    </div>
+    <div class="col-sm-6">
+        <label style="padding-left:30px">专业：</label>
+        <input name="Age" value="unknown" readonly class="send-text" style="margin-top: 10px; margin-left:10px; width: 200px;height: 34px;border-radius:3px ;  border:none">
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-6">
+        <label style="padding-left:30px">电话：</label>
+        <input name="StuTel" value="156xxxxxxxx" readonly class="send-text" style="margin-top: 10px; margin-left:10px; width: 200px;height: 34px;border-radius:3px ;  border:none">
+    </div>
+    <div class="col-sm-6">
+        <label style="padding-left:30px">在职：</label>
+        <input name="Age" value="unknown" readonly class="send-text" style="margin-top: 10px; margin-left:10px; width: 200px;height: 34px;border-radius:3px ;  border:none">
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-6">
+        <label style="padding-left:30px">邮箱：</label>
+        <input name="StuMail" value="123456789@qq.com" readonly class="send-text" style="margin-top: 10px; margin-left:10px; width: 200px;height: 34px;border-radius:3px ;  border:none;">
+    </div>
+    <div class="col-sm-6 button-class" style="padding: 10px 0px 0px 50px">
+        <input value="学生简历" type="button" style="border:none;color:gray; width:80px;height:25px;" onclick="window.location.href='@ViewData["StuResumeUrl"]'"/>
+    </div>
+</div>
