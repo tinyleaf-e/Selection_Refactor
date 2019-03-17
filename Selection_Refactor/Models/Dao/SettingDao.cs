@@ -87,9 +87,14 @@ namespace Selection_Refactor.Models.Dao
             {
                 SettingDBContext settingDBContext = new SettingDBContext();
                 Setting setting = settingDBContext.settings.Where(m => m.yearId == newSetting.yearId).ToList()[0];
-                settingDBContext.settings.Remove(setting);
-                settingDBContext.settings.Add(newSetting);
-                return settingDBContext.SaveChanges();
+                if (setting != null)
+                {
+                    settingDBContext.settings.Remove(setting);
+                    settingDBContext.settings.Add(newSetting);
+                    return settingDBContext.SaveChanges();
+                }
+                else
+                    return 0;
             }
             catch (Exception e)
             {
@@ -104,16 +109,19 @@ namespace Selection_Refactor.Models.Dao
          * 根据年份号修改模式
          * 成功添加返回1，失败返回0，异常返回-1
          */
-        public int changemodeById(String id, int mode)
+        public int changeModeById(String id, int mode)
         {
             try
             {
                 SettingDBContext settingDBContext = new SettingDBContext();
                 Setting setting = settingDBContext.settings.Where(m => m.yearId == id).ToList()[0];
-                settingDBContext.settings.Remove(setting);
-                setting.mode = mode;
-                settingDBContext.settings.Add(setting);
-                return settingDBContext.SaveChanges();
+                if (setting != null)
+                {
+                    setting.mode = mode;
+                    return settingDBContext.SaveChanges();
+                }
+                else
+                    return 0;
             }
             catch (Exception e)
             {
