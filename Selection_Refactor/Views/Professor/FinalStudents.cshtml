@@ -27,7 +27,7 @@
                 <th>毕业学校</th>
                 <th>毕业专业</th>
                 <th>邮箱</th>
-                <th>操作</th>
+                <th style="max-width:260px">操作</th>
             </tr>
         </thead>
     </table>
@@ -37,7 +37,7 @@
     <script src="~/Content/plugins/datatables.net-bs/js/dataTables.bootstrap.js"></script>
     <script>
 
-        $('#selectedTable').DataTable({
+        var table = $('#selectedTable').DataTable({
             ajax: {
                 url: 'https://www.easy-mock.com/mock/5c8368e622c6e01a284aae50/selection-mock/',
 
@@ -46,7 +46,7 @@
             "columns": [
                 {
                     data: function (row, type, set, meta) {
-                        return meta.row;
+                        return meta.row + 1;
                     }
                 },
                 { data: "ProName" },
@@ -59,14 +59,33 @@
                 { data: "email" },
                 {
                     data: function (row, type, set, meta) {
-                    return [
-                        '<button type="button" class="btn btn-block btn-info" style="width:45%;display:inline;vertical-align:baseline;"> 查看学生信息</button> ',
-                        '<button type="button" class="btn btn-block btn-success" style="width:45%;display:inline;vertical-align:baseline;"> 下载个人简历</button> ',
+                        return [
+                            '<button type="button" class="btn btn-info" onclick="viewStudentInfo(this)"> 查看学生信息 </button> ',
+                            '<button type="button" class="btn btn-success" onclick="downloadStudentResume(this)"> 下载个人简历 </button> ',
                     ].join('');
                     }
                 }
-            ]
+            ],
+            dom: "<'row'<'col-sm-12 col-md-6'i><'col-sm-12 col-md-6'f>>" +
+                "<'row'<'col-sm-12'tr>>" +
+                "<'row'<'col-sm-12 col-md-5'l><'col-sm-12 col-md-7'p>>",
+            language: {
+                url:"/Content/plugins/datatables.net/Chinese.json"
+            },
+            lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, "全部"]]
         });
+
+        function viewStudentInfo(btn) {
+            var tr = $(btn).closest('tr');
+            var row = table.row(tr).data();
+            alert("查看学生" + row.ProName + "的信息");
+        }
+
+        function downloadStudentResume(btn) {
+            var tr = $(btn).closest('tr');
+            var row = table.row(tr).data();
+            alert("下载学生" + row.ProName + "的简历");
+        }
 
     </script>
 
