@@ -30,6 +30,10 @@ namespace Selection_Refactor.Models.Dao
             adminDB.admins.Find("");
             DeanDBContext deanDB = new DeanDBContext();
             deanDB.deans.Find("");
+            TeacherDBContext teacherDB = new TeacherDBContext();
+            teacherDB.teachers.Find("");
+            TeacherQuotaDBContext teacherQuotaDB = new TeacherQuotaDBContext();
+            teacherQuotaDB.teacherQuotas.Find("");
         }
 
     }
