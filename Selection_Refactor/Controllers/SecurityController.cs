@@ -23,14 +23,29 @@ namespace Selection_Refactor.Controllers
         [HttpPost]
         public string doLogin(string userId,string passwd)
         {
-            //TODO By 高晔 还需要再次对参数进行验证
+            //TODO By 高晔 下边登录目前只是方便开发，后期要改
             if (userId == "student" && CryptoUtil.Md5Hash(passwd) == CryptoUtil.Md5Hash("student"))
             {
                 Response.Cookies.Add(createCookie(userId,passwd,"student",24*60));
-                return "登录成功";
+                return "success:/Student/Profile";
+            }
+            else if (userId == "dean" && CryptoUtil.Md5Hash(passwd) == CryptoUtil.Md5Hash("dean"))
+            {
+                Response.Cookies.Add(createCookie(userId, passwd, "dean", 24 * 60));
+                return "success:/Dean/Professor";
+            } 
+            else if (userId == "admin" && CryptoUtil.Md5Hash(passwd) == CryptoUtil.Md5Hash("admin"))
+            {
+                Response.Cookies.Add(createCookie(userId, passwd, "admin", 24 * 60));
+                return "success:/Student/Profile";
+            }
+            else if (userId == "professor" && CryptoUtil.Md5Hash(passwd) == CryptoUtil.Md5Hash("professor"))
+            {
+                Response.Cookies.Add(createCookie(userId, passwd, "professor", 24 * 60));
+                return "success:/Student/Profile";
             }
             else
-                return "帐号或密码不正确";
+                return "登录失败，用户不存在或密码错误";
         }
 
 

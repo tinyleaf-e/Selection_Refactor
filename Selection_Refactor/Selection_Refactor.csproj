@@ -160,18 +160,19 @@
     <Compile Include="Attribute\ExceptionFilter.cs" />
     <Compile Include="Attribute\FilterCharacterAttribute.cs" />
     <Compile Include="Attribute\RoleAuthorizeAttribute.cs" />
+    <Compile Include="Controllers\DeanController.cs" />
     <Compile Include="Controllers\SecurityController.cs" />
     <Compile Include="Controllers\StudentController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\Dao\MajorDao.cs" />
-    <Compile Include="Models\Dao\SettingDao.cs" />
+    <Compile Include="Models\Dao\AdminDao.cs" />
+    <Compile Include="Models\Dao\DeanDao.cs" />
     <Compile Include="Models\Dao\StageDao.cs" />
     <Compile Include="Models\Dao\StudentDao.cs" />
     <Compile Include="Models\Dao\UserDao.cs" />
-    <Compile Include="Models\Entity\Major.cs" />
-    <Compile Include="Models\Entity\Setting.cs" />
+    <Compile Include="Models\Entity\Admin.cs" />
+    <Compile Include="Models\Entity\Dean.cs" />
     <Compile Include="Models\Entity\Student.cs" />
     <Compile Include="Models\Validation\ValidateHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -191,8 +192,17 @@
     <Content Include="Content\js\render.js" />
     <Content Include="Content\plugins\bootstrap-3.3.7\css\bootstrap.css" />
     <Content Include="Content\plugins\bootstrap-3.3.7\css\bootstrap.min.css" />
+    <Content Include="Content\plugins\bootstrap-3.3.7\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\plugins\bootstrap-3.3.7\js\bootstrap.js" />
     <Content Include="Content\plugins\bootstrap-3.3.7\js\bootstrap.min.js" />
+    <Content Include="Content\plugins\datatables.net-bs\css\dataTables.bootstrap.css" />
+    <Content Include="Content\plugins\datatables.net-bs\css\dataTables.bootstrap.min.css" />
+    <Content Include="Content\plugins\datatables.net-bs\js\dataTables.bootstrap.js" />
+    <Content Include="Content\plugins\datatables.net-bs\js\dataTables.bootstrap.min.js" />
+    <Content Include="Content\plugins\datatables.net-bs\License.txt" />
+    <Content Include="Content\plugins\datatables.net\js\jquery.dataTables.js" />
+    <Content Include="Content\plugins\datatables.net\js\jquery.dataTables.min.js" />
+    <Content Include="Content\plugins\datatables.net\License.txt" />
     <Content Include="Content\plugins\font-awesome\css\font-awesome.css" />
     <Content Include="Content\plugins\font-awesome\css\font-awesome.min.css" />
     <Content Include="Content\plugins\font-awesome\fonts\fontawesome-webfont.svg" />
@@ -266,6 +276,16 @@
     <Content Include="Content\plugins\font-awesome\scss\_screen-reader.scss" />
     <Content Include="Content\plugins\font-awesome\scss\_stacked.scss" />
     <Content Include="Content\plugins\font-awesome\scss\_variables.scss" />
+    <Content Include="Content\plugins\datatables.net\.bower.json" />
+    <Content Include="Content\plugins\datatables.net\bower.json" />
+    <Content Include="Content\plugins\datatables.net\Readme.md" />
+    <Content Include="Content\plugins\datatables.net-bs\.bower.json" />
+    <Content Include="Content\plugins\datatables.net-bs\bower.json" />
+    <Content Include="Content\plugins\datatables.net-bs\Readme.md" />
+    <Content Include="Content\plugins\bootstrap-3.3.7\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\plugins\bootstrap-3.3.7\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Content\plugins\bootstrap-3.3.7\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Content\plugins\bootstrap-3.3.7\fonts\glyphicons-halflings-regular.woff2" />
     <None Include="packages.config" />
     <Content Include="Views\Security\Login.cshtml" />
     <Content Include="Views\Student\Profile.cshtml" />
@@ -274,6 +294,8 @@
       <SubType>Designer</SubType>
     </None>
     <Content Include="Views\Shared\_SecurityLayout.cshtml" />
+    <Content Include="Views\Dean\Professor.cshtml" />
+    <Content Include="Views\Dean\Student.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
