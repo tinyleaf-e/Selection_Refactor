@@ -3,6 +3,7 @@
     ViewBag.CurrentTab = "index";
     ViewBag.Stage = 2;
     ViewBag.BoxTitle = "第一志愿选择";
+    ViewBag.Role = "Professor";
 }
 @section css{
     <link rel="stylesheet" type="text/css" href="~/Content/plugins/datatables.net-bs/css/dataTables.bootstrap.css" />
@@ -27,7 +28,7 @@
     </div>
 
     <div class="col-md-12 col-sm-12 col-xs-12">
-        <table class="table table-bordered table-striped" id="firstChoiceTable" data-toggle="table" data-url="/Gao_Admin/getProfessors?p=0" data-row-style="rowStyle">
+        <table class="table table-bordered table-striped table-hover" id="firstChoiceTable">
             <thead>
                 <tr>
                     <th>学号</th>
@@ -52,7 +53,7 @@
     </div>
 
     <div class="col-md-12 col-sm-12 col-xs-12">
-        <table class="table table-bordered table-striped" id="haveChosenTable">
+        <table class="table table-bordered table-striped table-hover" id="haveChosenTable">
             <thead>
                 <tr>
                     <th>学号</th>
@@ -96,7 +97,14 @@
                 { data: "school" },
                 { data: "major" },
                 { data: "email" },
-                { data: "operation" }
+                {
+                    data: function (row, type, set, meta) {
+                        return [
+                            '<button type="button" class="btn btn-block btn-info" style="width:45%;display:inline;vertical-align:baseline;"> 查看学生信息</button> ',
+                            '<button type="button" class="btn btn-block btn-success" style="width:45%;display:inline;vertical-align:baseline;"> 下载个人简历</button> ',
+                        ].join('');
+                    }
+                }
             ]
         });
         $('#firstChoiceTable').DataTable({
@@ -119,7 +127,14 @@
                 { data: "school" },
                 { data: "major" },
                 { data: "email" },
-                { data: "operation" }
+                {
+                    data: function (row, type, set, meta) {
+                        return [
+                            '<button type="button" class="btn btn-block btn-info" style="width:45%;display:inline;vertical-align:baseline;"> 查看学生信息</button> ',
+                            '<button type="button" class="btn btn-block btn-success" style="width:45%;display:inline;vertical-align:baseline;"> 下载个人简历</button> ',
+                        ].join('');
+                    }
+                }
             ]
         });
     </script>

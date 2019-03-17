@@ -1,19 +1,22 @@
 ﻿
 @{
     ViewBag.Title = "Index";
+    ViewBag.CurrentTab = "index";
+    ViewBag.Stage = 2;
     ViewBag.BoxTitle = "教师信息";
+    ViewBag.Role = "Admin";
 }
 @section css{
     <link href="~/Content/css/AdminLTE.min.css" rel="stylesheet" />
     <link href="~/Content/plugins/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet" />
     <link href="~/Content/plugins/bootstrap-3.3.7/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="~/Content/css/fileinput.min.css" rel="stylesheet" />
+    <link href="~/Content/plugins/fileinput/css/fileinput.min.css" rel="stylesheet" />
 }
 <div id="page-wrapper">
     <div class="box">
         <div style="padding-left:10px;padding-top:10px">
             <button id="uploadProfessors" class="btn btn-block btn-primary bg-light-blue color-palette" style="width:8%;display:inline;vertical-align:baseline;">上传教师</button>
-            <button id="addProfessors" class="btn btn-block btn-primary bg-green color-palette" style="width:8%;margin-left:5px;display:inline;vertical-align:baseline;">新增教师</button>
+            <button id="addProfessor" class="btn btn-block btn-primary bg-green color-palette" style="width:8%;margin-left:5px;display:inline;vertical-align:baseline;">新增教师</button>
         </div>
         <div class="box-body">
             <div id="professor-table" class="dataTables_wrapper form-inline dt-bootstrap">
@@ -32,18 +35,6 @@
                                     <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" style="width: 100px;" data-formatter="operateFormatter" data-align='center' data-events='operateEvents'>操作</th>
                                 </tr>
                             </thead>
-                            <tfoot>
-                                <tr>
-                                    <th rowspan="1" colspan="1">姓名</th>
-                                    <th rowspan="1" colspan="1">职称</th>
-                                    <th rowspan="1" colspan="1">最多名额</th>
-                                    <th rowspan="1" colspan="1">第一志愿已选人数</th>
-                                    <th rowspan="1" colspan="1">第二志愿已选人数</th>
-                                    <th rowspan="1" colspan="1">分配人数</th>
-                                    <th rowspan="1" colspan="1">剩余名额</th>
-                                    <th rowspan="1" colspan="1">操作</th>
-                                </tr>
-                            </tfoot>
                         </table>
                     </div>
                 </div>
@@ -60,7 +51,7 @@
 <!-- /. PAGE INNER  -->
 <!-- /. PAGE WRAPPER  -->
 <!--以下是批量创建教师模态框-->
-<div class="modal" id="batchAdd-teachers-modal" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static">
+<div class="modal" id="batchAdd-professors-modal" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -76,7 +67,7 @@
 </div>
 <!--以上是批量创建教师模态框-->
 <!--以下是直接新增教师模态框-->
-<div class="modal" id="directAdd-teachers-modal" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static">
+<div class="modal" id="directAdd-professor-modal" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static">
     <div class="modal-dialog">
         <div class="modal-content" style="height:435px">
             <div class="modal-header" style="padding-left:25px">
@@ -88,38 +79,38 @@
                     <div class="row" style="width:45%;display:inline;vertical-align:baseline;padding-left:50px;">
                         <div class="column" style="float:left;padding-left:20px">
                             <label>姓名</label>
-                            <input type="text" class="form-control" placeholder="" style="width:200px;">
+                            <input id="name-input" type="text" class="form-control" placeholder="" style="width:200px;">
                         </div>
                         <div class="column" style="float:left;padding-left:50px">
                             <label>工号</label>
-                            <input type="text" class="form-control" placeholder="" style="width:200px;">
+                            <input id="number-input" type="text" class="form-control" placeholder="" style="width:200px;">
                         </div>
                     </div>
                     <div class="row" style="width:45%;display:inline;vertical-align:baseline;padding-left:50px;">
                         <div class="column" style="float:left;padding-left:20px">
                             <label>职称</label>
-                            <input type="text" class="form-control" placeholder="" style="width:200px;">
+                            <input id="rank-input" type="text" class="form-control" placeholder="" style="width:200px;">
                         </div>
                         <div class="column" style="float:left;padding-left:50px">
                             <label>最大招收学生数</label>
-                            <input type="text" class="form-control" placeholder="" style="width:200px;">
+                            <input id="maxstudent-input" type="text" class="form-control" placeholder="" style="width:200px;">
                         </div>
                     </div>
                     <div class="row" style="width:45%;display:inline;vertical-align:baseline;padding-left:50px;">
                         <div class="column" style="float:left;padding-left:20px">
                             <label>介绍界面URL</label>
-                            <input type="text" class="form-control" placeholder="" style="width:200px;">
+                            <input id="url-input" type="text" class="form-control" placeholder="" style="width:200px;">
                         </div>
                         <div class="column" style="float:left;padding-left:50px">
                             <label>现在招收学生数</label>
-                            <input type="text" class="form-control" placeholder="" style="width:200px;">
+                            <input id="needstudent-input" type="text" class="form-control" placeholder="" style="width:200px;">
                         </div>
                     </div>
                 </form>
                 <div style="float:right;padding-right:20px;padding-top:25px">
-                    <button type="submit" class="btn btn-primary">确认提交</button>
+                    <button id="addProfessor-submit-button" type="submit" class="btn btn-primary">确认提交</button>
                 </div>
-                
+
             </div>
         </div>
     </div>
@@ -133,45 +124,41 @@
 <!-- DataTables -->
 <script src="~/Content/plugins/datatables.net/js/jquery.dataTables.min.js"></script>
 <script src="~/Content/plugins/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
-<script src="~/Content/js/fileinput.min.js"></script>
-<script src="~/Content/js/zh.js"></script>
-<script>
-
-    $('#example1').DataTable({
-        ajax: {
-            url: 'https://www.easy-mock.com/mock/5b1fe0f0f71e0743260935e1/example/getProInfo',
-            dataSrc: 'data'
-        },
-        "columns": [
-            { data: "ProName" },
-            { data: "ProTitle" },
-            { data: "ProPlace" },
-            { data: "FirstChoice" },
-            { data: "SecondChoice" },
-            { data: "DistributeNumber" },
-            { data: "RestPlace" },
-            {
-                data: function (row, type, set, meta) {
-                    return [
-                        '<button type="button" class="btn btn-block btn-info" style="width:45%;display:inline;vertical-align:baseline;"> 查看</button> ',
-                        '<button type="button" class="btn btn-block btn-success" style="width:45%;display:inline;vertical-align:baseline;"> 删除</button> ',
-                    ].join('');
-                }
-            },
-        ]
-    });
-</script>
-
+<script src="~/Content/plugins/fileinput/js/fileinput.min.js"></script>
+<script src="~/Content/plugins/fileinput/js/zh.js"></script>
+<script src="~/Content/js/gy-alert.js"></script>
 <script>
 
     var userType = 0;
+    function checkprofessor() {
+        alert("check");
+    }
+    function deleteprofessor() {
+        $.gyAlert({ contentText: "确认删除该教师?", cancelButtonText: "取消" });
+    }
     $(document).ready(function () {
-        //initJaowu();
+        initTable();
         $("#uploadProfessors").click(function () {
-            $("#batchAdd-teachers-modal").modal('show');
+            $("#batchAdd-professors-modal").modal('show');
         });
-        $("#addProfessors").click(function () {
-            $("#directAdd-teachers-modal").modal('show')
+        $("#addProfessor").click(function () {
+            $("#directAdd-professor-modal").modal('show')
+        });
+        $("#addProfessor-submit-button").click(function () {
+            var data = {
+                'name': $("#name-input").val(),
+                'number': $("#number-input").val(),
+                'rank': $("#rank-input").val(),
+                'maxstudent': $("#maxstudent-input").val(),
+                'url': $("#url-input").val(),
+                'needstudent': $("#needstudent-input").val(),
+            }
+            alert("name:" + data.name + " number:" + data.number + " rank:" + data.rank + " maxstudent:" + data.maxstudent + " url:" + data.url + " needstudent:" + data.needstudent);
+            $("#directAdd-professor-modal").modal('hide');
+            $.post("/Gao_Home/changePassword", data, function (rel) {
+
+                $("#directAdd-professor-modal").modal('hide');
+            })
         });
     });
 
@@ -185,7 +172,31 @@
     //            $("#change_password_modal").modal('hide');
     //        })
     //    })
-
+    var initTable = function () {
+        $('#example1').DataTable({
+            ajax: {
+                url: 'https://www.easy-mock.com/mock/5b1fe0f0f71e0743260935e1/example/getProInfo',
+                dataSrc: 'data'
+            },
+            "columns": [
+                { data: "ProName" },
+                { data: "ProTitle" },
+                { data: "ProPlace" },
+                { data: "FirstChoice" },
+                { data: "SecondChoice" },
+                { data: "DistributeNumber" },
+                { data: "RestPlace" },
+                {
+                    data: function (row, type, set, meta) {
+                        return [
+                            '<button type="button" class="btn btn-block btn-info btn-check-professor" style="width:45%;display:inline;vertical-align:baseline;" onclick="checkprofessor()"> 查看</button> ',
+                            '<button type="button" class="btn btn-block btn-success btn-delete-professor" style="width:45%;display:inline;vertical-align:baseline;" onclick="deleteprofessor()"> 删除</button> ',
+                        ].join('');
+                    }
+                },
+            ]
+        });
+    };
 
     //var initJaowu = function () {
     //    var s = document.cookie.split("=");
