@@ -168,6 +168,8 @@
     </Compile>
     <Compile Include="Models\Dao\AdminDao.cs" />
     <Compile Include="Models\Dao\DeanDao.cs" />
+    <Compile Include="Models\Dao\MajorDao.cs" />
+    <Compile Include="Models\Dao\SettingDao.cs" />
     <Compile Include="Models\Dao\StageDao.cs" />
     <Compile Include="Models\Dao\StudentDao.cs" />
     <Compile Include="Models\Dao\TeacherDao.cs" />
@@ -175,6 +177,8 @@
     <Compile Include="Models\Dao\UserDao.cs" />
     <Compile Include="Models\Entity\Admin.cs" />
     <Compile Include="Models\Entity\Dean.cs" />
+    <Compile Include="Models\Entity\Major.cs" />
+    <Compile Include="Models\Entity\Setting.cs" />
     <Compile Include="Models\Entity\Student.cs" />
     <Compile Include="Models\Entity\Teacher.cs" />
     <Compile Include="Models\Entity\TeacherQuota.cs" />

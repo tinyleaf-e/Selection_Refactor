@@ -34,6 +34,10 @@ namespace Selection_Refactor.Models.Dao
             teacherDB.teachers.Find("");
             TeacherQuotaDBContext teacherQuotaDB = new TeacherQuotaDBContext();
             teacherQuotaDB.teacherQuotas.Find("");
+            SettingDBContext settingDBContext = new SettingDBContext();
+            settingDBContext.settings.Find("");
+            MajorDBContext majorDBContext = new MajorDBContext();
+            majorDBContext.majors.Find("");
         }
 
     }
