@@ -95,6 +95,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dao\MajorDaoTest.cs" />
     <Compile Include="Dao\AdminDaoTest.cs" />
     <Compile Include="Dao\DeanDaoTest.cs" />
     <Compile Include="Dao\StudentDaoTest.cs" />

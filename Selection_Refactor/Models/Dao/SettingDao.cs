@@ -39,7 +39,7 @@ namespace Selection_Refactor.Models.Dao
             {
                 Setting setting;
                 SettingDBContext settingDBContext = new SettingDBContext();
-                if ((setting = getById(id)) != null)
+                if ((setting = settingDBContext.settings.Find(id)) != null)
                 {
                     settingDBContext.settings.Remove(setting);
                     return settingDBContext.SaveChanges();
@@ -60,7 +60,7 @@ namespace Selection_Refactor.Models.Dao
          * 添加一个设置
          * 成功添加返回1，失败返回0，异常返回-1
          */
-        public int add(Setting setting)
+        public int addSetting(Setting setting)
         {
             try
             {
@@ -81,7 +81,7 @@ namespace Selection_Refactor.Models.Dao
          * 修改更新设置信息
          * 成功添加返回1，失败返回0，异常返回-1
          */
-         public int update(Setting newSetting)
+         public int updateSetting(Setting newSetting)
          {
             try
             {

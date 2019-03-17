@@ -4,8 +4,6 @@ using System.Linq;
 using System.Web;
 using Selection_Refactor.Models.Entity;
 
-
-
 namespace Selection_Refactor.Models.Dao
 {
     public class MajorDao
@@ -14,7 +12,7 @@ namespace Selection_Refactor.Models.Dao
          * Create by 付文欣  
          * 通过专业号获取专业
          */
-        public Major getById(string id)
+        public Major getMajorById(string id)
         {
             MajorDBContext majorDBContext = new MajorDBContext();
             Major major = majorDBContext.majors.Find(id);
@@ -25,7 +23,7 @@ namespace Selection_Refactor.Models.Dao
          * Create By 付文欣
          * 列出所有专业
          */
-        public List<Major> listAll()
+        public List<Major> listAllByMajor()
         {
             return new MajorDBContext().majors.ToList();
         }
@@ -39,9 +37,9 @@ namespace Selection_Refactor.Models.Dao
         {
             try
             {
-                Major major;
+                Major major = null;
                 MajorDBContext majorDBContext = new MajorDBContext();
-                if ((major = getById(id)) != null)
+                if ((major = majorDBContext.majors.Find(id)) != null)
                 {
                     majorDBContext.majors.Remove(major);
                     return majorDBContext.SaveChanges();
@@ -60,7 +58,7 @@ namespace Selection_Refactor.Models.Dao
         /*
          * Create By 付文欣
          * 根据专业号删除多个专业
-         * 成功删除返回1，失败返回0，异常返回-1
+         * 成功删除返回大于0的数，失败返回0，异常返回-1
          */
         public int deleteByIds(List<String> ids)
         {
@@ -70,7 +68,7 @@ namespace Selection_Refactor.Models.Dao
                 MajorDBContext majorDBContext = new MajorDBContext();
                 foreach (var id in ids)
                 {
-                    if ((major = getById(id)) != null)
+                    if ((major = majorDBContext.majors.Find(id)) != null)
                     {
                         majorDBContext.majors.Remove(major);
                     }
@@ -92,7 +90,7 @@ namespace Selection_Refactor.Models.Dao
          * 添加一个专业
          * 成功添加返回1，失败返回0，异常返回-1
          */
-        public int add(Major major)
+        public int addMajor(Major major)
         {
             try
             {
