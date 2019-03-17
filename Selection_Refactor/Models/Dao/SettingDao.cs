@@ -12,7 +12,7 @@ namespace Selection_Refactor.Models.Dao
          * Create by 付文欣  
          * 通过年份号号获取设置
          */
-        public Setting getById(String id)
+        public Setting getSettingById(String id)
         {
             SettingDBContext settingDBContext = new SettingDBContext();
             Setting setting = settingDBContext.settings.Find(id);
@@ -23,7 +23,7 @@ namespace Selection_Refactor.Models.Dao
          * Create By 付文欣
          * 列出所有设置
          */
-        public List<Setting> listAll()
+        public List<Setting> listAllSetting()
         {
             return new SettingDBContext().settings.ToList();
         }
@@ -33,7 +33,7 @@ namespace Selection_Refactor.Models.Dao
          * 根据年份号删除设置
          * 成功删除返回1，失败返回0，异常返回-1
          */
-        public int deleteById(string id)
+        public int deleteSettingById(string id)
         {
             try
             {
