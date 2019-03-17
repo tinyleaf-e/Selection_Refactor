@@ -116,9 +116,7 @@ namespace Selection_Refactor.Models.Dao
             {
                 MajorDBContext majorDBContext = new MajorDBContext();
                 Major major = majorDBContext.majors.Where(m => m.id == id).ToList()[0];
-                majorDBContext.majors.Remove(major);
                 major.name = newName;
-                majorDBContext.majors.Add(major);
                 return majorDBContext.SaveChanges();
             }
             catch (Exception e)
@@ -128,5 +126,6 @@ namespace Selection_Refactor.Models.Dao
                 return -1;
             }
         }
+
     }
 }
