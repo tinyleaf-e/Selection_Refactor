@@ -51,12 +51,14 @@ namespace Selection_Refactor.Models.Entity
         public string dispensedWill { get; set; }//调剂导师的ID
 
         public string remark { set; get; } //备注信息
+
+        public string yearId { set; get; } //入学年份
     }
 
     public class StudentDBContext : DbContext
     {
         public StudentDBContext() : base("DefaultConnection") { }
-
+        // public StudentDBContext() : base("DefaultConnection_online") { }
         public DbSet<Student> students { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

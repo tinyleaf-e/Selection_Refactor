@@ -23,7 +23,7 @@ namespace Selection_Refactor.Models.Dao
 
         /*
          * Create By 高晔
-         * 通过学号获取学生
+         * 添加学生
          * 成功插入返回1，失败返回0，异常返回-1
          */
         public int addStudent(Student student)
@@ -41,6 +41,122 @@ namespace Selection_Refactor.Models.Dao
                 return -1;
             }
         }
+        /*
+        * Create By 徐子一
+        * 根据学号删除学生
+        * 成功删除返回1，失败返回0，异常返回-1
+        */
+        public int deleteStudentById(string id)
+        {
+            try
+            {
+                StudentDBContext studentDB = new StudentDBContext();
+                Student student= studentDB.students.Find(id);
+                studentDB.students.Remove(student);
+                studentDB.SaveChanges();
+            }
+            catch(Exception e)
+            {
+                return -1;
+            }
+            return 1;
+        }
+
+        /*
+      * Create By 徐子一
+      * 根据学号,批量删除学生
+      * 成功删除返回1，失败返回0，异常返回-1
+      */
+
+        public int deleteStudentByIds(string[] ids)
+        {
+            List<Student> deleteStudents = new List<Student>();
+            for (int i = 0; i < ids.Length; i++)
+            {
+                deleteStudents.Add(getStudent(ids[i]));
+            }
+            try
+            {
+                StudentDBContext studentDB = new StudentDBContext();
+                studentDB.students.RemoveRange(deleteStudents);
+                studentDB.SaveChanges();
+                return 1;
+            }
+            catch (Exception e)
+            {
+                //throw e;
+                //LogUtil.writeLogToFile(e);
+                return -1;
+            }
+        }
+
+        /*
+       * Create By 徐子一
+       * 更新学生信息
+       *根据id查询学生对象，未找到返回false，找到则更新其表项个人信息数据，返回true
+       */
+        public bool update(string id,string name,bool gender,int age,int majorId,string phoneNumber,string email,bool onTheJob)
+        {
+            StudentDBContext studentDB = new StudentDBContext();
+            List<Student> list = studentDB.students.Where(s => s.id == id).ToList();
+            if (list.Count <= 0)
+            {
+                return false;
+            }
+            else
+            {
+                Student s = list[0];
+                s.name = name;
+                s.age = age;
+                s.gender = gender;
+                s.majorId = majorId;
+                s.phoneNumber = phoneNumber;
+                s.email = email;
+                s.onTheJob = onTheJob;
+                studentDB.SaveChanges();
+                return true;
+            }
+        }
+
+        /*
+       * Create By 徐子一
+       * 列出所有学生，按年级序号排列
+       *
+       */
+       public List<Student> listStudentByYearId(string yearId)
+        {
+            StudentDBContext studentDB = new StudentDBContext();
+            List<Student> studentList = studentDB.students.Where(s=>s.yearId==yearId).ToList();
+            return studentList;
+        }
+
+        /*
+      * Create By 徐子一
+      * 根据id，修改学生密码
+      *
+      */
+        public bool changePasswdById(string id,string password)
+        {
+            StudentDBContext studentDB = new StudentDBContext();
+            Student s = getStudent(id);
+            if (s != null)
+            {
+                try
+                {
+                    s.password = password;
+                    studentDB.SaveChanges();
+                    return true;
+                }
+                catch(Exception e)
+                {
+                    return false;
+                }
+            }
+            return false;
+        }
+
+
+
 
 
     }
