@@ -28,8 +28,12 @@ namespace Selection_Refactor.Tests.Dao
                 }
             }
             int result1 = studentDao.addStudent(student);
-            Assert.AreEqual(1,result);
+            Assert.AreEqual(1,result1);
+            Debug.WriteLine(result);
+            int result2 = studentDao.deleteStudentById("zy1821104");
+            Assert.AreEqual(1, result2);
             Debug.WriteLine(result);
         }
+       
     }
 }
