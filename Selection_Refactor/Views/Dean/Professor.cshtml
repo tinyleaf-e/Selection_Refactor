@@ -1,0 +1,59 @@
+﻿
+@{
+    ViewBag.Title = "导师列表";
+    ViewBag.CurrentTab = "professor";
+    ViewBag.Stage = 2;
+    ViewBag.BoxTitle = "教师列表";
+    ViewBag.Role = "Dean";
+}
+
+@section css{
+    <link rel="stylesheet" type="text/css" href="~/Content/plugins/datatables.net-bs/css/dataTables.bootstrap.css" />
+}
+
+
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <table class="table table-bordered table-striped" id="professorTable">
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>姓名</th>
+                    <th>职称</th>
+                    <th>详情</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+    <div style="clear:both"></div>
+
+@section script{
+    <script src="~/Content/plugins/datatables.net/js/jquery.dataTables.js"></script>
+    <script src="~/Content/plugins/datatables.net-bs/js/dataTables.bootstrap.js"></script>
+    <script>
+
+        $('#professorTable').DataTable({
+            ajax: {
+                url: ' https://www.easy-mock.com/mock/5c8324b3e0e0f75c24623747/selection/getPro',
+                dataSrc: 'data'
+            },
+            "columns": [
+                {
+                    data: function (row, type, set,meta) {
+                        return meta.row+1;
+                    }
+                },
+                { data: "ProName" },
+                { data: "ProTitle" },
+                {
+                    data: function () {
+                        return "<button class='btn btn-default'>详情</button>"
+                    }
+                }
+            ]
+        });
+    </script>
+
+}
+
+
+

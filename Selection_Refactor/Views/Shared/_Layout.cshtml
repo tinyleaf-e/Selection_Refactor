@@ -71,19 +71,78 @@
                 <!-- sidebar menu: : style can be found in sidebar.less -->
                 <ul class="sidebar-menu" data-widget="tree">
                     <li class="header">MAIN NAVIGATION</li>
-                    <li class="page-tab profile" access-stage="1111111"  error-msg="奏是点不开">
-                        <a href="/Student/profile">
-                            <i class="fa fa-th"></i> 
-                            <span>个人信息</span>
-                        </a>
-                    </li>
-                    <li class="page-tab">
-                        <a href="#">
-                            <i class="fa fa-pie-chart"></i>
-                            <span>新页面</span>
-                        </a>
-                    </li>
-
+                    @{
+                        switch (ViewBag.Role)
+                        {
+                            //TODO By 高晔 以下菜单需要根据实际情况改动
+                            case "Student":
+                                {
+                                <li class="page-tab profile" access-stage="1111111" error-msg="奏是点不开">
+                                    <a href="/Student/profile">
+                                        <i class="fa fa-th"></i>
+                                        <span>个人信息</span>
+                                    </a>
+                                </li>
+                                <li class="page-tab">
+                                    <a href="#">
+                                        <i class="fa fa-pie-chart"></i>
+                                        <span>新页面</span>
+                                    </a>
+                                </li>
+                                }
+                                break;
+                            case "Professor":
+                                {
+                                <li class="page-tab profile" access-stage="1111111" error-msg="奏是点不开">
+                                    <a href="/Student/profile">
+                                        <i class="fa fa-th"></i>
+                                        <span>个人信息</span>
+                                    </a>
+                                </li>
+                                <li class="page-tab">
+                                    <a href="#">
+                                        <i class="fa fa-pie-chart"></i>
+                                        <span>新页面</span>
+                                    </a>
+                                </li>
+                                }
+                                break;
+                            case "Dean":
+                                {
+                                <li class="page-tab profile" access-stage="1111111" error-msg="奏是点不开">
+                                    <a href="/Student/profile">
+                                        <i class="fa fa-th"></i>
+                                        <span>个人信息</span>
+                                    </a>
+                                </li>
+                                <li class="page-tab">
+                                    <a href="#">
+                                        <i class="fa fa-pie-chart"></i>
+                                        <span>新页面</span>
+                                    </a>
+                                </li>
+                                }
+                                break;
+                            case "Admin":
+                                {
+                                <li class="page-tab profile" access-stage="1111111" error-msg="奏是点不开">
+                                    <a href="/Student/profile">
+                                        <i class="fa fa-th"></i>
+                                        <span>个人信息</span>
+                                    </a>
+                                </li>
+                                <li class="page-tab">
+                                    <a href="#">
+                                        <i class="fa fa-pie-chart"></i>
+                                        <span>新页面</span>
+                                    </a>
+                                </li>
+                                    }
+                                    break;
+                                default: break;
+                            }
+                            
+                        }
 
                 </ul>
             </section>
@@ -111,7 +170,7 @@
                             <div class="box-header">
                                 <i class="fa fa-comments-o"></i>
 
-                                <h3 class="box-title">标题</h3>
+                                <h3 class="box-title">@ViewBag.BoxTitle</h3>
 
                             </div>
                             <div class="box-body chat" id="chat-box">
@@ -138,7 +197,7 @@
     <script>
         //定义一些js全局变量
         var currentPageTab ="@ViewBag.CurrentTab";
-        var stage = @ViewBag.Stage;
+                        var stage = @ViewBag.Stage;
     </script>
 
     @Scripts.Render("~/bundles/render")

@@ -10,14 +10,14 @@
                 userId: $("#userid-input").val(),
                 passwd: $("#passwd-input").val()
             };
-            $.post("/Security/doLogin",data,function (rdata) {
-                if (rdata != "登录成功")
+            $.post("/Security/doLogin", data, function (rdata) {
+                if (rdata.indexOf("success")!=0)
                     $.gyAlert({
                         title: "登录失败",
                         contentText: rdata
                     });
                 else
-                    location.href="/Student/Profile"
+                    location.href = rdata.substring(8)
             });
         }
     });
