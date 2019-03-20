@@ -86,7 +86,7 @@ namespace Selection_Refactor.Models.Dao
             try
             {
                 TeacherDBContext teacherDB = new TeacherDBContext();
-                Teacher teacher = getTeacherById(id);
+                Teacher teacher = teacherDB.teachers.Find(id);
                 teacherDB.teachers.Remove(teacher);
                 return teacherDB.SaveChanges();
             }
@@ -105,13 +105,14 @@ namespace Selection_Refactor.Models.Dao
         public int deleteTeacherByIds(string[] ids)
         {
             List<Teacher> deleteTeachers = new List<Teacher>();
+            TeacherDBContext teacherDB = new TeacherDBContext();
             for (int i = 0; i < ids.Length; i++)
             {
-                deleteTeachers.Add(getTeacherById(ids[i]));
+                Teacher teacher = teacherDB.teachers.Find(ids[i]);
+                deleteTeachers.Add(teacher);
             }
             try
             {
-                TeacherDBContext teacherDB = new TeacherDBContext();
                 teacherDB.teachers.RemoveRange(deleteTeachers);
                 return teacherDB.SaveChanges();
             }
