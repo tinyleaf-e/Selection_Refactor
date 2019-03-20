@@ -98,6 +98,7 @@
     <Compile Include="Dao\MajorDaoTest.cs" />
     <Compile Include="Dao\AdminDaoTest.cs" />
     <Compile Include="Dao\DeanDaoTest.cs" />
+    <Compile Include="Dao\SettingDaoTest.cs" />
     <Compile Include="Dao\StudentDaoTest.cs" />
     <Compile Include="Dao\TeacherDaoTest.cs" />
     <Compile Include="Dao\TeacherQuotaDaoTest.cs" />
