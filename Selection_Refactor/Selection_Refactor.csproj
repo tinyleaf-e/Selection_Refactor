@@ -160,7 +160,9 @@
     <Compile Include="Attribute\ExceptionFilter.cs" />
     <Compile Include="Attribute\FilterCharacterAttribute.cs" />
     <Compile Include="Attribute\RoleAuthorizeAttribute.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\DeanController.cs" />
+    <Compile Include="Controllers\ProfessorController.cs" />
     <Compile Include="Controllers\SecurityController.cs" />
     <Compile Include="Controllers\StudentController.cs" />
     <Compile Include="Global.asax.cs">
@@ -177,15 +179,23 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\css\AdminLTE.css" />
+    <Content Include="Content\css\AdminLTE.min.css" />
+    <Content Include="Content\css\pages\professor.css" />
+    <Content Include="Content\js\changePasswd.js" />
+    <Content Include="Content\plugins\fileinput\css\fileinput.min.css" />
     <Content Include="Content\css\global.css" />
     <Content Include="Content\css\pages\login.css" />
     <Content Include="Content\css\_all-skins.css" />
     <Content Include="Content\js\adminlte.js" />
+    <Content Include="Content\js\adminlte.min.js" />
+    <Content Include="Content\plugins\fileinput\js\fileinput.min.js" />
     <Content Include="Content\js\global.js" />
     <Content Include="Content\js\gy-alert.js" />
     <Content Include="Content\js\jquery-3.3.1.min.js" />
+    <Content Include="Content\js\jquery.js" />
     <Content Include="Content\js\pages\login.js" />
     <Content Include="Content\js\render.js" />
+    <Content Include="Content\plugins\fileinput\js\zh.js" />
     <Content Include="Content\plugins\bootstrap-3.3.7\css\bootstrap.css" />
     <Content Include="Content\plugins\bootstrap-3.3.7\css\bootstrap.min.css" />
     <Content Include="Content\plugins\bootstrap-3.3.7\fonts\glyphicons-halflings-regular.svg" />
@@ -199,10 +209,12 @@
     <Content Include="Content\plugins\datatables.net\js\jquery.dataTables.js" />
     <Content Include="Content\plugins\datatables.net\js\jquery.dataTables.min.js" />
     <Content Include="Content\plugins\datatables.net\License.txt" />
+    <Content Include="Content\plugins\fastclick\lib\fastclick.js" />
     <Content Include="Content\plugins\font-awesome\css\font-awesome.css" />
     <Content Include="Content\plugins\font-awesome\css\font-awesome.min.css" />
     <Content Include="Content\plugins\font-awesome\fonts\fontawesome-webfont.svg" />
     <Content Include="Content\plugins\font-awesome\HELP-US-OUT.txt" />
+    <Content Include="Content\plugins\jquery-slimscroll\js\jquery.slimscroll.min.js" />
     <Content Include="Content\plugins\modernizr-2.8.3\js\modernizr-2.8.3.js" />
     <Content Include="favicon.ico" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
@@ -282,6 +294,7 @@
     <Content Include="Content\plugins\bootstrap-3.3.7\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="Content\plugins\bootstrap-3.3.7\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="Content\plugins\bootstrap-3.3.7\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="Content\plugins\datatables.net\Chinese.json" />
     <None Include="packages.config" />
     <Content Include="Views\Security\Login.cshtml" />
     <Content Include="Views\Student\Profile.cshtml" />
@@ -291,7 +304,17 @@
     </None>
     <Content Include="Views\Shared\_SecurityLayout.cshtml" />
     <Content Include="Views\Dean\Professor.cshtml" />
+    <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\Dean\Student.cshtml" />
+    <Content Include="Views\Professor\FinalStudents.cshtml" />
+    <Content Include="Views\Professor\Index.cshtml" />
+    <Content Include="Views\Professor\SecondSelect.cshtml" />
+    <Content Include="Views\Professor\Student.cshtml" />
+    <Content Include="Views\Student\FinalWill.cshtml" />
+    <Content Include="Views\Student\Index.cshtml" />
+    <Content Include="Views\Student\Professor.cshtml" />
+    <Content Include="Views\Admin\JiaoWu.cshtml" />
+    <Content Include="Views\Admin\Student.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -307,7 +330,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>64771</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
