@@ -1,11 +1,18 @@
-﻿<div class="row" style="position:fixed;background:white;z-index:1;padding-bottom:10px">
+﻿@{
+    ViewBag.Title = "志愿提交";
+    ViewBag.CurrentTab = "professor";
+    ViewBag.BoxTitle = "导师列表";
+    ViewBag.Role = "Student";
+}
+
+<div class="row">
     <div class="col-sm-5">
         <label>第一志愿</label>
-        <input id="first" value="@ViewData["firstProName"]" name="@ViewData["firstUserId"]" readonly required class="send-text" style="margin-top: 10px; margin-left:20px; height: 34px;border-radius:3px ;  border: 1px solid rgb(204,204,204) ;">
+        <input id="first" readonly required class="send-text" style="margin-top: 10px; margin-left:20px; height: 34px;border-radius:3px ;  border: 1px solid rgb(204,204,204) ;">
     </div>
     <div class="col-sm-5">
         <label>第二志愿</label>
-        <input id="second" name="@ViewData["secondUserId"]" value="@ViewData["secondProName"]" readonly required class="send-text" style="margin-top: 10px; margin-left:20px; height: 34px;border-radius:3px ;  border: 1px solid rgb(204,204,204) ;">
+        <input id="second" readonly required class="send-text" style="margin-top: 10px; margin-left:20px; height: 34px;border-radius:3px ;  border: 1px solid rgb(204,204,204) ;">
     </div>
     <div class="col-sm-2">
         <button id="confirm" class="btn btn-default" style="right:auto;margin-top: 10px;">
@@ -13,10 +20,82 @@
         </button>
     </div>
 </div>
-<div class="row" style="padding-top:65px">
-    <div class="col-sm-12">
-        <h2>
-            <label>  &nbsp; 教师列表</label>
-        </h2>
-    </div>
+
+@section css{
+    <link rel="stylesheet" type="text/css" href="~/Content/plugins/datatables.net-bs/css/dataTables.bootstrap.css" />
+}
+
+
+<div class="col-md-12 col-sm-12 col-xs-12">
+    <table class="table table-bordered table-striped" id="professorTable">
+        <thead>
+            <tr>
+                <th>序号</th>
+                <th>姓名</th>
+                <th>职称</th>
+                <th>详情</th>
+                <th>第一志愿</th>
+                <th>第二志愿</th>
+            </tr>
+        </thead>
+    </table>
 </div>
+<div style="clear:both"></div>
+
+@section script{
+    <script src="~/Content/plugins/datatables.net/js/jquery.dataTables.js"></script>
+    <script src="~/Content/plugins/datatables.net-bs/js/dataTables.bootstrap.js"></script>
+    <script>
+
+        $('#professorTable').DataTable({
+            ajax: {
+                url: ' https://www.easy-mock.com/mock/5c8324b3e0e0f75c24623747/selection/getPro',
+                dataSrc: 'data'
+            },
+            "columns": [
+                {
+                    data: function (row, type, set, meta) {
+                        return meta.row + 1;
+                    }
+                },
+                { data: "ProName" },
+                { data: "ProTitle" },
+                {
+                    data: function () {
+                        return "<button class='btn btn-default'>详情</button>"
+                    }
+                },
+                {
+                    data: function () {
+                        return "<button id='firstPro' class='btn btn-default' onclick='chooseFirstPro()'>选择</button>"
+                    }
+                },
+                {
+                    data: function () {
+                        return "<button id='secondPro' class='btn btn-default' onclick='chooseSecondPro()'>选择</button>"
+                    }
+                }
+            ]
+        });
+
+        /*$(document).ready(function () {
+            $("#firstPro").click(function () {
+                alert("段落被点击了。");
+                console.log("heyheyhey");
+            });
+        });*/
+
+        function chooseFirstPro() {
+            //$("#first").val($(data["ProName"]));
+            console.log("hey");
+        }
+
+        function chooseSecondPro() {
+            $("#second").val("456");
+            console.log("hey");
+        }
+    </script>
+
+}
+
+
