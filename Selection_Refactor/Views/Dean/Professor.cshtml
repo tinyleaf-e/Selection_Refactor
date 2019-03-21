@@ -9,24 +9,27 @@
     <link rel="stylesheet" type="text/css" href="~/Content/plugins/datatables.net-bs/css/dataTables.bootstrap.css" />
 }
 
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <table class="table table-bordered table-striped" id="professorTable">
+                <thead>
+                    <tr>
+                        <th>序号</th>
+                        <th>姓名</th>
+                        <th>职称</th>
+                        <th>详情</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+        <div style="clear:both"></div>
 
-    <div class="col-md-12 col-sm-12 col-xs-12">
-        <table class="table table-bordered table-striped" id="professorTable">
-            <thead>
-                <tr>
-                    <th>序号</th>
-                    <th>姓名</th>
-                    <th>职称</th>
-                    <th>详情</th>
-                </tr>
-            </thead>
-        </table>
-    </div>
-    <div style="clear:both"></div>
+        @*<button class="btn btn-primary btn-lg" onclick="changePasswd()"> 修改密码</button>*@
 
 @section script{
     <script src="~/Content/plugins/datatables.net/js/jquery.dataTables.js"></script>
     <script src="~/Content/plugins/datatables.net-bs/js/dataTables.bootstrap.js"></script>
+    <script src="~/Content/js/changePasswd.js"></script>
+    <script src="~/Content/js/gy-alert.js"></script>
     <script>
 
         $('#professorTable').DataTable({
