@@ -1,12 +1,15 @@
 ﻿@{
     ViewBag.Title = "Student";
+    ViewBag.CurrentTab = "student";
+    ViewBag.Stage = 2;
     ViewBag.BoxTitle = "学生信息";
+    ViewBag.Role = "Admin";
 }
 @section css{
     <link href="~/Content/css/AdminLTE.min.css" rel="stylesheet" />
     <link href="~/Content/plugins/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet" />
     <link href="~/Content/plugins/bootstrap-3.3.7/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="~/Content/css/fileinput.min.css" rel="stylesheet" />
+    <link href="~/Content/plugins/fileinput/css/fileinput.min.css" rel="stylesheet" />
 }
 
 <div id="page-wrapper">
@@ -32,18 +35,6 @@
                                     <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" style="width: 120px;" data-formatter="operateFormatter" data-align='center' data-events='operateEvents'>操作</th>
                                 </tr>
                             </thead>
-                            <tfoot>
-                                <tr>
-                                    <th rowspan="1" colspan="1">序号</th>
-                                    <th rowspan="1" colspan="1">学号</th>
-                                    <th rowspan="1" colspan="1">姓名</th>
-                                    <th rowspan="1" colspan="1">专业方向</th>
-                                    <th rowspan="1" colspan="1">信息是否提交</th>
-                                    <th rowspan="1" colspan="1">是否两个志愿提交</th>
-                                    <th rowspan="1" colspan="1">最终确定导师</th>
-                                    <th rowspan="1" colspan="1">操作</th>
-                                </tr>
-                            </tfoot>
                         </table>
                     </div>
                 </div>
@@ -88,42 +79,42 @@
                     <div class="row" style="width:45%;display:inline;vertical-align:baseline;padding-left:50px;">
                         <div class="column" style="float:left;padding-left:20px">
                             <label>姓名</label>
-                            <input type="text" class="form-control" placeholder="" style="width:200px;">
+                            <input id="name-input" type="text" class="form-control" placeholder="" style="width:200px;">
                         </div>
                         <div class="column" style="float:left;padding-left:50px">
                             <label>学号</label>
-                            <input type="text" class="form-control" placeholder="" style="width:200px;">
+                            <input id="stunumber-input" type="text" class="form-control" placeholder="" style="width:200px;">
                         </div>
                     </div>
                     <div class="row" style="width:45%;display:inline;vertical-align:baseline;padding-left:50px;">
                         <div class="column" style="float:left;padding-left:20px">
                             <label>年龄</label>
-                            <input type="text" class="form-control" placeholder="" style="width:200px;">
+                            <input id="age-input" type="text" class="form-control" placeholder="" style="width:200px;">
                         </div>
                         <div class="column" style="float:left;padding-left:50px">
                             <label>专业</label>
-                            <input type="text" class="form-control" placeholder="" style="width:200px;">
+                            <input id="major-input" type="text" class="form-control" placeholder="" style="width:200px;">
                         </div>
                     </div>
                     <div class="row" style="width:45%;display:inline;vertical-align:baseline;padding-left:50px;">
                         <div class="column" style="float:left;padding-left:20px">
                             <label>电话</label>
-                            <input type="text" class="form-control" placeholder="" style="width:200px;">
+                            <input id="telephone-input" type="text" class="form-control" placeholder="" style="width:200px;">
                         </div>
                         <div class="column" style="float:left;padding-left:50px">
                             <label>在职</label>
-                            <input type="text" class="form-control" placeholder="" style="width:200px;">
+                            <input id="isworking-input" type="text" class="form-control" placeholder="" style="width:200px;">
                         </div>
                     </div>
                     <div class="row" style="width:45%;display:inline;vertical-align:baseline;padding-left:50px;">
                         <div class="column" style="float:left;padding-left:20px">
                             <label>邮箱</label>
-                            <input type="text" class="form-control" placeholder="" style="width:200px;">
+                            <input id="email-input" type="text" class="form-control" placeholder="" style="width:200px;">
                         </div>
                     </div>
                 </form>
                 <div style="float:right;padding-right:25px">
-                    <button type="submit" class="btn btn-primary">确认提交</button>
+                    <button id="addStudent-submit-button" type="submit" class="btn btn-primary">确认提交</button>
                 </div>
 
             </div>
@@ -131,6 +122,32 @@
     </div>
 </div>
 <!--以上是直接新增学生模态框-->
+<!--以下是修改密码模态框-->
+<div class="modal" id="reset-password-modal" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content" style="height:280px">
+            <div class="modal-header" style="padding-left:25px">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4>修改密码</h4>
+            </div>
+            <div class="modal-body">
+                <form style="height:80%">
+                    <div class="row" style="width:45%;display:inline;vertical-align:baseline;padding-left:50px;">
+                        <div class="column" style="float:left;padding-left:20px">
+                            <label>新密码</label>
+                            <input id="password-input" type="text" class="form-control" placeholder="" style="width:200px;">
+                        </div>
+                    </div>
+                </form>
+                <div style="float:right;padding-right:25px">
+                    <button id="password-submit" type="submit" class="btn btn-primary">确认提交</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!--以上是修改密码模态框-->
 <!-- /. WRAPPER  -->
 <!-- JS Scripts-->
 <!-- jQuery Js -->
@@ -139,46 +156,53 @@
 <!-- DataTables -->
 <script src="~/Content/plugins/datatables.net/js/jquery.dataTables.min.js"></script>
 <script src="~/Content/plugins/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
-<script src="~/Content/js/fileinput.min.js"></script>
-<script src="~/Content/js/zh.js"></script>
+<script src="~/Content/plugins/fileinput/js/fileinput.min.js"></script>
+<script src="~/Content/plugins/fileinput/js/zh.js"></script>
+<script src="~/Content/js/gy-alert.js"></script>
 <script>
 
-    $('#example1').DataTable({
-        ajax: {
-            url: 'https://www.easy-mock.com/mock/5b1fe0f0f71e0743260935e1/example/getStuInfo',
-            dataSrc: 'data'
-        },
-        "columns": [
-            { data: "OrderNumber" },
-            { data: "StuNumber" },
-            { data: "StuName" },
-            { data: "Major" },
-            { data: "InfoCommited" },
-            { data: "TwoWillCommited" },
-            { data: "FinalTutor" },
-            {
-                data: function (row, type, set, meta) {
-                    return [
-                        '<button type="button" class="btn btn-block btn-info" style="width:25%;display:inline;vertical-align:baseline;">查看</button> ',
-                        '<button type="button" class="btn btn-block btn-success" style="width:25%;display:inline;vertical-align:baseline;">删除</button> ',
-                        '<button type="button" class="btn btn-block btn-primary" style="width:40%;display:inline;vertical-align:baseline;background-color:#3c8dbc">重置密码</button> '
-                    ].join('');
-                }
-            },
-        ]
-    });
-</script>
-
-<script>
-
+    function checkstudent() {
+        alert("check");
+    }
+    function deletestudent() {
+        $.gyAlert({ contentText: "确认删除该学生?", cancelButtonText: "取消" });
+    }
+    function resetpassword() {
+        $("#reset-password-modal").modal('show')
+    }
+    
     var userType = 0;
     $(document).ready(function () {
-        //initJaowu();
+        initTable();
         $("#uploadStudents").click(function () {
             $("#batchAdd-students-modal").modal('show');
         });
         $("#addStudents").click(function () {
-            $("#directAdd-students-modal").modal('show')
+            $("#directAdd-students-modal").modal('show');
+        });
+        $("#password-submit").click(function () {
+            var data = {
+                'password': $("#password-input").val()
+            }
+            alert("password:" + data.password);
+            $("#reset-password-modal").modal('hide');
+        });
+        $("#addStudent-submit-button").click(function () {
+            var data = {
+                'name': $("#name-input").val(),
+                'stunumber': $("#stunumber-input").val(),
+                'age': $("#age-input").val(),
+                'major': $("#major-input").val(),
+                'telephone': $("#telephone-input").val(),
+                'isworking': $("#isworking-input").val(),
+                'email': $("#email-input").val(),
+            }
+            alert("name:" + data.name + " stunumber:" + data.stunumber + " age:" + data.age + " major:" + data.major + " telephone:" + data.telephone + " isworking:" + data.isworking + " email:" + data.email);
+            $("#directAdd-professor-modal").modal('hide');
+            $.post("/Gao_Home/changePassword", data, function (rel) {
+
+                $("#directAdd-professor-modal").modal('hide');
+            })
         });
     });
 
@@ -193,7 +217,32 @@
     //        })
     //    })
 
-
+    var initTable = function () {
+        $('#example1').DataTable({
+            ajax: {
+                url: 'https://www.easy-mock.com/mock/5b1fe0f0f71e0743260935e1/example/getStuInfo',
+                dataSrc: 'data'
+            },
+            "columns": [
+                { data: "OrderNumber" },
+                { data: "StuNumber" },
+                { data: "StuName" },
+                { data: "Major" },
+                { data: "InfoCommited" },
+                { data: "TwoWillCommited" },
+                { data: "FinalTutor" },
+                {
+                    data: function (row, type, set, meta) {
+                        return [
+                            '<button type="button" class="btn btn-block btn-info" style="width:25%;display:inline;vertical-align:baseline;" onclick="checkstudent()">查看</button> ',
+                            '<button type="button" class="btn btn-block btn-success" style="width:25%;display:inline;vertical-align:baseline;" onclick="deletestudent()">删除</button> ',
+                            '<button type="button" class="btn btn-block btn-primary" style="width:40%;display:inline;vertical-align:baseline;background-color:#3c8dbc" onclick="resetpassword()">重置密码</button> '
+                        ].join('');
+                    }
+                },
+            ]
+        });
+    }
     //var initJaowu = function () {
     //    var s = document.cookie.split("=");
     //    userType = s[s.length - 1];

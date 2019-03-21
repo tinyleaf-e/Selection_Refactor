@@ -1,12 +1,16 @@
 ﻿@{
     ViewBag.Title = "JiaoWu";
+    ViewBag.CurrentTab = "jiaowu";
+    ViewBag.Stage = 2;
     ViewBag.BoxTitle = "教务教师信息";
+    ViewBag.Role = "Admin";
+
 }
 @section css{
     <link href="~/Content/css/AdminLTE.min.css" rel="stylesheet" />
     <link href="~/Content/plugins/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet" />
     <link href="~/Content/plugins/bootstrap-3.3.7/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="~/Content/css/fileinput.min.css" rel="stylesheet" />
+    <link href="~/Content/plugins/fileinput/css/fileinput.min.css" rel="stylesheet" />
 }
 
 <div id="page-wrapper">
@@ -28,14 +32,6 @@
                                     <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" style="width: 120px;" data-formatter="operateFormatter" data-align='center' data-events='operateEvents'>操作</th>
                                 </tr>
                             </thead>
-                            <tfoot>
-                                <tr>
-                                    <th rowspan="1" colspan="1">编号</th>
-                                    <th rowspan="1" colspan="1">姓名</th>
-                                    <th rowspan="1" colspan="1">负责专业方向</th>
-                                    <th rowspan="1" colspan="1">操作</th>
-                                </tr>
-                            </tfoot>
                         </table>
                     </div>
                 </div>
@@ -80,22 +76,22 @@
                     <div class="row" style="width:45%;display:inline;vertical-align:baseline;padding-left:50px;">
                         <div class="column" style="float:left;padding-left:20px">
                             <label>姓名</label>
-                            <input type="text" class="form-control" placeholder="" style="width:200px;">
+                            <input id="name-input" type="text" class="form-control" placeholder="" style="width:200px;">
                         </div>
                         <div class="column" style="float:left;padding-left:50px">
                             <label>编号</label>
-                            <input type="text" class="form-control" placeholder="" style="width:200px;">
+                            <input id="number-input" type="text" class="form-control" placeholder="" style="width:200px;">
                         </div>
                     </div>
                     <div class="row" style="width:45%;display:inline;vertical-align:baseline;padding-left:50px;">
                         <div class="column" style="float:left;padding-left:20px">
                             <label>负责专业方向</label>
-                            <input type="text" class="form-control" placeholder="" style="width:200px;">
+                            <input id="major-input" type="text" class="form-control" placeholder="" style="width:200px;">
                         </div>
                     </div>
                 </form>
                 <div style="float:right;padding-right:35px">
-                    <button type="submit" class="btn btn-primary">确认提交</button>
+                    <button id="submitJiaowuTeacher" type="submit" class="btn btn-primary">确认提交</button>
                 </div>
 
             </div>
@@ -111,43 +107,52 @@
 <!-- DataTables -->
 <script src="~/Content/plugins/datatables.net/js/jquery.dataTables.min.js"></script>
 <script src="~/Content/plugins/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
-<script src="~/Content/js/fileinput.min.js"></script>
-<script src="~/Content/js/zh.js"></script>
+<script src="~/Content/plugins/fileinput/js/fileinput.min.js"></script>
+<script src="~/Content/plugins/fileinput/js/zh.js"></script>
+<script src="~/Content/js/gy-alert.js"></script>
 <script>
-
-    $('#example1').DataTable({
-        ajax: {
-            url: 'https://www.easy-mock.com/mock/5b1fe0f0f71e0743260935e1/example/getJiaowuTeachers',
-            dataSrc: 'data'
-        },
-        "columns": [
-            { data: "Number" },
-            { data: "TeacherName" },
-            { data: "MajorResponsible" },
-            {
-                data: function (row, type, set, meta) {
-                    return [
-                        '<button type="button" class="btn btn-block btn-success" style="width:25%;display:block;vertical-align:baseline;">删除</button> '
-                    ].join('');
-                }
-            },
-        ]
-    });
-</script>
-
-<script>
-
+    function deleteteacher() {
+        $.gyAlert({ contentText: "确认删除该教师?", cancelButtonText: "取消" });
+    }
     var userType = 0;
     $(document).ready(function () {
-        //initJaowu();
+        initTable();
         $("#uploadJiaowuTeachers").click(function () {
             $("#batchAdd-JiaowuTeachers-modal").modal('show');
         });
         $("#addJiaowuTeachers").click(function () {
             $("#directAdd-JiaowuTeachers-modal").modal('show')
         });
+        $("#submitJiaowuTeacher").click(function () {
+            var data = {
+                'name': $("#name-input").val(),
+                'number': $("#number-input").val(),
+                'major': $("#major-input").val(),
+            }
+            alert("name:" + data.name + " number:" + data.number + " major:" + data.major);
+            $("#directAdd-JiaowuTeachers-modal").modal('hide');
+        });
     });
-
+    var initTable = function () {
+        $('#example1').DataTable({
+            ajax: {
+                url: 'https://www.easy-mock.com/mock/5b1fe0f0f71e0743260935e1/example/getJiaowuTeachers',
+                dataSrc: 'data'
+            },
+            "columns": [
+                { data: "Number" },
+                { data: "TeacherName" },
+                { data: "MajorResponsible" },
+                {
+                    data: function (row, type, set, meta) {
+                        return [
+                            '<button type="button" class="btn btn-block btn-success" style="width:25%;display:block;vertical-align:baseline;" onclick="deleteteacher()">删除</button> '
+                        ].join('');
+                    }
+                },
+            ]
+        });
+    }
     //    $("#change_password_submit_button").click(function () {
     //        var data = {
     //            'password': $("#password_input").val(),

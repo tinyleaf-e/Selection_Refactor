@@ -155,11 +155,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
-    <Compile Include="App_Start\BundleConfig2.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
-    <Compile Include="App_Start\FilterConfig2.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="App_Start\RouteConfig2.cs" />
     <Compile Include="Attribute\ExceptionFilter.cs" />
     <Compile Include="Attribute\FilterCharacterAttribute.cs" />
     <Compile Include="Attribute\RoleAuthorizeAttribute.cs" />
@@ -183,6 +180,8 @@
   <ItemGroup>
     <Content Include="Content\css\AdminLTE.css" />
     <Content Include="Content\css\AdminLTE.min.css" />
+    <Content Include="Content\css\pages\professor.css" />
+    <Content Include="Content\js\changePasswd.js" />
     <Content Include="Content\plugins\fileinput\css\fileinput.min.css" />
     <Content Include="Content\css\global.css" />
     <Content Include="Content\css\pages\login.css" />
@@ -295,6 +294,7 @@
     <Content Include="Content\plugins\bootstrap-3.3.7\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="Content\plugins\bootstrap-3.3.7\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="Content\plugins\bootstrap-3.3.7\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="Content\plugins\datatables.net\Chinese.json" />
     <None Include="packages.config" />
     <Content Include="Views\Security\Login.cshtml" />
     <Content Include="Views\Student\Profile.cshtml" />
