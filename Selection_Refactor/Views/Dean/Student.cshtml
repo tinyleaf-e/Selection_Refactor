@@ -3,67 +3,163 @@
     ViewBag.Title = "学生列表";
     ViewBag.CurrentTab = "student";
     ViewBag.Stage = 2;
+    ViewBag.BoxTitle = "学生列表";
+    ViewBag.Role = "Dean";
 }
-<!-- DataTables -->
-<link rel="stylesheet" href="~/Content/plugins/datatables.net-bs/css/dataTables.bootstrap.min.css">
 
-<div id="page-wrapper">
-    <div class="row col-md-12 col-sm-12 col-xs-12">
-        <div class="box">
-            <div class="box-header">
-                <h2 class="box-title">学生列表</h2>
-            </div>
-            <div class="box-tools">
-                <div class="row col-md-12 col-sm-12 col-xs-12">
-                    <div class="col-sm-6">
-                        <div class="dataTables_filter" id="dataTables-example_length">
-                            <label>
-                                <select id="professAll" name="dataTables-example_length" class="form-control input-sm" aria-controls="dataTables-example">
-                                    <option value="0">全部学生</option>
-                                    <option value="1">没有提交信息学生</option>
-                                    <option value="2">没有提交志愿学生</option>
-                                    <option value="3">没有确定导师学生</option>
-                                </select>
-                            </label>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 ">
-                        <div class="input-group input-group-sm" style="width: 150px;" id="dataTables-example_filter">
-                            <input class="form-control pull-right" id="professorName" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="vmName" data-sort-order="desc" data-show-export="true" type="search">
-                            <div class="input-group-btn">
-                                <button id="searchProfessors" class="btn btn-default"><i class="fa fa-search"></i></button>
-                            </div>
-                        </div>
-                    </div>
+@section css{
+    <!-- DataTables -->
+    <link rel="stylesheet" type="text/css" href="~/Content/plugins/datatables.net-bs/css/dataTables.bootstrap.css" />
+}
 
+
+@*<div class="row col-md-12 col-sm-12 col-xs-12">
+
+            <div class="row col-md-12 col-sm-12 col-xs-12">
+                <div class="col-sm-6">
+                    <div class="dataTables_filter" id="dataTables-example_length">
+                        <label>
+                            <select id="professAll" name="dataTables-example_length" class="form-control input-sm" aria-controls="dataTables-example">
+                                <option value="0">全部学生</option>
+                                <option value="1">没有提交信息学生</option>
+                                <option value="2">没有提交志愿学生</option>
+                                <option value="3">没有确定导师学生</option>
+                            </select>
+                        </label>
+                    </div>
                 </div>
             </div>
 
-        </div>
-    </div>
-</div>
+    </div>*@
 <div class="col-md-12 col-sm-12 col-xs-12">
-    <table id="example1" class="table table-bordered table-striped" data-toggle="table" data-url="/Gao_JiaoWu/getStudents?p=0" data-row-style="rowStyle">
+    <table id="professorTable" class="table table-bordered table-striped" data-toggle="table" data-url="/Gao_JiaoWu/getStudents?p=0" data-row-style="rowStyle">
         <thead>
             <tr>
-                <th data-field="Order">序号</th>
-                <th data-field="StuID">学号</th>
-                <th data-field="StuName">名字</th>
-                <th data-field="StuInfoChecked">信息是否提交</th>
-                <th data-field="StuWillChecked">是否两个志愿提交</th>
-                <th data-field="StuFinalWill">最终确定导师</th>
-                <th data-formatter="operateFormatter" data-align='center' data-events='operateEvents'>操作</th>
+                <th>序号</th>
+                <th>学号</th>
+                <th>名字</th>
+                <th>信息是否提交</th>
+                <th>是否两个志愿提交</th>
+                <th>最终确定导师</th>
+                <th>操作</th>
             </tr>
         </thead>
     </table>
 </div>
 <div style="clear:both"></div>
 
-<!-- DataTables -->
-<script src="~/Content/plugins/datatables.net/js/jquery.dataTables.min.js"></script>
-<script src="~/Content/plugins/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+<button class="btn btn-primary btn-lg" onclick="changepwd()">修改密码</button>
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="identifier" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">修改密码</h4>
+            </div>
+            <div class="modal-body">
+                <div id="oldpwd" class="form-group">
+                    <label class="control-label">
+                        <i id="icon-oldpwd"></i>
+                    旧密码</label>
+                    <input class="form-control" type="password" id="oldpassword" />
+                </div>
+                <div id="newpwd" class="form-group">
+                    <label class="control-label">
+                        <i id="icon-newpwd"></i>
+                    新密码</label>
+                    <input class="form-control" type="password" id="newpassword" />
+                </div>
+                <div id="checkpwd" class="form-group">
+                    <label class="control-label">
+                        <i id="icon-checkpwd"></i>
+                    确认密码</label>
+                    <input class="form-control" type="password" id="checkpassword" />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" onclick="checkpwd()">提交更改</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
 
-<script>
-        $('#example1').DataTable()
-</script>
+@section script{
+    <script src="~/Content/plugins/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="~/Content/plugins/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+
+
+    <script>
+        $('#professorTable').DataTable({
+            ajax: {
+                url: ' https://www.easy-mock.com/mock/5c83336fe0e0f75c246237db/example/mock',
+                dataSrc: 'data'
+            },
+            "columns": [
+                {
+                    data: function (row, type, set, meta) {
+                        return meta.row + 1;
+                    }
+                },
+                { data: "StuID" },
+                { data: "StuName" },
+                { data: "StuInfoChecked" },
+                { data: "StuWillChecked" },
+                { data: "StuFinalWill" },
+                {
+                    data: function () {
+                        return "<button class='btn btn-default'>详情</button>"
+                    }
+                }
+
+            ]
+        });
+
+
+        function changepwd() {
+            $('#identifier').modal()
+        }
+        function checkpwd() {
+            var v1 = $("#oldpassword").val();
+            var v2 = $('#newpassword').val();
+            var v3 = $('#checkpassword').val();
+            if (v1 == "") {
+                $("#oldpwd").attr("class", "form-group has-error");
+                $('#icon-oldpwd').attr("class", "fa fa-times-circle-o");
+            }
+            else {
+                $("#oldpwd").attr("class", "form-group has-success");
+                $('#icon-oldpwd').attr("class", "fa fa-check");
+                if (v1 == v2 || v2 == "") {
+                    $('#newpwd').attr("class", "form-group has-error");
+                    $('#icon-newpwd').attr('class', 'fa fa-times-circle-o');
+                }
+                else {
+                    $('#newpwd').attr("class", "form-group has-success");
+                    $('#icon-newpwd').attr('class', 'fa fa-check');
+                    if (v2 == v3 && v2 != "") {
+                        $('#checkpwd').attr("class", "form-group has-success");
+                        $('#icon-checkpwd').attr('class', 'fa fa-check');
+                        var data = {
+                            opwd: v1,
+                            npwd: v2
+                        }
+                        $.post("/", data, function (rdata) {
+                            if (rdata == "success")
+                                alert("success");
+                        })
+                        alert("修改成功");
+                        $('#identifier').modal('hide')
+                    }
+                    else {
+                        $('#checkpwd').attr("class", "form-group has-error");
+                        $('#icon-checkpwd').attr('class', 'fa fa-times-circle-o');
+                    }
+                }
+            }
+
+        }
+    </script>
+}
 
