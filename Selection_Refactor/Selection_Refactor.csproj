@@ -310,6 +310,11 @@
     <Content Include="Views\Professor\Index.cshtml" />
     <Content Include="Views\Professor\SecondSelect.cshtml" />
     <Content Include="Views\Professor\Student.cshtml" />
+    <Content Include="Views\Student\FinalWill.cshtml" />
+    <Content Include="Views\Student\Index.cshtml" />
+    <Content Include="Views\Student\Professor.cshtml" />
+    <Content Include="Views\Admin\JiaoWu.cshtml" />
+    <Content Include="Views\Admin\Student.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
