@@ -41,7 +41,7 @@
             ajax: {
                 url: 'https://www.easy-mock.com/mock/5c8368e622c6e01a284aae50/selection-mock/',
 
-                dataSrc: 'data'
+                dataSrc: ''
             },
             "columns": [
                 {
@@ -49,11 +49,11 @@
                         return meta.row + 1;
                     }
                 },
-                { data: "ProName" },
-                { data: "ProTitle" },
+                { data: "name" },
+                { data: "sex" },
                 { data: "age" },
                 { data: "direction" },
-                { data: "boolean" },
+                { data: "working" },
                 { data: "school" },
                 { data: "major" },
                 { data: "email" },
@@ -79,14 +79,14 @@
         function viewStudentInfo(btn) {
             var tr = $(btn).closest('tr');
             var row = table.row(tr).data();
-            alert("查看学生" + row.ProName + "的信息");
+            alert("查看学生" + row.name + "的信息");
         }
 
         //表格行内“下载个人简历”按钮的点击事件
         function downloadStudentResume(btn) {
             var tr = $(btn).closest('tr');
             var row = table.row(tr).data();
-            alert("下载学生" + row.ProName + "的简历");
+            alert("下载学生" + row.name + "的简历");
         }
 
     </script>

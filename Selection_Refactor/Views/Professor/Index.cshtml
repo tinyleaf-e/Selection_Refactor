@@ -77,11 +77,11 @@
     <script src="~/Content/plugins/datatables.net-bs/js/dataTables.bootstrap.js"></script>
     <script>
 
-        $('#haveChosenTable').DataTable({
+        var haveChosenTable = $('#haveChosenTable').DataTable({
             ajax: {
                 url: 'https://www.easy-mock.com/mock/5c8368e622c6e01a284aae50/selection-mock/',
 
-                dataSrc: 'data'
+                dataSrc: ''
             },
             "columns": [
                 {
@@ -89,29 +89,28 @@
                         return meta.row;
                     }
                 },
-                { data: "ProName" },
-                { data: "ProTitle" },
+                { data: "name" },
+                { data: "sex" },
                 { data: "age"},
                 { data: "direction" },
-                { data: "boolean" },
+                { data: "working" },
                 { data: "school" },
                 { data: "major" },
                 { data: "email" },
                 {
                     data: function (row, type, set, meta) {
                         return [
-                            '<button type="button" class="btn btn-block btn-info" style="width:45%;display:inline;vertical-align:baseline;"> 查看学生信息</button> ',
-                            '<button type="button" class="btn btn-block btn-success" style="width:45%;display:inline;vertical-align:baseline;"> 下载个人简历</button> ',
+                            '<button type="button" class="btn btn-info" onclick="viewStudentInfo1(this)"> 查看学生信息 </button> ',
+                            '<button type="button" class="btn btn-success" onclick="downloadStudentResume1(this)"> 下载个人简历 </button> ',
                         ].join('');
                     }
                 }
             ]
         });
-        $('#firstChoiceTable').DataTable({
+        var firstChoiceTable = $('#firstChoiceTable').DataTable({
             ajax: {
                 url: 'https://www.easy-mock.com/mock/5c8368e622c6e01a284aae50/selection-mock/',
-
-                dataSrc: 'data'
+                dataSrc:''
             },
             "columns": [
                 {
@@ -119,24 +118,56 @@
                         return meta.row;
                     }
                 },
-                { data: "ProName" },
-                { data: "ProTitle" },
+                { data: "name" },
+                { data: "sex" },
                 { data: "age" },
                 { data: "direction" },
-                { data: "boolean" },
+                { data: "working" },
                 { data: "school" },
                 { data: "major" },
                 { data: "email" },
                 {
                     data: function (row, type, set, meta) {
                         return [
-                            '<button type="button" class="btn btn-block btn-info" style="width:45%;display:inline;vertical-align:baseline;"> 查看学生信息</button> ',
-                            '<button type="button" class="btn btn-block btn-success" style="width:45%;display:inline;vertical-align:baseline;"> 下载个人简历</button> ',
+                            '<button type="button" class="btn btn-info" onclick="viewStudentInfo2(this)"> 查看学生信息 </button> ',
+                            '<button type="button" class="btn btn-success" onclick="downloadStudentResume2(this)"> 下载个人简历 </button> ',
                         ].join('');
                     }
                 }
-            ]
+            ],
+            dom: "<'row'<'col-sm-12 col-md-6'i><'col-sm-12 col-md-6'f>>" +
+                "<'row'<'col-sm-12'tr>>" +
+                "<'row'<'col-sm-12 col-md-5'l><'col-sm-12 col-md-7'p>>",
+            language: {
+                url: "/Content/plugins/datatables.net/Chinese.json"
+            },
+            lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, "全部"]]
         });
+        //第一志愿的学生列表行内的按钮事件
+        function viewStudentInfo2(btn) {
+            var tr = $(btn).closest('tr');
+            var row = firstChoiceTable.row(tr).data();
+            alert("查看学生" + row.name + "的信息");
+        }
+        
+        function downloadStudentResume2(btn) {
+            var tr = $(btn).closest('tr');
+            var row = firstChoiceTable.row(tr).data();
+            alert("下载学生" + row.name + "的简历");
+        }
+
+        //已经选择的学生列表内的按钮事件
+        function viewStudentInfo1(btn) {
+            var tr = $(btn).closest('tr');
+            var row = haveChosenTable.row(tr).data();
+            alert("查看学生" + row.name + "的信息");
+        }
+        
+        function downloadStudentResume1(btn) {
+            var tr = $(btn).closest('tr');
+            var row = haveChosenTable.row(tr).data();
+            alert("下载学生" + row.name + "的简历");
+        }
     </script>
 
 }

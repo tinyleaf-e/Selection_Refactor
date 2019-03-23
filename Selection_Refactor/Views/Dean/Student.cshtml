@@ -10,40 +10,32 @@
     <!-- DataTables -->
     <link rel="stylesheet" type="text/css" href="~/Content/plugins/datatables.net-bs/css/dataTables.bootstrap.css" />
 }
-@*<div class="row col-md-12 col-sm-12 col-xs-12">
-
-            <div class="row col-md-12 col-sm-12 col-xs-12">
-                <div class="col-sm-6">
-                    <div class="dataTables_filter" id="dataTables-example_length">
-                        <label>
-                            <select id="professAll" name="dataTables-example_length" class="form-control input-sm" aria-controls="dataTables-example">
-                                <option value="0">全部学生</option>
-                                <option value="1">没有提交信息学生</option>
-                                <option value="2">没有提交志愿学生</option>
-                                <option value="3">没有确定导师学生</option>
-                            </select>
-                        </label>
-                    </div>
-                </div>
-            </div>
-
-    </div>*@
-<div class="col-md-12 col-sm-12 col-xs-12">
-    <table id="professorTable" class="table table-bordered table-striped" data-toggle="table" data-url="/Gao_JiaoWu/getStudents?p=0" data-row-style="rowStyle">
-        <thead>
-            <tr>
-                <th>序号</th>
-                <th>学号</th>
-                <th>名字</th>
-                <th>信息是否提交</th>
-                <th>是否两个志愿提交</th>
-                <th>最终确定导师</th>
-                <th>操作</th>
-            </tr>
-        </thead>
-    </table>
-</div>
-<div style="clear:both"></div>
+    <div class="row col-md-12 col-sm-12 col-xs-12">
+        <div style="padding:0 0 15px 15px" class="form-inline">
+            <select id="filter-select" class="form-control">
+                <option value="0">全部学生</option>
+                <option value="1">没有提交信息学生</option>
+                <option value="2">没有提交志愿学生</option>
+                <option value="3">没有确定导师学生</option>
+            </select>
+        </div>
+    </div>
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <table id="professorTable" class="table table-bordered table-striped" data-toggle="table" data-url="/Gao_JiaoWu/getStudents?p=0" data-row-style="rowStyle">
+                <thead>
+                    <tr>
+                        <th>序号</th>
+                        <th>学号</th>
+                        <th>名字</th>
+                        <th>信息是否提交</th>
+                        <th>是否两个志愿提交</th>
+                        <th>最终确定导师</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+        <div style="clear:both"></div>
 
 @section script{
     <script src="~/Content/plugins/datatables.net/js/jquery.dataTables.min.js"></script>
@@ -52,6 +44,35 @@
 
 
     <script>
+
+        //下拉框筛选学生
+        $.fn.dataTable.ext.search.push(
+            function (settings, data, dataIndex) {
+                var type = $('#filter-select').val();
+                switch (type) {
+                    case "0": return true;
+                    case "1":
+                        if (data[3] == "否")
+                            return true;
+                        break;
+                    case "2":
+                        if (data[4] == "否")
+                            return true;
+                        break;
+                    case "3":
+                        if (data[5] != "")
+                            return true;
+                        break;
+                    default: return false;
+                }
+                return false;
+            }
+        );
+
+        $("#filter-select").change(function () {
+            $('#professorTable').DataTable().draw()
+        });
+
         $('#professorTable').DataTable({
             ajax: {
                 url: ' https://www.easy-mock.com/mock/5c83336fe0e0f75c246237db/example/mock',
@@ -70,20 +91,13 @@
                 { data: "StuFinalWill" },
                 {
                     data: function () {
-                        return "<button class='btn btn-default' id='info'>详情</button>"
+                        return "<button class='btn btn-default'>详情</button>"
                     }
                 }
 
             ]
         });
-    </script>
-    <script>
-        $("body").on("click", "#info", function () {
-            var table = $('#professorTable').DataTable();
-            var choosetd = $(this).closest('tr')
-            var chooserow = table.row(choosetd).data()
-            alert(chooserow.StuUrl)
-        })
+
     </script>
 }
 

@@ -37,7 +37,7 @@ namespace Selection_Refactor.Controllers
             else if (userId == "admin" && CryptoUtil.Md5Hash(passwd) == CryptoUtil.Md5Hash("admin"))
             {
                 Response.Cookies.Add(createCookie(userId, passwd, "admin", 24 * 60));
-                return "success:/Student/Profile";
+                return "success:/Admin/Index";
             }
             else if (userId == "professor" && CryptoUtil.Md5Hash(passwd) == CryptoUtil.Md5Hash("professor"))
             {

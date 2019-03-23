@@ -83,11 +83,11 @@
     <script src="~/Content/plugins/datatables.net-bs/js/dataTables.bootstrap.js"></script>
     <script>
 
-        $('#waitChooseTable').DataTable({
+        var waitChooseTable = $('#waitChooseTable').DataTable({
             ajax: {
                 url: 'https://www.easy-mock.com/mock/5c8368e622c6e01a284aae50/selection-mock/',
 
-                dataSrc: 'data'
+                dataSrc: ''
             },
             "columns": [
                 {
@@ -95,29 +95,35 @@
                         return meta.row;
                     }
                 },
-                { data: "ProName" },
-                { data: "ProTitle" },
+                { data: "name" },
+                { data: "sex" },
                 { data: "age"},
                 { data: "direction" },
-                { data: "boolean" },
+                { data: "working" },
                 { data: "school" },
                 { data: "major" },
                 { data: "email" },
                 {
                     data: function (row, type, set, meta) {
                         return [
-                            '<button type="button" class="btn btn-block btn-info" style="width:45%;display:inline;vertical-align:baseline;"> 查看学生信息</button> ',
-                            '<button type="button" class="btn btn-block btn-success" style="width:45%;display:inline;vertical-align:baseline;"> 下载个人简历</button> ',
+                            '<button type="button" class="btn btn-info" onclick="viewUnselectedStudentInfo(this)"> 查看学生信息 </button> ',
+                            '<button type="button" class="btn btn-success" onclick="downloadUnselectedStudentResume(this)"> 下载个人简历 </button> ',
                         ].join('');
                     }
                 }
-            ]
+            ],
+            dom: "<'row'<'col-sm-12 col-md-6'i><'col-sm-12 col-md-6'f>>" +
+                "<'row'<'col-sm-12'tr>>" +
+                "<'row'<'col-sm-12 col-md-5'l><'col-sm-12 col-md-7'p>>",
+            language: {
+                url: "/Content/plugins/datatables.net/Chinese.json"
+            },
+            lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, "全部"]]
         });
-        $('#selectedTable').DataTable({
+        var selectedTable = $('#selectedTable').DataTable({
             ajax: {
                 url: 'https://www.easy-mock.com/mock/5c8368e622c6e01a284aae50/selection-mock/',
-
-                dataSrc: 'data'
+                dataSrc: ''
             },
             "columns": [
                 {
@@ -125,24 +131,54 @@
                         return meta.row;
                     }
                 },
-                { data: "ProName" },
-                { data: "ProTitle" },
+                { data: "name" },
+                { data: "sex" },
                 { data: "age" },
                 { data: "direction" },
-                { data: "boolean" },
+                { data: "working" },
                 { data: "school" },
                 { data: "major" },
                 { data: "email" },
                 {
                     data: function (row, type, set, meta) {
                         return [
-                            '<button type="button" class="btn btn-block btn-info" style="width:45%;display:inline;vertical-align:baseline;"> 查看学生信息</button> ',
-                            '<button type="button" class="btn btn-block btn-success" style="width:45%;display:inline;vertical-align:baseline;"> 下载个人简历</button> ',
+                            '<button type="button" class="btn btn-info" onclick="viewSelectedStudentInfo(this)"> 查看学生信息 </button> ',
+                            '<button type="button" class="btn btn-success" onclick="downloadSelectedStudentResume(this)"> 下载个人简历 </button> ',
                         ].join('');
                     }
                 }
-            ]
+            ],
+            dom: "<'row'<'col-sm-12 col-md-6'i><'col-sm-12 col-md-6'f>>" +
+                "<'row'<'col-sm-12'tr>>" +
+                "<'row'<'col-sm-12 col-md-5'l><'col-sm-12 col-md-7'p>>",
+            language: {
+                url: "/Content/plugins/datatables.net/Chinese.json"
+            },
+            lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, "全部"]]
         });
+
+        //已经选择的学生的表格行内按钮的点击事件
+        function viewSelectedStudentInfo(btn) {
+            var tr = $(btn).closest('tr');
+            var row = selectedTable.row(tr).data();
+            alert("查看学生" + row.name + "的信息");
+        }
+        function downloadSelectedStudentResume(btn) {
+            var tr = $(btn).closest('tr');
+            var row = selectedTable.row(tr).data();
+            alert("下载学生" + row.name + "的简历");
+        }
+        //没选择的学生的表格行内按钮的点击事件
+        function viewUnselectedStudentInfo(btn) {
+            var tr = $(btn).closest('tr');
+            var row = waitChooseTable.row(tr).data();
+            alert("查看学生" + row.name + "的信息");
+        }
+        function downloadUnselectedStudentResume(btn) {
+            var tr = $(btn).closest('tr');
+            var row = waitChooseTable.row(tr).data();
+            alert("下载学生" + row.name + "的简历");
+        }
     </script>
 
 }
