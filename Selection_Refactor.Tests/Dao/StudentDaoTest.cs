@@ -4,6 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Selection_Refactor.Models.Dao;
 using Selection_Refactor.Models.Entity;
 using Selection_Refactor.Models.Validation;
+using System.Collections.Generic;
 
 namespace Selection_Refactor.Tests.Dao
 {
@@ -14,7 +15,6 @@ namespace Selection_Refactor.Tests.Dao
         public void TestMethod_addStudent()
         {
             StudentDao studentDao = new StudentDao();
-
             Student student = new Student();
             student.id = "zy1821104";
             student.name = "高晔4";
@@ -26,11 +26,13 @@ namespace Selection_Refactor.Tests.Dao
                 {
                     Debug.WriteLine(errorMember.ErrorMemberName + "：" + errorMember.ErrorMessage);
                 }
+                //    }
+                int result1 = studentDao.addStudent(student);
+                Assert.AreEqual(1, result1);
+                Debug.WriteLine(result1);
             }
-            int result1 = studentDao.addStudent(student);
-            Assert.AreEqual(1,result1);
-            Debug.WriteLine(result1);
         }
+
 
         [TestMethod]
         public void TestMethod_getStudentById()
@@ -52,6 +54,7 @@ namespace Selection_Refactor.Tests.Dao
             Console.WriteLine(student.password);
         }
 
+
         [TestMethod]
         public void TestMethod_deleteStudentById()
         {
@@ -61,6 +64,7 @@ namespace Selection_Refactor.Tests.Dao
             int result = studentDao.deleteStudentById("zy1821105");
             Assert.AreEqual(1, result);
         }
+
 
         [TestMethod]
         public void TestMethod_deleteStudentByIds()
@@ -72,26 +76,34 @@ namespace Selection_Refactor.Tests.Dao
             Assert.AreEqual(2, result);
         }
 
+
         [TestMethod]
         public void TestMethod_update()
         {
-            AdminDao adminDao = new AdminDao();
-            Admin admin = new Admin();
-            string[] str = new string[2];
-            str[0] = "add2019";
-            str[1] = "admin10029";
            
-            int result = adminDao.deleteAdminsByIds(str);
-            //int result = adminDao.addAdmin(admin);
-            Assert.AreEqual(2, result);
-            //Debug.WriteLine(result);
+            StudentDao studentDao = new StudentDao();
+            Student student = new Student();
+            bool isRight=studentDao.update("zy1821104","高晔4",true,23,1038,"12345678910","123@qq.com",false);
+            Assert.AreEqual(true, isRight);
         }
+
 
         [TestMethod]
         public void TestMethod_listStudentByYearId()
         {
+            StudentDao studentDao = new StudentDao();
+            //Student student = new Student();
+            List<Student> list = studentDao.listStudentByYearId("1821");
+            foreach (Student student in list)
+            {
+                Console.WriteLine(student.id, student.name);
+                Assert.AreEqual("1821", student.yearId);
+            }
+            Console.WriteLine("Right");
+
 
         }
+
 
         [TestMethod]
         public void TestMethod_changePasswdById()
@@ -104,5 +116,6 @@ namespace Selection_Refactor.Tests.Dao
             student = studentDao.getStudentById("zy1821104");
             Assert.AreEqual("1234",student.password);
         }
+
     }
 }
