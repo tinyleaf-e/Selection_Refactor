@@ -12,7 +12,7 @@ namespace Selection_Refactor.Models.Dao
          * Create by 付文欣  
          * 通过年份号号获取设置
          */
-        public Setting getById(String id)
+        public Setting getSettingById(String id)
         {
             SettingDBContext settingDBContext = new SettingDBContext();
             Setting setting = settingDBContext.settings.Find(id);
@@ -23,7 +23,7 @@ namespace Selection_Refactor.Models.Dao
          * Create By 付文欣
          * 列出所有设置
          */
-        public List<Setting> listAll()
+        public List<Setting> listAllSetting()
         {
             return new SettingDBContext().settings.ToList();
         }
@@ -33,7 +33,7 @@ namespace Selection_Refactor.Models.Dao
          * 根据年份号删除设置
          * 成功删除返回1，失败返回0，异常返回-1
          */
-        public int deleteById(string id)
+        public int deleteSettingById(string id)
         {
             try
             {
@@ -87,9 +87,14 @@ namespace Selection_Refactor.Models.Dao
             {
                 SettingDBContext settingDBContext = new SettingDBContext();
                 Setting setting = settingDBContext.settings.Where(m => m.yearId == newSetting.yearId).ToList()[0];
-                settingDBContext.settings.Remove(setting);
-                settingDBContext.settings.Add(newSetting);
-                return settingDBContext.SaveChanges();
+                if (setting != null)
+                {
+                    settingDBContext.settings.Remove(setting);
+                    settingDBContext.settings.Add(newSetting);
+                    return settingDBContext.SaveChanges();
+                }
+                else
+                    return 0;
             }
             catch (Exception e)
             {
@@ -104,16 +109,19 @@ namespace Selection_Refactor.Models.Dao
          * 根据年份号修改模式
          * 成功添加返回1，失败返回0，异常返回-1
          */
-        public int changemodeById(String id, int mode)
+        public int changeModeById(String id, int mode)
         {
             try
             {
                 SettingDBContext settingDBContext = new SettingDBContext();
                 Setting setting = settingDBContext.settings.Where(m => m.yearId == id).ToList()[0];
-                settingDBContext.settings.Remove(setting);
-                setting.mode = mode;
-                settingDBContext.settings.Add(setting);
-                return settingDBContext.SaveChanges();
+                if (setting != null)
+                {
+                    setting.mode = mode;
+                    return settingDBContext.SaveChanges();
+                }
+                else
+                    return 0;
             }
             catch (Exception e)
             {

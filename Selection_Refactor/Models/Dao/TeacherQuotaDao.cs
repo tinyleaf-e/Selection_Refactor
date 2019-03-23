@@ -78,7 +78,7 @@ namespace Selection_Refactor.Models.Dao
          * 删除教师招生信息 by teacherId and yearId
          * 成功插入返回1，失败返回0，异常返回-1
          */
-        public int deleteTeacherQuotaById(string teacherId, string yearId)
+        public int deleteTeacherQuotaByIdAndYearId(string teacherId, string yearId)
         {
             try
             {

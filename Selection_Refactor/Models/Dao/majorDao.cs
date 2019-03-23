@@ -33,7 +33,7 @@ namespace Selection_Refactor.Models.Dao
          * 根据专业号删除专业
          * 成功删除返回1，失败返回0，异常返回-1
          */
-        public int deleteById(string id)
+        public int deleteMajorById(string id)
         {
             try
             {
@@ -60,7 +60,7 @@ namespace Selection_Refactor.Models.Dao
          * 根据专业号删除多个专业
          * 成功删除返回大于0的数，失败返回0，异常返回-1
          */
-        public int deleteByIds(List<String> ids)
+        public int deleteMajorsByIds(List<String> ids)
         {
             try
             {
@@ -116,9 +116,7 @@ namespace Selection_Refactor.Models.Dao
             {
                 MajorDBContext majorDBContext = new MajorDBContext();
                 Major major = majorDBContext.majors.Where(m => m.id == id).ToList()[0];
-                majorDBContext.majors.Remove(major);
                 major.name = newName;
-                majorDBContext.majors.Add(major);
                 return majorDBContext.SaveChanges();
             }
             catch (Exception e)
@@ -128,5 +126,6 @@ namespace Selection_Refactor.Models.Dao
                 return -1;
             }
         }
+
     }
 }
