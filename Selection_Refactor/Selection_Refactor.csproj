@@ -315,6 +315,8 @@
     <Content Include="Views\Student\Professor.cshtml" />
     <Content Include="Views\Admin\JiaoWu.cshtml" />
     <Content Include="Views\Admin\Student.cshtml" />
+    <Content Include="Views\Dean\ProfessorInfo.cshtml" />
+    <Content Include="Views\Dean\StudentInfo.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

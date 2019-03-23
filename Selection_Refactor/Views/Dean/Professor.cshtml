@@ -44,11 +44,25 @@
                 { data: "ProTitle" },
                 {
                     data: function () {
-                        return "<button class='btn btn-default'>详情</button>"
+                        return "<button class='btn btn-default' id='info'>详情</button>"
                     }
                 }
             ]
         });
+    </script>
+    <script>
+        //$("body").on("click","#info", function(){
+        //    var v = $(this).parents('tr').children('td').get(1).innerHTML
+        //    alert(v)
+        //    location.href="/Dean/ProfessorInfo"
+        //})
+
+        $("#professorTable").on("click","#info", function () {
+            var table = $('#professorTable').DataTable();
+            var t = $(this).closest('tr')
+            var row = table.row(t).data()
+            alert(row.ProName)
+        })
     </script>
 
 }
