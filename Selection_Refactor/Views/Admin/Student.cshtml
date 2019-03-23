@@ -13,34 +13,37 @@
 }
 
 <div id="page-wrapper">
-    <div class="box">
-        <div style="padding-left:10px;padding-top:10px">
-            <button id="uploadStudents" class="btn btn-block btn-primary bg-light-blue color-palette" style="width:8%;display:inline;vertical-align:baseline;">上传学生</button>
-            <button id="addStudents" class="btn btn-block btn-primary bg-green color-palette" style="width:8%;margin-left:5px;display:inline;vertical-align:baseline;">新增学生</button>
-        </div>
-        <div class="box-body">
-            <div id="professor-table" class="dataTables_wrapper form-inline dt-bootstrap">
-                <div class="row">
-                    <div class="col-sm-12">
-                        <table id="example1" class="table table-bordered table-striped dataTable" role="grid" aria-describedby="example1_info">
-                            <thead>
-                                <tr role="row">
-                                    <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-sort="ascending" data-field="OrderNumber" style="width: 55px;">序号</th>
-                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" data-field="StuNumber" style="width: 65px;">学号</th>
-                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" data-field="StuName" style="width: 60px;">姓名</th>
-                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" data-field="Major" style="width: 70px;">专业方向</th>
-                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" data-field="InfoCommited" style="width: 70px;">信息是否提交</th>
-                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" data-field="TwoWillCommited" style="width: 70px;">是否两个志愿提交</th>
-                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" data-field="FinalTutor" style="width: 70px;">最终确定导师</th>
-                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" style="width: 120px;" data-formatter="operateFormatter" data-align='center' data-events='operateEvents'>操作</th>
-                                </tr>
-                            </thead>
-                        </table>
-                    </div>
+    <div style="padding:0 0 5px 15px" class="form-inline">
+        <button id="uploadStudents" class="btn btn-primary" style="margin-right:20px">上传学生</button>
+        <button id="addStudents" class="btn btn-success" style="margin-right:20px">新增学生</button>
+        <select id="filter-select" class="form-control">
+            <option value="0">全部学生</option>
+            <option value="1">没有提交信息学生</option>
+            <option value="2">没有提交志愿学生</option>
+            <option value="3">没有确定导师学生</option>
+        </select>
+    </div>
+    <div class="box-body">
+        <div id="professor-table" class="dataTables_wrapper form-inline dt-bootstrap">
+            <div class="row">
+                <div class="col-sm-12">
+                    <table id="example1" class="table table-bordered table-striped dataTable" role="grid" aria-describedby="example1_info">
+                        <thead>
+                            <tr role="row">
+                                <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-sort="ascending" data-field="OrderNumber" style="width: 55px;">序号</th>
+                                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" data-field="StuNumber" style="width: 65px;">学号</th>
+                                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" data-field="StuName" style="width: 60px;">姓名</th>
+                                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" data-field="Major" style="width: 70px;">专业方向</th>
+                                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" data-field="InfoCommited" style="width: 70px;">信息是否提交</th>
+                                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" data-field="TwoWillCommited" style="width: 70px;">是否两个志愿提交</th>
+                                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" data-field="FinalTutor" style="width: 70px;">最终确定导师</th>
+                                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" style="width: 120px;" data-formatter="operateFormatter" data-align='center' data-events='operateEvents'>操作</th>
+                            </tr>
+                        </thead>
+                    </table>
                 </div>
             </div>
         </div>
-        <!-- /.box-body -->
     </div>
 
 </div>
@@ -160,6 +163,33 @@
 <script src="~/Content/plugins/fileinput/js/zh.js"></script>
 <script src="~/Content/js/gy-alert.js"></script>
 <script>
+    //下拉框筛选学生
+    $.fn.dataTable.ext.search.push(
+        function (settings, data, dataIndex) {
+            var type = $('#filter-select').val();
+            switch (type) {
+                case "0": return true;
+                case "1":
+                    if (data[4] == "是")
+                        return true;
+                    break;
+                case "2":
+                    if (data[5] == "是")
+                        return true;
+                    break;
+                case "3":
+                    if (data[6] != "")
+                        return true;
+                    break;
+                default: return false;
+            }
+            return false;
+        }
+    );
+
+    $("#filter-select").change(function () {
+        $('#example1').DataTable().draw()
+    });
 
     function checkstudent() {
         alert("check");
