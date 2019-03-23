@@ -27,7 +27,8 @@
                 <th>毕业学校</th>
                 <th>毕业专业</th>
                 <th>邮箱</th>
-                <th style="max-width:260px">操作</th>
+                <th>学生志愿</th>
+                <th>操作</th>
             </tr>
         </thead>
     </table>
@@ -50,12 +51,13 @@
                     }
                 },
                 { data: "name" },
-                { data: "sex" },
+                { data: "gender" },
                 { data: "age" },
-                { data: "direction" },
-                { data: "working" },
-                { data: "school" },
-                { data: "major" },
+                { data: "majorId" },
+                { data: "onTheJob" },
+                { data: "graSchool" },
+                { data: "graMajor" },
+                { data: "will" },
                 { data: "email" },
                 {
                     data: function (row, type, set, meta) {

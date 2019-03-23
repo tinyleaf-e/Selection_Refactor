@@ -65,6 +65,7 @@
                     <th>毕业学校</th>
                     <th>毕业专业</th>
                     <th>邮箱</th>
+                    <th>学生志愿</th>
                     <th>操作</th>
                 </tr>
             </thead>
@@ -90,18 +91,20 @@
                     }
                 },
                 { data: "name" },
-                { data: "sex" },
+                { data: "gender" },
                 { data: "age"},
-                { data: "direction" },
-                { data: "working" },
-                { data: "school" },
-                { data: "major" },
+                { data: "majorId" },
+                { data: "onTheJob" },
+                { data: "graSchool" },
+                { data: "graMajor" },
                 { data: "email" },
+                { data: "will" },
                 {
                     data: function (row, type, set, meta) {
                         return [
                             '<button type="button" class="btn btn-info" onclick="viewStudentInfo1(this)"> 查看学生信息 </button> ',
-                            '<button type="button" class="btn btn-success" onclick="downloadStudentResume1(this)"> 下载个人简历 </button> ',
+                            '<button type="button" class="btn btn-warning" onclick="downloadStudentResume1(this)"> 下载个人简历 </button> ',
+                            '<button type="button" class="btn btn-error" onclick="deleteStudent(this)"> 删除 </button> '
                         ].join('');
                     }
                 }
@@ -119,18 +122,19 @@
                     }
                 },
                 { data: "name" },
-                { data: "sex" },
+                { data: "gender" },
                 { data: "age" },
-                { data: "direction" },
-                { data: "working" },
-                { data: "school" },
-                { data: "major" },
+                { data: "majorId" },
+                { data: "onTheJob" },
+                { data: "graSchool" },
+                { data: "graMajor" },
                 { data: "email" },
                 {
                     data: function (row, type, set, meta) {
                         return [
                             '<button type="button" class="btn btn-info" onclick="viewStudentInfo2(this)"> 查看学生信息 </button> ',
-                            '<button type="button" class="btn btn-success" onclick="downloadStudentResume2(this)"> 下载个人简历 </button> ',
+                            '<button type="button" class="btn btn-warning" onclick="downloadStudentResume2(this)"> 下载个人简历 </button> ',
+                            '<button type="button" class="btn btn-success" onclick="chooseStudent(this)"> 选择 </button> '
                         ].join('');
                     }
                 }
@@ -167,6 +171,18 @@
             var tr = $(btn).closest('tr');
             var row = haveChosenTable.row(tr).data();
             alert("下载学生" + row.name + "的简历");
+        }
+        //删除已经选择学生
+        function deleteStudent(btn) {
+            var tr = $(btn).closest('tr');
+            var row = haveChosenTable.row(tr).data();
+            alert("删除学生" + row.name);
+        }
+        //选择学生
+        function chooseStudent(btn) {
+            var tr = $(btn).closest('tr');
+            var row = firstChoiceTable.row(tr).data();
+            alert("选择学生" + row.name);
         }
     </script>
 
