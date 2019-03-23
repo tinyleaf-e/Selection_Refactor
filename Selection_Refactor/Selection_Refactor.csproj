@@ -182,6 +182,7 @@
     <Content Include="Content\css\AdminLTE.min.css" />
     <Content Include="Content\css\pages\professor.css" />
     <Content Include="Content\js\changePasswd.js" />
+    <Content Include="Content\js\jquery.cookie.js" />
     <Content Include="Content\plugins\fileinput\css\fileinput.min.css" />
     <Content Include="Content\css\global.css" />
     <Content Include="Content\css\pages\login.css" />

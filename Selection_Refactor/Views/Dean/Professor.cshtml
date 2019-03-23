@@ -27,6 +27,7 @@
     <script src="~/Content/plugins/datatables.net/js/jquery.dataTables.js"></script>
     <script src="~/Content/plugins/datatables.net-bs/js/dataTables.bootstrap.js"></script>
     <script src="~/Content/js/gy-alert.js"></script>
+    <script src="~/Content/js/jquery.cookie.js"></script>
     <script>
 
         $('#professorTable').DataTable({
@@ -49,19 +50,17 @@
                 }
             ]
         });
-    </script>
-    <script>
-        //$("body").on("click","#info", function(){
-        //    var v = $(this).parents('tr').children('td').get(1).innerHTML
-        //    alert(v)
-        //    location.href="/Dean/ProfessorInfo"
-        //})
 
-        $("#professorTable").on("click","#info", function () {
+        $("#professorTable").on("click", "#info", function () {
             var table = $('#professorTable').DataTable();
-            var t = $(this).closest('tr')
-            var row = table.row(t).data()
-            alert(row.ProName)
+            var choosetr = $(this).closest('tr')
+            var chooserow = table.row(choosetr).data()
+            var data = {
+                name: chooserow.ProName,
+                title: chooserow.ProTitle
+            }
+            $.cookie('data', JSON.stringify(data));
+            location.href = "/Dean/ProfessorInfo"
         })
     </script>
 
