@@ -4,27 +4,27 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Selection_Refactor.Models.Entity
 {
-    [Table("teacherQuota")]
-    public class TeacherQuota
+    [Table("professorQuota")]
+    public class ProfessorQuota
     {
         [Required]
         [Key]
-        public string teacherId { get; set; } //教师工号
+        public string professorId { get; set; } //教师工号
         public string yearId { get; set; } //年份
         public int quota { get; set; } //招生额度
         public string remark { get; set; } //备注信息
     }
-    public class TeacherQuotaDBContext : DbContext
+    public class ProfessorQuotaDBContext : DbContext
     {
-        public TeacherQuotaDBContext() : base("DefaultConnection") { }
+        public ProfessorQuotaDBContext() : base("DefaultConnection") { }
 
-        public DbSet<TeacherQuota> teacherQuotas { get; set; }
+        public DbSet<ProfessorQuota> professorQuotas { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<TeacherQuota>().HasKey(t => new { t.teacherId }); //重写主键
+            modelBuilder.Entity<ProfessorQuota>().HasKey(t => new { t.professorId }); //重写主键
         }
     }
 }

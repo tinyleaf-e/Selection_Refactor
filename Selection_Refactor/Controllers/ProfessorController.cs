@@ -10,11 +10,8 @@ using Selection_Refactor.Util;
 
 namespace Selection_Refactor.Controllers
 {
-    public class AdminController : Controller
+    public class ProfessorController : Controller
     {
-        //public string getProfessors
-        //{
-            
-        //}
+
     }
 }

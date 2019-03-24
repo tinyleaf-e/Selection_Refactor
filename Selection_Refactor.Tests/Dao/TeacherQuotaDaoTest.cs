@@ -9,75 +9,75 @@ using System.Collections.Generic;
 namespace Selection_Refactor.Tests.Dao
 {
     [TestClass]
-    public class TeacherQuotaDaoTest
+    public class ProfessorQuotaDaoTest
     {
         [TestMethod]
-        public void TestMethod_AddTeacherQuota()
+        public void TestMethod_AddProfessorQuota()
         {
-            TeacherQuotaDao teacherQuotaDao = new TeacherQuotaDao();
-            TeacherQuota teacherQuota = new TeacherQuota();
-            teacherQuota.teacherId = "zzw16211094";
-            teacherQuota.quota = 10;
-            teacherQuota.yearId = "2018";
-            teacherQuota.remark = "test";
-            int result2 = teacherQuotaDao.addTeacherQuota(teacherQuota);
+            ProfessorQuotaDao professorQuotaDao = new ProfessorQuotaDao();
+            ProfessorQuota professorQuota = new ProfessorQuota();
+            professorQuota.professorId = "zzw16211094";
+            professorQuota.quota = 10;
+            professorQuota.yearId = "2018";
+            professorQuota.remark = "test";
+            int result2 = professorQuotaDao.addProfessorQuota(professorQuota);
             Assert.AreEqual(1, result2);
 
-            teacherQuota.teacherId = "jyf16211084";
-            teacherQuota.quota = 10;
-            teacherQuota.yearId = "2019";
-            teacherQuota.remark = "test";
-            int result3 = teacherQuotaDao.addTeacherQuota(teacherQuota);
+            professorQuota.professorId = "jyf16211084";
+            professorQuota.quota = 10;
+            professorQuota.yearId = "2019";
+            professorQuota.remark = "test";
+            int result3 = professorQuotaDao.addProfessorQuota(professorQuota);
 
-            teacherQuota.teacherId = "xzy16211083";
-            teacherQuota.quota = 10;
-            teacherQuota.yearId = "2019";
-            teacherQuota.remark = "test";
-            int result4 = teacherQuotaDao.addTeacherQuota(teacherQuota);
+            professorQuota.professorId = "xzy16211083";
+            professorQuota.quota = 10;
+            professorQuota.yearId = "2019";
+            professorQuota.remark = "test";
+            int result4 = professorQuotaDao.addProfessorQuota(professorQuota);
 
-            teacherQuota.teacherId = "zzw16211094";
-            teacherQuota.quota = 10;
-            teacherQuota.yearId = "2019";
-            teacherQuota.remark = "test";
-            int result5 = teacherQuotaDao.addTeacherQuota(teacherQuota);
+            professorQuota.professorId = "zzw16211094";
+            professorQuota.quota = 10;
+            professorQuota.yearId = "2019";
+            professorQuota.remark = "test";
+            int result5 = professorQuotaDao.addProfessorQuota(professorQuota);
         }
         [TestMethod]
-        public void TestMethod_GetTeacherQuotaById()
+        public void TestMethod_GetProfessorQuotaById()
         {
-            TeacherQuotaDao teacherQuotaDao = new TeacherQuotaDao();
-            TeacherQuota teacherQuota = new TeacherQuota();
-            teacherQuota = teacherQuotaDao.getTeacherQuotaById("zzw16211094");
-            Assert.AreEqual(teacherQuota.teacherId, "zzw16211094");
+            ProfessorQuotaDao professorQuotaDao = new ProfessorQuotaDao();
+            ProfessorQuota professorQuota = new ProfessorQuota();
+            professorQuota = professorQuotaDao.getProfessorQuotaById("zzw16211094");
+            Assert.AreEqual(professorQuota.professorId, "zzw16211094");
         }
         [TestMethod]
         public void TestMethod_ListByYearId()
         {
-            TeacherQuotaDao teacherQuotaDao = new TeacherQuotaDao();
-            TeacherQuota teacherQuota = new TeacherQuota();
-            List<TeacherQuota> list = teacherQuotaDao.listByYearId("2019");
-            foreach (TeacherQuota teacherQuota1 in list)
+            ProfessorQuotaDao professorQuotaDao = new ProfessorQuotaDao();
+            ProfessorQuota professorQuota = new ProfessorQuota();
+            List<ProfessorQuota> list = professorQuotaDao.listByYearId("2019");
+            foreach (ProfessorQuota professorQuota1 in list)
             {
-                Console.WriteLine(teacherQuota1.teacherId);
+                Console.WriteLine(professorQuota1.professorId);
             }
             Console.WriteLine("right");
         }
         [TestMethod]
-        public void TestMethod_UpdateTeacherQuota()
+        public void TestMethod_UpdateProfessorQuota()
         {
-            TeacherQuotaDao teacherQuotaDao = new TeacherQuotaDao();
-            teacherQuotaDao.updateTeacherQuota("zzw16211094", "2018", 15, "new_remark");
+            ProfessorQuotaDao professorQuotaDao = new ProfessorQuotaDao();
+            professorQuotaDao.updateProfessorQuota("zzw16211094", "2018", 15, "new_remark");
         }
         [TestMethod]
-        public void TestMethod_DeleteTeacherQuotaById()
+        public void TestMethod_DeleteProfessorQuotaById()
         {
-            TeacherQuotaDao teacherQuotaDao = new TeacherQuotaDao();
-            teacherQuotaDao.deleteTeacherQuotaByIdAndYearId("zzw16211094","2018");
+            ProfessorQuotaDao professorQuotaDao = new ProfessorQuotaDao();
+            professorQuotaDao.deleteProfessorQuotaByIdAndYearId("zzw16211094","2018");
         }
         [TestMethod]
-        public void TestMethod_ChangeQuotaByTeacherIdAndYeaId()
+        public void TestMethod_ChangeQuotaByProfessorIdAndYeaId()
         {
-            TeacherQuotaDao teacherQuotaDao = new TeacherQuotaDao();
-            teacherQuotaDao.changeQuotaByTeacherIdAndYeaId("zzw16211094", "2019", 25);
+            ProfessorQuotaDao professorQuotaDao = new ProfessorQuotaDao();
+            professorQuotaDao.changeQuotaByProfessorIdAndYeaId("zzw16211094", "2019", 25);
         }
     }
 
