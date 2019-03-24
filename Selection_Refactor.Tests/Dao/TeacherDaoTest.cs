@@ -9,87 +9,87 @@ using System.Collections.Generic;
 namespace Selection_Refactor.Tests.Dao
 {
     [TestClass]
-    public class TeacherDaoTest
+    public class ProfessorDaoTest
     {
         [TestMethod]
-        public void TestMethod_AddTeacher()
+        public void TestMethod_AddProfessor()
         {
-            TeacherDao teacherDao = new TeacherDao();
-            Teacher teacher_1 = new Teacher();
-            teacher_1.id = "zzw16211094";
-            teacher_1.name = "zzw";
-            teacher_1.password = "123456";
-            teacher_1.remark = "test";
-            teacher_1.infoURL = "oldinfo";
-            teacher_1.title = "software";
-            int result2 = teacherDao.addTeacher(teacher_1);
+            ProfessorDao professorDao = new ProfessorDao();
+            Professor professor_1 = new Professor();
+            professor_1.id = "zzw16211094";
+            professor_1.name = "zzw";
+            professor_1.password = "123456";
+            professor_1.remark = "test";
+            professor_1.infoURL = "oldinfo";
+            professor_1.title = "software";
+            int result2 = professorDao.addProfessor(professor_1);
             Assert.AreEqual(1, result2);
 
-            Teacher teacher_2 = new Teacher();
-            teacher_2.id = "jyf16211084";
-            teacher_2.name = "jyf";
-            teacher_2.password = "123456";
-            teacher_2.remark = "test";
-            teacher_2.infoURL = "oldinfo";
-            teacher_2.title = "software";
-            int result3 = teacherDao.addTeacher(teacher_2);
+            Professor professor_2 = new Professor();
+            professor_2.id = "jyf16211084";
+            professor_2.name = "jyf";
+            professor_2.password = "123456";
+            professor_2.remark = "test";
+            professor_2.infoURL = "oldinfo";
+            professor_2.title = "software";
+            int result3 = professorDao.addProfessor(professor_2);
 
-            Teacher teacher_3 = new Teacher();
-            teacher_3.id = "xzy16211083";
-            teacher_3.name = "xzy";
-            teacher_3.password = "123456";
-            teacher_3.remark = "test";
-            teacher_3.infoURL = "oldinfo";
-            teacher_3.title = "software";
-            int result4 = teacherDao.addTeacher(teacher_3);
+            Professor professor_3 = new Professor();
+            professor_3.id = "xzy16211083";
+            professor_3.name = "xzy";
+            professor_3.password = "123456";
+            professor_3.remark = "test";
+            professor_3.infoURL = "oldinfo";
+            professor_3.title = "software";
+            int result4 = professorDao.addProfessor(professor_3);
         }
         [TestMethod]
-        public void TestMethod_GetTeacherById()
+        public void TestMethod_GetProfessorById()
         {
-            TeacherDao teacherDao = new TeacherDao();
-            Teacher teacher_2 = new Teacher();
-            teacher_2 = teacherDao.getTeacherById("zzw16211094");
-            Console.WriteLine(teacher_2.id);
+            ProfessorDao professorDao = new ProfessorDao();
+            Professor professor_2 = new Professor();
+            professor_2 = professorDao.getProfessorById("zzw16211094");
+            Console.WriteLine(professor_2.id);
         }
         [TestMethod]
-        public void TestMethod_ListAllTeacher()
+        public void TestMethod_ListAllProfessor()
         {
-            TeacherDao teacherDao = new TeacherDao();
-            Teacher teacher_2 = new Teacher();
-            List<Teacher> list = teacherDao.listAllTeacher();
-            foreach(Teacher teacher in list)
+            ProfessorDao professorDao = new ProfessorDao();
+            Professor professor_2 = new Professor();
+            List<Professor> list = professorDao.listAllProfessor();
+            foreach(Professor professor in list)
             {
-                Console.WriteLine(teacher.id);
+                Console.WriteLine(professor.id);
             }
             Console.WriteLine("right");
         }
         [TestMethod]
-        public void TestMethod_UpdateTeacher()
+        public void TestMethod_UpdateProfessor()
         {
-            TeacherDao teacherDao = new TeacherDao();
-            bool isRight = teacherDao.updateTeacher("zzw16211094", "new_zzw", "new_title", "new_info", "new_remark");
+            ProfessorDao professorDao = new ProfessorDao();
+            bool isRight = professorDao.updateProfessor("zzw16211094", "new_zzw", "new_title", "new_info", "new_remark");
             Console.WriteLine(isRight);
         }
         [TestMethod]
-        public void TestMethod_DeleteTeacherById()
+        public void TestMethod_DeleteProfessorById()
         {
-            TeacherDao teacherDao = new TeacherDao();
-            int isRight = teacherDao.deleteTeacherById("zzw16211094");
+            ProfessorDao professorDao = new ProfessorDao();
+            int isRight = professorDao.deleteProfessorById("zzw16211094");
             Console.WriteLine(isRight);
             
         }
         [TestMethod]
-        public void TestMethod_DeleteTeacherByIds()
+        public void TestMethod_DeleteProfessorByIds()
         {
             string[] ids = { "xzy16211083", "jyf16211084" };
-            TeacherDao teacherDao = new TeacherDao();
-            teacherDao.deleteTeacherByIds(ids);
+            ProfessorDao professorDao = new ProfessorDao();
+            professorDao.deleteProfessorByIds(ids);
         }
         [TestMethod]
         public void TestMethod_ChangePasswordById()
         {
-            TeacherDao teacherDao = new TeacherDao();
-            teacherDao.changePasswordById("zzw16211094","newPassword");
+            ProfessorDao professorDao = new ProfessorDao();
+            professorDao.changePasswordById("zzw16211094","newPassword");
         }
     }
 
