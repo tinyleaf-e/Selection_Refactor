@@ -17,6 +17,8 @@ namespace Selection_Refactor.Models.Entity
         [Display(Name ="密码")]
         public string password { set; get; } //加密后的密码
 
+        public string yearId { set; get; } //入学年份
+
         public bool gender { get; set; } //性别
 
         public int age { get; set; } //年龄
@@ -52,7 +54,7 @@ namespace Selection_Refactor.Models.Entity
 
         public string remark { set; get; } //备注信息
 
-        public string yearId { set; get; } //入学年份
+        
     }
 
     public class StudentDBContext : DbContext
