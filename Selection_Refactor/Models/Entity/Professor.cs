@@ -4,8 +4,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Selection_Refactor.Models.Entity
 {
-    [Table("teacher")]
-    public class Teacher
+    [Table("professor")]
+    public class Professor
     {
         [Required]
         [Key]
@@ -16,17 +16,17 @@ namespace Selection_Refactor.Models.Entity
         public string infoURL { get; set; } //教师简介链接
         public string remark { get; set; } //备注信息
     }
-    public class TeacherDBContext : DbContext
+    public class ProfessorDBContext : DbContext
     {
-        public TeacherDBContext() : base("DefaultConnection") { }
-        //public TeacherDBContext() : base("DefaultConnection_online") { } 
-        public DbSet<Teacher> teachers { get; set; }
+        public ProfessorDBContext() : base("DefaultConnection") { }
+        //public ProfessorDBContext() : base("DefaultConnection_online") { } 
+        public DbSet<Professor> professors { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Teacher>().HasKey(t => new { t.id }); //重写主键
+            modelBuilder.Entity<Professor>().HasKey(t => new { t.id }); //重写主键
         }
     }
 }
