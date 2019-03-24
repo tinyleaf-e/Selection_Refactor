@@ -20,32 +20,59 @@ namespace Selection_Refactor.Controllers
             return View();
         }
 
+
+        /*
+         * Create By 付文欣
+         * 用户的登录，所有角色共用这一个登录接口
+         * 参数：用户名、密码、角色（1学生，2导师，3教务，4管理员）;
+         * 返回值：登录成功时返回success:跳转链接
+                  登录失败时返回fail:失败原因
+         */
         [HttpPost]
-        public string doLogin(string userId,string passwd)
+        public string doLogin(string userId,string passwd,int role)
         {
-            //TODO By 高晔 下边登录目前只是方便开发，后期要改
-            if (userId == "student" && CryptoUtil.Md5Hash(passwd) == CryptoUtil.Md5Hash("student"))
+            string retStr = "登录失败，用户不存在或密码错误";
+            switch (role)
             {
-                Response.Cookies.Add(createCookie(userId,passwd,"student",24*60));
-                return "success:/Student/Profile";
+                case 1:
+                    StudentDao studentDao = new StudentDao();
+                    Student student = studentDao.getStudentById(userId);
+                    if (student != null && CryptoUtil.Md5Hash(passwd) == CryptoUtil.Md5Hash(student.password))
+                    {
+                        Response.Cookies.Add(createCookie(userId, passwd, "student", 24 * 60));
+                        retStr = "success:/Student/Profile";
+                    }
+                    break;
+                case 2:
+                    if (CryptoUtil.Md5Hash(passwd) == CryptoUtil.Md5Hash())
+                    {
+                        Response.Cookies.Add(createCookie(userId, passwd, "dean", 24 * 60));
+                        retStr = "success:/Dean/Professor";
+                    }
+                        
+                    break;
+                case 3:
+                    DeanDao deanDao = new DeanDao();
+                    Dean dean = deanDao.getDeanById(userId);
+                    if (dean != null && CryptoUtil.Md5Hash(passwd) == CryptoUtil.Md5Hash(dean.password))
+                    {
+                        Response.Cookies.Add(createCookie(userId, passwd, "admin", 24 * 60));
+                        retStr = "success:/Student/Profile";
+                    }
+                    break;
+                case 4:
+                    AdminDao adminDao = new AdminDao();
+                    Admin admin = adminDao.getAdminById(userId);
+                    if (admin != null && CryptoUtil.Md5Hash(passwd) == CryptoUtil.Md5Hash(admin.password))
+                    {
+                        Response.Cookies.Add(createCookie(userId, passwd, "professor", 24 * 60));
+                        retStr = "success:/Student/Profile";
+                    }
+                    break;
+                default:
+                    break;
             }
-            else if (userId == "dean" && CryptoUtil.Md5Hash(passwd) == CryptoUtil.Md5Hash("dean"))
-            {
-                Response.Cookies.Add(createCookie(userId, passwd, "dean", 24 * 60));
-                return "success:/Dean/Professor";
-            } 
-            else if (userId == "admin" && CryptoUtil.Md5Hash(passwd) == CryptoUtil.Md5Hash("admin"))
-            {
-                Response.Cookies.Add(createCookie(userId, passwd, "admin", 24 * 60));
-                return "success:/Student/Profile";
-            }
-            else if (userId == "professor" && CryptoUtil.Md5Hash(passwd) == CryptoUtil.Md5Hash("professor"))
-            {
-                Response.Cookies.Add(createCookie(userId, passwd, "professor", 24 * 60));
-                return "success:/Student/Profile";
-            }
-            else
-                return "登录失败，用户不存在或密码错误";
+            return retStr;
         }
 
 
