@@ -44,7 +44,7 @@ namespace Selection_Refactor.Controllers
                     }
                     break;
                 case 2:
-                    if (CryptoUtil.Md5Hash(passwd) == CryptoUtil.Md5Hash())
+                    if (CryptoUtil.Md5Hash(passwd) == CryptoUtil.Md5Hash(""))
                     {
                         Response.Cookies.Add(createCookie(userId, passwd, "dean", 24 * 60));
                         retStr = "success:/Dean/Professor";

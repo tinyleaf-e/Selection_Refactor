@@ -10,7 +10,11 @@
     @Styles.Render("~/css/AdminLTE")
     @Scripts.Render("~/bundles/jquery")
     @RenderSection("css", required: false)
-
+    @{
+        Selection_Refactor.Models.Dao.SettingDao settingDao = new Selection_Refactor.Models.Dao.SettingDao();
+        ViewBag.Stage = 1;
+        //ViewBag.Stage = settingDao.getCurrentStage();
+    }
 
 
 </head>
