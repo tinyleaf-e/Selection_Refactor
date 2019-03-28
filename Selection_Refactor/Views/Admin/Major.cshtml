@@ -1,0 +1,196 @@
+﻿@{
+    ViewBag.Title = "专业管理";
+    ViewBag.CurrentTab = "major";
+    ViewBag.BoxTitle = "专业列表";
+    ViewBag.Role = "Admin";
+}
+@section css{
+    <link href="~/Content/plugins/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/plugins/fileinput/css/fileinput.min.css" rel="stylesheet" />
+}
+
+<div id="page-wrapper">
+    <div style="padding:0 0 5px 15px" class="form-inline">
+        <button id="add-major" class="btn btn-default" style="margin-right:20px"><i class="fa fa-plus"> 新增专业</i></button>
+    </div>
+    <div class="box-body">
+        <div id="major-table-div" class="dataTables_wrapper form-inline dt-bootstrap">
+            <div class="row">
+                <div class="col-sm-12">
+                    <table id="major-table" class="table table-bordered table-striped dataTable">
+                        <thead>
+                            <tr role="row">
+                                <th style="width: 55px;">序号</th>
+                                <th style="width: 55px;">专业名称</th>
+                                <th style="width: 55px;">操作</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div style="clear:both">
+
+    <!-- /. ROW  -->
+</div>
+<!-- /. PAGE INNER  -->
+<!-- /. PAGE WRAPPER  -->
+
+<!-- /. WRAPPER  -->
+<!-- JS Scripts-->
+<!-- jQuery Js -->
+<!-- DataTables -->
+<script src="~/Content/plugins/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="~/Content/plugins/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+<script src="~/Content/plugins/fileinput/js/fileinput.min.js"></script>
+<script src="~/Content/plugins/fileinput/js/zh.js"></script>
+<script>
+    var table = $('#major-table').DataTable({
+        ajax: {
+            url: 'https://www.easy-mock.com/mock/5c8368e622c6e01a284aae50/selection-mock/getMajor',
+            dataSrc: 'data'
+        },
+        "columns": [
+            {
+                data: function (row, type, set, meta) {
+                    return meta.row + 1;
+                }
+            },
+            { data: "name" },
+            {
+                data: function (row, type, set, meta) {
+                    return [
+                        '<button type="button" class="btn btn-info" onclick="editMajor(this)">修改</button> ',
+                        '<button type="button" class="btn btn-success" onclick="deleteMajor(this)">删除</button> '
+                    ].join('');
+                }
+            },
+        ]
+    });
+
+    function deleteMajor(btn) {
+        var tr = $(btn).closest('tr');
+        var row = table.row(tr).data();
+        $.gyAlert({
+            contentText: "确认删除该专业?",
+            confirm: function () {
+                var data = {
+                    userId: btn.majorId
+                };
+                $.post("/Admin/deleteMajorById", data, function (rdata) {
+                    if (rdata == "success") {
+                        table.ajax.reload();
+                        $.gyAlert({
+                            title: "删除成功",
+                            contentText: "您已成功删除该专业"
+                        });
+                    }
+                    else
+                        $.gyAlert({
+                            title: "删除失败",
+                            contentText: rdata.substring(5),
+                            cancelButton: false
+                        });
+                });
+            },
+            cancelButtonText: "取 消"
+        });
+    }
+
+    function editMajor(btn) {
+        var tr = $(btn).closest('tr');
+        var row = table.row(tr).data();
+        $.gyAlert({
+            title: "编辑专业",
+            contentHtml: '<input id="edit-major-input" class="form-control" placeholder="请输入专业名称" value="'+row.name+'" />',
+            missAfterClick: false,
+            confirm: function (theModal) {
+                var editMajorInput = theModal.find(".modal-body").find("input#new-major-input");
+                if (editMajorInput.val().trim() == "") {
+                    return;
+                }
+                var data = {
+                    id:row.id,
+                    name: editMajorInput.val()
+                };
+                $.post("/Admin/editMajor", data, function (rdata) {
+                    if (rdata == "success") {
+                        theModal.modal('hide');
+                        setTimeout(function () {
+                            dialog.remove();
+                        }, 1000);
+                        table.ajax.reload();
+                        $.gyAlert({
+                            title: "修改成功",
+                            contentText: "您已成功修改该专业"
+                        });
+                    }
+                    else {
+                        theModal.modal('hide');
+                        setTimeout(function () {
+                            dialog.remove();
+                        }, 1000);
+                        $.gyAlert({
+                            title: "修改失败",
+                            contentText: rdata.substring(5),
+                            cancelButton: false
+                        });
+                    }
+                        
+                });
+            },
+            cancelButtonText: "取 消"
+        });
+    }
+
+
+    $("#add-major").click(function () {
+        $.gyAlert({
+            title:"添加专业",
+            contentHtml: '<input id="new-major-input" class="form-control" placeholder="请输入专业名称" />',
+            missAfterClick: false,
+            confirm: function (theModal) {
+                var newMajorInput = theModal.find(".modal-body").find("input#new-major-input");
+                if (newMajorInput.val().trim() == "") {
+                    return;
+                }
+                var data = {
+                    name: newMajorInput.val()
+                };
+                $.post("/Admin/addMajor", data, function (rdata) {
+                    if (rdata == "success") {
+                        theModal.modal('hide');
+                        setTimeout(function () {
+                            dialog.remove();
+                        }, 1000);
+                        table.ajax.reload();
+                        $.gyAlert({
+                            title: "添加成功",
+                            contentText: "您已成功添加该专业"
+                        });
+                    }
+                    else {
+
+                        theModal.modal('hide');
+                        setTimeout(function () {
+                            dialog.remove();
+                        }, 1000);
+                        $.gyAlert({
+                            title: "添加失败",
+                            contentText: rdata.substring(5),
+                            cancelButton: false
+                        });
+                    }
+                });
+            },
+            cancelButtonText: "取 消"
+        });
+    });
+    
+    
+
+   
+</script>

@@ -25,5 +25,9 @@ namespace Selection_Refactor.Controllers
         {
             return View();
         }
+        public ActionResult Major()
+        {
+            return View();
+        }
     }
 }
