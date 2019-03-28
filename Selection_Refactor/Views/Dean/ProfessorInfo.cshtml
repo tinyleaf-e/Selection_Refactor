@@ -30,7 +30,7 @@
                     </li>
                     <li class="list-group-item">
                         <b>现在招生数</b>
-                        <p class="pull-right" id="ProAmount"></p>
+                        <p class="pull-right" id="StuAmount"></p>
                     </li>
                     <li class="list-group-item">
                         <b>介绍页面</b>
@@ -72,15 +72,15 @@
     <script>
         $('#studentTable').DataTable({
             ajax: {
-                url: ' https://www.easy-mock.com/mock/5c83336fe0e0f75c246237db/example/mock',
+                url: 'https://www.easy-mock.com/mock/5c96bc9d195f475394b7fb54/select/selectedstu',
                 dataSrc: 'data'
             },
             "columns": [
-                { data: "StuID" },
-                { data: "StuName" },
-                { data: "StuInfoChecked" },
-                { data: "StuWillChecked" },
-                { data: "StuFinalWill" },
+                { data: "id" },
+                { data: "name" },
+                { data: "gender" },
+                { data: "gramajor" },
+                { data: "graschool" },
             ]
         });
         $(function () {
@@ -88,7 +88,9 @@
             var m = JSON.parse(data);
             console.log(m.name)
             $('#ProName').html(m.name);
-            $('#ProTitle').html(m.title)
+            $('#ProTitle').html(m.title);
+            $('#ProId').html(m.id);
+            $('#StuAmount').html(m.studentamount);
         })
 
     </script>
