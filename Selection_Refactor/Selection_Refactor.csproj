@@ -181,9 +181,28 @@
     <Content Include="Content\css\AdminLTE.css" />
     <Content Include="Content\css\AdminLTE.min.css" />
     <Content Include="Content\css\pages\professor.css" />
+    <Content Include="Content\image\arrow-down-placeholder.png" />
+    <Content Include="Content\image\arrow-down.png" />
     <Content Include="Content\image\logo.png" />
     <Content Include="Content\js\changePasswd.js" />
     <Content Include="Content\js\jquery.cookie.js" />
+    <Content Include="Content\plugins\bootstrap-switch\css\bootstrap-switch.css" />
+    <Content Include="Content\plugins\bootstrap-switch\css\bootstrap-switch.min.css" />
+    <Content Include="Content\plugins\bootstrap-switch\docs\404.html" />
+    <Content Include="Content\plugins\bootstrap-switch\docs\css\highlight.css" />
+    <Content Include="Content\plugins\bootstrap-switch\docs\css\main.css" />
+    <Content Include="Content\plugins\bootstrap-switch\docs\documentation-2.html" />
+    <Content Include="Content\plugins\bootstrap-switch\docs\events.html" />
+    <Content Include="Content\plugins\bootstrap-switch\docs\examples.html" />
+    <Content Include="Content\plugins\bootstrap-switch\docs\index.html" />
+    <Content Include="Content\plugins\bootstrap-switch\docs\js\highlight.js" />
+    <Content Include="Content\plugins\bootstrap-switch\docs\js\main.js" />
+    <Content Include="Content\plugins\bootstrap-switch\docs\methods.html" />
+    <Content Include="Content\plugins\bootstrap-switch\docs\options.html" />
+    <Content Include="Content\plugins\bootstrap-switch\js\bootstrap-switch.js" />
+    <Content Include="Content\plugins\bootstrap-switch\js\bootstrap-switch.min.js" />
+    <Content Include="Content\plugins\datetimepicker\css\bootstrap-datetimepicker.css" />
+    <Content Include="Content\plugins\datetimepicker\js\bootstrap-datetimepicker.js" />
     <Content Include="Content\plugins\fileinput\css\fileinput.min.css" />
     <Content Include="Content\css\global.css" />
     <Content Include="Content\css\pages\login.css" />
@@ -217,6 +236,10 @@
     <Content Include="Content\plugins\font-awesome\fonts\fontawesome-webfont.svg" />
     <Content Include="Content\plugins\font-awesome\HELP-US-OUT.txt" />
     <Content Include="Content\plugins\jquery-slimscroll\js\jquery.slimscroll.min.js" />
+    <Content Include="Content\plugins\jquery-ui\css\jquery-ui.css" />
+    <Content Include="Content\plugins\jquery-ui\css\jquery-ui.min.css" />
+    <Content Include="Content\plugins\jquery-ui\js\jquery-ui.js" />
+    <Content Include="Content\plugins\jquery-ui\js\jquery-ui.min.js" />
     <Content Include="Content\plugins\modernizr-2.8.3\js\modernizr-2.8.3.js" />
     <Content Include="favicon.ico" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
@@ -296,6 +319,7 @@
     <Content Include="Content\plugins\bootstrap-3.3.7\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="Content\plugins\bootstrap-3.3.7\fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="Content\plugins\datatables.net\Chinese.json" />
+    <Content Include="Content\plugins\bootstrap-switch\docs\CNAME" />
     <None Include="packages.config" />
     <Content Include="Views\Security\Login.cshtml" />
     <Content Include="Views\Student\Profile.cshtml" />
@@ -318,6 +342,7 @@
     <Content Include="Views\Admin\Student.cshtml" />
     <Content Include="Views\Dean\ProfessorInfo.cshtml" />
     <Content Include="Views\Dean\StudentInfo.cshtml" />
+    <Content Include="Views\Admin\Setting.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
