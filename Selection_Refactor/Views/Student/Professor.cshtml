@@ -6,29 +6,33 @@
 }
 
 @section css{
+
+    <link href="~/Content/plugins/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet" />
     <style>
         .callout-gray {
             border-color: #4db6d0;
-            background: #5fd7f5!important;
-            z-index:100
+            background: rgb(229, 249, 253) !important;
+            z-index: 100;
+            margin-left: 15px;
+            margin-right:15px
         }
     </style>
-    }
+}
 
 <div id="select-group" class="callout callout-gray">
-        <label>第一志愿:</label>
-        <input id="first" readonly required class="send-text" style="margin-left:20px;margin-right:50px; height: 34px;border-radius:3px ;  border: 1px solid rgb(204,204,204) ;">
-        <label>第二志愿:</label>
-        <input id="second" readonly required class="send-text" style="margin-left:20px;margin-right:50px; height: 34px;border-radius:3px ;  border: 1px solid rgb(204,204,204) ;">
-        <button id="confirm" class="btn btn-success" style="right:auto;margin-left: 30px;">
-            确认提交
-        </button>
+    <label>第一志愿:</label>
+    <input id="first" readonly required class="send-text" style="margin-left:20px;margin-right:50px; height: 34px;border-radius:3px ;  border: 1px solid rgb(204,204,204) ;">
+    <label>第二志愿:</label>
+    <input id="second" readonly required class="send-text" style="margin-left:20px;margin-right:50px; height: 34px;border-radius:3px ;  border: 1px solid rgb(204,204,204) ;">
+    <button id="confirm" class="btn btn-success" style="right:auto;margin-left: 30px;">
+        确认提交
+    </button>
 </div>
 
 
 
 <div class="col-md-12 col-sm-12 col-xs-12">
-    <table class="table table-bordered table-striped" id="professorTable">
+    <table class="table table-bordered table-striped dataTable" id="professorTable">
         <thead>
             <tr>
                 <th>序号</th>
@@ -52,12 +56,12 @@
             var oTop = $("#select-group").offset().top;
             var oLeft = $("#select-group").offset().left;
             var width = $("#select-group").outerWidth();
-            if ($("#select-group").css("position") == "fixed" && sTop < 154) {
+            if ($("#select-group").css("position") == "fixed" && sTop <= 154) {
                 $("#select-group").attr("style", '');
                 $("#professorTable_wrapper").css("padding-top", "0px");
             }
             if ($("#select-group").css("position") != "fixed" && sTop > 154) {
-                $("#select-group").attr("style", 'width:' + width + 'px;position: fixed;left:' + oLeft + 'px;top: 1px;');
+                $("#select-group").attr("style", 'width:' + width + 'px;position: fixed;left:' + oLeft + 'px;top: 1px;margin-left:0px');
                 $("#professorTable_wrapper").css("padding-top", "85px");
             }
         });
@@ -91,7 +95,14 @@
                         return "<button id='secondPro' class='btn btn-default' onclick='chooseSecondPro()'>选择</button>"
                     }
                 }
-            ]
+            ],
+            dom: "<'row'<'col-sm-12 col-md-6'i><'col-sm-12 col-md-6'f>>" +
+                "<'row'<'col-sm-12'tr>>" +
+                "<'row'<'col-sm-12 col-md-5'l><'col-sm-12 col-md-7'p>>",
+            language: {
+                url: "/Content/plugins/datatables.net/Chinese.json"
+            },
+            lengthMenu: [[ 10, 25, 50, -1], [ 10, 25, 50, "全部"]]
         });
 
         /*$(document).ready(function () {

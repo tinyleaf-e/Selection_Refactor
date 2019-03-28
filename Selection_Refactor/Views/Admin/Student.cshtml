@@ -96,7 +96,7 @@
                         </div>
                         <div class="column" style="float:left;padding-left:50px">
                             <label>专业</label>
-                            <input id="major-input" type="text" class="form-control" placeholder="" style="width:200px;">
+                            <select id="major-select" class="form-control" style="width:200px"></select>
                         </div>
                     </div>
                     <div class="row" style="width:45%;display:inline;vertical-align:baseline;padding-left:50px;">
@@ -200,6 +200,12 @@
     function resetpassword() {
         $("#reset-password-modal").modal('show')
     }
+
+    $.get("https://www.easy-mock.com/mock/5c8368e622c6e01a284aae50/selection-mock/getMajor", function (data) {
+        for (var i = 0; i < data.length;i++) {
+            $("#major-select").append('<option value="'+data[i].id+'">'+data[i].name+'</option>')
+        }
+    })
     
     var userType = 0;
     $(document).ready(function () {
@@ -222,7 +228,7 @@
                 'name': $("#name-input").val(),
                 'stunumber': $("#stunumber-input").val(),
                 'age': $("#age-input").val(),
-                'major': $("#major-input").val(),
+                'major': $("#major-select").val(),
                 'telephone': $("#telephone-input").val(),
                 'isworking': $("#isworking-input").val(),
                 'email': $("#email-input").val(),

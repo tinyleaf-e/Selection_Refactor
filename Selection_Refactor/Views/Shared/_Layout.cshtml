@@ -10,7 +10,11 @@
     @Styles.Render("~/css/AdminLTE")
     @Scripts.Render("~/bundles/jquery")
     @RenderSection("css", required: false)
-    @{ViewBag.Stage = 2; }
+    @{
+        ViewBag.Stage = 2;
+        ViewBag.UserName = "高晔";
+        ViewBag.UserId = "14211054";
+    }
 
 
 
@@ -39,15 +43,15 @@
                         <!-- User Account: style can be found in dropdown.less -->
                         <li class="dropdown user user-menu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <span class="hidden-xs">高晔</span>
+                                <span class="hidden-xs">@ViewBag.UserName</span>
                             </a>
                             <ul class="dropdown-menu">
                                 <!-- User image -->
                                 <li class="user-header">
 
                                     <p>
-                                        高晔
-                                        <small>14211054</small>
+                                        @ViewBag.UserName
+                                        <small>@ViewBag.UserId</small>
                                     </p>
                                 </li>
                                 <!-- Menu Footer-->
@@ -56,7 +60,7 @@
                                         <a href="#" class="btn btn-default btn-flat" onclick="changePasswd()">修改密码</a>
                                     </div>
                                     <div class="pull-right">
-                                        <a href="#" class="btn btn-default btn-flat">退出登录</a>
+                                        <a href="#" class="btn btn-default btn-flat" onclick="logout()">退出登录</a>
                                     </div>
                                 </li>
                             </ul>
@@ -185,7 +189,7 @@
             <!-- Content Header (Page header) -->
             <section class="content-header">
                 <h1>
-                    教师列表
+                    @ViewBag.BoxTitle
                 </h1>
             </section>
 
