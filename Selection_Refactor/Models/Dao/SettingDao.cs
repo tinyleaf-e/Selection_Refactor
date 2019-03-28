@@ -135,7 +135,7 @@ namespace Selection_Refactor.Models.Dao
         /*
          * Create By 高晔
          * 获取当前所处阶段
-         * 正常返回0-7，0代表系统未开放，1-7代表7个时间阶段，失败返回-1，异常返回-1
+         * 正常返回1-7，1-7代表7个时间阶段，失败返回-1，异常返回-1
          */
         public int getCurrentStage()
         {
@@ -171,9 +171,25 @@ namespace Selection_Refactor.Models.Dao
             }
             catch (Exception e)
             {
-                //throw e;
-                //LogUtil.writeLogToFile(e);
                 return -1;
+            }
+        }
+        /*
+         * Create By 高晔
+         * 获取当前所用的设置信息
+         * 正常返回一个Setting，异常返回null
+         */
+        public Setting getCurrentSetting()
+        {
+            try
+            {
+                SettingDBContext settingDBContext = new SettingDBContext();
+                Setting setting = settingDBContext.settings.First();
+                return setting;
+            }
+            catch (Exception e)
+            {
+                return null;
             }
         }
     }
