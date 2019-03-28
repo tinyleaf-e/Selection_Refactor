@@ -21,5 +21,9 @@ namespace Selection_Refactor.Controllers
         {
             return View();
         }
+        public ActionResult Setting()
+        {
+            return View();
+        }
     }
 }

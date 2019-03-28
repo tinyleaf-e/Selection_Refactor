@@ -21,16 +21,16 @@
 
         <header class="main-header">
             <!-- Logo -->
-            <a href="index2.html" class="logo">
+            <a href="/" class="logo" style="padding:0 10px;text-decoration:none">
                 <!-- mini logo for sidebar mini 50x50 pixels -->
-                <span class="logo-mini">北航</span>
+                <span class="logo-mini"><img src="~/Content/image/logo.png" height="36" /></span>
                 <!-- logo for regular state and mobile devices -->
-                <span class="logo-lg">北航软件学院双选系统</span>
+                <span class="logo-lg"><img src="~/Content/image/logo.png" height="36" /> 北航软院双选系统</span>
             </a>
             <!-- Header Navbar: style can be found in header.less -->
             <nav class="navbar navbar-static-top">
                 <!-- Sidebar toggle button-->
-                <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+                <a href="#" class="sidebar-toggle" style="text-decoration:none" data-toggle="push-menu" role="button">
                     <span class="sr-only">Toggle navigation</span>
                 </a>
 
@@ -139,16 +139,28 @@
                     case "Admin":
                     {
                         <li class="page-tab index" access-stage="1111111">
-                            <a href="/Admin/Index"><i class="fa fa-desktop"></i>教师信息</a>
+                            <a href="/Admin/Index">
+                                <i class="fa fa-desktop"></i>
+                                <span>教师信息</span>
+                            </a>
                         </li>
                         <li class="page-tab student" access-stage="1111111">
-                            <a href="/Admin/Student"><i class="fa fa-bar-chart-o"></i>学生信息</a>
+                            <a href="/Admin/Student">
+                                <i class="fa fa-bar-chart-o"></i>
+                                <span>学生信息</span>
+                            </a>
                         </li>
                         <li class="page-tab profile" access-stage="1111111">
-                            <a href="/Admin/Setting"><i class="fa fa-dashboard"></i>时间节点设置</a>
+                            <a href="/Admin/Setting">
+                                <i class="fa fa-dashboard"></i>
+                                <span>时间节点设置</span>
+                            </a>
                         </li>
                         <li class="page-tab jiaowu" access-stage="1111111">
-                            <a href="/Admin/JiaoWu"><i class="fa fa-qrcode"></i>教务教师信息</a>
+                            <a href="/Admin/JiaoWu">
+                                <i class="fa fa-qrcode"></i>
+                                <span>教务教师信息</span>
+                            </a>
                         </li>
                     }
                     break;
