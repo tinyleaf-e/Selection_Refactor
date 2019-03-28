@@ -5,25 +5,26 @@
     ViewBag.Role = "Student";
 }
 
-<div class="row">
-    <div class="col-sm-5">
-        <label>第一志愿</label>
-        <input id="first" readonly required class="send-text" style="margin-top: 10px; margin-left:20px; height: 34px;border-radius:3px ;  border: 1px solid rgb(204,204,204) ;">
-    </div>
-    <div class="col-sm-5">
-        <label>第二志愿</label>
-        <input id="second" readonly required class="send-text" style="margin-top: 10px; margin-left:20px; height: 34px;border-radius:3px ;  border: 1px solid rgb(204,204,204) ;">
-    </div>
-    <div class="col-sm-2">
-        <button id="confirm" class="btn btn-default" style="right:auto;margin-top: 10px;">
+@section css{
+    <style>
+        .callout-gray {
+            border-color: #4db6d0;
+            background: #5fd7f5!important;
+            z-index:100
+        }
+    </style>
+    }
+
+<div id="select-group" class="callout callout-gray">
+        <label>第一志愿:</label>
+        <input id="first" readonly required class="send-text" style="margin-left:20px;margin-right:50px; height: 34px;border-radius:3px ;  border: 1px solid rgb(204,204,204) ;">
+        <label>第二志愿:</label>
+        <input id="second" readonly required class="send-text" style="margin-left:20px;margin-right:50px; height: 34px;border-radius:3px ;  border: 1px solid rgb(204,204,204) ;">
+        <button id="confirm" class="btn btn-success" style="right:auto;margin-left: 30px;">
             确认提交
         </button>
-    </div>
 </div>
 
-@section css{
-    <link rel="stylesheet" type="text/css" href="~/Content/plugins/datatables.net-bs/css/dataTables.bootstrap.css" />
-}
 
 
 <div class="col-md-12 col-sm-12 col-xs-12">
@@ -46,6 +47,21 @@
     <script src="~/Content/plugins/datatables.net/js/jquery.dataTables.js"></script>
     <script src="~/Content/plugins/datatables.net-bs/js/dataTables.bootstrap.js"></script>
     <script>
+        $(window).scroll(function () {
+            var sTop = $(this).scrollTop();
+            var oTop = $("#select-group").offset().top;
+            var oLeft = $("#select-group").offset().left;
+            var width = $("#select-group").outerWidth();
+            if ($("#select-group").css("position") == "fixed" && sTop < 154) {
+                $("#select-group").attr("style", '');
+                $("#professorTable_wrapper").css("padding-top", "0px");
+            }
+            if ($("#select-group").css("position") != "fixed" && sTop > 154) {
+                $("#select-group").attr("style", 'width:' + width + 'px;position: fixed;left:' + oLeft + 'px;top: 1px;');
+                $("#professorTable_wrapper").css("padding-top", "85px");
+            }
+        });
+
 
         $('#professorTable').DataTable({
             ajax: {
