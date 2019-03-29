@@ -22,9 +22,6 @@
             </table>
         </div>
         <div style="clear:both"></div>
-<div>
-    <button onclick="changePasswd()"></button>
-</div>
 
 @section script{
     <script src="~/Content/plugins/datatables.net/js/jquery.dataTables.js"></script>
@@ -35,7 +32,7 @@
 
         $('#professorTable').DataTable({
             ajax: {
-                url: ' https://www.easy-mock.com/mock/5c8324b3e0e0f75c24623747/selection/getPro',
+                url: ' https://www.easy-mock.com/mock/5c96bc9d195f475394b7fb54/select/prolist',
                 dataSrc: 'data'
             },
             "columns": [
@@ -44,11 +41,11 @@
                         return meta.row+1;
                     }
                 },
-                { data: "ProName" },
-                { data: "ProTitle" },
+                { data: "name" },
+                { data: "title" },
                 {
                     data: function () {
-                        return "<button class='btn btn-default' id='info'>详情</button>"
+                        return "<button class='btn btn-primary' id='info'>详情</button>"
                     }
                 }
             ]
@@ -56,11 +53,14 @@
 
         $("#professorTable").on("click", "#info", function () {
             var table = $('#professorTable').DataTable();
-            var choosetr = $(this).closest('tr')
-            var chooserow = table.row(choosetr).data()
+            var t = $(this).closest('tr')
+            var r = table.row(t).data()
             var data = {
-                name: chooserow.ProName,
-                title: chooserow.ProTitle
+                name: r.name,
+                title: r.title,
+                url: r.profileurl,
+                id: r.id,
+                stuamount:r.studentamount
             }
             $.cookie('data', JSON.stringify(data));
             location.href = "/Dean/ProfessorInfo"
