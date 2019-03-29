@@ -76,10 +76,11 @@ function changePasswd() {
                         oldPasswd: oldPasswdInput.val(),
                         newPasswd: newPasswdInput.val()
                     }
-                    $.post("/", data, function (rdata) {
+                    $.post("https://www.easy-mock.com/mock/5c96bc9d195f475394b7fb54/select/changepasswd", data, function (rdata) {
+                        console.log(rdata.data)
                         //rdata为后端返回的数据
-                        if (rdata == "表示验证成功的字符串") {//若修改成功
-                            $.gyAlert({ //模态框插件来提示错误信息
+                        if (rdata.data == "success") {//若修改成功
+                            $.gyAlert({ 
                                 title: "修改成功",
                                 contentText: "您的密码已修改成功，请重新登录",
                                 cancelButton: false
@@ -90,10 +91,10 @@ function changePasswd() {
                             }, 1000);
                         }
                         else {//若修改失败
-                            $.gyAlert({
+                            $.gyAlert({//模态框插件来提示错误信息
                                 title: "修改失败",
-                                contenttext: "修改失败的原因，在rdata中",
-                                cancelbutton: false
+                                contentText: rdata.data,
+                                cancelButton: false
                             });
                             theModal.modal('hide');
                             setTimeout(function () {

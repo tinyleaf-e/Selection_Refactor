@@ -75,7 +75,7 @@
 
         $('#studentTable').DataTable({
             ajax: {
-                url: ' https://www.easy-mock.com/mock/5c83336fe0e0f75c246237db/example/mock',
+                url: ' https://www.easy-mock.com/mock/5c96bc9d195f475394b7fb54/select/stulist',
                 dataSrc: 'data'
             },
             "columns": [
@@ -84,14 +84,14 @@
                         return meta.row + 1;
                     }
                 },
-                { data: "StuId" },
-                { data: "StuName" },
-                { data: "StuInfoChecked" },
-                { data: "StuWillChecked" },
-                { data: "FinalWill" },
+                { data: "id" },
+                { data: "name" },
+                { data: "infochecked" },
+                { data: "willchecked" },
+                { data: "finalwill" },
                 {
                     data: function () {
-                        return "<button class='btn btn-default' id='info'>详情</button>"
+                        return "<button class='btn btn-primary' id='info'>详情</button>"
                     }
                 }
 
@@ -103,19 +103,18 @@
             var t = $(this).closest('tr')
             var r = table.row(t).data()
             var data = {
-                name: r.StuName,
-                id: r.StuId,
-                age: r.StuAge,
-                major: r.StuMajor,
-                phone: r.StuPhone,
-                onthejob: r.StuOnthejob,
-                mail: r.StuMail,
-                resumeurl: r.ResumeUrl,
-                firstwill: r.FirstWill,
-                secondwill: r.SecondWill,
-                
-                dispensedwill: r.DispensedWill,
-                finalwill: r.FinalWill,
+                name: r.name,
+                id: r.id,
+                age: r.age,
+                major: r.major,
+                phone: r.phone,
+                onthejob: r.onthejob,
+                mail: r.stumail,
+                resumeurl: r.resumeurl,
+                firstwill: r.firstwill,
+                secondwill: r.secondwill,
+                dispensedwill: r.dispensedwill,
+                finalwill: r.finalwill
             }
             $.cookie('data', JSON.stringify(data));
             location.href = "/Dean/StudentInfo"
