@@ -10,97 +10,92 @@
 
 <!-- general form elements -->
 
-    <form role="form">
-        <div class="box-body">
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label for="name">姓名</label>
-                    <input type="text" class="form-control" id="stuName" readonly>
-                </div>
-                <div class="form-group">
-                    <label for="age">年龄</label>
-                    <input type="text" class="form-control" id="stuAge">
-                </div>
-                <div class="form-group">
-                    <label for="tel">电话</label>
-                    <input type="tel" class="form-control" id="stuTel">
-                </div>
-                <div class="form-group">
-                    <label for="email">邮箱</label>
-                    <input type="email" class="form-control" id="stuEmail">
-                </div>
-            </div>
-
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label for="id">学号</label>
-                    <input type="text" class="form-control" id="stuID" readonly>
-                </div>
-                <div class="form-group">
-                    <label for="major">专业</label>
-                    <select id="stuMajorIDSelset" class="form-control">
-                        <option value="0">软件工程与管理</option>
-                        <option value="1">虚拟现实与应用</option>
-                        <option value="2">人工智能</option>
-                        <option value="3">大数据技术与应用</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="ifWork">在职</label>
-                    <select id="stuIfWorkSelect" class="form-control">
-                        <option value="false">不在职工作</option>
-                        <option value="true">在职工作</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="graSchool">本科毕业学校</label>
-                    <input type="text" class="form-control" id="stuGraSchool">
-                </div>
-                <div class="form-group">
-                    <label for="graMajor">本科毕业专业</label>
-                    <input type="text" class="form-control" id="stuGraMajor">
-                </div>
-            </div>
-            <div class="box-footer center-block">
-                <button id="updateStuInfo" type="submit" class="btn btn-primary center-block" style="margin-top:10px">更新个人信息</button>
-            </div>
-
+<div class="box-body">
+    <div class="col-md-6">
+        <div class="form-group">
+            <label for="name">姓名</label>
+            <input type="text" class="form-control" id="stuName" readonly>
         </div>
-    </form>
-
-    <div class="box-body" style="margin-top:35px;border-top:solid #999 1px;padding-top:20px"> </div>
-
-    <form class="form-horizontal">
-        <div class="box-body">
-            <div class="form-group">
-                <label class="col-sm-6">请上传个人简历（doc/docx,小于5M）</label>
-                <div class="col-sm-3" type="submit">
-                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#uploadFileModal">
-                        上传简历
-                    </button>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label id="resume" class="col-sm-5 col-sm-offset-1">个人简历_XXX.docx</label>
-                <div class="col-sm-3" type="submit">
-                    <button class="btn btn-default">删除</button>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label class="col-sm-6"> 更新个人资料并上传简历确认无误后，请点击确认</label>
-                <div class="col-sm-3" type="submit">
-                    <button class="btn btn-danger" id="submitResume">确认提交</button>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-6"> 信息上传截至时间：</label>
-            </div>
-
+        <div class="form-group">
+            <label for="age">年龄</label>
+            <input type="text" class="form-control" id="stuAge">
         </div>
+        <div class="form-group">
+            <label for="tel">电话</label>
+            <input type="tel" class="form-control" id="stuTel">
+        </div>
+        <div class="form-group">
+            <label for="email">邮箱</label>
+            <input type="email" class="form-control" id="stuEmail">
+        </div>
+    </div>
 
-    </form>
+    <div class="col-md-6">
+        <div class="form-group">
+            <label for="id">学号</label>
+            <input type="text" class="form-control" id="stuID" readonly>
+        </div>
+        <div class="form-group">
+            <label for="major">专业</label>
+            <select id="stuMajorIDSelset" class="form-control">
+                <option value="0">软件工程与管理</option>
+                <option value="1">虚拟现实与应用</option>
+                <option value="2">人工智能</option>
+                <option value="3">大数据技术与应用</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="ifWork">在职</label>
+            <select id="stuIfWorkSelect" class="form-control">
+                <option value="false">不在职工作</option>
+                <option value="true">在职工作</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="graSchool">本科毕业学校</label>
+            <input type="text" class="form-control" id="stuGraSchool">
+        </div>
+        <div class="form-group">
+            <label for="graMajor">本科毕业专业</label>
+            <input type="text" class="form-control" id="stuGraMajor">
+        </div>
+    </div>
+    <div class="box-footer center-block">
+        <button id="updateStuInfo" type="button" class="btn btn-primary center-block" style="margin-top:10px">更新个人信息</button>
+    </div>
+
+</div>
+
+<div class="box-body" style="margin-top:35px;border-top:solid #999 1px;padding-top:20px"> </div>
+
+<div class="form-horizontal box-body">
+    <div class="form-group">
+        <label class="col-sm-6">请上传个人简历（doc/docx,小于5M）</label>
+        <div class="col-sm-3" type="button">
+            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#uploadFileModal">
+                上传简历
+            </button>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label id="resume" class="col-sm-5 col-sm-offset-1">个人简历_XXX.docx</label>
+        <div class="col-sm-3" type="button">
+            <button class="btn btn-default">删除</button>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-6"> 更新个人资料并上传简历确认无误后，请点击确认</label>
+        <div class="col-sm-3" type="button">
+            <button class="btn btn-danger" id="submitResume">确认提交</button>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-6"> 信息上传截至时间：</label>
+    </div>
+
+</div>
 <!-- /.box -->
 
 <div class="modal fade" id="uploadFileModal">
@@ -129,6 +124,7 @@
 
     <script src="~/Content/plugins/fileinput/js/fileinput.min.js"></script>
     <script src="~/Content/plugins/fileinput/js/zh.js"></script>
+    <script src="~/Content/js/gy-alert.js"></script>
     <script>
         $("#exampleInputFile").fileinput({
             language: 'zh', //设置语言
@@ -146,37 +142,57 @@
 
         $(document).ready(function () {
             $("#updateStuInfo").click(function () {
-                if ($("#stuAge").val() == "")
+                console.log("in");
+                if ($("#stuAge").val() == "") {
                     $.gyAlert({
                         title: "提示",
                         contentText: "年龄不能为空"
                     });
-                else if ($("#stuTel").val() == "")
+                }
+                else if (parseInt($("#stuAge").val()).toString() == "NaN" || parseInt($("#stuAge").val()) > 40 || parseInt($("#stuAge").val()) < 18) {
+                    $.gyAlert({
+                        title: "提示",
+                        contentText: "年龄不规范"
+                    });
+                }
+                else if ($("#stuTel").val() == "") {
                     $.gyAlert({
                         title: "提示",
                         contentText: "电话不能为空"
                     });
-                else if ($("#stuEmail").val() == "")
+                }
+                else if (!(/^1[34578]\d{9}$/.test($("#stuTel").val().toString()))) {
+                    $.gyAlert({
+                        title: "提示",
+                        contentText: "电话格式不正确，应为11位数字"
+                    });
+                }
+                else if ($("#stuEmail").val() == "") {
                     $.gyAlert({
                         title: "提示",
                         contentText: "邮箱不能为空"
                     });
-                else if ($("#stuIfWorkSelect").val() == "")
+                }
+                else if (!(/^(\w-*\.*)+@@(\w-?)+(\.\w{2,})+$/.test($("#stuEmail").val().toString()))) {
                     $.gyAlert({
                         title: "提示",
-                        contentText: "在职不能为空"
+                        contentText: "邮箱格式不正确"
                     });
-                else if ($("#stuGraSchool").val() == "")
+                }
+                else if ($("#stuGraSchool").val() == "") {
                     $.gyAlert({
                         title: "提示",
                         contentText: "本科毕业学校不能为空"
                     });
-                else if ($("#stuGraMajor").val() == "")
+                }
+                else if ($("#stuGraMajor").val() == "") {
                     $.gyAlert({
                         title: "提示",
                         contentText: "本科毕业专业不能为空"
                     });
+                }
                 else {
+                    alert("提交成功");
                     var data = {
                         age: $("#stuAge").val(),
                         phoneNumber: $("#stuTel").val(),
@@ -205,9 +221,10 @@
                             title: "上传失败",
                             contentText: rdata
                         });
+                    else
+                        alert("上传成功");
                 });
-            });
-        })
-
+            })
+        });
     </script>
 }

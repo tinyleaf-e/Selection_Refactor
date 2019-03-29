@@ -14,7 +14,7 @@
             background: rgb(229, 249, 253) !important;
             z-index: 100;
             margin-left: 15px;
-            margin-right:15px
+            margin-right: 15px
         }
     </style>
 }
@@ -50,6 +50,7 @@
 @section script{
     <script src="~/Content/plugins/datatables.net/js/jquery.dataTables.js"></script>
     <script src="~/Content/plugins/datatables.net-bs/js/dataTables.bootstrap.js"></script>
+    <script src="~/Content/js/gy-alert.js"></script>
     <script>
         $(window).scroll(function () {
             var sTop = $(this).scrollTop();
@@ -74,7 +75,7 @@
             },
             "columns": [
                 {
-                    data: function (row, type, set, meta) { //???????????????
+                    data: function (row, type, set, meta) {
                         return meta.row + 1;
                     }
                 },
@@ -102,7 +103,7 @@
             language: {
                 url: "/Content/plugins/datatables.net/Chinese.json"
             },
-            lengthMenu: [[ 10, 25, 50, -1], [ 10, 25, 50, "全部"]]
+            lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "全部"]]
         });
 
         function chooseFirstPro(btn) {
@@ -119,14 +120,17 @@
 
         $(document).ready(function () {
             $("#confirm").click(function () {
-                var data = {
-                    firstWill: $("#first").val(),
-                    secondWill: $("#second").val(),
-                }
-                if (data.first == "" || data.second == "") {
-                    alert("必须提交两个志愿");
+                if ($("#first").val() == "" || $("#second").val() == "") {
+                    $.gyAlert({
+                        title: "提示",
+                        contentText: "必须提交两个志愿"
+                    });
                 } else {
                     alert("提交成功");
+                    var data = {
+                        firstWill: $("#first").val(),
+                        secondWill: $("#second").val()
+                    };
                     $.post("/Student/comfirmWill", data, function (rdata) {
                         if (rdata.indexOf("success") != 0)
                             $.gyAlert({
