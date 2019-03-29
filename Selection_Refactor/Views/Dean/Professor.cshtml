@@ -9,24 +9,25 @@
     <link rel="stylesheet" type="text/css" href="~/Content/plugins/datatables.net-bs/css/dataTables.bootstrap.css" />
 }
 
-
-    <div class="col-md-12 col-sm-12 col-xs-12">
-        <table class="table table-bordered table-striped" id="professorTable">
-            <thead>
-                <tr>
-                    <th>序号</th>
-                    <th>姓名</th>
-                    <th>职称</th>
-                    <th>详情</th>
-                </tr>
-            </thead>
-        </table>
-    </div>
-    <div style="clear:both"></div>
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <table class="table table-bordered table-striped" id="professorTable">
+                <thead>
+                    <tr>
+                        <th>序号</th>
+                        <th>姓名</th>
+                        <th>职称</th>
+                        <th>详情</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+        <div style="clear:both"></div>
 
 @section script{
     <script src="~/Content/plugins/datatables.net/js/jquery.dataTables.js"></script>
     <script src="~/Content/plugins/datatables.net-bs/js/dataTables.bootstrap.js"></script>
+    <script src="~/Content/js/gy-alert.js"></script>
+    <script src="~/Content/js/jquery.cookie.js"></script>
     <script>
 
         $('#professorTable').DataTable({
@@ -44,11 +45,23 @@
                 { data: "ProTitle" },
                 {
                     data: function () {
-                        return "<button class='btn btn-default'>详情</button>"
+                        return "<button class='btn btn-default' id='info'>详情</button>"
                     }
                 }
             ]
         });
+
+        $("#professorTable").on("click", "#info", function () {
+            var table = $('#professorTable').DataTable();
+            var choosetr = $(this).closest('tr')
+            var chooserow = table.row(choosetr).data()
+            var data = {
+                name: chooserow.ProName,
+                title: chooserow.ProTitle
+            }
+            $.cookie('data', JSON.stringify(data));
+            location.href = "/Dean/ProfessorInfo"
+        })
     </script>
 
 }

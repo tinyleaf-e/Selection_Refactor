@@ -1,0 +1,97 @@
+﻿
+@{
+    ViewBag.Title = "导师列表"; //页面标题
+    ViewBag.CurrentTab = "professor"; //用于和侧边栏菜单关联，和文件名称一致即可，用小写
+    ViewBag.BoxTitle = "教师主页";//内容区的标题
+    ViewBag.Role = "Dean";//页面所属角色
+}
+
+@section css{
+    <link rel="stylesheet" type="text/css" href="~/Content/plugins/datatables.net-bs/css/dataTables.bootstrap.css" />
+}
+
+
+<section class="content">
+    <div class="row">
+        <div class="col-md-2">
+            <div class="box box-primary">
+                <ul class="list-group list-group-unbordered">
+                    <li class="list-group-item">
+                        <b>姓名</b>
+                        <p class="pull-right" id="ProName"></p>
+                    </li>
+                    <li class="list-group-item">
+                        <b>职称</b>
+                        <p class="pull-right" id="ProTitle"></p>
+                    </li>
+                    <li class="list-group-item">
+                        <b>工号</b>
+                        <p class="pull-right" id="ProId"></p>
+                    </li>
+                    <li class="list-group-item">
+                        <b>现在招生数</b>
+                        <p class="pull-right" id="ProAmount"></p>
+                    </li>
+                    <li class="list-group-item">
+                        <b>介绍页面</b>
+                        <a class="pull-right" id="ProUrl">
+                            <i class="fa fa-mail-forward"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-10">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">已选学生列表</h3>
+                </div>
+                <div class=" box-body">
+                    <table class="table table-bordered table-striped" id="studentTable">
+                        <thead>
+                            <tr>
+                                <th>学号</th>
+                                <th>姓名</th>
+                                <th>性别</th>
+                                <th>专业方向</th>
+                                <th>毕业学校</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section script{
+    <script src="~/Content/plugins/datatables.net/js/jquery.dataTables.js"></script>
+    <script src="~/Content/plugins/datatables.net-bs/js/dataTables.bootstrap.js"></script>
+    <script src="~/Content/js/jquery.cookie.js"></script>
+
+    <script>
+        $('#studentTable').DataTable({
+            ajax: {
+                url: ' https://www.easy-mock.com/mock/5c83336fe0e0f75c246237db/example/mock',
+                dataSrc: 'data'
+            },
+            "columns": [
+                { data: "StuID" },
+                { data: "StuName" },
+                { data: "StuInfoChecked" },
+                { data: "StuWillChecked" },
+                { data: "StuFinalWill" },
+            ]
+        });
+        $(function () {
+            var data = $.cookie("data");
+            var m = JSON.parse(data);
+            console.log(m.name)
+            $('#ProName').html(m.name);
+            $('#ProTitle').html(m.title)
+        })
+
+    </script>
+
+
+}

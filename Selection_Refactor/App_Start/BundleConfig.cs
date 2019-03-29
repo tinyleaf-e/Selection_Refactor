@@ -23,7 +23,8 @@ namespace Selection_Refactor
             bundles.Add(new ScriptBundle("~/bundles/site").Include(
                       "~/Content/js/global.js",
                       "~/Content/js/gy-alert.js",
-                      "~/Content/js/adminlte.js"));
+                      "~/Content/js/adminlte.js",
+                      "~/Content/js/changePasswd.js"));
 
             bundles.Add(new StyleBundle("~/css/bootstrap").Include(
                       "~/Content/plugins/bootstrap-3.3.7/css/bootstrap.min.css"));

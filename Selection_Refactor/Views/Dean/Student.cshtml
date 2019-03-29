@@ -2,68 +2,124 @@
 @{
     ViewBag.Title = "学生列表";
     ViewBag.CurrentTab = "student";
-    ViewBag.Stage = 2;
+    ViewBag.BoxTitle = "学生列表";
+    ViewBag.Role = "Dean";
 }
-<!-- DataTables -->
-<link rel="stylesheet" href="~/Content/plugins/datatables.net-bs/css/dataTables.bootstrap.min.css">
 
-<div id="page-wrapper">
-    <div class="row col-md-12 col-sm-12 col-xs-12">
-        <div class="box">
-            <div class="box-header">
-                <h2 class="box-title">学生列表</h2>
-            </div>
-            <div class="box-tools">
-                <div class="row col-md-12 col-sm-12 col-xs-12">
-                    <div class="col-sm-6">
-                        <div class="dataTables_filter" id="dataTables-example_length">
-                            <label>
-                                <select id="professAll" name="dataTables-example_length" class="form-control input-sm" aria-controls="dataTables-example">
-                                    <option value="0">全部学生</option>
-                                    <option value="1">没有提交信息学生</option>
-                                    <option value="2">没有提交志愿学生</option>
-                                    <option value="3">没有确定导师学生</option>
-                                </select>
-                            </label>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 ">
-                        <div class="input-group input-group-sm" style="width: 150px;" id="dataTables-example_filter">
-                            <input class="form-control pull-right" id="professorName" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="vmName" data-sort-order="desc" data-show-export="true" type="search">
-                            <div class="input-group-btn">
-                                <button id="searchProfessors" class="btn btn-default"><i class="fa fa-search"></i></button>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-        </div>
+@section css{
+    <!-- DataTables -->
+    <link rel="stylesheet" type="text/css" href="~/Content/plugins/datatables.net-bs/css/dataTables.bootstrap.css" />
+}
+<div class="row col-md-12 col-sm-12 col-xs-12">
+    <div style="padding:0 0 15px 15px" class="form-inline">
+        <select id="filter-select" class="form-control">
+            <option value="0">全部学生</option>
+            <option value="1">没有提交信息学生</option>
+            <option value="2">没有提交志愿学生</option>
+            <option value="3">没有确定导师学生</option>
+        </select>
     </div>
 </div>
 <div class="col-md-12 col-sm-12 col-xs-12">
-    <table id="example1" class="table table-bordered table-striped" data-toggle="table" data-url="/Gao_JiaoWu/getStudents?p=0" data-row-style="rowStyle">
+    <table id="studentTable" class="table table-bordered table-striped" data-toggle="table" data-url="/Gao_JiaoWu/getStudents?p=0" data-row-style="rowStyle">
         <thead>
             <tr>
-                <th data-field="Order">序号</th>
-                <th data-field="StuID">学号</th>
-                <th data-field="StuName">名字</th>
-                <th data-field="StuInfoChecked">信息是否提交</th>
-                <th data-field="StuWillChecked">是否两个志愿提交</th>
-                <th data-field="StuFinalWill">最终确定导师</th>
-                <th data-formatter="operateFormatter" data-align='center' data-events='operateEvents'>操作</th>
+                <th>序号</th>
+                <th>学号</th>
+                <th>名字</th>
+                <th>信息是否提交</th>
+                <th>是否两个志愿提交</th>
+                <th>最终确定导师</th>
+                <th>操作</th>
             </tr>
         </thead>
     </table>
 </div>
 <div style="clear:both"></div>
 
-<!-- DataTables -->
-<script src="~/Content/plugins/datatables.net/js/jquery.dataTables.min.js"></script>
-<script src="~/Content/plugins/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+@section script{
+    <script src="~/Content/plugins/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="~/Content/plugins/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+    <script src="~/Content/js/jquery.cookie.js"></script>
 
-<script>
-        $('#example1').DataTable()
-</script>
+
+    <script>
+
+        //下拉框筛选学生
+        $.fn.dataTable.ext.search.push(
+            function (settings, data, dataIndex) {
+                var type = $('#filter-select').val();
+                switch (type) {
+                    case "0": return true;
+                    case "1":
+                        if (data[3] == "否")
+                            return true;
+                        break;
+                    case "2":
+                        if (data[4] == "否")
+                            return true;
+                        break;
+                    case "3":
+                        if (data[5] != "")
+                            return true;
+                        break;
+                    default: return false;
+                }
+                return false;
+            }
+        );
+
+        $("#filter-select").change(function () {
+            $('#studentTable').DataTable().draw()
+        });
+
+        $('#studentTable').DataTable({
+            ajax: {
+                url: ' https://www.easy-mock.com/mock/5c83336fe0e0f75c246237db/example/mock',
+                dataSrc: 'data'
+            },
+            "columns": [
+                {
+                    data: function (row, type, set, meta) {
+                        return meta.row + 1;
+                    }
+                },
+                { data: "StuId" },
+                { data: "StuName" },
+                { data: "StuInfoChecked" },
+                { data: "StuWillChecked" },
+                { data: "FinalWill" },
+                {
+                    data: function () {
+                        return "<button class='btn btn-default' id='info'>详情</button>"
+                    }
+                }
+
+            ]
+        });
+
+        $("#studentTable").on("click", "#info", function () {
+            var table = $('#studentTable').DataTable();
+            var t = $(this).closest('tr')
+            var r = table.row(t).data()
+            var data = {
+                name: r.StuName,
+                id: r.StuId,
+                age: r.StuAge,
+                major: r.StuMajor,
+                phone: r.StuPhone,
+                onthejob: r.StuOnthejob,
+                mail: r.StuMail,
+                resumeurl: r.ResumeUrl,
+                firstwill: r.FirstWill,
+                secondwill: r.SecondWill,
+                
+                dispensedwill: r.DispensedWill,
+                finalwill: r.FinalWill,
+            }
+            $.cookie('data', JSON.stringify(data));
+            location.href = "/Dean/StudentInfo"
+        })
+    </script>
+}
 

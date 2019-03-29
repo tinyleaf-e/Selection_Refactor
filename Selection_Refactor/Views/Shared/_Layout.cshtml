@@ -10,7 +10,11 @@
     @Styles.Render("~/css/AdminLTE")
     @Scripts.Render("~/bundles/jquery")
     @RenderSection("css", required: false)
-    @{ViewBag.Stage = 2; }
+    @{
+        ViewBag.Stage = 2;
+        ViewBag.UserName = "高晔";
+        ViewBag.UserId = "14211054";
+    }
 
 
 
@@ -21,16 +25,16 @@
 
         <header class="main-header">
             <!-- Logo -->
-            <a href="index2.html" class="logo">
+            <a href="/" class="logo" style="padding:0 10px;text-decoration:none">
                 <!-- mini logo for sidebar mini 50x50 pixels -->
-                <span class="logo-mini">北航</span>
+                <span class="logo-mini"><img src="~/Content/image/logo.png" height="36" /></span>
                 <!-- logo for regular state and mobile devices -->
-                <span class="logo-lg">北航软件学院双选系统</span>
+                <span class="logo-lg"><img src="~/Content/image/logo.png" height="36" /> 北航软院双选系统</span>
             </a>
             <!-- Header Navbar: style can be found in header.less -->
             <nav class="navbar navbar-static-top">
                 <!-- Sidebar toggle button-->
-                <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+                <a href="#" class="sidebar-toggle" style="text-decoration:none" data-toggle="push-menu" role="button">
                     <span class="sr-only">Toggle navigation</span>
                 </a>
 
@@ -39,24 +43,24 @@
                         <!-- User Account: style can be found in dropdown.less -->
                         <li class="dropdown user user-menu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <span class="hidden-xs">高晔</span>
+                                <span class="hidden-xs">@ViewBag.UserName</span>
                             </a>
                             <ul class="dropdown-menu">
                                 <!-- User image -->
                                 <li class="user-header">
 
                                     <p>
-                                        高晔
-                                        <small>14211054</small>
+                                        @ViewBag.UserName
+                                        <small>@ViewBag.UserId</small>
                                     </p>
                                 </li>
                                 <!-- Menu Footer-->
                                 <li class="user-footer">
                                     <div class="pull-left">
-                                        <a href="#" class="btn btn-default btn-flat">个人信息</a>
+                                        <a href="#" class="btn btn-default btn-flat" onclick="changePasswd()">修改密码</a>
                                     </div>
                                     <div class="pull-right">
-                                        <a href="#" class="btn btn-default btn-flat">退出登录</a>
+                                        <a href="#" class="btn btn-default btn-flat" onclick="logout()">退出登录</a>
                                     </div>
                                 </li>
                             </ul>
@@ -73,84 +77,105 @@
                 <ul class="sidebar-menu" data-widget="tree">
                     <li class="header">MAIN NAVIGATION</li>
                     @{
-                    switch (ViewBag.Role)
-                    {
-                    //TODO By 高晔 以下菜单需要根据实际情况改动
-                    case "Student":
-                    {
-                    <li class="page-tab index" access-stage="1111111">
-                            <a href="/Student/Index"><i class="fa fa-info-circle"></i>个人资料</a>
-                        </li>
-                        <li class="page-tab student" access-stage="1111111">
-                            <a href="/Student/Professor"><i class="fa fa-hand-pointer-o"></i>志愿提交</a>
-                        </li>
-                        <li class="page-tab profile" access-stage="1111111">
-                            <a href="/Student/FinalWill"><i class="fa fa-check-square"></i>查看结果</a>
-                        </li>
-                    }
-                    break;
-                    case "Professor":
-                    {
-                    <li class="page-tab profile" access-stage="1111111" error-msg="奏是点不开">
-                        <a href="/Student/profile">
-                            <i class="fa fa-th"></i>
-                            <span>个人信息</span>
-                        </a>
-                    </li>
-                    <li class="page-tab">
-                        <a href="/Professor/Index">
-                            <i class="fa fa-pie-chart"></i>
-                            <span>第一志愿选择页</span>
-                        </a>
-                    </li>
-                    <li class="page-tab">
-                        <a href="/Professor/SecondSelect">
-                            <i class="fa fa-pie-chart"></i>
-                            <span>第二志愿选择页</span>
-                        </a>
-                    </li>
-                    <li class="page-tab">
-                        <a href="/Professor/FinalStudents">
-                            <i class="fa fa-pie-chart"></i>
-                            <span>最终学生列表页</span>
-                        </a>
-                    </li>
-                    }
-                    break;
-                    case "Dean":
-                    {
-                    <li class="page-tab profile" access-stage="1111111" error-msg="奏是点不开">
-                        <a href="/Student/profile">
-                            <i class="fa fa-th"></i>
-                            <span>个人信息</span>
-                        </a>
-                    </li>
-                    <li class="page-tab">
-                        <a href="#">
-                            <i class="fa fa-pie-chart"></i>
-                            <span>新页面</span>
-                        </a>
-                    </li>
-                    }
-                    break;
-                    case "Admin":
-                    {
-                        <li class="page-tab index" access-stage="1111111">
-                            <a href="/Admin/Index"><i class="fa fa-desktop"></i>教师信息</a>
-                        </li>
-                        <li class="page-tab student" access-stage="1111111">
-                            <a href="/Admin/Student"><i class="fa fa-bar-chart-o"></i>学生信息</a>
-                        </li>
-                        <li class="page-tab profile" access-stage="1111111">
-                            <a href="/Admin/Setting"><i class="fa fa-dashboard"></i>时间节点设置</a>
-                        </li>
-                        <li class="page-tab jiaowu" access-stage="1111111">
-                            <a href="/Admin/JiaoWu"><i class="fa fa-qrcode"></i>教务教师信息</a>
-                        </li>
-                    }
-                    break;
-                    default: break;
-                    }
+                        switch (ViewBag.Role)
+                        {
+                            //TODO By 高晔 以下菜单需要根据实际情况改动
+                            case "Student":
+                                {
+                                    <li class="page-tab profile" access-stage="1111111" error-msg="奏是点不开">
+                                        <a href="/Student/profile">
+                                            <i class="fa fa-th"></i>
+                                            <span>个人信息</span>
+                                        </a>
+                                    </li>
+                                    <li class="page-tab">
+                                        <a href="#">
+                                            <i class="fa fa-pie-chart"></i>
+                                            <span>新页面</span>
+                                        </a>
+                                    </li>
+                                }
+                                break;
+                            case "Professor":
+                                {
+                                    <li class="page-tab profile" access-stage="1111111" error-msg="奏是点不开">
+                                        <a href="/Student/profile">
+                                            <i class="fa fa-th"></i>
+                                            <span>个人信息</span>
+                                        </a>
+                                    </li>
+                                    <li class="page-tab">
+                                        <a href="/Professor/Index">
+                                            <i class="fa fa-pie-chart"></i>
+                                            <span>第一志愿选择页</span>
+                                        </a>
+                                    </li>
+                                    <li class="page-tab">
+                                        <a href="/Professor/SecondSelect">
+                                            <i class="fa fa-pie-chart"></i>
+                                            <span>第二志愿选择页</span>
+                                        </a>
+                                    </li>
+                                    <li class="page-tab">
+                                        <a href="/Professor/FinalStudents">
+                                            <i class="fa fa-pie-chart"></i>
+                                            <span>最终学生列表页</span>
+                                        </a>
+                                    </li>
+                                }
+                                break;
+                            case "Dean":
+                                {
+                                    <li class="page-tab profile" access-stage="1111111" error-msg="奏是点不开">
+                                        <a href="/Dean/Professor">
+                                            <i class="fa fa-list"></i>
+                                            <span>教师信息</span>
+                                        </a>
+                                    </li>
+                                    <li class="page-tab student">
+                                        <a href="/Dean/Student">
+                                            <i class="fa fa-list"></i>
+                                            <span>学生信息</span>
+                                        </a>
+                                    </li>
+                                }
+                                break;
+                            case "Admin":
+                                {
+                                    <li class="page-tab index" access-stage="1111111">
+                                        <a href="/Admin/Index">
+                                            <i class="fa fa-desktop"></i>
+                                            <span>教师信息</span>
+                                        </a>
+                                    </li>
+                                    <li class="page-tab student" access-stage="1111111">
+                                        <a href="/Admin/Student">
+                                            <i class="fa fa-bar-chart-o"></i>
+                                            <span>学生信息</span>
+                                        </a>
+                                    </li>
+                                    <li class="page-tab jiaowu" access-stage="1111111">
+                                        <a href="/Admin/JiaoWu">
+                                            <i class="fa fa-qrcode"></i>
+                                            <span>教务教师信息</span>
+                                        </a>
+                                    </li>
+                                    <li class="page-tab major" access-stage="1111111">
+                                        <a href="/Admin/Major">
+                                            <i class="fa fa-qrcode"></i>
+                                            <span>专业管理</span>
+                                        </a>
+                                    </li>
+                                    <li class="page-tab setting" access-stage="1111111">
+                                        <a href="/Admin/Setting">
+                                            <i class="fa fa-dashboard"></i>
+                                            <span>系统设置</span>
+                                        </a>
+                                    </li>
+                                }
+                                break;
+                            default: break;
+                        }
 
                     }
 
@@ -164,7 +189,7 @@
             <!-- Content Header (Page header) -->
             <section class="content-header">
                 <h1>
-                    教师列表
+                    @ViewBag.BoxTitle
                 </h1>
             </section>
 

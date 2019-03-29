@@ -1,0 +1,105 @@
+﻿
+@{
+    ViewBag.Title = "学生列表";
+    ViewBag.CurrentTab = "student";
+    ViewBag.BoxTitle = "学生主页";
+    ViewBag.Role = "Dean";
+}
+
+<section class="content">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="box">
+                <div class="box-body">
+                    <ul class="list-group list-group-unbordered">
+                        <li class="list-group-item">
+                            <b>姓名</b>
+                            <p class="pull-right" id="StuName"></p>
+                        </li>
+                        <li class="list-group-item">
+                            <b>学号</b>
+                            <p class="pull-right" id="StuId"></p>
+                        </li>
+                        <li class="list-group-item">
+                            <b>年龄</b>
+                            <p class="pull-right" id="StuAge"></p>
+                        </li>
+                        <li class="list-group-item">
+                            <b>专业</b>
+                            <p class="pull-right" id="StuMajor"></p>
+                        </li>
+                        <li class="list-group-item">
+                            <b>电话</b>
+                            <p class="pull-right" id="StuPhone"></p>
+                        </li>
+                        <li class="list-group-item">
+                            <b>在职情况</b>
+                            <p class="pull-right" id="StuOnthejob"></p>
+                        </li>
+                        <li class="list-group-item">
+                            <b>邮箱</b>
+                            <p class="pull-right" id="StuMail"></p>
+                        </li>
+                        <li class="list-group-item">
+                            <b>学生简历</b>
+                            <a class="pull-right" id="ResumeUrl">
+                                <i class="fa fa-download"></i>
+                                下载简历
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="box">
+                <div class="box-body">
+                    <ul class="list-group list-group-unbordered">
+                    <li class="list-group-item">
+                        <b>第一志愿</b>
+                        <p class="pull-right" id="FirstWill"></p>
+                    </li>
+                    <li class="list-group-item">
+                        <b>第二志愿</b>
+                        <p class="pull-right" id="SecondWill"></p>
+                    </li>
+                    <li class="list-group-item">
+                        <b>最终导师</b>
+                        <p class="pull-right" id="FinalWill"></p>
+                    </li>
+                    <li class="list-group-item">
+                        <b>调剂导师</b>
+                        <p class="pull-right" id="DispensedWill"></p>
+                    </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section script{
+    <script src="~/Content/js/jquery.cookie.js"></script>
+
+    <script>
+        $(function () {
+            var data = $.cookie("data");
+            var m = JSON.parse(data);
+            console.log(m.name)
+            $('#StuName').html(m.name);
+            $('#StuId').html(m.id)
+            $('#StuAge').html(m.age)
+            $('#StuMajor').html(m.major)
+            $('#StuPhone').html(m.phone)
+            $('#StuOnthejob').html(m.onthejob)
+            $('#StuMail').html(m.mail)
+            $('#ResumeUrl').attr("href",m.resumeurl)
+            $('#FirstWill').html(m.firstwill)
+            $('#SecondWill').html(m.secondwill)
+            $('#FinalWill').html(m.finalwill)
+            $('#DispensedWill').html(m.dispensedwill)
+
+        })
+    </script>
+    }
+

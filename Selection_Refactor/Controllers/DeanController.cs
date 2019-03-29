@@ -17,5 +17,13 @@ namespace Selection_Refactor.Controllers
         {
             return View();
         }
+        public ActionResult StudentInfo()
+        {
+            return View();
+        }
+        public ActionResult ProfessorInfo()
+        {
+            return View();
+        }
     }
 }
