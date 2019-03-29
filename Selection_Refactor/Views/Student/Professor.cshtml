@@ -67,14 +67,14 @@
         });
 
 
-        $('#professorTable').DataTable({
+        var table = $('#professorTable').DataTable({
             ajax: {
-                url: ' https://www.easy-mock.com/mock/5c8324b3e0e0f75c24623747/selection/getPro',
+                url: ' https://www.easy-mock.com/mock/5c95a7bd39712840142751d9/professorlist/getPro',
                 dataSrc: 'data'
             },
             "columns": [
                 {
-                    data: function (row, type, set, meta) {
+                    data: function (row, type, set, meta) { //???????????????
                         return meta.row + 1;
                     }
                 },
@@ -82,17 +82,17 @@
                 { data: "ProTitle" },
                 {
                     data: function () {
-                        return "<button class='btn btn-default'>详情</button>"
+                        return "<button id='checkInfo' class='btn btn-default'>查看</button>"
                     }
                 },
                 {
                     data: function () {
-                        return "<button id='firstPro' class='btn btn-default' onclick='chooseFirstPro()'>选择</button>"
+                        return "<button id='firstPro' class='btn btn-default' onclick='chooseFirstPro(this)'>选择</button>"
                     }
                 },
                 {
                     data: function () {
-                        return "<button id='secondPro' class='btn btn-default' onclick='chooseSecondPro()'>选择</button>"
+                        return "<button id='secondPro' class='btn btn-default' onclick='chooseSecondPro(this)'>选择</button>"
                     }
                 }
             ],
@@ -105,22 +105,43 @@
             lengthMenu: [[ 10, 25, 50, -1], [ 10, 25, 50, "全部"]]
         });
 
-        /*$(document).ready(function () {
-            $("#firstPro").click(function () {
-                alert("段落被点击了。");
-                console.log("heyheyhey");
+        function chooseFirstPro(btn) {
+            var tr = $(btn).closest('tr');
+            var row = table.row(tr).data();
+            $("#first").val(row.ProName);
+        }
+
+        function chooseSecondPro(btn) {
+            var tr = $(btn).closest('tr');
+            var row = table.row(tr).data();
+            $("#second").val(row.ProName);
+        }
+
+        $(document).ready(function () {
+            $("#confirm").click(function () {
+                var data = {
+                    firstWill: $("#first").val(),
+                    secondWill: $("#second").val(),
+                }
+                if (data.first == "" || data.second == "") {
+                    alert("必须提交两个志愿");
+                } else {
+                    alert("提交成功");
+                    $.post("/Student/comfirmWill", data, function (rdata) {
+                        if (rdata.indexOf("success") != 0)
+                            $.gyAlert({
+                                title: "提交失败",
+                                contentText: rdata
+                            });
+                    });
+                }
             });
-        });*/
 
-        function chooseFirstPro() {
-            //$("#first").val($(data["ProName"]));
-            console.log("hey");
-        }
+            $("body").on('click', "#checkInfo", function () {
+                location.href = "http://baidu.com";
+            });
+        })
 
-        function chooseSecondPro() {
-            $("#second").val("456");
-            console.log("hey");
-        }
     </script>
 
 }

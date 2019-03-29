@@ -9,13 +9,13 @@
 }
 
 <!-- general form elements -->
-<div class="box box-primary">
+
     <form role="form">
         <div class="box-body">
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="name">姓名</label>
-                    <input type="text" class="form-control" id="stuName" readonly required>
+                    <input type="text" class="form-control" id="stuName" readonly>
                 </div>
                 <div class="form-group">
                     <label for="age">年龄</label>
@@ -34,7 +34,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="id">学号</label>
-                    <input type="text" class="form-control" id="stuID" readonly required>
+                    <input type="text" class="form-control" id="stuID" readonly>
                 </div>
                 <div class="form-group">
                     <label for="major">专业</label>
@@ -62,7 +62,7 @@
                 </div>
             </div>
             <div class="box-footer center-block">
-                <button class="btn btn-primary center-block" style="margin-top:10px">更新个人信息</button>
+                <button id="updateStuInfo" type="submit" class="btn btn-primary center-block" style="margin-top:10px">更新个人信息</button>
             </div>
 
         </div>
@@ -82,7 +82,7 @@
             </div>
 
             <div class="form-group">
-                <label class="col-sm-5 col-sm-offset-1">个人简历_XXX.docx</label>
+                <label id="resume" class="col-sm-5 col-sm-offset-1">个人简历_XXX.docx</label>
                 <div class="col-sm-3" type="submit">
                     <button class="btn btn-default">删除</button>
                 </div>
@@ -91,7 +91,7 @@
             <div class="form-group">
                 <label class="col-sm-6"> 更新个人资料并上传简历确认无误后，请点击确认</label>
                 <div class="col-sm-3" type="submit">
-                    <button class="btn btn-danger">确认提交</button>
+                    <button class="btn btn-danger" id="submitResume">确认提交</button>
                 </div>
             </div>
             <div class="form-group">
@@ -101,7 +101,6 @@
         </div>
 
     </form>
-</div>
 <!-- /.box -->
 
 <div class="modal fade" id="uploadFileModal">
@@ -144,5 +143,71 @@
             */
             previewTemplates: "<img src=\"~/Content/img/aa.jpg\" />",
         });
+
+        $(document).ready(function () {
+            $("#updateStuInfo").click(function () {
+                if ($("#stuAge").val() == "")
+                    $.gyAlert({
+                        title: "提示",
+                        contentText: "年龄不能为空"
+                    });
+                else if ($("#stuTel").val() == "")
+                    $.gyAlert({
+                        title: "提示",
+                        contentText: "电话不能为空"
+                    });
+                else if ($("#stuEmail").val() == "")
+                    $.gyAlert({
+                        title: "提示",
+                        contentText: "邮箱不能为空"
+                    });
+                else if ($("#stuIfWorkSelect").val() == "")
+                    $.gyAlert({
+                        title: "提示",
+                        contentText: "在职不能为空"
+                    });
+                else if ($("#stuGraSchool").val() == "")
+                    $.gyAlert({
+                        title: "提示",
+                        contentText: "本科毕业学校不能为空"
+                    });
+                else if ($("#stuGraMajor").val() == "")
+                    $.gyAlert({
+                        title: "提示",
+                        contentText: "本科毕业专业不能为空"
+                    });
+                else {
+                    var data = {
+                        age: $("#stuAge").val(),
+                        phoneNumber: $("#stuTel").val(),
+                        email: $("#stuEmail").val(),
+                        onTheJob: $("#stuIfWorkSelect").val(),
+                        graSchool: $("#stuGraSchool").val(),
+                        graMajor: $("#stuGraMajor").val()
+                    };
+                    $.post("/Security/saveInfo", data, function (rdata) {
+                        if (rdata.indexOf("success") != 0)
+                            $.gyAlert({
+                                title: "更改信息失败",
+                                contentText: rdata
+                            });
+                    });
+                }
+            });
+
+            $("#submitResume").click(function () {
+                var data = {
+                    resumeUrl: $("#resume").val()
+                };
+                $.post("/Security/submitResume", data, function (rdata) {
+                    if (rdata.indexOf("success") != 0)
+                        $.gyAlert({
+                            title: "上传失败",
+                            contentText: rdata
+                        });
+                });
+            });
+        })
+
     </script>
 }
