@@ -4,7 +4,6 @@ body {
 }
 
 *.modal-open{
-    overflow-y:scroll;
     padding-right:0px !important;
 }
 /* ↑ 解决多次modal导致的页面左移，源于https://blog.csdn.net/zh921112/article/details/64476134 */
