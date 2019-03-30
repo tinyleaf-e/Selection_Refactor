@@ -1,43 +1,38 @@
 ﻿@{
-    ViewBag.Title = "JiaoWu";
+    ViewBag.Title = "教务教师列表";
     ViewBag.CurrentTab = "jiaowu";
-    ViewBag.Stage = 2;
-    ViewBag.BoxTitle = "教务教师信息";
+    ViewBag.BoxTitle = "教务教师列表";
     ViewBag.Role = "Admin";
 
 }
 @section css{
-    <link href="~/Content/css/AdminLTE.min.css" rel="stylesheet" />
     <link href="~/Content/plugins/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet" />
-    <link href="~/Content/plugins/bootstrap-3.3.7/css/bootstrap.min.css" rel="stylesheet" />
     <link href="~/Content/plugins/fileinput/css/fileinput.min.css" rel="stylesheet" />
 }
 
 <div id="page-wrapper">
-    <div class="box">
-        <div style="padding-left:10px;padding-top:10px">
-            <button id="uploadJiaowuTeachers" class="btn btn-block btn-primary bg-light-blue color-palette" style="width:12%;display:inline;vertical-align:baseline;">上传教务教师</button>
-            <button id="addJiaowuTeachers" class="btn btn-block btn-primary bg-green color-palette" style="width:12%;margin-left:5px;display:inline;vertical-align:baseline;">新增教务教师</button>
-        </div>
-        <div class="box-body">
-            <div id="professor-table" class="dataTables_wrapper form-inline dt-bootstrap">
-                <div class="row">
-                    <div class="col-sm-12">
-                        <table id="example1" class="table table-bordered table-striped dataTable" role="grid" aria-describedby="example1_info">
-                            <thead>
-                                <tr role="row">
-                                    <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-sort="ascending" data-field="Number" style="width: 55px;">编号</th>
-                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" data-field="TeacherName" style="width: 65px;">姓名</th>
-                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" data-field="MajorResposible" style="width: 60px;">负责专业方向</th>
-                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" style="width: 120px;" data-formatter="operateFormatter" data-align='center' data-events='operateEvents'>操作</th>
-                                </tr>
-                            </thead>
-                        </table>
-                    </div>
+    <div style="padding-left:10px;padding-top:10px;padding-bottom:15px">
+        <button id="upload-dean-btn" class="btn btn-primary bg-light-blue color-palette" style="width:120px;">上传教务教师</button>
+        <button id="add-dean-btn" class="btn btn-primary bg-green color-palette" style="width:120px;margin-left:5px;">新增教务教师</button>
+    </div>
+    <div class="box-body">
+        <div id="dean-table-div" class="dataTables_wrapper form-inline dt-bootstrap">
+            <div class="row">
+                <div class="col-sm-12">
+                    <table id="dean-table" class="table table-bordered table-striped dataTable">
+                        <thead>
+                            <tr>
+                                <th style="width: 55px;">序号</th>
+                                <th style="width: 55px;">教师工号</th>
+                                <th style="width: 65px;">姓名</th>
+                                <th style="width: 60px;">负责专业方向</th>
+                                <th style="width: 120px;">操作</th>
+                            </tr>
+                        </thead>
+                    </table>
                 </div>
             </div>
         </div>
-        <!-- /.box-body -->
     </div>
 
 </div>
@@ -47,8 +42,44 @@
 </div>
 <!-- /. PAGE INNER  -->
 <!-- /. PAGE WRAPPER  -->
+<!--以上是直接新增教师模态框-->
+<div class="modal fade" id="add-dean-modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">新增教务教师</h4>
+            </div>
+            <div class="modal-body">
+                <div style="text-align:center">
+                    <div style="padding:8px 0px">
+                        <label style="width:100px;text-align:right">工号:</label>
+                        <input id="id-input" type="text" class="form-control" placeholder="请输入工号" style="width:calc(60% - 100px);margin-left:25px;margin-right:30px;display:inline-block">
+                    </div>
+                    <div style="padding:8px 0px">
+                        <label style="width:100px;text-align:right">姓名:</label>
+                        <input id="name-input" type="text" class="form-control" placeholder="请输入姓名" style="width:calc(60% - 100px);margin-left:25px;margin-right:30px;display:inline-block">
+                    </div>
+                    <div style="padding:8px 0px">
+                        <label style="width:100px;text-align:right">负责专业方向:</label>
+                        <select id="major-select" type="text" class="form-control" style="width:calc(60% - 100px);margin-left:25px;margin-right:30px;display:inline-block"></select>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+                <button id="submit-dean-btn" type="submit" class="btn btn-primary">确认提交</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
 <!--以下是批量创建教师模态框-->
-<div class="modal" id="batchAdd-JiaowuTeachers-modal" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static">
+<div class="modal" id="batch-add-dean-modal" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -57,139 +88,110 @@
             </div>
             <div class="modal-body">
                 <a href="~/ExcelFiles/template/教师批量录入.xlsx" class="form-control" style="margin-bottom:10px">下载导入模板</a>
-                <input id="input-file" type="file" data-preview-file-type="text" name="file">
+                <input id="file-input" type="file" data-preview-file-type="text" name="file">
             </div>
         </div>
     </div>
 </div>
 <!--以上是批量创建教师模态框-->
-<!--以下是直接新增教师模态框-->
-<div class="modal" id="directAdd-JiaowuTeachers-modal" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static">
-    <div class="modal-dialog">
-        <div class="modal-content" style="height:340px">
-            <div class="modal-header" style="padding-left:25px">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4>新增教务教师</h4>
-            </div>
-            <div class="modal-body">
-                <form style="height:80%">
-                    <div class="row" style="width:45%;display:inline;vertical-align:baseline;padding-left:50px;">
-                        <div class="column" style="float:left;padding-left:20px">
-                            <label>姓名</label>
-                            <input id="name-input" type="text" class="form-control" placeholder="" style="width:200px;">
-                        </div>
-                        <div class="column" style="float:left;padding-left:50px">
-                            <label>编号</label>
-                            <input id="number-input" type="text" class="form-control" placeholder="" style="width:200px;">
-                        </div>
-                    </div>
-                    <div class="row" style="width:45%;display:inline;vertical-align:baseline;padding-left:50px;">
-                        <div class="column" style="float:left;padding-left:20px">
-                            <label>负责专业方向</label>
-                            <input id="major-input" type="text" class="form-control" placeholder="" style="width:200px;">
-                        </div>
-                    </div>
-                </form>
-                <div style="float:right;padding-right:35px">
-                    <button id="submitJiaowuTeacher" type="submit" class="btn btn-primary">确认提交</button>
-                </div>
-
-            </div>
-        </div>
-    </div>
-</div>
-<!--以上是直接新增教师模态框-->
 <!-- /. WRAPPER  -->
-<!-- JS Scripts-->
-<!-- jQuery Js -->
-<!-- Bootstrap Js -->
-<script src="~/Content/plugins/bootstrap-3.3.7/js/bootstrap.min.js"></script>
-<!-- DataTables -->
 <script src="~/Content/plugins/datatables.net/js/jquery.dataTables.min.js"></script>
 <script src="~/Content/plugins/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
 <script src="~/Content/plugins/fileinput/js/fileinput.min.js"></script>
 <script src="~/Content/plugins/fileinput/js/zh.js"></script>
-<script src="~/Content/js/gy-alert.js"></script>
 <script>
-    function deleteteacher() {
-        $.gyAlert({ contentText: "确认删除该教师?", cancelButtonText: "取消" });
+    function deleteDean(btn) {
+        var tr = $(btn).closest('tr');
+        var row = $('#dean-table').DataTable().row(tr).data();
+        $.gyAlert({
+            contentText: "确认删除该教务老师?",
+            confirm: function () {
+                var data = {
+                    userId: row.id
+                };
+                $.post("/Admin/deleteDeanById", data, function (rel) {
+                    if (rel == "success") {
+                        table.ajax.reload();
+                    }
+                    else
+                        $.gyAlert({
+                            title: "删除失败",
+                            contentText: rel.substring(5),
+                            cancelButton: false
+                        });
+                });
+            },
+            cancelButtonText: "取 消"
+        });
     }
+
+
+
     var userType = 0;
     $(document).ready(function () {
         initTable();
-        $("#uploadJiaowuTeachers").click(function () {
-            $("#batchAdd-JiaowuTeachers-modal").modal('show');
+
+        $.get("https://www.easy-mock.com/mock/5c8368e622c6e01a284aae50/selection-mock/getMajor", function (data) {
+            for (var i = 0; i < data.length; i++) {
+                $("#major-select").append('<option value="' + data[i].id + '">' + data[i].name + '</option>')
+            }
+        })
+
+        $("#upload-dean-btn").click(function () {
+            $("#batch-add-dean-modal").modal('show');
         });
-        $("#addJiaowuTeachers").click(function () {
-            $("#directAdd-JiaowuTeachers-modal").modal('show')
+        $("#add-dean-btn").click(function () {
+            $("#add-dean-modal").modal('show')
         });
-        $("#submitJiaowuTeacher").click(function () {
+        $("#submit-dean-btn").click(function () {
             var data = {
                 'name': $("#name-input").val(),
-                'number': $("#number-input").val(),
-                'major': $("#major-input").val(),
+                'id': $("#id-input").val(),
+                'major': $("#major-select").val(),
             }
-            alert("name:" + data.name + " number:" + data.number + " major:" + data.major);
-            $("#directAdd-JiaowuTeachers-modal").modal('hide');
+            $.post("/Admin/addDean", data, function (rel) {
+                if (rel == "success") {
+                    table.ajax.reload();
+                }
+                else
+                    $.gyAlert({
+                        title: "添加失败",
+                        contentText: rel.substring(5),
+                        cancelButton: false
+                    });
+            });
+            $("#add-dean-modal").modal('hide');
         });
     });
     var initTable = function () {
-        $('#example1').DataTable({
+        $('#dean-table').DataTable({
             ajax: {
                 url: 'https://www.easy-mock.com/mock/5b1fe0f0f71e0743260935e1/example/getJiaowuTeachers',
                 dataSrc: 'data'
             },
             "columns": [
+                {
+                    data: function (row, type, set, meta) {
+                        return meta.row + 1;
+                    }
+                },
                 { data: "Number" },
                 { data: "TeacherName" },
                 { data: "MajorResponsible" },
                 {
                     data: function (row, type, set, meta) {
                         return [
-                            '<button type="button" class="btn btn-block btn-success" style="width:25%;display:block;vertical-align:baseline;" onclick="deleteteacher()">删除</button> '
+                            '<button type="button" class="btn btn-danger" onclick="deleteDean(this)">删除</button> '
                         ].join('');
                     }
                 },
             ]
         });
     }
-    //    $("#change_password_submit_button").click(function () {
-    //        var data = {
-    //            'password': $("#password_input").val(),
-    //        }
 
-    //        $.post("/Gao_Home/changePassword", data, function (rel) {
-    //            alert(rel);
-    //            $("#change_password_modal").modal('hide');
-    //        })
-    //    })
-
-
-    //var initJaowu = function () {
-    //    var s = document.cookie.split("=");
-    //    userType = s[s.length - 1];
-    //    if (userType == 1) {
-    //        $("#timesetting").remove();
-    //        $("#addProfessor").remove();
-    //        $("#uploadJiaowuTeachers").remove();
-    //        $("#jiaowuinfo").remove();
-    //        $("#welcome").text("欢迎登陆 教务教师");
-    //    } else {
-    //        $("#welcome").text("欢迎登陆 管理员");
-
-    //    }
-    //};
-
-
-    $("#input-file").fileinput({
+    $("#file-input").fileinput({
         language: 'zh', //设置语言
-        uploadUrl: '/Gao_Admin/batchCreateTeachers',
+        uploadUrl: '/Admin/batchAddDeans',
         allowedFileExtensions: ['xlsx', 'xls'],//接收的文件后缀
-        previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
-        /*    initialPreview: "<div class='file-preview-text'>" +
-"<h2><i class='glyphicon glyphicon-file'></i></h2>" +
-"~/Content/img/bb.xlsx" + "</div>",
-*/
-        previewTemplates: "<img  src=\"~/Content/img/aa.jpg\"/>",
     });
 </script>
