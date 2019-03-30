@@ -144,6 +144,11 @@
             $("#add-dean-modal").modal('show')
         });
         $("#submit-dean-btn").click(function () {
+            if ($("#name-input").val().trim() == "" || $("#name-input").val().trim() == "") {
+                $("#name-input,#id-input").addClass("error-input");
+                return;
+            }
+
             var data = {
                 'name': $("#name-input").val(),
                 'id': $("#id-input").val(),

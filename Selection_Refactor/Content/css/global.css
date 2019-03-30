@@ -19,3 +19,7 @@ body {
 .page-tab:hover {
     color:white;
 }
+
+.error-input{
+    border-color:#d73925!important
+}

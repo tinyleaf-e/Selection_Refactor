@@ -110,6 +110,7 @@
             confirm: function (theModal) {
                 var editMajorInput = theModal.find(".modal-body").find("input#new-major-input");
                 if (editMajorInput.val().trim() == "") {
+                    editMajorInput.addClass("error-input");
                     return;
                 }
                 var data = {
