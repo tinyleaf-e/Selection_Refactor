@@ -63,6 +63,15 @@ namespace Selection_Refactor.Controllers
             return accountCookie;
         }
 
+        /*
+         * Create By 高晔
+         * 返回success，测试用
+         */
+        public string returnSuccess(int fail=0)
+        {
+            return fail == 0 ? "success" : "fail:error message";
+        }
+
 
         public ActionResult Error()
         {
