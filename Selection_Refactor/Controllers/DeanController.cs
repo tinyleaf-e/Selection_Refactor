@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using System.Web.Script.Serialization;
 using Selection_Refactor.Attribute;
 using Selection_Refactor.Models.Dao;
 using Selection_Refactor.Models.Entity;
 using Selection_Refactor.Util;
+using System.Web.Script.Serialization;
 
 
 namespace Selection_Refactor.Controllers
@@ -100,7 +100,42 @@ namespace Selection_Refactor.Controllers
             }
             return retStr;
         }
-
-        
+        /*
+         * Create By zzw
+         * 通过proId列出教师已选学生列表
+         * 
+         */
+        //[RoleAuthorize(Role = "dean")]
+        public string listSelectedStudentsByProId (string proId)
+        {
+            ProfessorDao professorDao = new ProfessorDao();
+            StudentDao studentDao = new StudentDao();
+            List<Student> stlist = studentDao.listAllStudent();
+            List<Student> listSelectedStudents = null;
+            string res = "";
+            foreach (Student s in stlist)
+            {
+                if (s.firstWill == proId && s.firstWillState == 1)
+                {
+                    listSelectedStudents.Add(s);
+                }
+                else if (s.secondWill == proId && s.secondWillState == 1)
+                {
+                    listSelectedStudents.Add(s);
+                }
+                else if (s.dispensedWill == proId)
+                {
+                    listSelectedStudents.Add(s);
+                }
+            }
+            if (listSelectedStudents.Count <= 0) return res;
+            else
+            {
+                JavaScriptSerializer serializer = new JavaScriptSerializer();
+                var json = serializer.Serialize(listSelectedStudents);
+                res = json.ToString();
+                return res;
+            }
+        }
     }
 }

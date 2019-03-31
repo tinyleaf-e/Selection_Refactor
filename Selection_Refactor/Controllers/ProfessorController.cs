@@ -87,5 +87,104 @@ namespace Selection_Refactor.Controllers
             String retStr = json.ToString();
             return retStr;
         }
+        /*
+         * Create By zzw
+         * 导师选择第一志愿学生
+         * 
+         */
+         public string selectFirstWillStudent(string stuId)
+         {
+            HttpCookie accountCookie = new HttpCookie("account");
+            StudentDao studentDao = new StudentDao();
+            if(studentDao.getStudentById(stuId)==null)
+            {
+                return "Don't have this stuid";
+            }
+            else
+            {
+                Student s = studentDao.getStudentById(stuId);
+                if(s.firstWill != accountCookie["userid"])
+                {
+                    return "this student's first will isn't you";
+                }
+                else
+                {
+                    if (s.firstWillState == 1) return "already to choose this stu";
+                    s.firstWillState = 1;
+                    studentDao.update(s);
+                    return "success";
+                }
+            }
+         }
+        /*
+         * Create By zzw
+         * 导师选择第二志愿学生
+         * 
+         */
+        public string selectSecondWillStudent(string stuId)
+        {
+            HttpCookie accountCookie = new HttpCookie("account");
+            StudentDao studentDao = new StudentDao();
+            if (studentDao.getStudentById(stuId) == null)
+            {
+                return "Don't have this stuid";
+            }
+            else
+            {
+                Student s = studentDao.getStudentById(stuId);
+                if (s.secondWill != accountCookie["userid"])
+                {
+                    return "this student's second will isn't you";
+                }
+                else
+                {
+                    if (s.secondWillState == 1) return "already to choose this stu";
+                    s.secondWillState = 1;
+                    studentDao.update(s);
+                    return "success";
+                }
+            }
+        }
+        /*
+         * Create By zzw
+         * 导师删除已选学生
+         * 
+         */
+        public string delectSelectedStudent(string stuId)
+        {
+            HttpCookie accountCookie = new HttpCookie("account");
+            StudentDao studentDao = new StudentDao();
+            if (studentDao.getStudentById(stuId) == null)
+            {
+                return "Don't have this stuid";
+            }
+            else
+            {
+                Student s = studentDao.getStudentById(stuId);
+                if (s.firstWill == accountCookie["userid"])
+                {
+                    if (s.firstWillState == 0) return "you haven't choosen this stu";
+                    else
+                    {
+                        s.firstWillState = 0;
+                        return "success";
+                    }
+                    
+                }
+                else if (s.secondWill == accountCookie["userid"])
+                {
+                    if (s.secondWillState == 0) return "you haven't choosen this stu";
+                    else
+                    {
+                        s.secondWillState = 0;
+                        return "success";
+                    }
+                }
+                else
+                {
+                    return "you haven't choosen this stu";
+                }
+            }
+        }
     }
 }

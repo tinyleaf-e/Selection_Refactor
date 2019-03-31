@@ -222,7 +222,6 @@
     <Compile Include="Models\Dao\SettingDao.cs" />
     <Compile Include="Models\Dao\StudentDao.cs" />
     <Compile Include="Models\Dao\ProfessorDao.cs" />
-    <Compile Include="Models\Dao\ProfessorQuotaDao.cs" />
     <Compile Include="Models\Dao\UserDao.cs" />
     <Compile Include="Models\Entity\Admin.cs" />
     <Compile Include="Models\Entity\Dean.cs" />
@@ -230,7 +229,6 @@
     <Compile Include="Models\Entity\Setting.cs" />
     <Compile Include="Models\Entity\Student.cs" />
     <Compile Include="Models\Entity\Professor.cs" />
-    <Compile Include="Models\Entity\ProfessorQuota.cs" />
     <Compile Include="Models\Validation\ValidateHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Util\CommonUtil.cs" />

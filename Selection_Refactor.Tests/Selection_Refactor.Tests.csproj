@@ -100,8 +100,8 @@
     <Compile Include="Dao\DeanDaoTest.cs" />
     <Compile Include="Dao\SettingDaoTest.cs" />
     <Compile Include="Dao\StudentDaoTest.cs" />
-    <Compile Include="Dao\TeacherDaoTest.cs" />
-    <Compile Include="Dao\TeacherQuotaDaoTest.cs" />
+    <Compile Include="Dao\ProfessorDaoTest.cs" />
+    <Compile Include="Dao\ProfessorQuotaDaoTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\HomeControllerTest.cs" />
   </ItemGroup>
