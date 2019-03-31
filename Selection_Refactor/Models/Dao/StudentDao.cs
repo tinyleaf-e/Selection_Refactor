@@ -14,7 +14,7 @@ namespace Selection_Refactor.Models.Dao
          * Create By 高晔
          * 通过学号获取学生
          */
-        public Student getStudent(string id)
+        public Student getStudentById(string id)
         {
             StudentDBContext studentDB = new StudentDBContext();
             Student student = studentDB.students.Find(id);
@@ -53,13 +53,13 @@ namespace Selection_Refactor.Models.Dao
                 StudentDBContext studentDB = new StudentDBContext();
                 Student student= studentDB.students.Find(id);
                 studentDB.students.Remove(student);
-                studentDB.SaveChanges();
+                return studentDB.SaveChanges();
             }
             catch(Exception e)
             {
                 return -1;
             }
-            return 1;
+            
         }
 
         /*
@@ -70,17 +70,18 @@ namespace Selection_Refactor.Models.Dao
 
         public int deleteStudentByIds(string[] ids)
         {
+            StudentDBContext studentDB = new StudentDBContext();
             List<Student> deleteStudents = new List<Student>();
             for (int i = 0; i < ids.Length; i++)
             {
-                deleteStudents.Add(getStudent(ids[i]));
+                deleteStudents.Add(studentDB.students.Find(ids[i]));
             }
             try
             {
-                StudentDBContext studentDB = new StudentDBContext();
+               // StudentDBContext studentDB = new StudentDBContext();
                 studentDB.students.RemoveRange(deleteStudents);
-                studentDB.SaveChanges();
-                return 1;
+                return studentDB.SaveChanges();
+                //return 1;
             }
             catch (Exception e)
             {
@@ -131,28 +132,35 @@ namespace Selection_Refactor.Models.Dao
         }
 
         /*
+        * Create By 付文欣
+        * 列出所有学生
+        */
+        public List<Student> listAllStudent()
+        {
+            return new StudentDBContext().students.ToList();
+        }
+
+        /*
       * Create By 徐子一
       * 根据id，修改学生密码
-      *
+      * 成功返回1，失败返回0，异常返回-1
       */
-        public bool changePasswdById(string id,string password)
+        public int changePasswdById(string id,string password)
         {
             StudentDBContext studentDB = new StudentDBContext();
-            Student s = getStudent(id);
-            if (s != null)
-            {
+            Student s = studentDB.students.Find(id);
+           
                 try
                 {
                     s.password = password;
-                    studentDB.SaveChanges();
-                    return true;
+                    return studentDB.SaveChanges();
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
-                    return false;
+                    return -1;
                 }
-            }
-            return false;
+            
+            //return 0;
         }
 
 

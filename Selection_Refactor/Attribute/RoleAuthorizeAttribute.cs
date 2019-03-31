@@ -58,7 +58,7 @@ namespace Selection_Refactor.Attribute
             try
             {
                 HttpCookie accountCookie = System.Web.HttpContext.Current.Request.Cookies["Account"];
-                StageDao stageDao = new StageDao();
+                SettingDao setting = new SettingDao();
                 UserDao userDao = new UserDao();
                 string role = accountCookie["role"];
                 string userId = accountCookie["userId"];
@@ -68,7 +68,7 @@ namespace Selection_Refactor.Attribute
                     this.cookieRole = role;
                 }
 
-                stage = stageDao.getCurrentStage();
+                stage = setting.getCurrentStage();
 
                 this.RoleInfos = this.Role.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
             }

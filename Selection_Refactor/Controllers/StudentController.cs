@@ -13,7 +13,7 @@ namespace Selection_Refactor.Controllers
     {
         // GET: Student
 
-        [RoleAuthorize(Role = "student,teacher")]
+        [RoleAuthorize(Role = "student,professor")]
         public ActionResult Profile()
         {
             return View();

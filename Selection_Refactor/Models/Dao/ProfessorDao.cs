@@ -8,28 +8,28 @@ using System.Web;
 
 namespace Selection_Refactor.Models.Dao
 {
-    public class TeacherDao
+    public class ProfessorDao
     {
 
         /*
          * Create By zzw
          * 通过教师工号获取教师
          */
-        public Teacher getTeacherById(string id)
+        public Professor getProfessorById(string id)
         {
-            TeacherDBContext teacherDB = new TeacherDBContext();
-            Teacher teacher = teacherDB.teachers.Find(id);
-            return teacher;
+            ProfessorDBContext professorDB = new ProfessorDBContext();
+            Professor professor = professorDB.professors.Find(id);
+            return professor;
         }
         /*
          * Create By zzw
          * 列出所有教师
          * 成功插入返回1，失败返回0，异常返回-1
          */
-        public List<Teacher> listAllTeacher()
+        public List<Professor> listAllProfessor()
         {
-            TeacherDBContext teacherDB = new TeacherDBContext();
-            List<Teacher> listAll = teacherDB.teachers.ToList();
+            ProfessorDBContext professorDB = new ProfessorDBContext();
+            List<Professor> listAll = professorDB.professors.ToList();
             return listAll;
         }
         /*
@@ -37,13 +37,13 @@ namespace Selection_Refactor.Models.Dao
          * 插入教师
          * 成功插入返回1，失败返回0，异常返回-1
          */
-        public int addTeacher(Teacher teacher)
+        public int addProfessor(Professor professor)
         {
             try
             {
-                TeacherDBContext teacherDB = new TeacherDBContext();
-                teacherDB.teachers.Add(teacher);
-                return teacherDB.SaveChanges();
+                ProfessorDBContext professorDB = new ProfessorDBContext();
+                professorDB.professors.Add(professor);
+                return professorDB.SaveChanges();
             }
             catch (Exception e)
             {
@@ -57,22 +57,22 @@ namespace Selection_Refactor.Models.Dao
          * 更新教师
          * 成功插入返回true，未查询到返回false
          */
-        public bool updateTeacher(string id, string name, string title, string infoURL, string remark)
+        public bool updateProfessor(string id, string name, string title, string infoURL, string remark)
         {
-            TeacherDBContext teacherDB = new TeacherDBContext();
-            List<Teacher> list = teacherDB.teachers.Where(t => t.id == id).ToList();
+            ProfessorDBContext professorDB = new ProfessorDBContext();
+            List<Professor> list = professorDB.professors.Where(t => t.id == id).ToList();
             if (list.Count <= 0)
             {
                 return false;
             }
             else
             {
-                Teacher t = list[0];
-                t.name = name;
-                t.title = title;
-                t.infoURL = infoURL;
-                t.remark = remark;
-                teacherDB.SaveChanges();
+                Professor p = list[0];
+                p.name = name;
+                p.title = title;
+                p.infoURL = infoURL;
+                p.remark = remark;
+                professorDB.SaveChanges();
                 return true;
             }
         }
@@ -81,14 +81,14 @@ namespace Selection_Refactor.Models.Dao
          * 删除教师 by id
          * 成功插入返回1，失败返回0，异常返回-1
          */
-        public int deleteTeacherById(string id)
+        public int deleteProfessorById(string id)
         {
             try
             {
-                TeacherDBContext teacherDB = new TeacherDBContext();
-                Teacher teacher = getTeacherById(id);
-                teacherDB.teachers.Remove(teacher);
-                return teacherDB.SaveChanges();
+                ProfessorDBContext professorDB = new ProfessorDBContext();
+                Professor professor = professorDB.professors.Find(id);
+                professorDB.professors.Remove(professor);
+                return professorDB.SaveChanges();
             }
             catch (Exception e)
             {
@@ -102,18 +102,19 @@ namespace Selection_Refactor.Models.Dao
          * 删除教师 by ids
          * 成功插入返回1，失败返回0，异常返回-1
          */
-        public int deleteTeacherByIds(string[] ids)
+        public int deleteProfessorByIds(string[] ids)
         {
-            List<Teacher> deleteTeachers = new List<Teacher>();
+            List<Professor> deleteProfessors = new List<Professor>();
+            ProfessorDBContext professorDB = new ProfessorDBContext();
             for (int i = 0; i < ids.Length; i++)
             {
-                deleteTeachers.Add(getTeacherById(ids[i]));
+                Professor professor = professorDB.professors.Find(ids[i]);
+                deleteProfessors.Add(professor);
             }
             try
             {
-                TeacherDBContext teacherDB = new TeacherDBContext();
-                teacherDB.teachers.RemoveRange(deleteTeachers);
-                return teacherDB.SaveChanges();
+                professorDB.professors.RemoveRange(deleteProfessors);
+                return professorDB.SaveChanges();
             }
             catch (Exception e)
             {
@@ -129,14 +130,14 @@ namespace Selection_Refactor.Models.Dao
          */
         public bool changePasswordById(string id, string password)
         {
-            TeacherDBContext teacherDB = new TeacherDBContext();
-            Teacher teacher = teacherDB.teachers.Find(id);
-            if (teacher != null)
+            ProfessorDBContext professorDB = new ProfessorDBContext();
+            Professor professor = professorDB.professors.Find(id);
+            if (professor != null)
             {
                 try
                 {
-                    teacher.password = password;
-                    teacherDB.SaveChanges();
+                    professor.password = password;
+                    professorDB.SaveChanges();
                     return true;
                 }
                 catch (Exception e)
