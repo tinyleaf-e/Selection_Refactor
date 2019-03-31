@@ -9,25 +9,6 @@ namespace Selection_Refactor.Util
 {
     public class CommonUtil
     {
-        /*
-         * Create By 高晔
-         * 获取文件后缀名
-         */
-        public static string getExtension(string filename)
-        {
-
-            try
-            {
-                Match m = Regex.Match(filename, @"^.+(\..{1,8})$");
-                string s = m.Groups[1].Value;
-                return s;
-            }
-            catch (Exception e)
-            {
-
-                return ".null";
-            }
-        }
 
         /*
          * Create By 高晔
