@@ -31,20 +31,22 @@ namespace Selection_Refactor.Controllers
         [HttpPost]
         public string doLogin(string userId,string passwd,int role)
         {
-            string retStr = "登录失败，用户不存在或密码错误";
+            string retStr = "fail:登录失败，用户不存在或密码错误";
             switch (role)
             {
                 case 1:
                     StudentDao studentDao = new StudentDao();
                     Student student = studentDao.getStudentById(userId);
-                    if (student != null && CryptoUtil.Md5Hash(passwd) == CryptoUtil.Md5Hash(student.password))
+                    if (student != null && passwd == student.password)
                     {
                         Response.Cookies.Add(createCookie(userId, passwd, "student", 24 * 60));
                         retStr = "success:/Student/Profile";
                     }
                     break;
                 case 2:
-                    if (CryptoUtil.Md5Hash(passwd) == CryptoUtil.Md5Hash())
+                    ProfessorDao professorDao = new ProfessorDao();
+                    Professor professor = professorDao.getProfessorById(userId);
+                    if (professor != null && passwd == professor.password)
                     {
                         Response.Cookies.Add(createCookie(userId, passwd, "dean", 24 * 60));
                         retStr = "success:/Dean/Professor";
@@ -54,7 +56,7 @@ namespace Selection_Refactor.Controllers
                 case 3:
                     DeanDao deanDao = new DeanDao();
                     Dean dean = deanDao.getDeanById(userId);
-                    if (dean != null && CryptoUtil.Md5Hash(passwd) == CryptoUtil.Md5Hash(dean.password))
+                    if (dean != null && passwd == dean.password)
                     {
                         Response.Cookies.Add(createCookie(userId, passwd, "admin", 24 * 60));
                         retStr = "success:/Student/Profile";
@@ -63,7 +65,7 @@ namespace Selection_Refactor.Controllers
                 case 4:
                     AdminDao adminDao = new AdminDao();
                     Admin admin = adminDao.getAdminById(userId);
-                    if (admin != null && CryptoUtil.Md5Hash(passwd) == CryptoUtil.Md5Hash(admin.password))
+                    if (admin != null && passwd == admin.password)
                     {
                         Response.Cookies.Add(createCookie(userId, passwd, "professor", 24 * 60));
                         retStr = "success:/Student/Profile";

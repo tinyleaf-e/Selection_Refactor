@@ -132,6 +132,15 @@ namespace Selection_Refactor.Models.Dao
         }
 
         /*
+        * Create By 付文欣
+        * 列出所有学生
+        */
+        public List<Student> listAllStudent()
+        {
+            return new StudentDBContext().students.ToList();
+        }
+
+        /*
       * Create By 徐子一
       * 根据id，修改学生密码
       * 成功返回1，失败返回0，异常返回-1
