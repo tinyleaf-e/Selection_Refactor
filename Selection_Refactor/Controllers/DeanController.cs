@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using System.Web.Script.Serialization;
 using Selection_Refactor.Attribute;
 using Selection_Refactor.Models.Dao;
 using Selection_Refactor.Models.Entity;
 using Selection_Refactor.Util;
+using System.Web.Script.Serialization;
 
 
 namespace Selection_Refactor.Controllers
@@ -180,6 +180,29 @@ namespace Selection_Refactor.Controllers
             }
             return retStr;
         }
-        
+
+        /*
+         * Create By 付文欣
+         * 修改密码接口
+         * 
+         */
+        //[RoleAuthorize(Role = "dean")]
+        public String ChangePassword(String oldpasswd,String newpasswd)
+        {
+            HttpCookie accountCookie = new HttpCookie("account");
+            StudentDao studentDao = new StudentDao();
+            Student student = studentDao.getStudentById(accountCookie["userId"]);
+            String retStr = "";
+            if (student != null && student.password == oldpasswd)
+            {
+                student.password = newpasswd;
+                retStr = "success";
+            }
+            else
+            {
+                retStr = "fail:登录失败，用户不存在或密码错误";
+            }
+            return retStr;
+        }
     }
 }

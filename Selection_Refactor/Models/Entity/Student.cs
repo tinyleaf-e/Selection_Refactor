@@ -17,7 +17,7 @@ namespace Selection_Refactor.Models.Entity
         [Display(Name ="密码")]
         public string password { set; get; } //加密后的密码
 
-        public string yearId { set; get; } //入学年份
+        //public string yearId { set; get; } //入学年份
 
         public bool gender { get; set; } //性别
 

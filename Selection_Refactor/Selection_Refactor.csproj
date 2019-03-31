@@ -52,10 +52,58 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=1.1.0.145, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpZipLib.1.1.0\lib\net45\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
     <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Spire.Barcode">
+      <HintPath>..\..\..\packages\Spire.Office.3.4.0\lib\net40\Spire.Barcode.dll</HintPath>
+    </Reference>
+    <Reference Include="Spire.Common">
+      <HintPath>..\..\..\packages\Spire.Office.3.4.0\lib\net40\Spire.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Spire.DataExport">
+      <HintPath>..\..\..\packages\Spire.Office.3.4.0\lib\net40\Spire.DataExport.dll</HintPath>
+    </Reference>
+    <Reference Include="Spire.DataExport.ResourceMgr">
+      <HintPath>..\..\..\packages\Spire.Office.3.4.0\lib\net40\Spire.DataExport.ResourceMgr.dll</HintPath>
+    </Reference>
+    <Reference Include="Spire.Doc">
+      <HintPath>..\..\..\packages\Spire.Office.3.4.0\lib\net40\Spire.Doc.dll</HintPath>
+    </Reference>
+    <Reference Include="Spire.DocViewer.Forms">
+      <HintPath>..\..\..\packages\Spire.Office.3.4.0\lib\net40\Spire.DocViewer.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="Spire.Email">
+      <HintPath>..\..\..\packages\Spire.Office.3.4.0\lib\net40\Spire.Email.dll</HintPath>
+    </Reference>
+    <Reference Include="Spire.License">
+      <HintPath>..\..\..\packages\Spire.Office.3.4.0\lib\net40\Spire.License.dll</HintPath>
+    </Reference>
+    <Reference Include="Spire.OfficeViewer.Forms">
+      <HintPath>..\..\..\packages\Spire.Office.3.4.0\lib\net40\Spire.OfficeViewer.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="Spire.Pdf">
+      <HintPath>..\..\..\packages\Spire.Office.3.4.0\lib\net40\Spire.Pdf.dll</HintPath>
+    </Reference>
+    <Reference Include="Spire.PdfViewer.Asp">
+      <HintPath>..\..\..\packages\Spire.Office.3.4.0\lib\net40\Spire.PdfViewer.Asp.dll</HintPath>
+    </Reference>
+    <Reference Include="Spire.PdfViewer.Forms">
+      <HintPath>..\..\..\packages\Spire.Office.3.4.0\lib\net40\Spire.PdfViewer.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="Spire.Presentation">
+      <HintPath>..\..\..\packages\Spire.Office.3.4.0\lib\net40\Spire.Presentation.dll</HintPath>
+    </Reference>
+    <Reference Include="Spire.Spreadsheet">
+      <HintPath>..\..\..\packages\Spire.Office.3.4.0\lib\net40\Spire.Spreadsheet.dll</HintPath>
+    </Reference>
+    <Reference Include="Spire.XLS">
+      <HintPath>..\..\..\packages\Spire.Office.3.4.0\lib\net40\Spire.XLS.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -174,7 +222,6 @@
     <Compile Include="Models\Dao\SettingDao.cs" />
     <Compile Include="Models\Dao\StudentDao.cs" />
     <Compile Include="Models\Dao\ProfessorDao.cs" />
-    <Compile Include="Models\Dao\ProfessorQuotaDao.cs" />
     <Compile Include="Models\Dao\UserDao.cs" />
     <Compile Include="Models\Entity\Admin.cs" />
     <Compile Include="Models\Entity\Dean.cs" />
@@ -182,12 +229,13 @@
     <Compile Include="Models\Entity\Setting.cs" />
     <Compile Include="Models\Entity\Student.cs" />
     <Compile Include="Models\Entity\Professor.cs" />
-    <Compile Include="Models\Entity\ProfessorQuota.cs" />
     <Compile Include="Models\Validation\ValidateHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Util\CommonUtil.cs" />
     <Compile Include="Util\CryptoUtil.cs" />
     <Compile Include="Util\LogUtil.cs" />
     <Compile Include="Util\TimeUtil.cs" />
+    <Compile Include="Util\ZipUtil.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\css\AdminLTE.css" />
@@ -308,6 +356,9 @@
     <Content Include="Views\Shared\_SecurityLayout.cshtml" />
     <Content Include="Views\Dean\Professor.cshtml" />
     <Content Include="Views\Dean\Student.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

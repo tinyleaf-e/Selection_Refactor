@@ -38,10 +38,18 @@ namespace Selection_Refactor.Models.Dao
          */
         public int deleteAdminById(string id)
         {
-            AdminDBContext adminDB = new AdminDBContext();
-            Admin admin = adminDB.admins.Find(id);
-            adminDB.admins.Remove(admin);
-            return adminDB.SaveChanges();
+            try
+            {
+                AdminDBContext adminDB = new AdminDBContext();
+                Admin admin = adminDB.admins.Find(id);
+                adminDB.admins.Remove(admin);
+                return adminDB.SaveChanges();
+            }
+            catch(Exception e)
+            {
+                return -1;
+            }
+            
         }
 
         /*
@@ -50,14 +58,22 @@ namespace Selection_Refactor.Models.Dao
          */
         public int deleteAdminsByIds(string[] ids)
         {
-            AdminDBContext adminDB = new AdminDBContext();
-            Admin admin;
-            foreach (string id in ids)
+            try
             {
-                admin = adminDB.admins.Find(id);
-                adminDB.admins.Remove(admin);
+                AdminDBContext adminDB = new AdminDBContext();
+                Admin admin;
+                foreach (string id in ids)
+                {
+                    admin = adminDB.admins.Find(id);
+                    adminDB.admins.Remove(admin);
+                }
+                return adminDB.SaveChanges();
             }
-            return adminDB.SaveChanges();
+            catch(Exception e)
+            {
+                return -1;
+            }
+            
         }
 
         /*
@@ -87,10 +103,18 @@ namespace Selection_Refactor.Models.Dao
          */
         public int changePasswdById(string id, string password)
         {
-            AdminDBContext adminDB = new AdminDBContext();
-            Admin admin = adminDB.admins.Find(id);
-            admin.password = password;
-            return adminDB.SaveChanges();
+            try
+            {
+                AdminDBContext adminDB = new AdminDBContext();
+                Admin admin = adminDB.admins.Find(id);
+                admin.password = password;
+                return adminDB.SaveChanges();
+            }
+            catch(Exception e)
+            {
+                return -1;
+            }
+
         }
 
         /*
@@ -99,10 +123,17 @@ namespace Selection_Refactor.Models.Dao
          */
         public int changeNameById(string id, string name)
         {
-            AdminDBContext adminDB = new AdminDBContext();
-            Admin admin = adminDB.admins.Find(id);
-            admin.name = name;
-            return adminDB.SaveChanges();
+            try
+            {
+                AdminDBContext adminDB = new AdminDBContext();
+                Admin admin = adminDB.admins.Find(id);
+                admin.name = name;
+                return adminDB.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                return -1;
+            }
         }
     }
 }

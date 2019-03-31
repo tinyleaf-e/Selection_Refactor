@@ -13,6 +13,7 @@ namespace Selection_Refactor.Models.Entity
         public string name { get; set; } //姓名
         public string password { get; set; } //密码
         public string title { get; set; } //职称
+        public int quota { get; set; } //招生额度
         public string infoURL { get; set; } //教师简介链接
         public string remark { get; set; } //备注信息
     }
