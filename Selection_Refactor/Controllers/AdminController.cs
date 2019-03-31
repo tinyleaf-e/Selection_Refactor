@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Selection_Refactor.Attribute;
 using Selection_Refactor.Models.Dao;
 using Selection_Refactor.Models.Entity;
 using Selection_Refactor.Util;
 using System.Web.Script.Serialization;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Spire.Xls;
 
 namespace Selection_Refactor.Controllers
 {
@@ -291,7 +289,7 @@ namespace Selection_Refactor.Controllers
 
         /*
          * Create By 蒋予飞
-         * 请求全部教务教师信息
+         * A5:请求全部教务教师信息
          * 无参数
          * 返回值：操作成功时返回请求的教务教师json串
                   操作失败时返回空json串
@@ -304,31 +302,21 @@ namespace Selection_Refactor.Controllers
             {
                 JavaScriptSerializer serializer = new JavaScriptSerializer();
                 DeanDao deanDao = new DeanDao();
-                List<Dean> deans = null;
+                List<Dean> deans = new List<Dean>();
                 deans = deanDao.listAllDeans();
-                if (deans == null)
-                {
-                    return serializer.Serialize(rel).ToString();
-                }
-                else
-                {
-
-                    var json = serializer.Serialize(deans);
-                    rel = json.ToString();
-                    return rel;
-                }
-
+                var json = serializer.Serialize(deans);
+                rel = json.ToString();
+                return rel;
             }
             catch (Exception e)
             {
-                JavaScriptSerializer serializer = new JavaScriptSerializer();
-                return serializer.Serialize(rel).ToString();
+                return "[]";
             }
         }
 
         /*
          * Create By 蒋予飞
-         * 新增单个教务教师
+         * A6:新增单个教务教师
          * 无参数
          * 返回值：操作成功时返回success
                   操作失败时返回fail
@@ -339,9 +327,12 @@ namespace Selection_Refactor.Controllers
             try
             {
                 int majorId = int.Parse(major);
-                JavaScriptSerializer serializer = new JavaScriptSerializer();
                 DeanDao deanDao = new DeanDao();
                 Dean dean = new Dean();
+                if (deanDao.getDeanById(number) != null)
+                {
+                    return "fail:已存在该工号的教务老师";
+                }
                 dean.name = name;
                 dean.id = number;
                 dean.majorId = majorId;
@@ -352,52 +343,159 @@ namespace Selection_Refactor.Controllers
                 }
                 else
                 {
-                    return "fail";
+                    return "fail:数据连接错误";
                 }
             }
             catch (Exception e)
             {
-                JavaScriptSerializer serializer = new JavaScriptSerializer();
-                return "fail";
+                return "fail:"+e.Message;
             }
         }
 
-        /*
+        /* 
          * Create By 蒋予飞
-         * 新增多个教务教师
+         * A7:新增多个教务教师
          * 无参数
          * 返回值：操作成功时返回success
                   操作失败时返回fail
          */
-        public string batchAddJaowuTeachers(string name, string number, string major)
+        public string batchAddJaowuTeachers(HttpPostedFileBase file)
         {
-            //string rel = "";
+            DeanDao deandao = new DeanDao();
+            var severPath = this.Server.MapPath("/ExcelFiles/");
+            if (!Directory.Exists(severPath))
+            {
+                Directory.CreateDirectory(severPath);
+            }
+            var savePath = Path.Combine(severPath, file.FileName);
+            Dean dean = null;
+            Workbook workbook = new Workbook();
+            Worksheet sheet = null;
+
+            string result = "{}";
+            int addres = 0 ;
+
             try
             {
-                int majorId = int.Parse(major);
-                JavaScriptSerializer serializer = new JavaScriptSerializer();
-                DeanDao deanDao = new DeanDao();
-                Dean dean = new Dean();
-                dean.name = name;
-                dean.id = number;
-                dean.majorId = majorId;
-                int rel = deanDao.addDean(dean);
-                if (rel == 1)
+                if (string.Empty.Equals(file.FileName) || (".xls" != Path.GetExtension(file.FileName) && ".xlsx" != Path.GetExtension(file.FileName)))
+                {
+                    throw new Exception("文件格式不正确");
+                }
+
+                file.SaveAs(savePath);
+                workbook.LoadFromFile(savePath);
+                sheet = workbook.Worksheets[0];
+                int row = sheet.Rows.Length;//获取不为空的行数
+                int col = sheet.Columns.Length;//获取不为空的列数
+                string tempId;
+                string tempName;
+                string tempMajor;
+
+                int idcol = -11;
+                int namecol = -11;
+                int titlecol = -11;
+                int idrow = -11;
+                CellRange[] cellrange = sheet.Cells;
+                int rangelength = cellrange.Length;
+                for (int i = 0; i < row; i++)
+                {
+                    for (int j = 0; j < col; j++)
+                    {
+                        tempId = cellrange[i * col + j].Value;
+                        if (tempId.Equals("教务教师编号"))
+                        {
+                            idcol = j;
+                            idrow = i + 1;
+                        }
+                        if (tempId.Equals("姓名"))
+                        {
+                            namecol = j;
+                        }
+                        if (tempId.Equals("负责专业编号"))
+                        {
+                            titlecol = j;
+                        }
+                    }
+                    if (idcol >= 0 && namecol >= 0)
+                    {
+                        break;
+                    }
+                }
+
+                if (idcol < 0 || namecol < 0)
+                {
+                    throw new Exception("不是教师表");
+                }
+                for (int i = idrow; i < row; i++)
+                {
+                    tempId = cellrange[i * col + idcol].Value;
+                    tempName = cellrange[i * col + namecol].Value;
+                    tempMajor = cellrange[i * col + titlecol].Value;
+                    if (tempName != "")
+                    {
+                        dean = new Dean();
+                        dean.id = tempId;
+                        dean.name = tempName;
+                        dean.majorId = int.Parse(tempMajor);
+                        addres = deandao.addDean(dean);
+                        if (addres == -1)
+                        {
+                            throw new Exception("已存在教师：id"+tempId+" 姓名:"+tempName+" 专业："+tempId);
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                if (e.Message.Equals("不是教师表"))
+                {
+                    result = "{\"error\":\"不是教师表\"}";
+                }
+                else if (e.Message.Equals("文件格式不正确"))
+                {
+                    result = "{\"error\":\"文件格式不正确\"}";
+                }
+                else
+                {
+                    result = "{\"error\":\""+e.Message+"\"}";
+                }
+            }
+            finally
+            {
+                workbook.Dispose();
+                sheet = null;
+                workbook = null;
+            }
+            return result;
+        }
+
+        /* 
+         * Create By 蒋予飞
+         * A8:删除一个教务教师
+         * 无参数
+         * 返回值：操作成功时返回success
+                  操作失败时返回fail：失败原因
+         */
+         public string deleteSingleJiaowuTeacher(string id)
+        {
+            try
+            {
+                DeanDao deandao = new DeanDao();
+                int res = deandao.deleteDeanById(id);
+                if (res == 1)
                 {
                     return "success";
                 }
                 else
                 {
-                    return "fail";
+                    return "fail:不存在该教师";
                 }
             }
-            catch (Exception e)
+            catch(Exception e)
             {
-                JavaScriptSerializer serializer = new JavaScriptSerializer();
-                return "fail";
+                return "fail:"+e.Message;
             }
+            
         }
-
-
     }
 }

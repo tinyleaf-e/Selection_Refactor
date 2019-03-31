@@ -97,16 +97,16 @@ namespace Selection_Refactor.Models.Dao
          * Create By 蒋予飞
          * 更新教务信息
          */
-        public int updateDean(string id, string name, string password, int majorId, string remark)
+        public int updateDean(Dean indean)
         {
             try
             {
                 DeanDBContext deanDB = new DeanDBContext();
                 Dean dean = deanDB.deans.Find(id);
-                dean.name = name;
-                dean.password = password;
-                dean.majorId = majorId;
-                dean.remark = remark;
+                dean.name = indean.name;
+                dean.password = indean.password;
+                dean.majorId = indean.majorId;
+                dean.remark = indean.remark;
                 return deanDB.SaveChanges();
             }
             catch(Exception e)
