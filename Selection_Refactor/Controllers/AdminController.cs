@@ -9,6 +9,8 @@ using Selection_Refactor.Util;
 using System.Web.Script.Serialization;
 using Newtonsoft.Json.Linq;
 using Spire.Xls;
+using Selection_Refactor.Attribute;
+
 
 namespace Selection_Refactor.Controllers
 {
@@ -41,7 +43,7 @@ namespace Selection_Refactor.Controllers
                 else
                     System.IO.Directory.CreateDirectory(tempPath);
 
-                string resultFileName = System.Guid.NewGuid().ToString()+".zip";
+                string resultFileName = System.Guid.NewGuid().ToString() + ".zip";
                 string targetPath = this.Server.MapPath("/zipDic/");
                 if (!System.IO.Directory.Exists(targetPath))
                     System.IO.Directory.CreateDirectory(targetPath);
@@ -50,7 +52,7 @@ namespace Selection_Refactor.Controllers
 
                 StudentDao studentDao = new StudentDao();
                 List<Student> students = studentDao.listAllStudent();
-                foreach(Student stu in students)
+                foreach (Student stu in students)
                 {
                     if (stu.resumeUrl != "" && stu.resumeUrl != null)
                     {
@@ -68,14 +70,14 @@ namespace Selection_Refactor.Controllers
                         studentOfNoResumeStr += stu.id + "-" + stu.name + "\r\n";
 
                 }
-                if(studentOfNoResumeStr != "")
+                if (studentOfNoResumeStr != "")
                     CommonUtil.stringToFile(tempPath + "/" + "没有简历的学生名单.txt", studentOfNoResumeStr);
 
                 ZipUtil.CreateZip(tempPath, targetPath + resultFileName);
                 Directory.Delete(tempPath, true);
 
                 return "success:/zipDic/" + resultFileName;
-                
+
             }
             catch (Exception e)
             {
@@ -168,7 +170,7 @@ namespace Selection_Refactor.Controllers
                   操作失败时返回fail:失败原因
          */
         //[RoleAuthorize(Role = "admin")]
-        public string updateSettingTime(string infoStart,string infoEnd,string firstStart,string firstEnd,string secondStart,string secondEnd)
+        public string updateSettingTime(string infoStart, string infoEnd, string firstStart, string firstEnd, string secondStart, string secondEnd)
         {
             try
             {
@@ -205,12 +207,13 @@ namespace Selection_Refactor.Controllers
          *  Create By 徐子一
          *  A10:新增单个学生接口
          */
-        public string addSingleStudent(string name,string id,string major,int age,string telephone,bool isWorking,string email)
+        public string addSingleStudent(string name, string id, string major, int age, string telephone, bool isWorking, string email)
         {
             StudentDBContext studentDBContext = new StudentDBContext();
             StudentDao studentDao = new StudentDao();
             Student s = new Student();
-            try {
+            try
+            {
                 s.name = name;
                 s.id = id;
                 s.graMajor = major;
@@ -223,14 +226,15 @@ namespace Selection_Refactor.Controllers
                     return "fail:已有该学生";
                 }
 
-                            
-            } catch(Exception e)
+
+            }
+            catch (Exception e)
             {
                 return "fail:添加失败";
             }
             return "success";
-           
-            
+
+
         }
         /*  
          *  Create By 徐子一
@@ -240,15 +244,15 @@ namespace Selection_Refactor.Controllers
         {
             StudentDBContext studentDBContext = new StudentDBContext();
 
-            return null; 
+            return null;
         }
         /*  
          *  Create By 徐子一
          *  A12:删除学生接口
          */
-         public string deleteSingleStudent(string stuId)
+        public string deleteSingleStudent(string stuId)
         {
-           
+
             StudentDao studentDao = new StudentDao();
             int b = studentDao.deleteStudentById(stuId);
             if (b == 1)
@@ -268,10 +272,10 @@ namespace Selection_Refactor.Controllers
          *  Create By 徐子一
          *  A13:重置学生密码接口
          */
-        public string resetStudentPassword(string stuId,string password)
+        public string resetStudentPassword(string stuId, string password)
         {
             StudentDao studentDao = new StudentDao();
-            List<Student> list=new List<Student>();
+            List<Student> list = new List<Student>();
             list.Add(studentDao.getStudentById(stuId));
             Student s = new Student();
             if (list.Count <= 0)
@@ -279,12 +283,12 @@ namespace Selection_Refactor.Controllers
             else
                 s = list[0];
             int b = studentDao.changePasswdById(stuId, password);
-            if (b==1)
+            if (b == 1)
             {
                 return "success";
             }
             return "fail:修改失败";
-           
+
         }
 
         /*
@@ -302,13 +306,13 @@ namespace Selection_Refactor.Controllers
             AdminProfessor ap = null;
             List<AdminProfessor> apsList = new List<AdminProfessor>();
             psList = professorDao.listAllProfessor();
-            if(psList == null)
+            if (psList == null)
             {
                 return res;
             }
             else
             {
-                foreach(Professor p in psList)
+                foreach (Professor p in psList)
                 {
                     ap = new AdminProfessor();
                     ap.Order = listOrder++;
@@ -318,19 +322,19 @@ namespace Selection_Refactor.Controllers
                     ap.ProInfoUrl = (professorDao.getProfessorById(p.id)).infoURL;
                     int ProFirstNum = 0, ProSecondNum = 0, ProAssignNum = 0;
                     List<Student> stlist = studentDao.listAllStudent();
-                    if(stlist != null && stlist.Count>0)
+                    if (stlist != null && stlist.Count > 0)
                     {
-                        foreach(Student s in stlist)
+                        foreach (Student s in stlist)
                         {
-                            if(s.firstWill==p.id && s.firstWillState ==1)
+                            if (s.firstWill == p.id && s.firstWillState == 1)
                             {
                                 ProFirstNum++;
                             }
-                            else if(s.secondWill==p.id&&s.secondWillState==1)
+                            else if (s.secondWill == p.id && s.secondWillState == 1)
                             {
                                 ProSecondNum++;
                             }
-                            else if(s.dispensedWill==p.id)
+                            else if (s.dispensedWill == p.id)
                             {
                                 ProAssignNum++;
                             }
@@ -354,7 +358,7 @@ namespace Selection_Refactor.Controllers
          * 增加一位教师
          */
         [RoleAuthorize(Role = "admin")]
-        public string addSingleProfessor(string name ,string number ,string title ,string url ,int needstudent)
+        public string addSingleProfessor(string name, string number, string title, string url, int needstudent)
         {
             ProfessorDao professorDao = new ProfessorDao();
             string res = "";
@@ -421,13 +425,14 @@ namespace Selection_Refactor.Controllers
             public int ProSecondNum { set; get; }
             public int ProAssignNum { set; get; }
 
+        }
         /*
-         * Create By 蒋予飞
-         * A5:请求全部教务教师信息
-         * 无参数
-         * 返回值：操作成功时返回请求的教务教师json串
-                  操作失败时返回空json串
-         */
+            * Create By 蒋予飞
+            * A5:请求全部教务教师信息
+            * 无参数
+            * 返回值：操作成功时返回请求的教务教师json串
+                    操作失败时返回空json串
+            */
         //[RoleAuthorize(Role = "admin")]
         public string getJiaowuTeachers()
         {
@@ -449,12 +454,12 @@ namespace Selection_Refactor.Controllers
         }
 
         /*
-         * Create By 蒋予飞
-         * A6:新增单个教务教师
-         * 无参数
-         * 返回值：操作成功时返回success
-                  操作失败时返回fail
-         */
+            * Create By 蒋予飞
+            * A6:新增单个教务教师
+            * 无参数
+            * 返回值：操作成功时返回success
+                    操作失败时返回fail
+            */
         public string addSingleJiaowuTeacher(string name, string number, string major)
         {
             //string rel = "";
@@ -482,17 +487,17 @@ namespace Selection_Refactor.Controllers
             }
             catch (Exception e)
             {
-                return "fail:"+e.Message;
+                return "fail:" + e.Message;
             }
         }
 
         /* 
-         * Create By 蒋予飞
-         * A7:新增多个教务教师
-         * 无参数
-         * 返回值：操作成功时返回success
-                  操作失败时返回fail
-         */
+            * Create By 蒋予飞
+            * A7:新增多个教务教师
+            * 无参数
+            * 返回值：操作成功时返回success
+                    操作失败时返回fail
+            */
         public string batchAddJaowuTeachers(HttpPostedFileBase file)
         {
             DeanDao deandao = new DeanDao();
@@ -507,7 +512,7 @@ namespace Selection_Refactor.Controllers
             Worksheet sheet = null;
 
             string result = "{}";
-            int addres = 0 ;
+            int addres = 0;
 
             try
             {
@@ -574,7 +579,7 @@ namespace Selection_Refactor.Controllers
                         addres = deandao.addDean(dean);
                         if (addres == -1)
                         {
-                            throw new Exception("已存在教师：id"+tempId+" 姓名:"+tempName+" 专业："+tempId);
+                            throw new Exception("已存在教师：id" + tempId + " 姓名:" + tempName + " 专业：" + tempId);
                         }
                     }
                 }
@@ -591,7 +596,7 @@ namespace Selection_Refactor.Controllers
                 }
                 else
                 {
-                    result = "{\"error\":\""+e.Message+"\"}";
+                    result = "{\"error\":\"" + e.Message + "\"}";
                 }
             }
             finally
@@ -604,13 +609,13 @@ namespace Selection_Refactor.Controllers
         }
 
         /* 
-         * Create By 蒋予飞
-         * A8:删除一个教务教师
-         * 无参数
-         * 返回值：操作成功时返回success
-                  操作失败时返回fail：失败原因
-         */
-         public string deleteSingleJiaowuTeacher(string id)
+            * Create By 蒋予飞
+            * A8:删除一个教务教师
+            * 无参数
+            * 返回值：操作成功时返回success
+                    操作失败时返回fail：失败原因
+            */
+        public string deleteSingleJiaowuTeacher(string id)
         {
             try
             {
@@ -625,11 +630,11 @@ namespace Selection_Refactor.Controllers
                     return "fail:不存在该教师";
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
-                return "fail:"+e.Message;
+                return "fail:" + e.Message;
             }
-            
+
         }
     }
 }
