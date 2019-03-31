@@ -88,21 +88,21 @@ namespace Selection_Refactor.Tests.Dao
         }
 
 
-        [TestMethod]
-        public void TestMethod_listStudentByYearId()
-        {
-            StudentDao studentDao = new StudentDao();
-            //Student student = new Student();
-            List<Student> list = studentDao.listStudentByYearId("1821");
-            foreach (Student student in list)
-            {
-                Console.WriteLine(student.id, student.name);
-                Assert.AreEqual("1821", student.yearId);
-            }
-            Console.WriteLine("Right");
+        //[TestMethod]
+        //public void TestMethod_listStudentByYearId()
+        //{
+        //    StudentDao studentDao = new StudentDao();
+        //    //Student student = new Student();
+        //    List<Student> list = studentDao.listAllStudent();
+        //    foreach (Student student in list)
+        //    {
+        //        Console.WriteLine(student.id, student.name);
+        //        Assert.AreEqual("1821", student.yearId);
+        //    }
+        //    Console.WriteLine("Right");
 
 
-        }
+        //}
 
 
         [TestMethod]
