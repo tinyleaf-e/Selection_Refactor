@@ -13,6 +13,7 @@
     <div style="padding:0 0 5px 15px" class="form-inline">
         <button id="upload-students-btn" class="btn btn-primary" style="margin-right:20px">上传学生</button>
         <button id="add-student-btn" class="btn btn-success" style="margin-right:20px">新增学生</button>
+        <button id="zip-download-resume-btn" class="btn btn-success" style="margin-right:20px">打包下载学生简历</button>
         <select id="filter-select" class="form-control">
             <option value="0">全部学生</option>
             <option value="1">没有提交信息学生</option>
@@ -234,6 +235,28 @@
         });
         $("#add-student-btn").click(function () {
             $("#add-student-modal").modal('show');
+        });
+        $("#zip-download-resume-btn").click(function () {
+            $.post("/Admin/zipDownloadResumes", data, function (rel) {
+                if (rel.indexOf("success") == 0) {
+                    // 生成一个a元素
+                    var a = document.createElement('a');
+                    // 创建一个单击事件
+                    var event = new MouseEvent('click');
+                    // 将a的download属性设置
+                    a.download = '双选系统-学生简历打包.zip';
+                    // 将生成的URL设置为a.href属性
+                    a.href = rel.substring(8);
+                    // 触发a的单击事件
+                    a.dispatchEvent(event)
+                }
+                else
+                    $.gyAlert({
+                        title: "下载失败",
+                        contentText: rel.substring(5),
+                        cancelButton: false
+                    });
+            });
         });
 
         $("#password-submit-btn").click(function () {
