@@ -317,7 +317,7 @@ namespace Selection_Refactor.Controllers
                     ap.proQuota = (professorDao.getProfessorById(p.id)).quota;
                     ap.ProInfoUrl = (professorDao.getProfessorById(p.id)).infoURL;
                     int ProFirstNum = 0, ProSecondNum = 0, ProAssignNum = 0;
-                    List<Student> stlist = studentDao.listStudentByYearId("2019");
+                    List<Student> stlist = studentDao.listAllStudent();
                     if(stlist != null && stlist.Count>0)
                     {
                         foreach(Student s in stlist)

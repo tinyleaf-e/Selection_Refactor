@@ -100,12 +100,42 @@ namespace Selection_Refactor.Controllers
             }
             return retStr;
         }
-
-        public string listSelectedStudents (string proId)
+        /*
+         * Create By zzw
+         * 通过proId列出教师已选学生列表
+         * 
+         */
+        //[RoleAuthorize(Role = "dean")]
+        public string listSelectedStudentsByProId (string proId)
         {
             ProfessorDao professorDao = new ProfessorDao();
             StudentDao studentDao = new StudentDao();
-            
+            List<Student> stlist = studentDao.listAllStudent();
+            List<Student> listSelectedStudents = null;
+            string res = "";
+            foreach (Student s in stlist)
+            {
+                if (s.firstWill == proId && s.firstWillState == 1)
+                {
+                    listSelectedStudents.Add(s);
+                }
+                else if (s.secondWill == proId && s.secondWillState == 1)
+                {
+                    listSelectedStudents.Add(s);
+                }
+                else if (s.dispensedWill == proId)
+                {
+                    listSelectedStudents.Add(s);
+                }
+            }
+            if (listSelectedStudents.Count <= 0) return res;
+            else
+            {
+                JavaScriptSerializer serializer = new JavaScriptSerializer();
+                var json = serializer.Serialize(listSelectedStudents);
+                res = json.ToString();
+                return res;
+            }
         }
     }
 }
