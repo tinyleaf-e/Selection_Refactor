@@ -187,13 +187,59 @@
         function deleteStudent(btn) {
             var tr = $(btn).closest('tr');
             var row = selectedTable.row(tr).data();
-            alert("删除学生" + row.name);
+            $.gyAlert({
+                contentText: "确认删除该学生?",
+                confirm: function () {
+                    var data = {
+                        id: row.id
+                    };
+                    $.post("/Professor/deleteStudent", data, function (rdata) {
+                        if (rdata == "success") {
+                            table.ajax.reload();
+                            $.gyAlert({
+                                title: "删除成功",
+                                contentText: "您已成功删除该学生"
+                            });
+                        }
+                        else
+                            $.gyAlert({
+                                title: "删除失败",
+                                contentText: rdata.substring(5),
+                                cancelButton: false
+                            });
+                    });
+                },
+                cancelButtonText: "取 消"
+            });
         }
 
         function chooseStudent(btn) {
             var tr = $(btn).closest('tr');
             var row = waitChooseTable.row(tr).data();
-            alert("选择学生" + row.name);
+            $.gyAlert({
+                contentText: "确认选择该学生?",
+                confirm: function () {
+                    var data = {
+                        id: row.id
+                    };
+                    $.post("/Professor/selectSecondWillStudent", data, function (rdata) {
+                        if (rdata == "success") {
+                            table.ajax.reload();
+                            $.gyAlert({
+                                title: "选择成功",
+                                contentText: "您已成功选择该学生"
+                            });
+                        }
+                        else
+                            $.gyAlert({
+                                title: "选择失败",
+                                contentText: rdata.substring(5),
+                                cancelButton: false
+                            });
+                    });
+                },
+                cancelButtonText: "取 消"
+            });
         }
     </script>
 
