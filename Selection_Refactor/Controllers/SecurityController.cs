@@ -48,8 +48,8 @@ namespace Selection_Refactor.Controllers
                     Professor professor = professorDao.getProfessorById(userId);
                     if (professor != null && passwd == professor.password)
                     {
-                        Response.Cookies.Add(createCookie(userId, passwd, "dean", 24 * 60));
-                        retStr = "success:/Dean/Professor";
+                        Response.Cookies.Add(createCookie(userId, passwd, "professor", 24 * 60));
+                        retStr = "success:/professor/Profile";
                     }
                         
                     break;
@@ -58,8 +58,8 @@ namespace Selection_Refactor.Controllers
                     Dean dean = deanDao.getDeanById(userId);
                     if (dean != null && passwd == dean.password)
                     {
-                        Response.Cookies.Add(createCookie(userId, passwd, "admin", 24 * 60));
-                        retStr = "success:/Student/Profile";
+                        Response.Cookies.Add(createCookie(userId, passwd, "dean", 24 * 60));
+                        retStr = "success:/dean/Profile";
                     }
                     break;
                 case 4:
@@ -67,8 +67,8 @@ namespace Selection_Refactor.Controllers
                     Admin admin = adminDao.getAdminById(userId);
                     if (admin != null && passwd == admin.password)
                     {
-                        Response.Cookies.Add(createCookie(userId, passwd, "professor", 24 * 60));
-                        retStr = "success:/Student/Profile";
+                        Response.Cookies.Add(createCookie(userId, passwd, "admin", 24 * 60));
+                        retStr = "success:/admin/Profile";
                     }
                     break;
                 default:
@@ -77,6 +77,81 @@ namespace Selection_Refactor.Controllers
             return retStr;
         }
 
+        /*
+         * Create By 付文欣
+         * 修改密码接口
+         * 
+         */
+        [RoleAuthorize(Role = "student,professor,dean,admin")]
+        public string changePassword(string oldpasswd, string newpasswd)
+        {
+            HttpCookie accountCookie = Request.Cookies["Account"];
+            string retStr = "";
+            try
+            {
+                switch (accountCookie["role"])
+                {
+                    case "student":
+                        StudentDao studentDao = new StudentDao();
+                        Student student = studentDao.getStudentById(accountCookie["userId"]);
+                        if (student != null && student.password == oldpasswd)
+                        {
+                            studentDao.changePasswdById(student.id, newpasswd);
+                            retStr = "success";
+                        }
+                        else
+                        {
+                            retStr = "fail:登录失败，用户不存在或密码错误";
+                        }
+                        return retStr;
+                    case "professor":
+                        ProfessorDao professorDao = new ProfessorDao();
+                        Professor professor = professorDao.getProfessorById(accountCookie["userId"]);
+                        if (professor != null && professor.password == oldpasswd)
+                        {
+                            professorDao.changePasswordById(professor.id, newpasswd);
+                            retStr = "success";
+                        }
+                        else
+                        {
+                            retStr = "fail:登录失败，用户不存在或密码错误";
+                        }
+                        return retStr;
+                    case "dean":
+                        DeanDao deanDao = new DeanDao();
+                        Dean dean = deanDao.getDeanById(accountCookie["userId"]);
+                        if (dean != null && dean.password == oldpasswd)
+                        {
+                            deanDao.changeDeanPasswdById(dean.id, newpasswd);
+                            retStr = "success";
+                        }
+                        else
+                        {
+                            retStr = "fail:登录失败，用户不存在或密码错误";
+                        }
+                        return retStr;
+                    case "admin":
+                        AdminDao adminDao = new AdminDao();
+                        Admin admin = adminDao.getAdminById(accountCookie["userId"]);
+                        if (admin != null && admin.password == oldpasswd)
+                        {
+                            adminDao.changePasswdById(admin.id, newpasswd);
+                            retStr = "success";
+                        }
+                        else
+                        {
+                            retStr = "fail:登录失败，用户不存在或密码错误";
+                        }
+                        return retStr;
+                    default:
+                        return "fail:登录失败，没有权限";
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
 
         /*
          * Create By 高晔

@@ -37,7 +37,7 @@ namespace Selection_Refactor.Models.Dao
             SettingDBContext settingDBContext = new SettingDBContext();
             settingDBContext.settings.Find("");
             MajorDBContext majorDBContext = new MajorDBContext();
-            majorDBContext.majors.Find("");
+            majorDBContext.majors.Find(0);
         }
 
     }
