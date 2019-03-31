@@ -111,7 +111,7 @@ namespace Selection_Refactor.Controllers
                 {
                     if (s.firstWillState == 1) return "already to choose this stu";
                     s.firstWillState = 1;
-                    studentDao.update(s);
+                    //studentDao.update(s);
                     return "success";
                 }
             }
@@ -140,7 +140,7 @@ namespace Selection_Refactor.Controllers
                 {
                     if (s.secondWillState == 1) return "already to choose this stu";
                     s.secondWillState = 1;
-                    studentDao.update(s);
+                    //studentDao.update(s);
                     return "success";
                 }
             }
