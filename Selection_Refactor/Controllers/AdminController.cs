@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -16,6 +17,70 @@ namespace Selection_Refactor.Controllers
         //{
 
         //}
+
+
+        /*
+         * Create By 高晔
+         * 打包下载简历
+         * 参数：无;
+         * 返回值：操作成功时返回success:压缩包相对地址
+                  操作失败时返回fail:失败原因
+         */
+        //[RoleAuthorize(Role = "admin")]
+        public string zipDownloadResumes()
+        {
+            try
+            {
+                string tempPath = this.Server.MapPath("/zipTemp-" + System.Guid.NewGuid().ToString());
+                if (System.IO.Directory.Exists(tempPath))
+                {
+                    System.IO.Directory.Delete(tempPath);
+                    System.IO.Directory.CreateDirectory(tempPath);
+                }
+                else
+                    System.IO.Directory.CreateDirectory(tempPath);
+
+                string resultFileName = System.Guid.NewGuid().ToString()+".zip";
+                string targetPath = this.Server.MapPath("/zipDic/");
+                if (!System.IO.Directory.Exists(targetPath))
+                    System.IO.Directory.CreateDirectory(targetPath);
+
+                string studentOfNoResumeStr = "";
+
+                StudentDao studentDao = new StudentDao();
+                List<Student> students = studentDao.listAllStudent();
+                foreach(Student stu in students)
+                {
+                    if (stu.resumeUrl != "" && stu.resumeUrl != null)
+                    {
+                        string fileName = stu.id + "-" + stu.name + "-简历" + CommonUtil.getExtension(stu.resumeUrl);
+                        try
+                        {
+                            System.IO.File.Copy(this.Server.MapPath(stu.resumeUrl), tempPath + "/" + fileName, true);
+                        }
+                        catch (Exception e)
+                        {
+                            studentOfNoResumeStr += stu.id + "-" + stu.name + "\r\n";
+                        }
+                    }
+                    else
+                        studentOfNoResumeStr += stu.id + "-" + stu.name + "\r\n";
+
+                }
+                if(studentOfNoResumeStr != "")
+                    CommonUtil.stringToFile(tempPath + "/" + "没有简历的学生名单.txt", studentOfNoResumeStr);
+
+                ZipUtil.CreateZip(tempPath, targetPath + resultFileName);
+                Directory.Delete(tempPath, true);
+
+                return "success:/zipDic/" + resultFileName;
+                
+            }
+            catch (Exception e)
+            {
+                return "fail:" + e.Message;
+            }
+        }
 
         /*
          * Create By 高晔

@@ -7,6 +7,10 @@ namespace Selection_Refactor.Util
 {
     public class TimeUtil
     {
+        /*
+         * Create By 高晔
+         * 获取当前时间，返回字符串，格式为YYYY-MM-DD hh:mm:ss
+         */
         public static string getCurrentTime()
         {
             string time = "";
