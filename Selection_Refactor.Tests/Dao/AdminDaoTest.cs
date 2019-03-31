@@ -9,7 +9,7 @@ using Selection_Refactor.Models.Validation;
 namespace Selection_Refactor.Tests.Dao
 {
     [TestClass]
-    class AdminDaoTest
+    public class AdminDaoTest
     {
         [TestMethod]
         public void TestMethod_AdminAdd()
@@ -94,6 +94,28 @@ namespace Selection_Refactor.Tests.Dao
             int result = adminDao.deleteAdminsByIds(str);
             //int result = adminDao.addAdmin(admin);
             Assert.AreEqual(2, result);
+            //Debug.WriteLine(result);
+        }
+
+        [TestMethod]
+        public void TestMethod_changeAdminPasswd()
+        {
+            AdminDao adminDao = new AdminDao();
+            Admin admin = new Admin();
+
+            ValidResult res = ValidateHelper.IsValid(admin);
+            /*if (!res.IsVaild)
+            {
+                foreach (ErrorMember errorMember in res.ErrorMembers)
+                {
+                    Debug.WriteLine(errorMember.ErrorMemberName + "：" + errorMember.ErrorMessage);
+                }
+            }*/
+            int got = adminDao.changePasswdById("adef","hhahah");
+            Console.WriteLine(got);
+            //int result = adminDao.addAdmin(admin);
+            //Assert.ReferenceEquals(Admin, result[0]);
+            Assert.AreEqual(1,got);
             //Debug.WriteLine(result);
         }
     }

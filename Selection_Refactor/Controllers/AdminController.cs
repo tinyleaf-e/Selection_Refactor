@@ -9,6 +9,8 @@ using Selection_Refactor.Models.Dao;
 using Selection_Refactor.Models.Entity;
 using Selection_Refactor.Util;
 using System.Web.Script.Serialization;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Selection_Refactor.Controllers
 {
@@ -421,6 +423,115 @@ namespace Selection_Refactor.Controllers
             public int ProSecondNum { set; get; }
             public int ProAssignNum { set; get; }
 
+        /*
+         * Create By 蒋予飞
+         * 请求全部教务教师信息
+         * 无参数
+         * 返回值：操作成功时返回请求的教务教师json串
+                  操作失败时返回空json串
+         */
+        //[RoleAuthorize(Role = "admin")]
+        public string getJiaowuTeachers()
+        {
+            string rel = "";
+            try
+            {
+                JavaScriptSerializer serializer = new JavaScriptSerializer();
+                DeanDao deanDao = new DeanDao();
+                List<Dean> deans = null;
+                deans = deanDao.listAllDeans();
+                if (deans == null)
+                {
+                    return serializer.Serialize(rel).ToString();
+                }
+                else
+                {
+
+                    var json = serializer.Serialize(deans);
+                    rel = json.ToString();
+                    return rel;
+                }
+
+            }
+            catch (Exception e)
+            {
+                JavaScriptSerializer serializer = new JavaScriptSerializer();
+                return serializer.Serialize(rel).ToString();
+            }
         }
+
+        /*
+         * Create By 蒋予飞
+         * 新增单个教务教师
+         * 无参数
+         * 返回值：操作成功时返回success
+                  操作失败时返回fail
+         */
+        public string addSingleJiaowuTeacher(string name, string number, string major)
+        {
+            //string rel = "";
+            try
+            {
+                int majorId = int.Parse(major);
+                JavaScriptSerializer serializer = new JavaScriptSerializer();
+                DeanDao deanDao = new DeanDao();
+                Dean dean = new Dean();
+                dean.name = name;
+                dean.id = number;
+                dean.majorId = majorId;
+                int rel = deanDao.addDean(dean);
+                if (rel == 1)
+                {
+                    return "success";
+                }
+                else
+                {
+                    return "fail";
+                }
+            }
+            catch (Exception e)
+            {
+                JavaScriptSerializer serializer = new JavaScriptSerializer();
+                return "fail";
+            }
+        }
+
+        /*
+         * Create By 蒋予飞
+         * 新增多个教务教师
+         * 无参数
+         * 返回值：操作成功时返回success
+                  操作失败时返回fail
+         */
+        public string batchAddJaowuTeachers(string name, string number, string major)
+        {
+            //string rel = "";
+            try
+            {
+                int majorId = int.Parse(major);
+                JavaScriptSerializer serializer = new JavaScriptSerializer();
+                DeanDao deanDao = new DeanDao();
+                Dean dean = new Dean();
+                dean.name = name;
+                dean.id = number;
+                dean.majorId = majorId;
+                int rel = deanDao.addDean(dean);
+                if (rel == 1)
+                {
+                    return "success";
+                }
+                else
+                {
+                    return "fail";
+                }
+            }
+            catch (Exception e)
+            {
+                JavaScriptSerializer serializer = new JavaScriptSerializer();
+                return "fail";
+            }
+        }
+
+
     }
 }
