@@ -124,11 +124,20 @@ namespace Selection_Refactor.Models.Dao
        * 列出所有学生，按年级序号排列
        *
        */
-       public List<Student> listStudentByYearId(string yearId)
+       public List<Student> listAllStudent(string yearId)
         {
             StudentDBContext studentDB = new StudentDBContext();
-            List<Student> studentList = studentDB.students.Where(s=>s.yearId==yearId).ToList();
+            List<Student> studentList = studentDB.students.ToList();
             return studentList;
+        }
+
+        /*
+        * Create By 付文欣
+        * 列出所有学生
+        */
+        public List<Student> listAllStudent()
+        {
+            return new StudentDBContext().students.ToList();
         }
 
         /*

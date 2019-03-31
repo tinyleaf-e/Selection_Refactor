@@ -52,6 +52,9 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=1.1.0.145, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpZipLib.1.1.0\lib\net45\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
     <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
     </Reference>
@@ -162,6 +165,7 @@
     <Compile Include="Attribute\RoleAuthorizeAttribute.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\DeanController.cs" />
+    <Compile Include="Controllers\ProfessorController.cs" />
     <Compile Include="Controllers\SecurityController.cs" />
     <Compile Include="Controllers\StudentController.cs" />
     <Compile Include="Global.asax.cs">
@@ -171,7 +175,6 @@
     <Compile Include="Models\Dao\DeanDao.cs" />
     <Compile Include="Models\Dao\MajorDao.cs" />
     <Compile Include="Models\Dao\SettingDao.cs" />
-    <Compile Include="Models\Dao\StageDao.cs" />
     <Compile Include="Models\Dao\StudentDao.cs" />
     <Compile Include="Models\Dao\ProfessorDao.cs" />
     <Compile Include="Models\Dao\UserDao.cs" />
@@ -183,8 +186,11 @@
     <Compile Include="Models\Entity\Professor.cs" />
     <Compile Include="Models\Validation\ValidateHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Util\CommonUtil.cs" />
     <Compile Include="Util\CryptoUtil.cs" />
     <Compile Include="Util\LogUtil.cs" />
+    <Compile Include="Util\TimeUtil.cs" />
+    <Compile Include="Util\ZipUtil.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\css\AdminLTE.css" />

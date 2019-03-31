@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Selection_Refactor.Models.Entity;
+using Selection_Refactor.Util;
 
 namespace Selection_Refactor.Models.Dao
 {
@@ -128,6 +129,67 @@ namespace Selection_Refactor.Models.Dao
                 //throw e;
                 //LogUtil.writeLogToFile(e);
                 return -1;
+            }
+        }
+
+        /*
+         * Create By 高晔
+         * 获取当前所处阶段
+         * 正常返回1-7，1-7代表7个时间阶段，失败返回-1，异常返回-1
+         */
+        public int getCurrentStage()
+        {
+            try
+            {
+                SettingDBContext settingDBContext = new SettingDBContext();
+                Setting setting = settingDBContext.settings.First();
+                if (setting != null)
+                {
+                    if (setting.mode == 2)
+                        return setting.stage;
+                    else
+                    {
+                        string currentTime = TimeUtil.getCurrentTime();
+                        if (currentTime.CompareTo(setting.infoStart) <= 0)
+                            return 1;
+                        else if (currentTime.CompareTo(setting.infoEnd) <= 0)
+                            return 2;
+                        else if (currentTime.CompareTo(setting.firstStart) <= 0)
+                            return 3;
+                        else if (currentTime.CompareTo(setting.firstEnd) <= 0)
+                            return 4;
+                        else if (currentTime.CompareTo(setting.secondStart) <= 0)
+                            return 5;
+                        else if (currentTime.CompareTo(setting.secondEnd) <= 0)
+                            return 6;
+                        else
+                            return 7;
+                    }
+                }
+                else
+                    return -1;
+            }
+            catch (Exception e)
+            {
+                return -1;
+            }
+        }
+        /*
+         * Create By 高晔
+         * 获取当前所用的设置信息
+         * 正常返回一个Setting，异常返回null
+         */
+        public Setting getCurrentSetting()
+        {
+            try
+            {
+                SettingDBContext settingDBContext = new SettingDBContext();
+                Setting setting = settingDBContext.settings.First();
+                return setting;
+            }
+            catch (Exception e)
+            {
+                return null;
             }
         }
     }
