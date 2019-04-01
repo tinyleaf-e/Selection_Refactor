@@ -36,10 +36,7 @@
     </div>
 
 </div>
-<div style="clear:both">
-
-    <!-- /. ROW  -->
-</div>
+<div style="clear:both"></div>
 <!-- /. PAGE INNER  -->
 <!-- /. PAGE WRAPPER  -->
 <!--以上是直接新增教师模态框-->
@@ -95,108 +92,110 @@
 </div>
 <!--以上是批量创建教师模态框-->
 <!-- /. WRAPPER  -->
-<script src="~/Content/plugins/datatables.net/js/jquery.dataTables.min.js"></script>
-<script src="~/Content/plugins/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
-<script src="~/Content/plugins/fileinput/js/fileinput.min.js"></script>
-<script src="~/Content/plugins/fileinput/js/zh.js"></script>
-<script>
-    function deleteDean(btn) {
-        var tr = $(btn).closest('tr');
-        var row = $('#dean-table').DataTable().row(tr).data();
-        $.gyAlert({
-            contentText: "确认删除该教务老师?",
-            confirm: function () {
+@section script{
+    <script src="~/Content/plugins/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="~/Content/plugins/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+    <script src="~/Content/plugins/fileinput/js/fileinput.min.js"></script>
+    <script src="~/Content/plugins/fileinput/js/zh.js"></script>
+    <script>
+        function deleteDean(btn) {
+            var tr = $(btn).closest('tr');
+            var row = $('#dean-table').DataTable().row(tr).data();
+            $.gyAlert({
+                contentText: "确认删除该教务老师?",
+                confirm: function () {
+                    var data = {
+                        userId: row.id
+                    };
+                    $.post("/Admin/deleteDeanById", data, function (rel) {
+                        if (rel == "success") {
+                            table.ajax.reload();
+                        }
+                        else
+                            $.gyAlert({
+                                title: "删除失败",
+                                contentText: rel.substring(5),
+                                cancelButton: false
+                            });
+                    });
+                },
+                cancelButtonText: "取 消"
+            });
+        }
+
+
+
+        var userType = 0;
+        $(document).ready(function () {
+            initTable();
+
+            $.get("https://www.easy-mock.com/mock/5c8368e622c6e01a284aae50/selection-mock/getMajor", function (data) {
+                for (var i = 0; i < data.length; i++) {
+                    $("#major-select").append('<option value="' + data[i].id + '">' + data[i].name + '</option>')
+                }
+            })
+
+            $("#upload-dean-btn").click(function () {
+                $("#batch-add-dean-modal").modal('show');
+            });
+            $("#add-dean-btn").click(function () {
+                $("#add-dean-modal").modal('show')
+            });
+            $("#submit-dean-btn").click(function () {
+                if ($("#name-input").val().trim() == "" || $("#name-input").val().trim() == "") {
+                    $("#name-input,#id-input").addClass("error-input");
+                    return;
+                }
+
                 var data = {
-                    userId: row.id
-                };
-                $.post("/Admin/deleteDeanById", data, function (rel) {
+                    'name': $("#name-input").val(),
+                    'id': $("#id-input").val(),
+                    'major': $("#major-select").val(),
+                }
+                $.post("/Admin/addDean", data, function (rel) {
                     if (rel == "success") {
                         table.ajax.reload();
                     }
                     else
                         $.gyAlert({
-                            title: "删除失败",
+                            title: "添加失败",
                             contentText: rel.substring(5),
                             cancelButton: false
                         });
                 });
-            },
-            cancelButtonText: "取 消"
-        });
-    }
-
-
-
-    var userType = 0;
-    $(document).ready(function () {
-        initTable();
-
-        $.get("https://www.easy-mock.com/mock/5c8368e622c6e01a284aae50/selection-mock/getMajor", function (data) {
-            for (var i = 0; i < data.length; i++) {
-                $("#major-select").append('<option value="' + data[i].id + '">' + data[i].name + '</option>')
-            }
-        })
-
-        $("#upload-dean-btn").click(function () {
-            $("#batch-add-dean-modal").modal('show');
-        });
-        $("#add-dean-btn").click(function () {
-            $("#add-dean-modal").modal('show')
-        });
-        $("#submit-dean-btn").click(function () {
-            if ($("#name-input").val().trim() == "" || $("#name-input").val().trim() == "") {
-                $("#name-input,#id-input").addClass("error-input");
-                return;
-            }
-
-            var data = {
-                'name': $("#name-input").val(),
-                'id': $("#id-input").val(),
-                'major': $("#major-select").val(),
-            }
-            $.post("/Admin/addDean", data, function (rel) {
-                if (rel == "success") {
-                    table.ajax.reload();
-                }
-                else
-                    $.gyAlert({
-                        title: "添加失败",
-                        contentText: rel.substring(5),
-                        cancelButton: false
-                    });
+                $("#add-dean-modal").modal('hide');
             });
-            $("#add-dean-modal").modal('hide');
         });
-    });
-    var initTable = function () {
-        $('#dean-table').DataTable({
-            ajax: {
-                url: 'https://www.easy-mock.com/mock/5b1fe0f0f71e0743260935e1/example/getJiaowuTeachers',
-                dataSrc: 'data'
-            },
-            "columns": [
-                {
-                    data: function (row, type, set, meta) {
-                        return meta.row + 1;
-                    }
+        var initTable = function () {
+            $('#dean-table').DataTable({
+                ajax: {
+                    url: 'https://www.easy-mock.com/mock/5b1fe0f0f71e0743260935e1/example/getJiaowuTeachers',
+                    dataSrc: 'data'
                 },
-                { data: "Number" },
-                { data: "TeacherName" },
-                { data: "MajorResponsible" },
-                {
-                    data: function (row, type, set, meta) {
-                        return [
-                            '<button type="button" class="btn btn-danger" onclick="deleteDean(this)">删除</button> '
-                        ].join('');
-                    }
-                },
-            ]
-        });
-    }
+                "columns": [
+                    {
+                        data: function (row, type, set, meta) {
+                            return meta.row + 1;
+                        }
+                    },
+                    { data: "Number" },
+                    { data: "TeacherName" },
+                    { data: "MajorResponsible" },
+                    {
+                        data: function (row, type, set, meta) {
+                            return [
+                                '<button type="button" class="btn btn-danger" onclick="deleteDean(this)">删除</button> '
+                            ].join('');
+                        }
+                    },
+                ]
+            });
+        }
 
-    $("#file-input").fileinput({
-        language: 'zh', //设置语言
-        uploadUrl: '/Admin/batchAddDeans',
-        allowedFileExtensions: ['xlsx', 'xls'],//接收的文件后缀
-    });
-</script>
+        $("#file-input").fileinput({
+            language: 'zh', //设置语言
+            uploadUrl: '/Admin/batchAddDeans',
+            allowedFileExtensions: ['xlsx', 'xls'],//接收的文件后缀
+        });
+    </script>
+}
