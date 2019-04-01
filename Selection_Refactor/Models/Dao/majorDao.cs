@@ -12,7 +12,7 @@ namespace Selection_Refactor.Models.Dao
          * Create by 付文欣  
          * 通过专业号获取专业
          */
-        public Major getMajorById(string id)
+        public Major getMajorById(int id)
         {
             MajorDBContext majorDBContext = new MajorDBContext();
             Major major = majorDBContext.majors.Find(id);
@@ -33,7 +33,7 @@ namespace Selection_Refactor.Models.Dao
          * 根据专业号删除专业
          * 成功删除返回1，失败返回0，异常返回-1
          */
-        public int deleteMajorById(string id)
+        public int deleteMajorById(int id)
         {
             try
             {
@@ -110,7 +110,7 @@ namespace Selection_Refactor.Models.Dao
          * 根据专业号修改专业名称
          * 成功添加返回1，失败返回0，异常返回-1
          */
-        public int changeNameById(String id,String newName)
+        public int changeNameById(int id,String newName)
         {
             try
             {
