@@ -90,11 +90,17 @@ namespace Selection_Refactor.Models.Dao
          * 添加一个专业
          * 成功添加返回1，失败返回0，异常返回-1
          */
-        public int addMajor(Major major)
+        public int addMajor(string name)
         {
             try
-            {
+            {                     
                 MajorDBContext majorDBContext = new MajorDBContext();
+                if(majorDBContext.majors.Where(m=> m.name == name).Count() > 0)
+                {
+                    return 0;
+                }
+                Major major = new Major();
+                major.name = name;
                 majorDBContext.majors.Add(major);
                 return majorDBContext.SaveChanges();
             }

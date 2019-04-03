@@ -1,4 +1,5 @@
 ﻿using System;
+using Spire.Xls;
 using System.Collections.Generic;
 using System.IO;
 using System.Web;
@@ -8,7 +9,6 @@ using Selection_Refactor.Models.Entity;
 using Selection_Refactor.Util;
 using System.Web.Script.Serialization;
 using Newtonsoft.Json.Linq;
-using Spire.Xls;
 using Selection_Refactor.Attribute;
 
 
@@ -635,6 +635,98 @@ namespace Selection_Refactor.Controllers
                 return "fail:" + e.Message;
             }
 
+        }
+
+        /* 
+            * Create By 付文欣
+            * 根据id删除专业
+            * 专业id
+            * 返回值：操作成功时返回success
+                    操作失败时返回fail：失败原因
+            */
+        [RoleAuthorize(Role = "admin")]
+        public string deleteMajorById(string id)
+        {
+            try
+            {
+                MajorDao majorDao = new MajorDao();
+                int res = majorDao.deleteMajorById(int.Parse(id));
+                if (res == 1)
+                {
+                    return "success";
+                }
+                else
+                {
+                    return "fail:不存在该专业";
+                }
+            }catch (Exception e)
+            {
+                return "fail:" + e.Message;
+            }
+        }
+
+        /* 
+            * Create By 付文欣
+            * 根据id修改专业
+            * 专业id，专业名称
+            * 返回值：操作成功时返回success
+                    操作失败时返回fail：失败原因
+            */
+        [RoleAuthorize(Role = "admin")]
+        public string editMajor(string id,string name)
+        {
+            try
+            {
+                MajorDao majorDao = new MajorDao();
+                int res = majorDao.changeNameById(int.Parse(id),name);
+                if (res == 1)
+                {
+                    return "success";
+                }
+                else
+                {
+                    return "fail:不存在该专业";
+                }
+            }
+            catch (Exception e)
+            {
+                return "fail:" + e.Message;
+            }
+        }
+
+        
+
+        /* 
+       * Create By 付文欣
+       * 添加专业
+       * 专业名称
+       * 返回值：操作成功时返回success
+               操作失败时返回fail：失败原因
+       */
+        [RoleAuthorize(Role = "admin")]
+        public string addMajor(string name)
+        {
+            try
+            {
+                MajorDao majorDao = new MajorDao();
+                int res = majorDao.addMajor(name);
+                if (res == 1)
+                {
+                    return "success";
+                }
+                else if (res == 0)
+                {
+                    return "fail:已存在该专业";
+                }
+                else
+                {
+                    return "fail:添加失败";
+                }
+            }
+            catch (Exception e)
+            {
+                return "fail:" + e.Message;
+            }
         }
     }
 }
