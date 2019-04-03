@@ -56,7 +56,7 @@ namespace Selection_Refactor.Controllers
                 {
                     if (stu.resumeUrl != "" && stu.resumeUrl != null)
                     {
-                        string fileName = stu.id + "-" + stu.name + "-简历" + CommonUtil.getExtension(stu.resumeUrl);
+                        string fileName = stu.id + "-" + stu.name + "-简历" + Path.GetExtension(stu.resumeUrl);
                         try
                         {
                             System.IO.File.Copy(this.Server.MapPath(stu.resumeUrl), tempPath + "/" + fileName, true);
