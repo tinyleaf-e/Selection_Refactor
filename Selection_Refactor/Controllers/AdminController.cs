@@ -198,6 +198,7 @@ namespace Selection_Refactor.Controllers
          */
         public string getStudentInfo()
         {
+            HttpCookie accountCookie = new HttpCookie("account");
             return null;
         }
         /*  
@@ -225,7 +226,7 @@ namespace Selection_Refactor.Controllers
                             
             } catch(Exception e)
             {
-                return "fail:添加失败";
+                return "fail"+ e.Message;
             }
             return "success";
            

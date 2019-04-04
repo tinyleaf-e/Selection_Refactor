@@ -96,10 +96,10 @@ namespace Selection_Refactor.Models.Dao
        * 更新学生信息
        *根据id查询学生对象，未找到返回false，找到则更新其表项个人信息数据，返回true
        */
-        public bool update(string id,string name,bool gender,int age,int majorId,string phoneNumber,string email,bool onTheJob)
+        public bool update(Student Stu)
         {
             StudentDBContext studentDB = new StudentDBContext();
-            List<Student> list = studentDB.students.Where(s => s.id == id).ToList();
+            List<Student> list = studentDB.students.Where(s => s.id == Stu.id).ToList();
             if (list.Count <= 0)
             {
                 return false;
@@ -107,13 +107,13 @@ namespace Selection_Refactor.Models.Dao
             else
             {
                 Student s = list[0];
-                s.name = name;
-                s.age = age;
-                s.gender = gender;
-                s.majorId = majorId;
-                s.phoneNumber = phoneNumber;
-                s.email = email;
-                s.onTheJob = onTheJob;
+                s.name = Stu.name;
+                s.age = Stu.age;
+                s.gender = Stu.gender;
+                s.majorId = Stu.majorId;
+                s.phoneNumber = Stu.phoneNumber;
+                s.email = Stu.email;
+                s.onTheJob = Stu.onTheJob;
                 studentDB.SaveChanges();
                 return true;
             }
