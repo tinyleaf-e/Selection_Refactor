@@ -32,12 +32,10 @@ namespace Selection_Refactor.Models.Dao
             deanDB.deans.Find("");
             ProfessorDBContext professorDB = new ProfessorDBContext();
             professorDB.professors.Find("");
-            ProfessorQuotaDBContext professorQuotaDB = new ProfessorQuotaDBContext();
-            professorQuotaDB.professorQuotas.Find("");
             SettingDBContext settingDBContext = new SettingDBContext();
             settingDBContext.settings.Find("");
             MajorDBContext majorDBContext = new MajorDBContext();
-            majorDBContext.majors.Find("");
+            majorDBContext.majors.Find(0);
         }
 
     }

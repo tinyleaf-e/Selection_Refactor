@@ -37,10 +37,18 @@ namespace Selection_Refactor.Models.Dao
          */
         public int deleteDeanById(string id)
         {
-            DeanDBContext deanDB = new DeanDBContext();
-            Dean dean = deanDB.deans.Find(id);
-            deanDB.deans.Remove(dean);
-            return deanDB.SaveChanges();
+            try
+            {
+                DeanDBContext deanDB = new DeanDBContext();
+                Dean dean = deanDB.deans.Find(id);
+                deanDB.deans.Remove(dean);
+                return deanDB.SaveChanges();
+            }
+            catch(Exception e)
+            {
+                return -1;
+            }
+
         }
 
         /*
@@ -49,14 +57,22 @@ namespace Selection_Refactor.Models.Dao
          */
         public int deleteDeansById(string[] ids)
         {
-            DeanDBContext deanDB = new DeanDBContext();
-            Dean dean;
-            foreach (string id in ids)
+            try
             {
-                dean = deanDB.deans.Find(id);
-                deanDB.deans.Remove(dean);
+                DeanDBContext deanDB = new DeanDBContext();
+                Dean dean;
+                foreach (string id in ids)
+                {
+                    dean = deanDB.deans.Find(id);
+                    deanDB.deans.Remove(dean);
+                }
+                return deanDB.SaveChanges();
             }
-            return deanDB.SaveChanges();
+            catch(Exception e)
+            {
+                return -1;
+            }
+            
         }
 
         /*
@@ -81,15 +97,23 @@ namespace Selection_Refactor.Models.Dao
          * Create By 蒋予飞
          * 更新教务信息
          */
-        public int updateDean(string id, string name, string password, int majorId, string remark)
+        public int updateDean(Dean indean)
         {
-            DeanDBContext deanDB = new DeanDBContext();
-            Dean dean = deanDB.deans.Find(id);
-            dean.name = name;
-            dean.password = password;
-            dean.majorId = majorId;
-            dean.remark = remark;
-            return deanDB.SaveChanges();
+            try
+            {
+                DeanDBContext deanDB = new DeanDBContext();
+                Dean dean = deanDB.deans.Find(indean.id);
+                dean.name = indean.name;
+                dean.password = indean.password;
+                dean.majorId = indean.majorId;
+                dean.remark = indean.remark;
+                return deanDB.SaveChanges();
+            }
+            catch(Exception e)
+            {
+                return -1;
+            }
+
         }
 
         /*
@@ -98,10 +122,17 @@ namespace Selection_Refactor.Models.Dao
          */
         public int changeDeanPasswdById(string id,string password)
         {
-            DeanDBContext deanDB = new DeanDBContext();
-            Dean dean = deanDB.deans.Find(id);
-            dean.password = password;
-            return deanDB.SaveChanges();
+            try
+            {
+                DeanDBContext deanDB = new DeanDBContext();
+                Dean dean = deanDB.deans.Find(id);
+                dean.password = password;
+                return deanDB.SaveChanges();
+            }
+            catch(Exception e)
+            {
+                return -1;
+            }
         }
     }
 }

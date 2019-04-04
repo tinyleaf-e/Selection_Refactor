@@ -20,6 +20,7 @@ namespace Selection_Refactor.Tests.Dao
             professor_1.name = "zzw";
             professor_1.password = "123456";
             professor_1.remark = "test";
+            professor_1.quota = 0;
             professor_1.infoURL = "oldinfo";
             professor_1.title = "software";
             int result2 = professorDao.addProfessor(professor_1);
@@ -32,6 +33,7 @@ namespace Selection_Refactor.Tests.Dao
             professor_2.remark = "test";
             professor_2.infoURL = "oldinfo";
             professor_2.title = "software";
+            professor_2.quota = 0;
             int result3 = professorDao.addProfessor(professor_2);
 
             Professor professor_3 = new Professor();
@@ -41,6 +43,7 @@ namespace Selection_Refactor.Tests.Dao
             professor_3.remark = "test";
             professor_3.infoURL = "oldinfo";
             professor_3.title = "software";
+            professor_3.quota = 0;
             int result4 = professorDao.addProfessor(professor_3);
         }
         [TestMethod]
@@ -67,7 +70,7 @@ namespace Selection_Refactor.Tests.Dao
         public void TestMethod_UpdateProfessor()
         {
             ProfessorDao professorDao = new ProfessorDao();
-            bool isRight = professorDao.updateProfessor("zzw16211094", "new_zzw", "new_title", "new_info", "new_remark");
+            bool isRight = professorDao.updateProfessor("zzw16211094", "new_zzw", "new_title", "new_info", 1,"new_remark");
             Console.WriteLine(isRight);
         }
         [TestMethod]

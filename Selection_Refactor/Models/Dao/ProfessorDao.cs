@@ -57,7 +57,7 @@ namespace Selection_Refactor.Models.Dao
          * 更新教师
          * 成功插入返回true，未查询到返回false
          */
-        public bool updateProfessor(string id, string name, string title, string infoURL, string remark)
+        public bool updateProfessor(string id, string name, string title, string infoURL, int quota,string remark)
         {
             ProfessorDBContext professorDB = new ProfessorDBContext();
             List<Professor> list = professorDB.professors.Where(t => t.id == id).ToList();
@@ -71,6 +71,7 @@ namespace Selection_Refactor.Models.Dao
                 p.name = name;
                 p.title = title;
                 p.infoURL = infoURL;
+                p.quota = quota;
                 p.remark = remark;
                 professorDB.SaveChanges();
                 return true;
@@ -149,5 +150,26 @@ namespace Selection_Refactor.Models.Dao
             }
             return false;
         }
+        ///*
+        // * Create By zzw
+        // * 更改额度
+        // * 成功修改返回true，失败返回false
+        // */
+        //public bool changeQuotaByProfessorId(string professorId, string yearId, int quota)
+        //{
+        //    ProfessorDBContext professorQuotaDB = new ProfessorDBContext();
+        //    List<Professor> list = professorQuotaDB.professors.Where(tQuota => tQuota.id == professorId).ToList();
+        //    if (list.Count <= 0)
+        //    {
+        //        return false;
+        //    }
+        //    else
+        //    {
+        //        Professor tQuota = list[0];
+        //        tQuota.quota = quota;
+        //        professorQuotaDB.SaveChanges();
+        //        return true;
+        //    }
+        //}
     }
 }
