@@ -194,25 +194,88 @@ namespace Selection_Refactor.Controllers
                 return "fail:" + e.Message;
             }
         }
+        public class AdminStudent
+        {
+            // public int Order { set; get; }
+            public string StuName { set; get; }
+            public string id { set; get; }          
+            public int major { set; get; }
+            public bool infoCommited { set; get; }
+            public bool twoWillCommited { set; get; }
+            public string FinalTutor { set; get; }       
+
+        }
 
         /*  
          *  Create By 徐子一
          *  A9:请求全部学生信息
          */
+        //[RoleAuthorize(Role = "admin")]
         public string getStudentInfo()
         {
-            HttpCookie accountCookie = new HttpCookie("account");
-            return null;
+            string res = "";
+            StudentDao studentDao = new StudentDao();
+            List<Student> students = studentDao.listAllStudent();
+            List<AdminStudent> adminStudents = new List<AdminStudent>();
+            AdminStudent Astudent=new AdminStudent();
+            if (students == null)
+            {
+                return res;
+            }
+            else
+            {
+                foreach(Student s in students)
+                {
+                    Astudent.id = s.id;
+                    Astudent.StuName = s.name;
+                    Astudent.major = s.majorId;
+                    //专业方向？
+                    Astudent.infoCommited = s.infoChecked;
+                    if (s.firstWill != null && s.secondWill != null)
+                    {
+                        Astudent.twoWillCommited = true;
+                    }
+                    else
+                    {
+                        Astudent.twoWillCommited = false;
+                    }
+                    if (s.firstWillState == 1)
+                    {
+                        Astudent.FinalTutor = s.firstWill;
+                    }
+                    else if (s.secondWillState == 1)
+                    {
+                        Astudent.FinalTutor = s.secondWill;
+                    }
+                    else if (s.firstWillState + s.secondWillState == 0)
+                    {
+                        Astudent.FinalTutor = null;
+                    }
+                    else
+                    {
+
+                        Astudent.FinalTutor = s.dispensedWill;
+                    }
+                    adminStudents.Add(Astudent);
+                }
+                JavaScriptSerializer serializer = new JavaScriptSerializer();
+                var json = serializer.Serialize(adminStudents);
+                res = json.ToString();
+                serializer = null;
+            }
+            return res;
         }
+
         /*  
          *  Create By 徐子一
          *  A10:新增单个学生接口
          */
+        //[RoleAuthorize(Role = "admin")]
         public string addSingleStudent(string name, string id, string major, int age, string telephone, bool isWorking, string email)
         {
-            StudentDBContext studentDBContext = new StudentDBContext();
+         //   StudentDBContext studentDBContext = new StudentDBContext();
             StudentDao studentDao = new StudentDao();
-            Student s = new Student();
+           Student s = new Student();
             try
             {
                 s.name = name;
@@ -222,73 +285,270 @@ namespace Selection_Refactor.Controllers
                 s.phoneNumber = telephone;
                 s.onTheJob = isWorking;
                 s.email = email;
-                if (studentDao.addStudent(s) == 0)
+                int res = studentDao.addStudent(s);
+                if (res == 1)
+                {
+                    return "success";
+                }
+                else
                 {
                     return "fail:已有该学生";
                 }
-
-
             }
             catch (Exception e)
             {
                 return "fail"+ e.Message;
             }
-            return "success";
-
-
         }
         /*  
          *  Create By 徐子一
          *  A11:上传多个学生接口
          */
-        public string batchAddStudents(List<Student> listStudents)
+        //[RoleAuthorize(Role = "admin")]
+        public string batchAddStudents(HttpPostedFileBase file)
         {
-            StudentDBContext studentDBContext = new StudentDBContext();
+            var severPath = this.Server.MapPath("/ExcelFiles/");
+            if (!Directory.Exists(severPath))
+            {
+                Directory.CreateDirectory(severPath);
+            }
+            var savePath = Path.Combine(severPath, file.FileName);
+            Student student = null;
+            StudentDao studentDao = new StudentDao();
+            string result = "{}";
+            int addres = 0;
+            List<Student> listStudents = new List<Student>();
+            Workbook workbook = new Workbook();
+            Worksheet sheet = null;
+            string error = "";
+            try
+            {
+                if (string.Empty.Equals(file.FileName) || (".xls" != Path.GetExtension(file.FileName) && ".xlsx" != Path.GetExtension(file.FileName)))
+                {
+                    throw new Exception("文件格式不正确");
+                }
 
-            return null;
+                file.SaveAs(savePath);
+                workbook.LoadFromFile(savePath);
+                sheet = workbook.Worksheets[0];
+                int row = sheet.Rows.Length;//获取不为空的行数
+                int col = sheet.Columns.Length;//获取不为空的列数
+                string tempId;
+                string tempName;
+                string tempGender;
+                string tempAge;
+                string tempGraSchool;
+                string tempGraMajor;
+                string tempPhonenumber;
+                string tempEmail;
+                string tempOnTheJob;
+                string tempMajorId;
+
+                int idcol = -11;
+                int namecol = -11;
+                int Gendercol = -11;
+                int Agecol = -11;
+                int GraSchoolcol = -11;
+                int GraMajorcol = -11;
+                int Majorcol = -11;
+                int PhoneNumbercol = -11;
+                int Emailcol = -11;
+                int OnTheJobcol = -11;
+                int idrow = -11;
+                //int maxnumcol = -11;
+                CellRange[] cellrange = sheet.Cells;
+                int rangelength = cellrange.Length;
+                for (int i = 0; i < row; i++)
+                {
+                    for (int j = 0; j < col; j++)
+                    {
+                        tempId = cellrange[i * col + j].Value;
+                        if (tempId.Equals("学号"))
+                        {
+                            idcol = j;
+                            idrow = i + 1;
+                        }
+                        else if (tempId.Equals("姓名"))
+                        {
+                            namecol = j;
+                        }
+                        else if (tempId.Equals("性别"))
+                        {
+                            Gendercol = j;
+                        }
+                        else if (tempId.Equals("年龄"))
+                        {
+                            Agecol = j;
+                        }
+                        else if (tempId.Equals("毕业院校"))
+                        {
+                            GraSchoolcol = j;
+                        }
+                        else if (tempId.Equals("毕业专业"))
+                        {
+                            GraMajorcol = j;
+                        }
+                        else if (tempId.Equals("专业方向"))
+                        {
+                            Majorcol = j;
+                        }
+                        else if (tempId.Equals("电话"))
+                        {
+                            PhoneNumbercol = j;
+                        }
+                        else if (tempId.Equals("邮箱"))
+                        {
+                            Emailcol = j;
+                        }
+                        else if (tempId.Equals("是否在职工作"))
+                        {
+                            OnTheJobcol = j;
+                        }
+                    
+                    }
+                    if (idcol >= 0 && namecol >= 0)
+                    {
+                        break;
+                    }
+                }
+
+                if (idcol < 0 || namecol < 0)
+                {
+                    throw new Exception("不是学生表");
+                }
+                for (int i = idrow; i < row; i++)
+                {
+                    tempId = cellrange[i * col + idcol].Value;
+                    tempName = cellrange[i * col + namecol].Value;
+                    tempGender = cellrange[i * col + Gendercol].Value;
+                    tempAge = cellrange[i * col + Agecol].Value;
+                    tempGraSchool = cellrange[i * col + GraSchoolcol].Value;
+                    tempGraMajor = cellrange[i * col + GraMajorcol].Value;
+                    tempMajorId = cellrange[i * col + Majorcol].Value;
+                    tempPhonenumber = cellrange[i * col + PhoneNumbercol].Value;
+                    tempEmail = cellrange[i * col + Emailcol].Value;
+                    tempOnTheJob = cellrange[i * col + OnTheJobcol].Value;
+                    if (tempName != "")
+                    {
+                        student = new Student();
+                        student.id = tempId;
+                        student.name = tempName;
+                        student.age = int.Parse(tempAge);
+                        if (tempGender.Equals("男"))
+                        {
+                            student.gender = true;
+                        }
+                        else
+                        {
+                            student.gender = false;
+                        }
+                        student.majorId = int.Parse(tempMajorId);                       
+                        student.graSchool = tempGraSchool;
+                        student.graMajor = tempGraMajor;
+                        student.phoneNumber = tempPhonenumber;
+                        student.email = tempEmail;
+                        if (tempGender.Equals("是"))
+                        {
+                            student.onTheJob = true;
+                        }
+                        else
+                        {
+                            student.onTheJob = false;
+                        }
+                        addres = studentDao.addStudent(student);
+                        if (addres == -1)
+                        {
+                            throw new Exception("已存在教师：id" + tempId + " 姓名:" + tempName + " 专业：" + tempId);
+
+                        }//listStudents.Add(student);
+                        }
+
+                }
+                //error = dbhelper.batchAddStudents(listStudents);
+                if (error.StartsWith("error"))
+                {
+                    throw new Exception("数据库更新出错");
+                }
+            }
+            catch (Exception e)
+            {
+                if (e.Message.Equals("不是学生表"))
+                {
+                    result = "{\"error\":\"不是学生表\"}";
+                }
+                else if (e.Message.Equals("文件格式不正确"))
+                {
+                    result = "{\"error\":\"文件格式不正确\"}";
+                }
+                else
+                {
+                    result = "{\"error\":\"在服务器端发生错误请联系管理员\"}";
+                }
+            }
+            finally
+            {
+                workbook.Dispose();
+                sheet = null;
+                workbook = null;
+            }
+            return result;
         }
         /*  
          *  Create By 徐子一
          *  A12:删除学生接口
          */
+        //[RoleAuthorize(Role = "admin")]
         public string deleteSingleStudent(string stuId)
         {
 
             StudentDao studentDao = new StudentDao();
-            int b = studentDao.deleteStudentById(stuId);
-            if (b == 1)
+            try
             {
-                return "success";
+                int b = studentDao.deleteStudentById(stuId);
+                if (b == 1)
+                {
+                    return "success";
+                }            
+                else
+                {
+                    return "fail:未找到该学生";
+                }
+
             }
-            else if (b == 0)
+            catch(Exception e)
             {
-                return "fail:查无此人";
-            }
-            else
-            {
-                return "fail:删除失败";
+                return "fail:" + e.Message;
             }
         }
         /*  
          *  Create By 徐子一
          *  A13:重置学生密码接口
          */
+        //[RoleAuthorize(Role = "admin")]
         public string resetStudentPassword(string stuId, string password)
         {
             StudentDao studentDao = new StudentDao();
             List<Student> list = new List<Student>();
-            list.Add(studentDao.getStudentById(stuId));
             Student s = new Student();
-            if (list.Count <= 0)
-                return "fail:未找到用户";
-            else
-                s = list[0];
-            int b = studentDao.changePasswdById(stuId, password);
-            if (b == 1)
+            try
             {
-                return "success";
+                list.Add(studentDao.getStudentById(stuId));
+                if (list.Count <= 0)
+                    return "fail:未找到用户";
+                else
+                    s = list[0];
+                int b = studentDao.changePasswdById(stuId, password);
+                if (b == 1)
+                {
+                    return "success";
+                }
+                return "fail:修改失败";
             }
-            return "fail:修改失败";
+            catch(Exception e)
+            {
+                return "fail:" + e.Message;
+            }
+            
 
         }
 
