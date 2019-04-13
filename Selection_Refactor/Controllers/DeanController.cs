@@ -105,7 +105,7 @@ namespace Selection_Refactor.Controllers
          * 通过proId列出教师已选学生列表
          * 
          */
-        //[RoleAuthorize(Role = "dean")]
+        [RoleAuthorize(Role = "dean")]
         public string listSelectedStudentsByProId (string proId)
         {
             ProfessorDao professorDao = new ProfessorDao();

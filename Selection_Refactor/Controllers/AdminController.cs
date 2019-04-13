@@ -9,6 +9,7 @@ using Selection_Refactor.Util;
 using System.Web.Script.Serialization;
 using Newtonsoft.Json.Linq;
 using Spire.Xls;
+using Selection_Refactor.Attribute;
 
 namespace Selection_Refactor.Controllers
 {
@@ -300,7 +301,6 @@ namespace Selection_Refactor.Controllers
             StudentDao studentDao = new StudentDao();
             string res = "";
             List<Professor> psList = null;
-            int listOrder = 1;
             AdminProfessor ap = null;
             List<AdminProfessor> apsList = new List<AdminProfessor>();
             psList = professorDao.listAllProfessor();
@@ -313,7 +313,6 @@ namespace Selection_Refactor.Controllers
                 foreach (Professor p in psList)
                 {
                     ap = new AdminProfessor();
-                    ap.Order = listOrder++;
                     ap.proName = p.name;
                     ap.proTitle = p.title;
                     ap.proQuota = (professorDao.getProfessorById(p.id)).quota;
@@ -368,7 +367,7 @@ namespace Selection_Refactor.Controllers
             professor.quota = needstudent;
             if (professorDao.getProfessorById(number) != null)
             {
-                res = "fail,the id is repeated!";
+                res = "fail:这个id已经存在";
             }
             else
             {
@@ -382,23 +381,151 @@ namespace Selection_Refactor.Controllers
          * 通过xls增加多个教师
          */
         [RoleAuthorize(Role = "admin")]
-        public string batchAddTeachers(string name, string number, string title, string url, string needstudent)
+        public string batchCreateTeachers(HttpPostedFileBase file)
         {
-            ProfessorDao professorDao = new ProfessorDao();
-            string res = "";
-            Professor professor = new Professor();
-            professor.name = name;
-            professor.id = number;
-            professor.title = title;
-            professor.infoURL = url;
-            if (professorDao.getProfessorById(number) != null)
+            var severPath = this.Server.MapPath("/ExcelFiles/");
+            if (!Directory.Exists(severPath))
             {
-                res = "fail,the id is repeated!";
+                Directory.CreateDirectory(severPath);
             }
-            else res = "success";
-            return res;
+            var savePath = Path.Combine(severPath, file.FileName);
+            Professor professor = null;
+            string result = "{}";
+            List<Professor> proList = new List<Professor>();
+            Workbook workbook = new Workbook();
+            Worksheet sheet = null;
+            int error = 0;
+            try
+            {
+                if (string.Empty.Equals(file.FileName) || (".xls" != Path.GetExtension(file.FileName) && ".xlsx" != Path.GetExtension(file.FileName)))
+                {
+                    throw new Exception("文件格式不正确");
+                }
+
+                file.SaveAs(savePath);
+                workbook.LoadFromFile(savePath);
+                sheet = workbook.Worksheets[0];
+                int row = sheet.Rows.Length;//获取不为空的行数
+                int col = sheet.Columns.Length;//获取不为空的列数
+                string tempId;
+                string tempName;
+                string tempTitle;
+                string tempUrl;
+                string tempQuota;
+                string tempPass;
+                string tempRemark;
+                int idcol = -11;
+                int namecol = -11;
+                int titlecol = -11;
+                int idrow = -11;
+                int urlcol = -11;
+                int quotacol = -11;
+                int passwordcol = -11;
+                int remarkcol = -11;
+                ProfessorDao professorDao = new ProfessorDao();
+                CellRange[] cellrange = sheet.Cells;
+                int rangelength = cellrange.Length;
+                for (int i = 0; i < row; i++)
+                {
+                    for (int j = 0; j < col; j++)
+                    {
+                        tempId = cellrange[i * col + j].Value;
+                        if (tempId.Equals("工号"))
+                        {
+                            idcol = j;
+                            idrow = i + 1;
+                        }
+                        if (tempId.Equals("姓名"))
+                        {
+                            namecol = j;
+                        }
+                        if (tempId.Equals("职称"))
+                        {
+                            titlecol = j;
+                        }
+                        if (tempId.Equals("介绍页面url"))
+                        {
+                            urlcol = j;
+                        }
+                        if (tempId.Equals("最大招收学生数"))
+                        {
+                            quotacol = j;
+                        }
+                        if (tempId.Equals("密码"))
+                        {
+                            passwordcol = j;
+                        }
+                        if (tempId.Equals("简介"))
+                        {
+                            remarkcol = j;
+                        }
+                    }
+                    if (idcol >= 0 && namecol >= 0)
+                    {
+                        break;
+                    }
+                }
+
+                if (idcol < 0 || namecol < 0)
+                {
+                    throw new Exception("不是教师表");
+                }
+                for (int i = idrow; i < row; i++)
+                {
+                    tempId = cellrange[i * col + idcol].Value;
+                    tempName = cellrange[i * col + namecol].Value;
+
+                    tempTitle = cellrange[i * col + titlecol].Value;
+                    tempUrl = cellrange[i * col + urlcol].Value;
+                    tempQuota = cellrange[i * col + quotacol].Value;
+                    tempPass = cellrange[i * col + passwordcol].Value;
+                    tempRemark = cellrange[i * col + remarkcol].Value;
+                    if (tempName != "")
+                    {
+                        professor = new Professor();
+                        professor.id = tempId;
+                        professor.name = tempName;
+                        professor.title = tempTitle;
+                        professor.infoURL = tempUrl;
+                        professor.quota = int.Parse(tempQuota);
+                        professor.password = tempPass;
+                        professor.remark = tempRemark;
+                        error = professorDao.addProfessor(professor);
+                        if (error == -1)
+                        {
+                            throw new Exception("数据库更新出错");
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                if (e.Message.Equals("数据库更新出错"))
+                {
+                    result = "{\"error\":\"" + error + "\"}";
+                }
+                else if (e.Message.Equals("文件格式不正确"))
+                {
+                    result = "{\"error\":\"文件格式不正确\"}";
+                }
+                else
+                {
+                    result = "{\"error\":\"在服务器端发生错误请联系管理员\"}";
+                }
+            }
+            finally
+            {
+                workbook.Dispose();
+                sheet = null;
+                workbook = null;
+            }
+            return result;
         }
-        //[RoleAuthorize(Role = "admin")]
+        /*
+         * Create By zzw
+         * 通过id删除单个教师
+         */
+        [RoleAuthorize(Role = "admin")]
         public string deleteSingleProfessor(string proId)
         {
             ProfessorDao professorDao = new ProfessorDao();
@@ -407,13 +534,12 @@ namespace Selection_Refactor.Controllers
             {
                 return "success";
             }
-            else if (res1 == 0) return "fail,Not Found";
-            else return "fail , exception";
+            else if (res1 == 0) return "fail:没有找到对应的教师";
+            else return "fail:删除失败，请联系管理员";
         }
         public class AdminProfessor
         {
             public int Order { set; get; }
-            public int UserId { set; get; }
             public string proName { set; get; }
             public string proTitle { set; get; }
             public int proQuota { set; get; }
@@ -422,51 +548,51 @@ namespace Selection_Refactor.Controllers
             public int ProFirstNum { set; get; }
             public int ProSecondNum { set; get; }
             public int ProAssignNum { set; get; }
-
-            /*
-             * Create By 蒋予飞
-             * 请求全部教务教师信息
-             * 无参数
-             * 返回值：操作成功时返回请求的教务教师json串
-                      操作失败时返回空json串
-             */
-            //[RoleAuthorize(Role = "admin")]
-            public string getJiaowuTeachers()
+        }
+        /*
+            * Create By 蒋予飞
+            * 请求全部教务教师信息
+            * 无参数
+            * 返回值：操作成功时返回请求的教务教师json串
+                    操作失败时返回空json串
+            */
+        //[RoleAuthorize(Role = "admin")]
+        public string getJiaowuTeachers()
+        {
+            string rel = "";
+            try
             {
-                string rel = "";
-                try
+                JavaScriptSerializer serializer = new JavaScriptSerializer();
+                DeanDao deanDao = new DeanDao();
+                List<Dean> deans = null;
+                deans = deanDao.listAllDeans();
+                if (deans == null)
                 {
-                    JavaScriptSerializer serializer = new JavaScriptSerializer();
-                    DeanDao deanDao = new DeanDao();
-                    List<Dean> deans = null;
-                    deans = deanDao.listAllDeans();
-                    if (deans == null)
-                    {
-                        return serializer.Serialize(rel).ToString();
-                    }
-                    else
-                    {
-
-                        var json = serializer.Serialize(deans);
-                        rel = json.ToString();
-                        return rel;
-                    }
-
-                }
-                catch (Exception e)
-                {
-                    JavaScriptSerializer serializer = new JavaScriptSerializer();
                     return serializer.Serialize(rel).ToString();
                 }
+                else
+                {
+
+                    var json = serializer.Serialize(deans);
+                    rel = json.ToString();
+                    return rel;
+                }
+
             }
+            catch (Exception e)
+            {
+                JavaScriptSerializer serializer = new JavaScriptSerializer();
+                return serializer.Serialize(rel).ToString();
+            }
+        }
 
         /*
-         * Create By 蒋予飞
-         * A6:新增单个教务教师
-         * 无参数
-         * 返回值：操作成功时返回success
-                  操作失败时返回fail
-         */
+            * Create By 蒋予飞
+            * A6:新增单个教务教师
+            * 无参数
+            * 返回值：操作成功时返回success
+                    操作失败时返回fail
+            */
         public string addSingleJiaowuTeacher(string name, string number, string major)
         {
             //string rel = "";
@@ -494,17 +620,16 @@ namespace Selection_Refactor.Controllers
             }
             catch (Exception e)
             {
-                return "fail:"+e.Message;
+                return "fail:" + e.Message;
             }
         }
-
         /* 
-         * Create By 蒋予飞
-         * A7:新增多个教务教师
-         * 无参数
-         * 返回值：操作成功时返回success
-                  操作失败时返回fail
-         */
+            * Create By 蒋予飞
+            * A7:新增多个教务教师
+            * 无参数
+            * 返回值：操作成功时返回success
+                    操作失败时返回fail
+            */
         public string batchAddJaowuTeachers(HttpPostedFileBase file)
         {
             DeanDao deandao = new DeanDao();
@@ -519,7 +644,7 @@ namespace Selection_Refactor.Controllers
             Worksheet sheet = null;
 
             string result = "{}";
-            int addres = 0 ;
+            int addres = 0;
 
             try
             {
@@ -586,7 +711,7 @@ namespace Selection_Refactor.Controllers
                         addres = deandao.addDean(dean);
                         if (addres == -1)
                         {
-                            throw new Exception("已存在教师：id"+tempId+" 姓名:"+tempName+" 专业："+tempId);
+                            throw new Exception("已存在教师：id" + tempId + " 姓名:" + tempName + " 专业：" + tempId);
                         }
                     }
                 }
@@ -603,7 +728,7 @@ namespace Selection_Refactor.Controllers
                 }
                 else
                 {
-                    result = "{\"error\":\""+e.Message+"\"}";
+                    result = "{\"error\":\"" + e.Message + "\"}";
                 }
             }
             finally
@@ -616,13 +741,13 @@ namespace Selection_Refactor.Controllers
         }
 
         /* 
-         * Create By 蒋予飞
-         * A8:删除一个教务教师
-         * 无参数
-         * 返回值：操作成功时返回success
-                  操作失败时返回fail：失败原因
-         */
-         public string deleteSingleJiaowuTeacher(string id)
+            * Create By 蒋予飞
+            * A8:删除一个教务教师
+            * 无参数
+            * 返回值：操作成功时返回success
+                    操作失败时返回fail：失败原因
+            */
+        public string deleteSingleJiaowuTeacher(string id)
         {
             try
             {
@@ -637,11 +762,11 @@ namespace Selection_Refactor.Controllers
                     return "fail:不存在该教师";
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
-                return "fail:"+e.Message;
+                return "fail:" + e.Message;
             }
-            
+
         }
     }
 }
