@@ -102,7 +102,7 @@ namespace Selection_Refactor.Models.Dao
             try
             {
                 DeanDBContext deanDB = new DeanDBContext();
-                Dean dean = deanDB.deans.Find(indean);
+                Dean dean = deanDB.deans.Find(indean.id);
                 dean.name = indean.name;
                 dean.password = indean.password;
                 dean.majorId = indean.majorId;

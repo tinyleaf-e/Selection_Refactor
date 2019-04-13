@@ -28,22 +28,21 @@ namespace Selection_Refactor.Controllers
             HttpCookie accountCookie = Request.Cookies["Account"];
             string id = accountCookie["userId"];
             string rel = "";
-            StudentDBContext studentDBContext = new StudentDBContext();
+           // StudentDBContext studentDBContext = new StudentDBContext();
             StudentDao studentDao = new StudentDao();
-            List<Student> list = studentDBContext.students.Where(s => s.id == id).ToList();
-            if (list.Count <= 0)
+            //List<Student> list = studentDBContext.students.Where(s=>s.id==id).ToList();
+           Student s=studentDao.getStudentById(id);
+            if (s==null)
             {
                 rel = "fail:不存在该学生";
             }
             else
-            {
-                Student s = list[0];
+            {               
                 s.firstWill = firstWill;
-                s.secondWill = secondWill;
-                s.firstWillState = 0;
-                s.secondWillState = 0;
-                s.infoChecked = true;
-                studentDBContext.SaveChanges();
+                s.secondWill = secondWill;              
+                // s.firstWillState = 0;
+                //s.secondWillState = 0;
+                //studentDBContext.SaveChanges();
                 rel = "success";
             }
             return rel;
@@ -56,23 +55,22 @@ namespace Selection_Refactor.Controllers
         {
             HttpCookie accountCookie = Request.Cookies["Account"];
             string id = accountCookie["userId"];
-            StudentDBContext studentDBContext = new StudentDBContext();
+            StudentDao studentDao = new StudentDao();
             string rel = "";
-            List<Student> list = studentDBContext.students.Where(s => s.id == id).ToList();
-            if (list.Count < 1)
+            Student s = studentDao.getStudentById(id);
+            if (s == null)
             {
-                rel = "fail:不存在此学生";
+                rel = "fail:未找到此学生";
             }
             else
             {
-                Student s = list[0];
                 s.age = age;
                 s.phoneNumber = phoneNumber;
                 s.email = email;
                 s.onTheJob = onTheJob;
                 s.graSchool = graSchool;
                 s.graMajor = graMajor;
-                studentDBContext.SaveChanges();
+                studentDao.update(s);
                 rel = "success";
             }
             return rel;

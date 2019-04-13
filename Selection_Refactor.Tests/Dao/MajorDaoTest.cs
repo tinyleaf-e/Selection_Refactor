@@ -18,10 +18,10 @@ namespace Selection_Refactor.Tests.Dao
         {
             MajorDao majorDao = new MajorDao();
             Major major = new Major();
-            major.id = "a323456";
+           // major.id = "a323456";
             major.name = "英语";
             major.remark = "123sdaSDSA";
-            majorDao.addMajor(major);
+           // majorDao.addMajor(major);
             major = majorDao.getMajorById(major.id);
             ValidResult validResult = ValidateHelper.IsValid(major);
             Assert.AreEqual(1,majorDao.deleteMajorById(major.id));

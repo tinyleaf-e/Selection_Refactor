@@ -13,7 +13,7 @@ namespace Selection_Refactor.Models.Entity
     {
         [Required]
         [Key]
-        public string id { set; get; } // 专业ID
+        public int id { set; get; } // 专业ID
 
         public string name { set; get; } // 专业名称
 
