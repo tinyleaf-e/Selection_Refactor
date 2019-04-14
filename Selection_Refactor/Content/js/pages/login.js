@@ -1,10 +1,10 @@
 ﻿$(document).ready(function () {
     $("#login-btn").click(function () {
         var roleMap = {
-            "学生": "student",
-            "教师": "professor",
-            "教务": "dean",
-            "管理员": "admin"
+            "学生": 1,
+            "教师": 2,
+            "教务": 3,
+            "管理员": 4
         }
         if ($("#userid-input").val() == "" || $("#passwd-input").val() == "")
             $.gyAlert({

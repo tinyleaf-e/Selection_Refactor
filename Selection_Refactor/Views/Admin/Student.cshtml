@@ -223,7 +223,7 @@
             $("#set-password-modal").modal('show');
         }
 
-        $.get("https://www.easy-mock.com/mock/5c8368e622c6e01a284aae50/selection-mock/getMajor", function (data) {
+        $.get("/Admin/getMajor", function (data) {
             for (var i = 0; i < data.length; i++) {
                 $("#major-select").append('<option value="' + data[i].id + '">' + data[i].name + '</option>')
             }
@@ -297,10 +297,10 @@
                     'age': $("#age-input").val(),
                     'major': $("#major-select").val(),
                     'telephone': $("#telephone-input").val(),
-                    'isworking': $("#isworking-input").val(),
+                    'isworking': $("#isworking-input").val()=="1",
                     'email': $("#email-input").val(),
                 }
-                $.post("/Admin/addStudent", data, function (rel) {
+                $.post("/Admin/addSingleStudent", data, function (rel) {
                     if (rel == "success") {
                         table.ajax.reload();
                     }
@@ -318,8 +318,8 @@
         var initTable = function () {
             $('#student-table').DataTable({
                 ajax: {
-                    url: 'https://www.easy-mock.com/mock/5b1fe0f0f71e0743260935e1/example/getStuInfo',
-                    dataSrc: 'data'
+                    url: '/Admin/getStudentInfo',
+                    dataSrc: ''
                 },
                 "columns": [
                     {

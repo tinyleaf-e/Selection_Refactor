@@ -22,6 +22,27 @@ namespace Selection_Refactor.Controllers
 
         //}
 
+        public ActionResult Index()
+        {
+            return View();
+        }
+        public ActionResult Student()
+        {
+            return View();
+        }
+        public ActionResult Jiaowu()
+        {
+            return View();
+        }
+        public ActionResult Setting()
+        {
+            return View();
+        }
+        public ActionResult Major()
+        {
+            return View();
+        }
+
 
         /*
          * Create By 高晔
@@ -1032,7 +1053,7 @@ namespace Selection_Refactor.Controllers
             * 返回值：操作成功时返回success
                     操作失败时返回fail：失败原因
             */
-        [RoleAuthorize(Role = "admin")]
+        //[RoleAuthorize(Role = "admin")]
         public string deleteMajorById(string id)
         {
             try
@@ -1053,6 +1074,32 @@ namespace Selection_Refactor.Controllers
             }
         }
 
+
+        /* 
+            * Create By 付文欣
+            * 获取全部专业
+            * 返回值：操作成功时返回全部专业
+                    操作失败时返回fail：失败原因
+            */
+        //[RoleAuthorize(Role = "admin")]
+        public string getAllMajor()
+        {
+            try
+            {
+                MajorDao majorDao = new MajorDao();
+                List<Major> majors = majorDao.listAllByMajor();
+                JavaScriptSerializer serializer = new JavaScriptSerializer();
+                var json = serializer.Serialize(majors);
+                string retStr = json.ToString();
+                return retStr;
+
+            }
+            catch(Exception e)
+            {
+                return "fail:查询失败！";
+            }
+        }
+
         /* 
             * Create By 付文欣
             * 根据id修改专业
@@ -1060,7 +1107,7 @@ namespace Selection_Refactor.Controllers
             * 返回值：操作成功时返回success
                     操作失败时返回fail：失败原因
             */
-        [RoleAuthorize(Role = "admin")]
+        //[RoleAuthorize(Role = "admin")]
         public string editMajor(string id,string name)
         {
             try
@@ -1091,7 +1138,7 @@ namespace Selection_Refactor.Controllers
        * 返回值：操作成功时返回success
                操作失败时返回fail：失败原因
        */
-        [RoleAuthorize(Role = "admin")]
+        //[RoleAuthorize(Role = "admin")]
         public string addMajor(string name)
         {
             try
@@ -1116,5 +1163,6 @@ namespace Selection_Refactor.Controllers
                 return "fail:" + e.Message;
             }
         }
+
     }
 }
