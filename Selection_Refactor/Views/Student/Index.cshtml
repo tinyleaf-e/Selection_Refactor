@@ -3,6 +3,7 @@
     ViewBag.CurrentTab = "index";
     ViewBag.BoxTitle = "个人信息";
     ViewBag.Role = "Student";
+
 }
 @section css{
     <link href="~/Content/plugins/fileinput/css/fileinput.min.css" rel="stylesheet" />
@@ -14,26 +15,26 @@
     <div class="col-md-6">
         <div class="form-group">
             <label for="name">姓名</label>
-            <input type="text" class="form-control" id="stuName" readonly>
+            <input type="text" class="form-control" id="stuName" value="@ViewBag.StuName" readonly>
         </div>
         <div class="form-group">
             <label for="age">年龄</label>
-            <input type="text" class="form-control" id="stuAge">
+            <input type="text" class="form-control" id="stuAge" value="@ViewBag.StuAge">
         </div>
         <div class="form-group">
             <label for="tel">电话</label>
-            <input type="tel" class="form-control" id="stuTel">
+            <input type="tel" class="form-control" id="stuTel" value="@ViewBag.StuTel">
         </div>
         <div class="form-group">
             <label for="email">邮箱</label>
-            <input type="email" class="form-control" id="stuEmail">
+            <input type="email" class="form-control" id="stuEmail" value="@ViewBag.StuEmail">
         </div>
     </div>
 
     <div class="col-md-6">
         <div class="form-group">
             <label for="id">学号</label>
-            <input type="text" class="form-control" id="stuID" readonly>
+            <input type="text" class="form-control" id="stuID" value="@ViewBag.StuId" readonly>
         </div>
         <div class="form-group">
             <label for="major">专业</label>
@@ -53,11 +54,11 @@
         </div>
         <div class="form-group">
             <label for="graSchool">本科毕业学校</label>
-            <input type="text" class="form-control" id="stuGraSchool">
+            <input type="text" class="form-control" id="stuGraSchool" value="@ViewBag.StuGraSchool">
         </div>
         <div class="form-group">
             <label for="graMajor">本科毕业专业</label>
-            <input type="text" class="form-control" id="stuGraMajor">
+            <input type="text" class="form-control" id="stuGraMajor" value="@ViewBag.StuGraMajor">
         </div>
     </div>
     <div class="box-footer center-block">
