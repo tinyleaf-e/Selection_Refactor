@@ -24,6 +24,17 @@ namespace Selection_Refactor.Controllers
 
         public ActionResult Index()
         {
+            HttpCookie accountCookie = Request.Cookies["Account"];
+            string id = accountCookie["userId"];
+            StudentDao studentDao = new StudentDao();
+            Student student = studentDao.getStudentById(id);
+            ViewBag.StuName = student.name;
+            ViewBag.StuAge = student.age.ToString();
+            ViewBag.StuTel = student.phoneNumber;
+            ViewBag.StuEmail = student.email;
+            ViewBag.StuId = student.id;
+            ViewBag.StuGraSchool = student.graSchool;
+            ViewBag.StuGraMajor = student.graMajor;
             return View();
         }
         public ActionResult FinalWill()
