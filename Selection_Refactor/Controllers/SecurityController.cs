@@ -20,34 +20,138 @@ namespace Selection_Refactor.Controllers
             return View();
         }
 
+
+        /*
+         * Create By 付文欣
+         * 用户的登录，所有角色共用这一个登录接口
+         * 参数：用户名、密码、角色（1学生，2导师，3教务，4管理员）;
+         * 返回值：登录成功时返回success:跳转链接
+                  登录失败时返回fail:失败原因
+         */
         [HttpPost]
-        public string doLogin(string userId,string passwd)
+        public string doLogin(string userId,string passwd,int role)
         {
-            //TODO By 高晔 下边登录目前只是方便开发，后期要改
-            if (userId == "student" && CryptoUtil.Md5Hash(passwd) == CryptoUtil.Md5Hash("student"))
+            string retStr = "fail:登录失败，用户不存在或密码错误";
+            switch (role)
             {
-                Response.Cookies.Add(createCookie(userId,passwd,"student",24*60));
-                return "success:/Student/Index";
+                case 1:
+                    StudentDao studentDao = new StudentDao();
+                    Student student = studentDao.getStudentById(userId);
+                    if (student != null && passwd == student.password)
+                    {
+                        Response.Cookies.Add(createCookie(userId, passwd, "student", 24 * 60));
+                        retStr = "success:/Student/Profile";
+                    }
+                    break;
+                case 2:
+                    ProfessorDao professorDao = new ProfessorDao();
+                    Professor professor = professorDao.getProfessorById(userId);
+                    if (professor != null && passwd == professor.password)
+                    {
+                        Response.Cookies.Add(createCookie(userId, passwd, "professor", 24 * 60));
+                        retStr = "success:/professor/Profile";
+                    }
+                        
+                    break;
+                case 3:
+                    DeanDao deanDao = new DeanDao();
+                    Dean dean = deanDao.getDeanById(userId);
+                    if (dean != null && passwd == dean.password)
+                    {
+                        Response.Cookies.Add(createCookie(userId, passwd, "dean", 24 * 60));
+                        retStr = "success:/dean/Profile";
+                    }
+                    break;
+                case 4:
+                    AdminDao adminDao = new AdminDao();
+                    Admin admin = adminDao.getAdminById(userId);
+                    if (admin != null && passwd == admin.password)
+                    {
+                        Response.Cookies.Add(createCookie(userId, passwd, "admin", 24 * 60));
+                        retStr = "success:/admin/Profile";
+                    }
+                    break;
+                default:
+                    break;
             }
-            else if (userId == "dean" && CryptoUtil.Md5Hash(passwd) == CryptoUtil.Md5Hash("dean"))
-            {
-                Response.Cookies.Add(createCookie(userId, passwd, "dean", 24 * 60));
-                return "success:/Dean/Professor";
-            } 
-            else if (userId == "admin" && CryptoUtil.Md5Hash(passwd) == CryptoUtil.Md5Hash("admin"))
-            {
-                Response.Cookies.Add(createCookie(userId, passwd, "admin", 24 * 60));
-                return "success:/Admin/Index";
-            }
-            else if (userId == "professor" && CryptoUtil.Md5Hash(passwd) == CryptoUtil.Md5Hash("professor"))
-            {
-                Response.Cookies.Add(createCookie(userId, passwd, "professor", 24 * 60));
-                return "success:/Professor/Index";
-            }
-            else
-                return "登录失败，用户不存在或密码错误";
+            return retStr;
         }
 
+        /*
+         * Create By 付文欣
+         * 修改密码接口
+         * 
+         */
+        [RoleAuthorize(Role = "student,professor,dean,admin")]
+        public string changePassword(string oldpasswd, string newpasswd)
+        {
+            HttpCookie accountCookie = Request.Cookies["Account"];
+            string retStr = "";
+            try
+            {
+                switch (accountCookie["role"])
+                {
+                    case "student":
+                        StudentDao studentDao = new StudentDao();
+                        Student student = studentDao.getStudentById(accountCookie["userId"]);
+                        if (student != null && student.password == oldpasswd)
+                        {
+                            studentDao.changePasswdById(student.id, newpasswd);
+                            retStr = "success";
+                        }
+                        else
+                        {
+                            retStr = "fail:登录失败，用户不存在或密码错误";
+                        }
+                        return retStr;
+                    case "professor":
+                        ProfessorDao professorDao = new ProfessorDao();
+                        Professor professor = professorDao.getProfessorById(accountCookie["userId"]);
+                        if (professor != null && professor.password == oldpasswd)
+                        {
+                            professorDao.changePasswordById(professor.id, newpasswd);
+                            retStr = "success";
+                        }
+                        else
+                        {
+                            retStr = "fail:登录失败，用户不存在或密码错误";
+                        }
+                        return retStr;
+                    case "dean":
+                        DeanDao deanDao = new DeanDao();
+                        Dean dean = deanDao.getDeanById(accountCookie["userId"]);
+                        if (dean != null && dean.password == oldpasswd)
+                        {
+                            deanDao.changeDeanPasswdById(dean.id, newpasswd);
+                            retStr = "success";
+                        }
+                        else
+                        {
+                            retStr = "fail:登录失败，用户不存在或密码错误";
+                        }
+                        return retStr;
+                    case "admin":
+                        AdminDao adminDao = new AdminDao();
+                        Admin admin = adminDao.getAdminById(accountCookie["userId"]);
+                        if (admin != null && admin.password == oldpasswd)
+                        {
+                            adminDao.changePasswdById(admin.id, newpasswd);
+                            retStr = "success";
+                        }
+                        else
+                        {
+                            retStr = "fail:登录失败，用户不存在或密码错误";
+                        }
+                        return retStr;
+                    default:
+                        return "fail:登录失败，没有权限";
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
 
         /*
          * Create By 高晔
@@ -61,15 +165,6 @@ namespace Selection_Refactor.Controllers
             accountCookie["role"] = role;
             accountCookie.Expires = DateTime.Now.AddMinutes(120);//过期时间
             return accountCookie;
-        }
-
-        /*
-         * Create By 高晔
-         * 返回success，测试用
-         */
-        public string returnSuccess(int fail=0)
-        {
-            return fail == 0 ? "success" : "fail:error message";
         }
 
 

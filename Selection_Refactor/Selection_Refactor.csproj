@@ -52,10 +52,58 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=1.1.0.145, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpZipLib.1.1.0\lib\net45\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
     <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Spire.Barcode">
+      <HintPath>..\..\..\packages\Spire.Office.3.4.0\lib\net40\Spire.Barcode.dll</HintPath>
+    </Reference>
+    <Reference Include="Spire.Common, Version=2.3.8.6046, Culture=neutral, PublicKeyToken=663f351905198cb3, processorArchitecture=MSIL">
+      <HintPath>..\packages\Spire.XLS.9.3.10\lib\net46\Spire.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Spire.DataExport">
+      <HintPath>..\..\..\packages\Spire.Office.3.4.0\lib\net40\Spire.DataExport.dll</HintPath>
+    </Reference>
+    <Reference Include="Spire.DataExport.ResourceMgr">
+      <HintPath>..\..\..\packages\Spire.Office.3.4.0\lib\net40\Spire.DataExport.ResourceMgr.dll</HintPath>
+    </Reference>
+    <Reference Include="Spire.Doc">
+      <HintPath>..\..\..\packages\Spire.Office.3.4.0\lib\net40\Spire.Doc.dll</HintPath>
+    </Reference>
+    <Reference Include="Spire.DocViewer.Forms">
+      <HintPath>..\..\..\packages\Spire.Office.3.4.0\lib\net40\Spire.DocViewer.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="Spire.Email">
+      <HintPath>..\..\..\packages\Spire.Office.3.4.0\lib\net40\Spire.Email.dll</HintPath>
+    </Reference>
+    <Reference Include="Spire.License, Version=1.3.7.46, Culture=neutral, PublicKeyToken=b1144360237c8b3f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Spire.XLS.9.3.10\lib\net46\Spire.License.dll</HintPath>
+    </Reference>
+    <Reference Include="Spire.OfficeViewer.Forms">
+      <HintPath>..\..\..\packages\Spire.Office.3.4.0\lib\net40\Spire.OfficeViewer.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="Spire.Pdf, Version=5.3.8.2046, Culture=neutral, PublicKeyToken=663f351905198cb3, processorArchitecture=MSIL">
+      <HintPath>..\packages\Spire.XLS.9.3.10\lib\net46\Spire.Pdf.dll</HintPath>
+    </Reference>
+    <Reference Include="Spire.PdfViewer.Asp">
+      <HintPath>..\..\..\packages\Spire.Office.3.4.0\lib\net40\Spire.PdfViewer.Asp.dll</HintPath>
+    </Reference>
+    <Reference Include="Spire.PdfViewer.Forms">
+      <HintPath>..\..\..\packages\Spire.Office.3.4.0\lib\net40\Spire.PdfViewer.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="Spire.Presentation">
+      <HintPath>..\..\..\packages\Spire.Office.3.4.0\lib\net40\Spire.Presentation.dll</HintPath>
+    </Reference>
+    <Reference Include="Spire.Spreadsheet">
+      <HintPath>..\..\..\packages\Spire.Office.3.4.0\lib\net40\Spire.Spreadsheet.dll</HintPath>
+    </Reference>
+    <Reference Include="Spire.XLS, Version=9.3.10.6046, Culture=neutral, PublicKeyToken=663f351905198cb3, processorArchitecture=MSIL">
+      <HintPath>..\packages\Spire.XLS.9.3.10\lib\net46\Spire.XLS.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -168,14 +216,26 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\Dao\StageDao.cs" />
+    <Compile Include="Models\Dao\AdminDao.cs" />
+    <Compile Include="Models\Dao\DeanDao.cs" />
+    <Compile Include="Models\Dao\MajorDao.cs" />
+    <Compile Include="Models\Dao\SettingDao.cs" />
     <Compile Include="Models\Dao\StudentDao.cs" />
+    <Compile Include="Models\Dao\ProfessorDao.cs" />
     <Compile Include="Models\Dao\UserDao.cs" />
+    <Compile Include="Models\Entity\Admin.cs" />
+    <Compile Include="Models\Entity\Dean.cs" />
+    <Compile Include="Models\Entity\Major.cs" />
+    <Compile Include="Models\Entity\Setting.cs" />
     <Compile Include="Models\Entity\Student.cs" />
+    <Compile Include="Models\Entity\Professor.cs" />
     <Compile Include="Models\Validation\ValidateHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Util\CommonUtil.cs" />
     <Compile Include="Util\CryptoUtil.cs" />
     <Compile Include="Util\LogUtil.cs" />
+    <Compile Include="Util\TimeUtil.cs" />
+    <Compile Include="Util\ZipUtil.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\css\AdminLTE.css" />
@@ -257,7 +317,9 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="Views\Web.config" />
+    <Content Include="Views\Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
