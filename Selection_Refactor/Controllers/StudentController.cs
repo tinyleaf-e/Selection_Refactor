@@ -20,6 +20,20 @@ namespace Selection_Refactor.Controllers
         {
             return View();
         }
+
+
+        public ActionResult Index()
+        {
+            return View();
+        }
+        public ActionResult FinalWill()
+        {
+            return View();
+        }
+        public ActionResult Professor()
+        {
+            return View();
+        }
         /*  
         *  Create By 徐子一
         *  S2:学生提交志愿
