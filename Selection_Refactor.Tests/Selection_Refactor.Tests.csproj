@@ -95,7 +95,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dao\MajorDaoTest.cs" />
+    <Compile Include="Dao\AdminDaoTest.cs" />
+    <Compile Include="Dao\DeanDaoTest.cs" />
+    <Compile Include="Dao\SettingDaoTest.cs" />
     <Compile Include="Dao\StudentDaoTest.cs" />
+    <Compile Include="Dao\ProfessorDaoTest.cs" />
+    <Compile Include="Dao\ProfessorQuotaDaoTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\HomeControllerTest.cs" />
   </ItemGroup>

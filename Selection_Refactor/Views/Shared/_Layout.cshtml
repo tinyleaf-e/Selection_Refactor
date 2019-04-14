@@ -11,11 +11,12 @@
     @Scripts.Render("~/bundles/jquery")
     @RenderSection("css", required: false)
     @{
-        ViewBag.Stage = 2;
+        Selection_Refactor.Models.Dao.SettingDao settingDao = new Selection_Refactor.Models.Dao.SettingDao();
+        ViewBag.Stage = 1;
+        ViewBag.Stage = settingDao.getCurrentStage();
         ViewBag.UserName = "高晔";
         ViewBag.UserId = "14211054";
     }
-
 
 
 </head>

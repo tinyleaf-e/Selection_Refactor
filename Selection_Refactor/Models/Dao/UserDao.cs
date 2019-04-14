@@ -25,7 +25,17 @@ namespace Selection_Refactor.Models.Dao
         public static void initLocalDB()
         {
             StudentDBContext studentDB = new StudentDBContext();
-            //studentDB.students.Find("");
+            studentDB.students.Find("");
+            AdminDBContext adminDB = new AdminDBContext();
+            adminDB.admins.Find("");
+            DeanDBContext deanDB = new DeanDBContext();
+            deanDB.deans.Find("");
+            ProfessorDBContext professorDB = new ProfessorDBContext();
+            professorDB.professors.Find("");
+            SettingDBContext settingDBContext = new SettingDBContext();
+            settingDBContext.settings.Find("");
+            MajorDBContext majorDBContext = new MajorDBContext();
+            majorDBContext.majors.Find(0);
         }
 
     }
