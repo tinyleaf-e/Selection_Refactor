@@ -1,5 +1,11 @@
 ﻿$(document).ready(function () {
     $("#login-btn").click(function () {
+        var roleMap = {
+            "学生": "student",
+            "教师": "professor",
+            "教务": "dean",
+            "管理员": "admin"
+        }
         if ($("#userid-input").val() == "" || $("#passwd-input").val() == "")
             $.gyAlert({
                 title: "提示",
@@ -8,7 +14,8 @@
         else {
             var data = {
                 userId: $("#userid-input").val(),
-                passwd: $("#passwd-input").val()
+                passwd: $("#passwd-input").val(),
+                role: roleMap[$("#role-tab li.active a").text()]
             };
             $.post("/Security/doLogin", data, function (rdata) {
                 if (rdata.indexOf("success")!=0)
