@@ -78,14 +78,6 @@ namespace Selection_Refactor.Controllers
         }
 
 
-        class studentProfessor
-        {
-            string Id { get; set; }
-            string name { get; set; }
-            string title { get; set; }
-            string infoUrl { get; set; }
-        }
-
 
         /*  
         *  Create By 蒋予飞
@@ -132,8 +124,9 @@ namespace Selection_Refactor.Controllers
                 file.SaveAs(savePath);
                 Student student=studentDao.getStudentById(accountCookie["userId"]);
                 student.resumeUrl = accountCookie["userId"] + "/resume/ " + accountCookie["userId"] + "/" + file.FileName;
-                studentDao.update(student.id,student.name,student.gender,student.age,student.majorId,student.phoneNumber
-                    ,student.email,student.onTheJob);
+                studentDao.update(student);
+                //studentDao.update(student.id,student.name,student.gender,student.age,student.majorId,student.phoneNumber
+                //    ,student.email,student.onTheJob);
             }
             catch (Exception e)
             {
