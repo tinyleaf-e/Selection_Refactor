@@ -838,7 +838,7 @@ namespace Selection_Refactor.Controllers
         }
 
 
-        public class retDean
+        public class RetDean
         {
             public string Number { get; set; }
             public string TeacherName { get; set; }
@@ -861,10 +861,10 @@ namespace Selection_Refactor.Controllers
                 DeanDao deanDao = new DeanDao();
                 List<Dean> deans = new List<Dean>();
                 deans = deanDao.listAllDeans();
-                List<retDean> ret = new List<retDean>();
+                List<RetDean> ret = new List<RetDean>();
                 foreach(Dean tmp in deans)
                 {
-                    retDean tmpdean = new retDean();
+                    RetDean tmpdean = new RetDean();
                     tmpdean.Number = tmp.id;
                     tmpdean.MajorResponsible = tmp.majorId;
                     tmpdean.TeacherName = tmp.name;
