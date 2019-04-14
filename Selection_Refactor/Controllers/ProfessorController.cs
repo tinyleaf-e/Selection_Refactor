@@ -13,7 +13,23 @@ namespace Selection_Refactor.Controllers
 {
     public class ProfessorController : Controller
     {
+        public ActionResult FinalStudents()
+        {
+            return View();
+        }
 
+        public ActionResult Index()
+        {
+            return View();
+        }
+        public ActionResult SecondSelect()
+        {
+            return View();
+        }
+        public ActionResult Student()
+        {
+            return View();
+        }
         class TempStudent
         {
             public string id { set; get; } //学号
@@ -200,7 +216,7 @@ namespace Selection_Refactor.Controllers
          * 导师删除已选学生
          * 
          */
-        public string delectSelectedStudent(string stuId)
+        public string deleteSelectedStudent(string stuId)
         {
             HttpCookie accountCookie = new HttpCookie("account");
             StudentDao studentDao = new StudentDao();
