@@ -40,7 +40,7 @@ namespace Selection_Refactor.Controllers
                     if (student != null && passwd == student.password)
                     {
                         Response.Cookies.Add(createCookie(userId, passwd, "student", 24 * 60));
-                        retStr = "success:/Student/Profile";
+                        retStr = "success:/Student/Index";
                     }
                     break;
                 case 2:
@@ -49,7 +49,7 @@ namespace Selection_Refactor.Controllers
                     if (professor != null && passwd == professor.password)
                     {
                         Response.Cookies.Add(createCookie(userId, passwd, "professor", 24 * 60));
-                        retStr = "success:/professor/Profile";
+                        retStr = "success:/professor/Index";
                     }
                         
                     break;
@@ -59,7 +59,7 @@ namespace Selection_Refactor.Controllers
                     if (dean != null && passwd == dean.password)
                     {
                         Response.Cookies.Add(createCookie(userId, passwd, "dean", 24 * 60));
-                        retStr = "success:/dean/Profile";
+                        retStr = "success:/dean/Student";
                     }
                     break;
                 case 4:
@@ -68,7 +68,7 @@ namespace Selection_Refactor.Controllers
                     if (admin != null && passwd == admin.password)
                     {
                         Response.Cookies.Add(createCookie(userId, passwd, "admin", 24 * 60));
-                        retStr = "success:/admin/Profile";
+                        retStr = "success:/admin/Student";
                     }
                     break;
                 default:
