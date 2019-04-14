@@ -17,7 +17,7 @@
 
         HttpCookie accountCookie = Request.Cookies["Account"];
         string id = accountCookie["userId"];
-        ViewBag.UserName = studentDao.getStudentById(id).name;
+        ViewBag.UserName = id;
         ViewBag.UserId = id;
     }
 

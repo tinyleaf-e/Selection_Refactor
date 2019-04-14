@@ -311,12 +311,12 @@
                             cancelButton: false
                         });
                 });
-                $("#directAdd-professor-modal").modal('hide');
+                $("#add-student-modal").modal('hide');
             });
         });
 
         var initTable = function () {
-            $('#student-table').DataTable({
+            table=$('#student-table').DataTable({
                 ajax: {
                     url: '/Admin/getStudentInfo',
                     dataSrc: ''

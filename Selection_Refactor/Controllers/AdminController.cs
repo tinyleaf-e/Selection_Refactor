@@ -870,7 +870,7 @@ namespace Selection_Refactor.Controllers
             * 返回值：操作成功时返回success
                     操作失败时返回fail
             */
-        public string addSingleJiaowuTeacher(string name, string number, string major)
+        public string addSingleJiaowuTeacher(string name, string id, string major)
         {
             //string rel = "";
             try
@@ -878,12 +878,13 @@ namespace Selection_Refactor.Controllers
                 int majorId = int.Parse(major);
                 DeanDao deanDao = new DeanDao();
                 Dean dean = new Dean();
-                if (deanDao.getDeanById(number) != null)
+                if (deanDao.getDeanById(id) != null)
                 {
                     return "fail:已存在该工号的教务老师";
                 }
                 dean.name = name;
-                dean.id = number;
+                dean.id = id;
+                dean.password = "12345";
                 dean.majorId = majorId;
                 int rel = deanDao.addDean(dean);
                 if (rel == 1)
@@ -984,6 +985,7 @@ namespace Selection_Refactor.Controllers
                         dean = new Dean();
                         dean.id = tempId;
                         dean.name = tempName;
+                        dean.password = "12345";
                         dean.majorId = int.Parse(tempMajor);
                         addres = deandao.addDean(dean);
                         if (addres == -1)
