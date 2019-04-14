@@ -343,7 +343,6 @@
     <Content Include="Content\plugins\vegas\vegas.min.js.map" />
     <None Include="packages.config" />
     <Content Include="Views\Security\Login.cshtml" />
-    <Content Include="Views\Student\Profile.cshtml" />
     <Content Include="Views\Security\Error.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml">
       <SubType>Designer</SubType>

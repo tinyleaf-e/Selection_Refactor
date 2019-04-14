@@ -15,6 +15,10 @@
                 contentText: errorMsg
             });
     });
+
+    $('input').bind('input propertychange', function () {
+        $(this).removeClass("error-input");
+    });
 })
 
 function logout() {

@@ -42,7 +42,7 @@ namespace Selection_Refactor.Controllers
             else if (userId == "professor" && CryptoUtil.Md5Hash(passwd) == CryptoUtil.Md5Hash("professor"))
             {
                 Response.Cookies.Add(createCookie(userId, passwd, "professor", 24 * 60));
-                return "success:/Student/Profile";
+                return "success:/Professor/Index";
             }
             else
                 return "登录失败，用户不存在或密码错误";
@@ -61,6 +61,15 @@ namespace Selection_Refactor.Controllers
             accountCookie["role"] = role;
             accountCookie.Expires = DateTime.Now.AddMinutes(120);//过期时间
             return accountCookie;
+        }
+
+        /*
+         * Create By 高晔
+         * 返回success，测试用
+         */
+        public string returnSuccess(int fail=0)
+        {
+            return fail == 0 ? "success" : "fail:error message";
         }
 
 

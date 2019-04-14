@@ -43,6 +43,8 @@
 <!-- JS Scripts-->
 <!-- jQuery Js -->
 <!-- DataTables -->
+
+@section script{
 <script src="~/Content/plugins/datatables.net/js/jquery.dataTables.min.js"></script>
 <script src="~/Content/plugins/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
 <script src="~/Content/plugins/fileinput/js/fileinput.min.js"></script>
@@ -64,7 +66,7 @@
                 data: function (row, type, set, meta) {
                     return [
                         '<button type="button" class="btn btn-info" onclick="editMajor(this)">修改</button> ',
-                        '<button type="button" class="btn btn-success" onclick="deleteMajor(this)">删除</button> '
+                        '<button type="button" class="btn btn-danger" onclick="deleteMajor(this)">删除</button> '
                     ].join('');
                 }
             },
@@ -78,7 +80,7 @@
             contentText: "确认删除该专业?",
             confirm: function () {
                 var data = {
-                    userId: btn.majorId
+                    id: row.id
                 };
                 $.post("/Admin/deleteMajorById", data, function (rdata) {
                     if (rdata == "success") {
@@ -108,8 +110,9 @@
             contentHtml: '<input id="edit-major-input" class="form-control" placeholder="请输入专业名称" value="'+row.name+'" />',
             missAfterClick: false,
             confirm: function (theModal) {
-                var editMajorInput = theModal.find(".modal-body").find("input#new-major-input");
+                var editMajorInput = theModal.find(".modal-body").find("input#edit-major-input");
                 if (editMajorInput.val().trim() == "") {
+                    editMajorInput.addClass("error-input");
                     return;
                 }
                 var data = {
@@ -194,3 +197,4 @@
 
    
 </script>
+}

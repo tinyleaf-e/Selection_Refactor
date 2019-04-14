@@ -6,13 +6,14 @@
     ViewBag.Role = "Admin";
 }
 @section css{
+    <link rel="stylesheet" type="text/css" href="~/Content/plugins/bootstrap-switch/css/bootstrap-switch.min.css" />
     <link rel="stylesheet" type="text/css" href="~/Content/plugins/datetimepicker/css/bootstrap-datetimepicker.css" />
-    <link rel="stylesheet" type="text/css" href="~/Content/plugins/jquery-ui/css/jquery-ui.css" />
-    <link rel="stylesheet" type="text/css" href="~/Content/plugins/bootstrap-switch/css/bootstrap-switch.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/plugins/jquery-ui/css/jquery-ui.min.css" />
     <style>
-        .col-md-12{
-            margin:5px 0;
+        .col-md-12 {
+            margin: 5px 0;
         }
+
         .stage-line {
             display: flex;
             justify-content: flex-start;
@@ -23,35 +24,43 @@
 
             .stage-line * {
                 box-sizing: content-box;
-                transition:0.3s
+                transition: 0.3s
             }
+
             .stage-line.selectable .circle, .stage-line.selectable .square-content {
                 cursor: pointer
             }
-        .stage-line.selectable {
-            padding-bottom: 40px
-        }
-        .stage-line.selectable .time-input {
-            visibility: hidden;
-            bottom:-40px;
-        }
-        .stage-line.selectable .line-y{
-            height:0px;
-            bottom:0px
-        }
-        .stage-line.closed{
-            padding-top:30px;
-        }
-        .stage-line.closed .arrow-down{
-            display:none
-        }
-            .stage-line.closed .square-content {
-                background: #aaa !important;
-                color: initial !important;
+
+            .stage-line.selectable {
+                padding-bottom: 40px
             }
-            .stage-line.closed .circle {
-                background: #aaa !important;
+
+                .stage-line.selectable .time-input {
+                    visibility: hidden;
+                    bottom: -40px;
+                }
+
+                .stage-line.selectable .line-y {
+                    height: 0px;
+                    bottom: 0px
+                }
+
+            .stage-line.closed {
+                padding-top: 30px;
             }
+
+                .stage-line.closed .arrow-down {
+                    display: none
+                }
+
+                .stage-line.closed .square-content {
+                    background: #aaa !important;
+                    color: initial !important;
+                }
+
+                .stage-line.closed .circle {
+                    background: #aaa !important;
+                }
 
         .line-x {
             height: 0;
@@ -67,8 +76,9 @@
             border-radius: 15px;
             background: #ddd;
             color: transparent;
-            position:relative;
+            position: relative;
         }
+
             .circle.hover {
                 border: 1px dashed rgba(0,166,90,0.6)
             }
@@ -76,18 +86,20 @@
             .circle.active {
                 background: #00a65a;
             }
-            .circle.active .arrow-down {
-                background: url("/Content/image/arrow-down.png");
-                visibility: visible
-            }
-            .circle.active .arrow-down:before {
-                content: "当前阶段";
-                position: absolute;
-                top: -24px;
-                width: 70px;
-                left: calc(50% - 35px);
-                text-align: center;
-            }
+
+                .circle.active .arrow-down {
+                    background: url("/Content/image/arrow-down.png");
+                    visibility: visible
+                }
+
+                    .circle.active .arrow-down:before {
+                        content: "当前阶段";
+                        position: absolute;
+                        top: -24px;
+                        width: 70px;
+                        left: calc(50% - 35px);
+                        text-align: center;
+                    }
 
         .square {
             height: 60px;
@@ -106,18 +118,20 @@
             box-sizing: border-box;
         }
 
-        .square-content.hover{
-            border:1px dashed rgba(0,166,90,0.6)
-        }
+            .square-content.hover {
+                border: 1px dashed rgba(0,166,90,0.6)
+            }
 
         .square.active .square-content {
             background: #00a65a;
             color: white;
         }
+
         .square.active .arrow-down {
             background: url("/Content/image/arrow-down.png");
             visibility: visible
         }
+
             .square.active .arrow-down:before {
                 content: "当前阶段";
                 position: absolute;
@@ -173,39 +187,46 @@
             font-size: larger;
             box-shadow: #ccc 1px 1px 6px 2px;
         }
-        .label-custom{
-            font-size:larger;
-            text-align:right;
-            width:100px;
-            margin-right:50px
+
+        .label-custom {
+            font-size: larger;
+            text-align: right;
+            width: 100px;
+            margin-right: 50px
         }
-        i.tip{
-            margin-left:40px;
-            font-size:20px;
-            color:#5bc04e;
-            vertical-align:middle;
+
+        i.tip {
+            margin-left: 40px;
+            font-size: 20px;
+            color: #5bc04e;
+            vertical-align: middle;
         }
+
         .arrow-down {
             position: absolute;
             bottom: 85px;
             left: calc(50% - 25px);
             width: 50px;
             height: 80px;
-            visibility:hidden;
+            visibility: hidden;
             background-size: 50px 80px !important;
         }
-        .circle .arrow-down{
-            bottom:70px;
+
+        .circle .arrow-down {
+            bottom: 70px;
         }
+
         .arrow-down.hover {
             background: url("/Content/image/arrow-down-placeholder.png");
             visibility: visible;
         }
-        .confirm-edit,.cancel-edit{
-            display:none
+
+        .confirm-edit, .cancel-edit {
+            display: none
         }
-        .edit-btns.selectable button{
-            display:none
+
+        .edit-btns.selectable button {
+            display: none
         }
     </style>
 }
@@ -213,7 +234,7 @@
 <div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12" style="height:50px">
         <label class="label-custom">系统开启：</label>
-        <input id="system-switch" class="switch" style="display:none" data-on-color="success" data-on-text="开启" data-off-text="关闭" type="checkbox" />
+        <input id="system-switch" class="switch" style="display:none" data-on-color="success" data-on-text="开启" data-off-text="关闭" type="checkbox" checked />
         <i class="fa fa-question-circle tip" title="关闭时，系统除管理员外不可登录，只能访问登录页"></i>
     </div>
     <div class="col-md-12 col-sm-12 col-xs-12" style="height:50px">
@@ -221,7 +242,7 @@
         <input id="mode-switch" class="switch" style="display:none" data-on-color="info" data-on-text="自动" data-off-color="warning" data-off-text="手动" type="checkbox" checked />
         <i class="fa fa-question-circle tip" title="自动模式：设定时间节点，系统自动调整当前阶段;手动模式：手动指定当前所处的阶段"></i>
     </div>
-    <div class="col-md-12 col-sm-12 col-xs-12 edit-btns"  style="height:50px">
+    <div class="col-md-12 col-sm-12 col-xs-12 edit-btns" style="height:50px">
         <label class="label-custom">进度设置：</label>
         <button class="btn btn-default edit-time">修改时间节点</button>
         <button class="btn btn-default cancel-edit" style="margin-right:30px">取消修改</button>
@@ -240,7 +261,7 @@
                 <div class="line-y left"></div>
                 <div class="square-content">学生完善资料</div>
                 <div class="line-y right"></div>
-                <input id="info-start-end" class="time-input right form-control" />
+                <input id="info-start-end" class="time-input right form-control" origin-time="2019-11-12 12:21" value="2019-11-12 12:21" disabled="disabled" />
             </div>
             <div class="line-x"></div>
             <div class="circle" stage="3">
@@ -249,11 +270,11 @@
             <div class="line-x"></div>
             <div class="square" stage="4">
                 <div class="arrow-down"></div>
-                <input id="first-start-input" class="time-input left form-control" />
+                <input id="first-start-input" class="time-input left form-control" origin-time="2019-11-12 12:21" value="2019-11-12 12:21" disabled="disabled" />
                 <div class="line-y left"></div>
                 <div class="square-content">第一志愿选择</div>
                 <div class="line-y right"></div>
-                <input id="first-end-input" class="time-input right form-control" />
+                <input id="first-end-input" class="time-input right form-control" origin-time="2019-11-12 12:21" value="2019-11-12 12:21" disabled="disabled" />
             </div>
             <div class="line-x"></div>
             <div class="circle" stage="5">
@@ -262,11 +283,11 @@
             <div class="line-x"></div>
             <div class="square active" stage="6">
                 <div class="arrow-down"></div>
-                <input id="second-start-input" class="time-input left form-control" />
+                <input id="second-start-input" class="time-input left form-control" origin-time="2019-11-12 12:21" value="2019-11-12 12:21" disabled="disabled" />
                 <div class="line-y left"></div>
                 <div class="square-content">第二志愿选择</div>
                 <div class="line-y right"></div>
-                <input id="second-end-input" class="time-input right form-control" />
+                <input id="second-end-input" class="time-input right form-control" origin-time="2019-11-12 12:21" value="2019-11-12 12:21" disabled="disabled" />
             </div>
             <div class="line-x"></div>
             <div class="circle" stage="7">
@@ -279,10 +300,10 @@
 
 @section script{
     <script src="~/Content/plugins/datetimepicker/js/bootstrap-datetimepicker.js"></script>
-    <script src="~/Content/plugins/jquery-ui/js/jquery-ui.js"></script>
-    <script src="~/Content/plugins/bootstrap-switch/js/bootstrap-switch.js"></script>
+    <script src="~/Content/plugins/jquery-ui/js/jquery-ui.min.js"></script>
+    <script src="~/Content/plugins/bootstrap-switch/js/bootstrap-switch.min.js"></script>
     <script>
-        var mode = 1;
+        init();
 
         $('.time-input').datetimepicker({
             weekStart: 0, //一周从哪一天开始
@@ -298,7 +319,7 @@
         $(document).tooltip({
             tooltipClass: "tooltip-custom",
             position: {
-                my: "left+20",
+                my: "left+35",
                 at: "right",
             },
             show: {
@@ -321,8 +342,8 @@
                 cancelButtonText: "取 消",
                 confirm: function (dialog) {
                     dialog.find("p").text("正在" + (state ? "开启" : "关闭") + "系统...");
-                    dialog.find(".modal-footer").find("button[confirm]").attr("disabled", "disabled").css("cursor","pointer");
-                    $.post("Admin/closeSystem",
+                    dialog.find(".modal-footer").find("button[confirm]").attr("disabled", "disabled").css("cursor", "pointer");
+                    $.post("/Security/returnSuccess?Admin/closeSystem",
                         { type: state },
                         function (rdata) {
                             dialog.modal('hide');
@@ -330,20 +351,12 @@
                                 dialog.remove();
                             }, 1000);
                             if (rdata == "success") {
-                                if (state)
-                                    $(".stage-line").removeClass("closed");
-                                else {
-                                    $(".stage-line").addClass("closed");
-                                    $(".time-input").each(function () {
-
-                                        $(this).val($(this).attr("origin-time")).attr("disabled", "disabled");
-                                    })
-                                }
-                                $.gyAlert({
+                                openOrCloseSystem(state);
+                                /*$.gyAlert({
                                     title: "设置成功",
                                     contentText: "您已成功" + (state ? "开启" : "关闭") + "系统",
                                     cancelButton: false
-                                });
+                                });//*/
                             }
                             else {
                                 $('#system-switch').attr("cancel", "true");
@@ -355,18 +368,18 @@
                                 });
                             }
                         })
-                        /*.error(function () {
-                            $(this).bootstrapSwitch("togglestate");
-                            $.gyAlert({
-                                title: "设置失败",
-                                contentText: "您的网络或系统发生错误",
-                                cancelButton: false
-                            });
-                        })*/
-                    
+                    /*.error(function () {
+                        $(this).bootstrapSwitch("togglestate");
+                        $.gyAlert({
+                            title: "设置失败",
+                            contentText: "您的网络或系统发生错误",
+                            cancelButton: false
+                        });
+                    })*/
+
                 },
                 cancel: function (dialog) {
-                    $('#system-switch').attr("cancel","true");
+                    $('#system-switch').attr("cancel", "true");
                     $('#system-switch').bootstrapSwitch("toggleState");
                     dialog.modal('hide');
                     setTimeout(function () {
@@ -375,6 +388,35 @@
                 }
             })
         });
+
+        function init() {
+            openOrCloseSystem($('#system-switch').bootstrapSwitch("state"));
+            if ($('#mode-switch').bootstrapSwitch("state"))
+                $("#stage-line,.edit-btns").removeClass("selectable");
+            else
+                $("#stage-line,.edit-btns").addClass("selectable");
+        }
+
+        function openOrCloseSystem(state) {
+            if (state) {
+                $(".stage-line").removeClass("closed");
+                $("button").removeAttr("disabled");
+                $('#mode-switch').bootstrapSwitch("disabled", false);
+                $(".cancel-edit,.confirm-edit").hide();
+                $(".edit-time").show();
+            }
+            else {
+                $(".stage-line").addClass("closed");
+                $(".time-input").each(function () {
+                    $(this).val($(this).attr("origin-time")).attr("disabled", "disabled");
+                })
+                $("button").attr("disabled", "disabled");
+                $(".cancel-edit,.confirm-edit").hide();
+                $(".edit-time").show();
+                $('#mode-switch').bootstrapSwitch("disabled", true);
+            }
+        }
+
         $('#mode-switch').on('switchChange.bootstrapSwitch', function (event, state) {
             if ($('#mode-switch').attr("cancel")) {
                 $('#mode-switch').removeAttr("cancel");
@@ -384,11 +426,11 @@
                 title: "确认操作",
                 contentText: "您确认切换成" + (state ? "自动" : "手动") + "模式吗？",
                 missAfterClick: false,
-                cancelButtonText:"取 消",
+                cancelButtonText: "取 消",
                 confirm: function (dialog) {
                     dialog.find("p").text("正在切换成" + (state ? "自动" : "手动") + "模式...");
                     dialog.find(".modal-footer").find("button[confirm]").attr("disabled", "disabled").css("cursor", "pointer");
-                    $.post("Admin/changeMode",
+                    $.post("/Security/returnSuccess?Admin/changeMode",
                         { type: state },
                         function (rdata) {
                             dialog.modal('hide');
@@ -400,11 +442,11 @@
                                     $("#stage-line,.edit-btns").removeClass("selectable");
                                 else
                                     $("#stage-line,.edit-btns").addClass("selectable");
-                                $.gyAlert({
+                                /*$.gyAlert({
                                     title: "设置成功",
                                     contentText: "您已成功切换成" + (state ? "自动" : "手动") + "模式",
                                     cancelButton: false
-                                });
+                                });//*/
                             }
                             else {
                                 $('#mode-switch').attr("cancel", "true");
@@ -443,30 +485,34 @@
         })
         $(".circle,.square-content").click(function () {
             if ($("#stage-line").hasClass("selectable") && !$(this).hasClass("active") && !$(this).parent().hasClass("active")) {
+                _this = $(this);
                 $.gyAlert({
                     title: "确认操作",
                     contentText: "您确认改变当前所处阶段吗？",
                     cancelButtonText: "取 消",
                     confirm: function (dialog) {
-                        $.post("Admin/changeCurrentStage",
+                        $.post("/Security/returnSuccess?Admin/changeCurrentStage",
                             { stage: parseInt($(this).attr("stage")) },
                             function (rdata) {
-                                if (rdata == "success") {
-                                    $(".circle.square").removeClass("active");
-                                    $(this).addClass("active");
-                                    $.gyAlert({
+                                if (rdata.indexOf("success") == 0) {
+                                    $(".circle,.square").removeClass("active");
+                                    if (_this.hasClass("circle"))
+                                        _this.addClass("active");
+                                    else
+                                        _this.parent().addClass("active");
+                                    /*$.gyAlert({
                                         title: "设置成功",
                                         contentText: "您已设置成功",
                                         cancelButton: false
-                                    });
+                                    });//*/
                                 }
                                 else
                                     $.gyAlert({
                                         title: "设置失败",
                                         contentText: rdata.substring(5),
-                                        cancelButton:false
+                                        cancelButton: false
                                     });
-                        })
+                            })
                     }
                 })
             }
@@ -479,18 +525,29 @@
         })
         $(".confirm-edit").click(function () {
             var data = {
-
+                infoStart: $("#info-start-input").val(),
+                infoEnd: $("#info-end-input").val(),
+                firstStart: $("#first-start-input").val(),
+                fisrtEnd: $("#fisrt-end-input").val(),
+                secondStart: $("#second-start-input").val(),
+                secondENd: $("#second-end-input").val()
             }
-            $.post("Admin/updateSettingTime", data, function () {
-                if (rdata == "success") {
+            $.post("/Security/returnSuccess?Admin/updateSettingTime", data, function (rdata) {
+                if (rdata.indexOf("success") == 0) {
+                    //TODO By 高晔 回头删掉下句
+                    rdata = "success:1";
                     $(".cancel-edit,.confirm-edit").hide();
                     $(".edit-time").show();
-                    $(".time-input").attr("disabled", "disabled");
-                    $.gyAlert({
+                    $(".circle,.square").removeClass("active");
+                    $(".circle[stage=" + rdata.substring(8) + "],.square[stage=" + rdata.substring(8) + "]").addClass("active");
+                    $(".time-input").each(function () {
+                        $(this).attr("origin-time", $(this).val()).attr("disabled", "disabled");
+                    })
+                    /*$.gyAlert({
                         title: "设置成功",
                         contentText: "您已设置成功",
                         cancelButton: false
-                    });
+                    });//*/
                 }
                 else {
                     $.gyAlert({
@@ -505,10 +562,10 @@
             $(".cancel-edit,.confirm-edit").hide();
             $(".edit-time").show();
             $(".time-input").each(function () {
-                
+
                 $(this).val($(this).attr("origin-time")).attr("disabled", "disabled");
             })
-                
+
         })
     </script>
 }
