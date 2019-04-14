@@ -193,7 +193,7 @@
                     var data = {
                         id: row.id
                     };
-                    $.post("/Professor/deleteStudent", data, function (rdata) {
+                    $.post("/Professor/deleteSelectedStudent", data, function (rdata) {
                         if (rdata == "success") {
                             table.ajax.reload();
                             $.gyAlert({
