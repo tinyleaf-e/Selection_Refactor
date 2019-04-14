@@ -80,16 +80,12 @@
 
         var haveChosenTable = $('#haveChosenTable').DataTable({
             ajax: {
-                url: 'https://www.easy-mock.com/mock/5c8368e622c6e01a284aae50/selection-mock/',
+                url: '/Professor/getSelectedStudents',
 
                 dataSrc: ''
             },
             "columns": [
-                {
-                    data: function (row, type, set, meta) {
-                        return meta.row;
-                    }
-                },
+                { data: "id" },
                 { data: "name" },
                 { data: "gender" },
                 { data: "age" },
@@ -112,15 +108,11 @@
         });
         var firstChoiceTable = $('#firstChoiceTable').DataTable({
             ajax: {
-                url: 'https://www.easy-mock.com/mock/5c8368e622c6e01a284aae50/selection-mock/',
+                url: '/Professor/getFirstWillStudents',
                 dataSrc: ''
             },
             "columns": [
-                {
-                    data: function (row, type, set, meta) {
-                        return meta.row;
-                    }
-                },
+                { data: "id" },
                 { data: "name" },
                 { data: "gender" },
                 { data: "age" },
@@ -182,17 +174,18 @@
                     var data = {
                         id: row.id
                     };
-                    $.post("/Professor/deleteStudent", data, function (rdata) {
+                    $.post("/Professor/deleteSelectedStudent", data, function (rdata) {
                         if (rdata == "success") {
                             table.ajax.reload();
                             $.gyAlert({
                                 title: "删除成功",
                                 contentText: "您已成功删除该学生"
                             });
+
                         }
                         else
                             $.gyAlert({
-                                title: "删除失败",
+                                title: "删除失败",  
                                 contentText: rdata.substring(5),
                                 cancelButton: false
                             });
