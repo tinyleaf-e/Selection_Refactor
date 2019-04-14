@@ -281,6 +281,7 @@ namespace Selection_Refactor.Controllers
             {
                 s.name = name;
                 s.id = id;
+                s.password = "12345";
                 s.graMajor = major;
                 s.age = age;
                 s.phoneNumber = telephone;
@@ -434,6 +435,7 @@ namespace Selection_Refactor.Controllers
                         student = new Student();
                         student.id = tempId;
                         student.name = tempName;
+                        student.password = "12345";
                         student.age = int.Parse(tempAge);
                         if (tempGender.Equals("男"))
                         {
