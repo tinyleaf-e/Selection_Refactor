@@ -149,10 +149,10 @@
 
                 var data = {
                     'name': $("#name-input").val(),
-                    'id': $("#id-input").val(),
+                    'number': $("#id-input").val(),
                     'major': $("#major-select").val(),
                 }
-                $.post("/Admin/addSingleJiaowuTeacher", data, function (rel) {
+                $.post("/Admin/addDean", data, function (rel) {
                     if (rel == "success") {
                         table.ajax.reload();
                     }
@@ -167,9 +167,9 @@
             });
         });
         var initTable = function () {
-            $('#dean-table').DataTable({
+            table=$('#dean-table').DataTable({
                 ajax: {
-                    url: '/Admin/getJiaowuTeachers',
+                    url: '/Admin/getAllDeans',
                     dataSrc: ''
                 },
                 "columns": [
@@ -194,7 +194,7 @@
 
         $("#file-input").fileinput({
             language: 'zh', //设置语言
-            uploadUrl: '/Admin/batchAddDeans',
+            uploadUrl: '/Admin/addDeans',
             allowedFileExtensions: ['xlsx', 'xls'],//接收的文件后缀
         });
     </script>
