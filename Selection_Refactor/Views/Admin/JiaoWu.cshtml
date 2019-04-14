@@ -149,7 +149,7 @@
 
                 var data = {
                     'name': $("#name-input").val(),
-                    'id': $("#id-input").val(),
+                    'number': $("#id-input").val(),
                     'major': $("#major-select").val(),
                 }
                 $.post("/Admin/addDean", data, function (rel) {
@@ -167,10 +167,10 @@
             });
         });
         var initTable = function () {
-            $('#dean-table').DataTable({
+            table=$('#dean-table').DataTable({
                 ajax: {
-                    url: 'https://www.easy-mock.com/mock/5b1fe0f0f71e0743260935e1/example/getJiaowuTeachers',
-                    dataSrc: 'data'
+                    url: '/Admin/getAllDeans',
+                    dataSrc: ''
                 },
                 "columns": [
                     {
@@ -194,7 +194,7 @@
 
         $("#file-input").fileinput({
             language: 'zh', //设置语言
-            uploadUrl: '/Admin/batchAddDeans',
+            uploadUrl: '/Admin/addDeans',
             allowedFileExtensions: ['xlsx', 'xls'],//接收的文件后缀
         });
     </script>

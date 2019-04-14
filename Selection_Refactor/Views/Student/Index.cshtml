@@ -3,6 +3,8 @@
     ViewBag.CurrentTab = "index";
     ViewBag.BoxTitle = "个人信息";
     ViewBag.Role = "Student";
+
+    ViewBag.StuName = "gg";
 }
 @section css{
     <link href="~/Content/plugins/fileinput/css/fileinput.min.css" rel="stylesheet" />
@@ -14,7 +16,7 @@
     <div class="col-md-6">
         <div class="form-group">
             <label for="name">姓名</label>
-            <input type="text" class="form-control" id="stuName" readonly>
+            <input type="text" class="form-control" id="stuName" value="@ViewBag.StuName" readonly>
         </div>
         <div class="form-group">
             <label for="age">年龄</label>

@@ -12,10 +12,13 @@
     @RenderSection("css", required: false)
     @{
         Selection_Refactor.Models.Dao.SettingDao settingDao = new Selection_Refactor.Models.Dao.SettingDao();
-        ViewBag.Stage = 1;
+        Selection_Refactor.Models.Dao.StudentDao studentDao = new Selection_Refactor.Models.Dao.StudentDao();
         ViewBag.Stage = settingDao.getCurrentStage();
-        ViewBag.UserName = "高晔";
-        ViewBag.UserId = "14211054";
+
+        HttpCookie accountCookie = Request.Cookies["Account"];
+        string id = accountCookie["userId"];
+        ViewBag.UserName = id;
+        ViewBag.UserId = id;
     }
 
 
