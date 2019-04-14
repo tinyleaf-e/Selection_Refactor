@@ -14,6 +14,24 @@ namespace Selection_Refactor.Controllers
     public class ProfessorController : Controller
     {
 
+
+        public ActionResult Index()
+        {
+            return View();
+        }
+        public ActionResult Student()
+        {
+            return View();
+        }
+        public ActionResult SecondSelect()
+        {
+            return View();
+        }
+        public ActionResult FinalStudents()
+        {
+            return View();
+        }
+
         class TempStudent
         {
             public string id { set; get; } //学号
