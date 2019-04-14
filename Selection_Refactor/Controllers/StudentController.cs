@@ -20,6 +20,31 @@ namespace Selection_Refactor.Controllers
         {
             return View();
         }
+
+
+        public ActionResult Index()
+        {
+            HttpCookie accountCookie = Request.Cookies["Account"];
+            string id = accountCookie["userId"];
+            StudentDao studentDao = new StudentDao();
+            Student student = studentDao.getStudentById(id);
+            ViewBag.StuName = student.name;
+            ViewBag.StuAge = student.age.ToString();
+            ViewBag.StuTel = student.phoneNumber;
+            ViewBag.StuEmail = student.email;
+            ViewBag.StuId = student.id;
+            ViewBag.StuGraSchool = student.graSchool;
+            ViewBag.StuGraMajor = student.graMajor;
+            return View();
+        }
+        public ActionResult FinalWill()
+        {
+            return View();
+        }
+        public ActionResult Professor()
+        {
+            return View();
+        }
         /*  
         *  Create By 徐子一
         *  S2:学生提交志愿
