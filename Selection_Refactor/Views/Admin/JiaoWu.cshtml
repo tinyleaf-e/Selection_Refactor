@@ -152,7 +152,7 @@
                     'id': $("#id-input").val(),
                     'major': $("#major-select").val(),
                 }
-                $.post("/Admin/addDean", data, function (rel) {
+                $.post("/Admin/addSingleJiaowuTeacher", data, function (rel) {
                     if (rel == "success") {
                         table.ajax.reload();
                     }
@@ -169,8 +169,8 @@
         var initTable = function () {
             $('#dean-table').DataTable({
                 ajax: {
-                    url: 'https://www.easy-mock.com/mock/5b1fe0f0f71e0743260935e1/example/getJiaowuTeachers',
-                    dataSrc: 'data'
+                    url: '/Admin/getJiaowuTeachers',
+                    dataSrc: ''
                 },
                 "columns": [
                     {
