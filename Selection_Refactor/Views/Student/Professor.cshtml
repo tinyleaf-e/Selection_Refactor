@@ -110,12 +110,14 @@
             var tr = $(btn).closest('tr');
             var row = table.row(tr).data();
             $("#first").val(row.ProName);
+            $("#first").attr("proId", row.id);
         }
 
         function chooseSecondPro(btn) {
             var tr = $(btn).closest('tr');
             var row = table.row(tr).data();
             $("#second").val(row.ProName);
+            $("#second").attr("proId", row.id);
         }
 
         $(document).ready(function () {
@@ -126,16 +128,20 @@
                         contentText: "必须提交两个志愿"
                     });
                 } else {
-                    alert("提交成功");
                     var data = {
-                        firstWill: $("#first").val(),
-                        secondWill: $("#second").val()
+                        firstWill: $("#first").attr("proId"),
+                        secondWill: $("#second").attr("proId")
                     };
                     $.post("/Student/comfirmWill", data, function (rdata) {
                         if (rdata.indexOf("success") != 0)
                             $.gyAlert({
                                 title: "提交失败",
-                                contentText: rdata
+                                contentText: rdata.substring(5)
+                            });
+                        else
+                            $.gyAlert({
+                                title: "提示",
+                                contentText: "提交成功"
                             });
                     });
                 }

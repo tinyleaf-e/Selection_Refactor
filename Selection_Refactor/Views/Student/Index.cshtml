@@ -108,7 +108,7 @@
                 <h4 class="modal-title">请上传doc或docx文件</h4>
             </div>
             <div class="modal-body">
-                <input type="file" id="exampleInputFile">
+                <input type="file" id="inputFile">
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default pull-left" data-dismiss="modal">关闭</button>
@@ -126,18 +126,10 @@
     <script src="~/Content/plugins/fileinput/js/zh.js"></script>
     <script src="~/Content/js/gy-alert.js"></script>
     <script>
-        $("#exampleInputFile").fileinput({
+        $("#inputFile").fileinput({
             language: 'zh', //设置语言
-            uploadUrl: '/Gao_Admin/batchCreateTeachers',
+            uploadUrl: '/Student/submitResume',
             allowedFileExtensions: ['doc', 'docx'],//接收的文件后缀
-            previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
-            /*    initialPreview: "<div class='file-preview-text'>
-                " +
-                "<h2><i class='glyphicon glyphicon-file'></i></h2>" +
-                "~/Content/img/bb.xlsx" + "
-            </div>",
-            */
-            previewTemplates: "<img src=\"~/Content/img/aa.jpg\" />",
         });
 
         $(document).ready(function () {
@@ -201,7 +193,7 @@
                         graSchool: $("#stuGraSchool").val(),
                         graMajor: $("#stuGraMajor").val()
                     };
-                    $.post("/Security/saveInfo", data, function (rdata) {
+                    $.post("/Student/saveInfo", data, function (rdata) {
                         if (rdata.indexOf("success") != 0)
                             $.gyAlert({
                                 title: "更改信息失败",
@@ -215,7 +207,7 @@
                 var data = {
                     resumeUrl: $("#resume").val()
                 };
-                $.post("/Security/submitResume", data, function (rdata) {
+                $.post("/Student/submitResume", data, function (rdata) {
                     if (rdata.indexOf("success") != 0)
                         $.gyAlert({
                             title: "上传失败",
