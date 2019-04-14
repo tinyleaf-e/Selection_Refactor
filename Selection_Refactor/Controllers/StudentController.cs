@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
+using System.IO;
 
 namespace Selection_Refactor.Controllers
 {
@@ -78,6 +80,68 @@ namespace Selection_Refactor.Controllers
         }
 
 
+        class studentProfessor
+        {
+            string Id { get; set; }
+            string name { get; set; }
+            string title { get; set; }
+            string infoUrl { get; set; }
+        }
 
+
+        /*  
+        *  Create By 蒋予飞
+        *  S4:学生上传简历接口
+        *  参数：HttpPostedFile
+        *  成功返回success
+        *  失败返回fail:失败原因
+        */
+        public string submitResume(HttpPostedFileBase file)
+        {
+            SettingDao settingdao = new SettingDao();
+            StudentDao studentDao = new StudentDao();
+            int st = settingdao.getCurrentStage();
+            if (st != 1)
+                return "invalid";
+            HttpCookie accountCookie = Request.Cookies["Account"];
+            var severPath = this.Server.MapPath("/resume/ " + accountCookie["userId"] + "/");
+
+            if (!Directory.Exists(severPath))
+            {
+                Directory.CreateDirectory(severPath);
+            }
+
+
+
+            System.IO.DirectoryInfo di = new DirectoryInfo(severPath);
+            foreach (FileInfo f in di.GetFiles())
+            {
+                f.Delete();
+            }
+            foreach (DirectoryInfo dir in di.GetDirectories())
+            {
+                dir.Delete(true);
+            }
+
+            var savePath = Path.Combine(severPath, file.FileName);
+            try
+            {
+                if (string.Empty.Equals(file.FileName) || (".doc" != Path.GetExtension(file.FileName) && ".docx" != Path.GetExtension(file.FileName) && ".pdf" != Path.GetExtension(file.FileName)))
+                {
+                    throw new Exception("文件格式不正确");
+                }
+
+                file.SaveAs(savePath);
+                Student student=studentDao.getStudentById(accountCookie["userId"]);
+                student.resumeUrl = accountCookie["userId"] + "/resume/ " + accountCookie["userId"] + "/" + file.FileName;
+                studentDao.update(student.id,student.name,student.gender,student.age,student.majorId,student.phoneNumber
+                    ,student.email,student.onTheJob);
+            }
+            catch (Exception e)
+            {
+                return "fail:"+e.Message;
+            }
+            return "success";
+        }
     }
 }
