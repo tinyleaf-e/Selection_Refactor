@@ -16,11 +16,6 @@ namespace Selection_Refactor.Controllers
         // GET: Student
 
         [RoleAuthorize(Role = "student,professor")]
-        public ActionResult Profile()
-        {
-            return View();
-        }
-
 
         public ActionResult Index()
         {
@@ -39,10 +34,24 @@ namespace Selection_Refactor.Controllers
         }
         public ActionResult FinalWill()
         {
+            HttpCookie accountCookie = Request.Cookies["Account"];
+            string id = accountCookie["userId"];
+            StudentDao studentDao = new StudentDao();
+            Student student = studentDao.getStudentById(id);
+            //ViewBag.Final-最后选择结果
             return View();
         }
         public ActionResult Professor()
         {
+            HttpCookie accountCookie = Request.Cookies["Account"];
+            string id = accountCookie["userId"];
+            StudentDao studentDao = new StudentDao();
+            Student student = studentDao.getStudentById(id);
+            ProfessorDao professorDao = new ProfessorDao();
+            Professor professor = professorDao.getProfessorById(student.firstWill);
+            ViewBag.FirstWill = professor.name;
+            professor = professorDao.getProfessorById(student.secondWill);
+            ViewBag.SecondWill = professor.name;
             return View();
         }
         /*  
@@ -65,10 +74,11 @@ namespace Selection_Refactor.Controllers
             else
             {               
                 s.firstWill = firstWill;
-                s.secondWill = secondWill;              
+                s.secondWill = secondWill;
                 // s.firstWillState = 0;
                 //s.secondWillState = 0;
                 //studentDBContext.SaveChanges();
+                studentDao.update(s);
                 rel = "success";
             }
             return rel;
@@ -115,9 +125,9 @@ namespace Selection_Refactor.Controllers
         {
             SettingDao settingdao = new SettingDao();
             StudentDao studentDao = new StudentDao();
-            int st = settingdao.getCurrentStage();
-            if (st != 1)
-                return "invalid";
+            //int st = settingdao.getCurrentStage();
+            //if (st != 1)
+            //    return "invalid";
             HttpCookie accountCookie = Request.Cookies["Account"];
             var severPath = this.Server.MapPath("/resume/ " + accountCookie["userId"] + "/");
 
@@ -136,9 +146,11 @@ namespace Selection_Refactor.Controllers
                 dir.Delete(true);
             }
 
-            var savePath = Path.Combine(severPath, file.FileName);
+            
             try
             {
+                var savePath = Path.Combine(severPath, file.FileName);
+
                 if (string.Empty.Equals(file.FileName) || (".doc" != Path.GetExtension(file.FileName) && ".docx" != Path.GetExtension(file.FileName) && ".pdf" != Path.GetExtension(file.FileName)))
                 {
                     throw new Exception("文件格式不正确");
@@ -169,11 +181,11 @@ namespace Selection_Refactor.Controllers
         {
             ProfessorDao professor = new ProfessorDao();
             List<Professor> proList = professor.listAllProfessor();
-            List<ProfessorInfoForStu> proInfoForStu = null;
-            ProfessorInfoForStu pro = new ProfessorInfoForStu();
+            List<ProfessorInfoForStu> proInfoForStu =new List<ProfessorInfoForStu>();
             string res = "";
             foreach(Professor p in proList)
             {
+                ProfessorInfoForStu pro = new ProfessorInfoForStu();
                 pro.id = p.id;
                 pro.name = p.name;
                 pro.title = p.title;

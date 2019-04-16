@@ -3,8 +3,9 @@
     ViewBag.CurrentTab = "index";
     ViewBag.BoxTitle = "个人信息";
     ViewBag.Role = "Student";
+    ViewBag.ResumeName = "个人简历_XXX.docx";
+    ViewBag.Deadline = "2019/4/16";
 
-    ViewBag.StuName = "gg";
 }
 @section css{
     <link href="~/Content/plugins/fileinput/css/fileinput.min.css" rel="stylesheet" />
@@ -13,92 +14,98 @@
 <!-- general form elements -->
 
 <div class="box-body">
-    <div class="col-md-6">
+    <div class="col-md-6 form-horizontal">
         <div class="form-group">
-            <label for="name">姓名</label>
-            <input type="text" class="form-control" id="stuName" value="@ViewBag.StuName" readonly>
+            <label class="col-sm-3 control-label">姓名</label>
+            <div class="col-sm-6">
+                <input type="text" class="form-control" id="stuName" readonly value="@ViewBag.StuName">
+            </div>
         </div>
         <div class="form-group">
-            <label for="age">年龄</label>
-            <input type="text" class="form-control" id="stuAge">
+            <label class="col-sm-3 control-label">学号</label>
+            <div class="col-sm-6">
+                <input type="text" class="form-control" id="stuID" readonly value="@ViewBag.StuId">
+            </div>
         </div>
         <div class="form-group">
-            <label for="tel">电话</label>
-            <input type="tel" class="form-control" id="stuTel">
+            <label class="col-sm-3 control-label">年龄</label>
+            <div class="col-sm-6">
+                <input type="text" class="form-control" id="stuAge" value="@ViewBag.StuAge">
+            </div>
         </div>
         <div class="form-group">
-            <label for="email">邮箱</label>
-            <input type="email" class="form-control" id="stuEmail">
+            <label class="col-sm-3 control-label">电话</label>
+            <div class="col-sm-6">
+                <input type="tel" class="form-control" id="stuTel" value="@ViewBag.StuTel">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">邮箱</label>
+            <div class="col-sm-6">
+                <input type="email" class="form-control" id="stuEmail" value="@ViewBag.StuEmail">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">专业</label>
+            <div class="col-sm-6">
+                <select id="stuMajorIDSelset" class="form-control">
+                    <option value="0">软件工程与管理</option>
+                    <option value="1">虚拟现实与应用</option>
+                    <option value="2">人工智能</option>
+                    <option value="3">大数据技术与应用</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">在职</label>
+            <div class="col-sm-6">
+                <select id="stuIfWorkSelect" class="form-control">
+                    <option value="false">不在职工作</option>
+                    <option value="true">在职工作</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">本科毕业学校</label>
+            <div class="col-sm-6">
+                <input type="text" class="form-control" id="stuGraSchool" value="@ViewBag.StuGraSchool">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">本科毕业专业</label>
+            <div class="col-sm-6">
+                <input type="text" class="form-control" id="stuGraMajor" value="@ViewBag.StuGraMajor">
+            </div>
+        </div>
+        <div class="box-footer center-block">
+            <button id="updateStuInfo" type="button" class="btn btn-primary center-block" style="margin-top:10px">更新个人信息</button>
         </div>
     </div>
 
-    <div class="col-md-6">
+    <div class="col-md-6 form-horizontal">
         <div class="form-group">
-            <label for="id">学号</label>
-            <input type="text" class="form-control" id="stuID" readonly>
+            <label class="col-sm-6">请上传个人简历（doc/docx,小于5M）</label>
+            <div class="col-sm-3" type="button">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#uploadFileModal">
+                    上传简历
+                </button>
+            </div>
+        </div>
+        <div id="resumeDiv" class="form-group">
+            <label id="resume" class="col-sm-5 col-sm-offset-1">@ViewBag.ResumeName</label>
+            <div class="col-sm-3" type="button">
+                <button id="delete" class="btn btn-default">删除</button>
+            </div>
         </div>
         <div class="form-group">
-            <label for="major">专业</label>
-            <select id="stuMajorIDSelset" class="form-control">
-                <option value="0">软件工程与管理</option>
-                <option value="1">虚拟现实与应用</option>
-                <option value="2">人工智能</option>
-                <option value="3">大数据技术与应用</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="ifWork">在职</label>
-            <select id="stuIfWorkSelect" class="form-control">
-                <option value="false">不在职工作</option>
-                <option value="true">在职工作</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="graSchool">本科毕业学校</label>
-            <input type="text" class="form-control" id="stuGraSchool">
-        </div>
-        <div class="form-group">
-            <label for="graMajor">本科毕业专业</label>
-            <input type="text" class="form-control" id="stuGraMajor">
+            <label class="col-sm-6"> 信息上传截至时间：</label>
+            <div class="col-sm-3">
+                <input type="text" class="form-control" value="@ViewBag.Deadline" readonly>
+            </div>
         </div>
     </div>
-    <div class="box-footer center-block">
-        <button id="updateStuInfo" type="button" class="btn btn-primary center-block" style="margin-top:10px">更新个人信息</button>
-    </div>
-
 </div>
 
-<div class="box-body" style="margin-top:35px;border-top:solid #999 1px;padding-top:20px"> </div>
-
-<div class="form-horizontal box-body">
-    <div class="form-group">
-        <label class="col-sm-6">请上传个人简历（doc/docx,小于5M）</label>
-        <div class="col-sm-3" type="button">
-            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#uploadFileModal">
-                上传简历
-            </button>
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label id="resume" class="col-sm-5 col-sm-offset-1">个人简历_XXX.docx</label>
-        <div class="col-sm-3" type="button">
-            <button class="btn btn-default">删除</button>
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label class="col-sm-6"> 更新个人资料并上传简历确认无误后，请点击确认</label>
-        <div class="col-sm-3" type="button">
-            <button class="btn btn-danger" id="submitResume">确认提交</button>
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="col-sm-6"> 信息上传截至时间：</label>
-    </div>
-
-</div>
-<!-- /.box -->
 
 <div class="modal fade" id="uploadFileModal">
     <div class="modal-dialog">
@@ -110,11 +117,7 @@
                 <h4 class="modal-title">请上传doc或docx文件</h4>
             </div>
             <div class="modal-body">
-                <input type="file" id="exampleInputFile">
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">关闭</button>
-                <button type="button" class="btn btn-primary">确定</button>
+                <input type="file" id="inputFile">
             </div>
         </div>
         <!-- /.modal-content -->
@@ -128,21 +131,28 @@
     <script src="~/Content/plugins/fileinput/js/zh.js"></script>
     <script src="~/Content/js/gy-alert.js"></script>
     <script>
-        $("#exampleInputFile").fileinput({
+        $("#inputFile").fileinput({
             language: 'zh', //设置语言
-            uploadUrl: '/Gao_Admin/batchCreateTeachers',
+            maxFileCount: 1,
+            showCancel: true,
+            uploadUrl: '/Student/submitResume',
             allowedFileExtensions: ['doc', 'docx'],//接收的文件后缀
-            previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
-            /*    initialPreview: "<div class='file-preview-text'>
-                " +
-                "<h2><i class='glyphicon glyphicon-file'></i></h2>" +
-                "~/Content/img/bb.xlsx" + "
-            </div>",
-            */
-            previewTemplates: "<img src=\"~/Content/img/aa.jpg\" />",
+        }).on('fileuploaded', function (event, previewId, index, fileId) {
+            console.log('File Uploaded', 'ID: ' + fileId + ', Thumb ID: ' + previewId);
+        }).on('fileuploaderror', function (event, data, msg) {
+            console.log('File Upload Error', 'ID: ' + data.fileId + ', Thumb ID: ' + data.previewId);
+            $.gyAlert({
+                            title: "上传失败"
+                        });
+        }).on('filebatchuploadcomplete', function (event, preview, config, tags, extraData) {
+            console.log('File Batch Uploaded', preview, config, tags, extraData);
         });
 
         $(document).ready(function () {
+            $("#delete").click(function () {
+                $("#resumeDiv").hide();
+            });
+
             $("#updateStuInfo").click(function () {
                 console.log("in");
                 if ($("#stuAge").val() == "") {
@@ -203,7 +213,7 @@
                         graSchool: $("#stuGraSchool").val(),
                         graMajor: $("#stuGraMajor").val()
                     };
-                    $.post("/Security/saveInfo", data, function (rdata) {
+                    $.post("/Student/saveInfo", data, function (rdata) {
                         if (rdata.indexOf("success") != 0)
                             $.gyAlert({
                                 title: "更改信息失败",
@@ -213,20 +223,22 @@
                 }
             });
 
-            $("#submitResume").click(function () {
-                var data = {
-                    resumeUrl: $("#resume").val()
-                };
-                $.post("/Security/submitResume", data, function (rdata) {
-                    if (rdata.indexOf("success") != 0)
-                        $.gyAlert({
-                            title: "上传失败",
-                            contentText: rdata
-                        });
-                    else
-                        alert("上传成功");
-                });
-            })
+            //$("#submitResume").click(function () {
+            //    var data = {
+            //        resumeUrl: $("#resume").val()
+            //    };
+            //    $.post("/Student/submitResume", data, function (rdata) {
+            //        if (rdata.indexOf("success") != 0)
+            //            $.gyAlert({
+            //                title: "上传失败",
+            //                contentText: rdata
+            //            });
+            //        else
+            //            $.gyAlert({
+            //                title: "上传成功"
+            //            });
+            //    });
+            //})
         });
     </script>
 }

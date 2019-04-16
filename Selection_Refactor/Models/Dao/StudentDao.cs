@@ -107,13 +107,9 @@ namespace Selection_Refactor.Models.Dao
             else
             {
                 Student s = list[0];
-                s.name = Stu.name;
-                s.age = Stu.age;
-                s.gender = Stu.gender;
-                s.majorId = Stu.majorId;
-                s.phoneNumber = Stu.phoneNumber;
-                s.email = Stu.email;
-                s.onTheJob = Stu.onTheJob;
+                studentDB.students.Remove(s);
+                studentDB.students.Add(Stu);
+
                 studentDB.SaveChanges();
                 return true;
             }
