@@ -136,8 +136,6 @@ namespace Selection_Refactor.Controllers
                 Directory.CreateDirectory(severPath);
             }
 
-
-
             System.IO.DirectoryInfo di = new DirectoryInfo(severPath);
             foreach (FileInfo f in di.GetFiles())
             {
@@ -159,7 +157,11 @@ namespace Selection_Refactor.Controllers
                 file.SaveAs(savePath);
                 Student student=studentDao.getStudentById(accountCookie["userId"]);
                 student.resumeUrl = accountCookie["userId"] + "/resume/ " + accountCookie["userId"] + "/" + file.FileName;
-                studentDao.update(student);
+                bool res = studentDao.update(student);
+                if(!res)
+                {
+                    throw new Exception("数据库链接异常");
+                }
                 //studentDao.update(student.id,student.name,student.gender,student.age,student.majorId,student.phoneNumber
                 //    ,student.email,student.onTheJob);
             }

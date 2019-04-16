@@ -836,6 +836,14 @@ namespace Selection_Refactor.Controllers
             public int ProAssignNum { set; get; }
 
         }
+
+
+        public class RetDean
+        {
+            public string Number { get; set; }
+            public string TeacherName { get; set; }
+            public int MajorResponsible { get; set; }
+        }
         /*
             * Create By 蒋予飞
             * A5:请求全部教务教师信息
@@ -844,7 +852,7 @@ namespace Selection_Refactor.Controllers
                     操作失败时返回空json串
             */
         //[RoleAuthorize(Role = "admin")]
-        public string getJiaowuTeachers()
+        public string getAllDeans()
         {
             string rel = "";
             try
@@ -853,7 +861,16 @@ namespace Selection_Refactor.Controllers
                 DeanDao deanDao = new DeanDao();
                 List<Dean> deans = new List<Dean>();
                 deans = deanDao.listAllDeans();
-                var json = serializer.Serialize(deans);
+                List<RetDean> ret = new List<RetDean>();
+                foreach(Dean tmp in deans)
+                {
+                    RetDean tmpdean = new RetDean();
+                    tmpdean.Number = tmp.id;
+                    tmpdean.MajorResponsible = tmp.majorId;
+                    tmpdean.TeacherName = tmp.name;
+                    ret.Add(tmpdean);
+                }
+                var json = serializer.Serialize(ret);
                 rel = json.ToString();
                 return rel;
             }
@@ -863,6 +880,8 @@ namespace Selection_Refactor.Controllers
             }
         }
 
+
+
         /*
             * Create By 蒋予飞
             * A6:新增单个教务教师
@@ -870,7 +889,7 @@ namespace Selection_Refactor.Controllers
             * 返回值：操作成功时返回success
                     操作失败时返回fail
             */
-        public string addSingleJiaowuTeacher(string name, string number, string major)
+        public string addDean(string name, string number, string major)
         {
             //string rel = "";
             try
@@ -885,6 +904,7 @@ namespace Selection_Refactor.Controllers
                 dean.name = name;
                 dean.id = number;
                 dean.majorId = majorId;
+                dean.password = "12345";
                 int rel = deanDao.addDean(dean);
                 if (rel == 1)
                 {
@@ -907,7 +927,7 @@ namespace Selection_Refactor.Controllers
             * 返回值：操作成功时返回success
                     操作失败时返回fail
             */
-        public string batchAddJaowuTeachers(HttpPostedFileBase file)
+        public string addDeans(HttpPostedFileBase file)
         {
             DeanDao deandao = new DeanDao();
             var severPath = this.Server.MapPath("/ExcelFiles/");
@@ -920,8 +940,9 @@ namespace Selection_Refactor.Controllers
             Workbook workbook = new Workbook();
             Worksheet sheet = null;
 
-            string result = "{}";
+            string result = "fail:";
             int addres = 0;
+            bool flag=false;//表中出现插入错误 
 
             try
             {
@@ -981,14 +1002,22 @@ namespace Selection_Refactor.Controllers
                     tempMajor = cellrange[i * col + titlecol].Value;
                     if (tempName != "")
                     {
+                        if (deandao.getDeanById(tempId) != null)
+                        {
+                            flag = true;
+                            result += "已存在教师：id" + tempId + " 姓名:" + tempName + " 专业：" + tempId + "\n";
+                            continue;
+                        }
                         dean = new Dean();
                         dean.id = tempId;
                         dean.name = tempName;
                         dean.majorId = int.Parse(tempMajor);
+                        dean.password = "12345";
+                        
                         addres = deandao.addDean(dean);
                         if (addres == -1)
                         {
-                            throw new Exception("已存在教师：id" + tempId + " 姓名:" + tempName + " 专业：" + tempId);
+                            throw new Exception("数据库链接异常");
                         }
                     }
                 }
@@ -997,15 +1026,15 @@ namespace Selection_Refactor.Controllers
             {
                 if (e.Message.Equals("不是教师表"))
                 {
-                    result = "{\"error\":\"不是教师表\"}";
+                    result = "fail:不是教师表";
                 }
                 else if (e.Message.Equals("文件格式不正确"))
                 {
-                    result = "{\"error\":\"文件格式不正确\"}";
+                    result = "fail:文件格式不正确";
                 }
                 else
                 {
-                    result = "{\"error\":\"" + e.Message + "\"}";
+                    result = "fail:"+e.Message;
                 }
             }
             finally
@@ -1014,7 +1043,11 @@ namespace Selection_Refactor.Controllers
                 sheet = null;
                 workbook = null;
             }
-            return result;
+            if (flag)
+            {
+                return result;
+            }
+            return "success";
         }
 
         /* 
@@ -1024,7 +1057,7 @@ namespace Selection_Refactor.Controllers
             * 返回值：操作成功时返回success
                     操作失败时返回fail：失败原因
             */
-        public string deleteSingleJiaowuTeacher(string id)
+        public string deleteDean(string id)
         {
             try
             {
