@@ -125,9 +125,9 @@ namespace Selection_Refactor.Controllers
         {
             SettingDao settingdao = new SettingDao();
             StudentDao studentDao = new StudentDao();
-            int st = settingdao.getCurrentStage();
-            if (st != 1)
-                return "invalid";
+            //int st = settingdao.getCurrentStage();
+            //if (st != 1)
+            //    return "invalid";
             HttpCookie accountCookie = Request.Cookies["Account"];
             var severPath = this.Server.MapPath("/resume/ " + accountCookie["userId"] + "/");
 
@@ -146,9 +146,11 @@ namespace Selection_Refactor.Controllers
                 dir.Delete(true);
             }
 
-            var savePath = Path.Combine(severPath, file.FileName);
+            
             try
             {
+                var savePath = Path.Combine(severPath, file.FileName);
+
                 if (string.Empty.Equals(file.FileName) || (".doc" != Path.GetExtension(file.FileName) && ".docx" != Path.GetExtension(file.FileName) && ".pdf" != Path.GetExtension(file.FileName)))
                 {
                     throw new Exception("文件格式不正确");

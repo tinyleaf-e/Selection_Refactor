@@ -119,10 +119,6 @@
             <div class="modal-body">
                 <input type="file" id="inputFile">
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">关闭</button>
-                <button type="button" class="btn btn-primary">确定</button>
-            </div>
         </div>
         <!-- /.modal-content -->
     </div>
@@ -137,8 +133,19 @@
     <script>
         $("#inputFile").fileinput({
             language: 'zh', //设置语言
+            maxFileCount: 1,
+            showCancel: true,
             uploadUrl: '/Student/submitResume',
             allowedFileExtensions: ['doc', 'docx'],//接收的文件后缀
+        }).on('fileuploaded', function (event, previewId, index, fileId) {
+            console.log('File Uploaded', 'ID: ' + fileId + ', Thumb ID: ' + previewId);
+        }).on('fileuploaderror', function (event, data, msg) {
+            console.log('File Upload Error', 'ID: ' + data.fileId + ', Thumb ID: ' + data.previewId);
+            $.gyAlert({
+                            title: "上传失败"
+                        });
+        }).on('filebatchuploadcomplete', function (event, preview, config, tags, extraData) {
+            console.log('File Batch Uploaded', preview, config, tags, extraData);
         });
 
         $(document).ready(function () {
@@ -216,22 +223,22 @@
                 }
             });
 
-            $("#submitResume").click(function () {
-                var data = {
-                    resumeUrl: $("#resume").val()
-                };
-                $.post("/Student/submitResume", data, function (rdata) {
-                    if (rdata.indexOf("success") != 0)
-                        $.gyAlert({
-                            title: "上传失败",
-                            contentText: rdata
-                        });
-                    else
-                        $.gyAlert({
-                            title: "上传成功"
-                        });
-                });
-            })
+            //$("#submitResume").click(function () {
+            //    var data = {
+            //        resumeUrl: $("#resume").val()
+            //    };
+            //    $.post("/Student/submitResume", data, function (rdata) {
+            //        if (rdata.indexOf("success") != 0)
+            //            $.gyAlert({
+            //                title: "上传失败",
+            //                contentText: rdata
+            //            });
+            //        else
+            //            $.gyAlert({
+            //                title: "上传成功"
+            //            });
+            //    });
+            //})
         });
     </script>
 }
