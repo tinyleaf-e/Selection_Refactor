@@ -23,6 +23,14 @@ namespace Selection_Refactor.Controllers
         {
             return View();
         }
+        public ActionResult ProfessorInfo()
+        {
+            return View();
+        }
+        public ActionResult StudentInfo()
+        {
+            return View();
+        }
 
         class TempStudent
         {

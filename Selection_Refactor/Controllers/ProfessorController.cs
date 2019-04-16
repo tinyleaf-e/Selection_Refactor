@@ -14,6 +14,24 @@ namespace Selection_Refactor.Controllers
     public class ProfessorController : Controller
     {
 
+
+        public ActionResult Index()
+        {
+            return View();
+        }
+        public ActionResult Student()
+        {
+            return View();
+        }
+        public ActionResult SecondSelect()
+        {
+            return View();
+        }
+        public ActionResult FinalStudents()
+        {
+            return View();
+        }
+
         class TempStudent
         {
             public string id { set; get; } //学号
@@ -143,8 +161,8 @@ namespace Selection_Refactor.Controllers
          * 
          */
          public string selectFirstWillStudent(string stuId)
-         {
-            HttpCookie accountCookie = new HttpCookie("account");
+        {
+            HttpCookie accountCookie = Request.Cookies["Account"];
             StudentDao studentDao = new StudentDao();
             if(studentDao.getStudentById(stuId)==null)
             {
@@ -153,7 +171,7 @@ namespace Selection_Refactor.Controllers
             else
             {
                 Student s = studentDao.getStudentById(stuId);
-                if(s.firstWill != accountCookie["userid"])
+                if(s.firstWill != accountCookie["userId"])
                 {
                     return "this student's first will isn't you";
                 }
@@ -200,7 +218,7 @@ namespace Selection_Refactor.Controllers
          * 导师删除已选学生
          * 
          */
-        public string delectSelectedStudent(string stuId)
+        public string deleteSelectedStudent(string stuId)
         {
             HttpCookie accountCookie = new HttpCookie("account");
             StudentDao studentDao = new StudentDao();

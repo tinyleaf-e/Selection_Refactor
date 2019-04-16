@@ -20,6 +20,31 @@ namespace Selection_Refactor.Controllers
         {
             return View();
         }
+
+
+        public ActionResult Index()
+        {
+            HttpCookie accountCookie = Request.Cookies["Account"];
+            string id = accountCookie["userId"];
+            StudentDao studentDao = new StudentDao();
+            Student student = studentDao.getStudentById(id);
+            ViewBag.StuName = student.name;
+            ViewBag.StuAge = student.age.ToString();
+            ViewBag.StuTel = student.phoneNumber;
+            ViewBag.StuEmail = student.email;
+            ViewBag.StuId = student.id;
+            ViewBag.StuGraSchool = student.graSchool;
+            ViewBag.StuGraMajor = student.graMajor;
+            return View();
+        }
+        public ActionResult FinalWill()
+        {
+            return View();
+        }
+        public ActionResult Professor()
+        {
+            return View();
+        }
         /*  
         *  Create By 徐子一
         *  S2:学生提交志愿
@@ -101,8 +126,6 @@ namespace Selection_Refactor.Controllers
                 Directory.CreateDirectory(severPath);
             }
 
-
-
             System.IO.DirectoryInfo di = new DirectoryInfo(severPath);
             foreach (FileInfo f in di.GetFiles())
             {
@@ -124,7 +147,11 @@ namespace Selection_Refactor.Controllers
                 file.SaveAs(savePath);
                 Student student=studentDao.getStudentById(accountCookie["userId"]);
                 student.resumeUrl = accountCookie["userId"] + "/resume/ " + accountCookie["userId"] + "/" + file.FileName;
-                studentDao.update(student);
+                bool res = studentDao.update(student);
+                if(!res)
+                {
+                    throw new Exception("数据库链接异常");
+                }
                 //studentDao.update(student.id,student.name,student.gender,student.age,student.majorId,student.phoneNumber
                 //    ,student.email,student.onTheJob);
             }
