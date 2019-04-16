@@ -218,12 +218,12 @@ namespace Selection_Refactor.Controllers
          * 
          */
         [RoleAuthorize(Role = "dean")]
-        public string listSelectedStudentsByProId (string proId)
+        public string listSelectedStudentsByProId(string proId)
         {
             ProfessorDao professorDao = new ProfessorDao();
             StudentDao studentDao = new StudentDao();
             List<Student> stlist = studentDao.listAllStudent();
-            List<Student> listSelectedStudents = null;
+            List<Student> listSelectedStudents = new List<Student>();
             string res = "";
             foreach (Student s in stlist)
             {

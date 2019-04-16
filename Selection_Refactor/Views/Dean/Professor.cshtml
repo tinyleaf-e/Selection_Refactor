@@ -32,8 +32,9 @@
 
         $('#professorTable').DataTable({
             ajax: {
-                url: ' https://www.easy-mock.com/mock/5c96bc9d195f475394b7fb54/select/prolist',
-                dataSrc: 'data'
+                url:'/Dean/listProfessors',
+                dataSrc: '',
+                
             },
             "columns": [
                 {
@@ -58,7 +59,7 @@
             var data = {
                 name: r.name,
                 title: r.title,
-                url: r.profileurl,
+                url: r.infoURL,
                 id: r.id,
                 stuamount:r.studentamount
             }

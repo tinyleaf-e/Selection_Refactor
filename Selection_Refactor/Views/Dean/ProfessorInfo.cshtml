@@ -70,10 +70,23 @@
     <script src="~/Content/js/jquery.cookie.js"></script>
 
     <script>
+        $(function () {
+            var data = $.cookie("data");
+            var m = JSON.parse(data);
+            console.log(m.name)
+            $('#ProName').html(m.name);
+            $('#ProTitle').html(m.title);
+            $('#ProId').html(m.id);
+            $('#StuAmount').html(m.stuamount);
+            $('#ProUrl').attr("href", m.url)
+        });
+
         $('#studentTable').DataTable({
             ajax: {
-                url: 'https://www.easy-mock.com/mock/5c96bc9d195f475394b7fb54/select/selectedstu',
-                dataSrc: 'data'
+                type:'POST',
+                url: '/Dean/listSelectedStudentsByProId',
+                data: { proId: $('#ProId') },
+                dataSrc: ''
             },
             "columns": [
                 { data: "id" },
@@ -83,16 +96,7 @@
                 { data: "graschool" },
             ]
         });
-        $(function () {
-            var data = $.cookie("data");
-            var m = JSON.parse(data);
-            console.log(m.name)
-            $('#ProName').html(m.name);
-            $('#ProTitle').html(m.title);
-            $('#ProId').html(m.id);
-            $('#StuAmount').html(m.stuamount);
-            $('#ProUrl').attr("href",m.url)
-        })
+        
 
     </script>
 

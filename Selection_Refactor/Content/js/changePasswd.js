@@ -73,13 +73,13 @@ function changePasswd() {
                     $('#check-passwd-icon').attr('class', 'fa fa-check');
                     //如果验证成功，向后端发送post请求
                     var data = {
-                        oldPasswd: oldPasswdInput.val(),
-                        newPasswd: newPasswdInput.val()
+                        oldpasswd: oldPasswdInput.val(),
+                        newpasswd: newPasswdInput.val()
                     }
-                    $.post("https://www.easy-mock.com/mock/5c96bc9d195f475394b7fb54/select/changepasswd", data, function (rdata) {
-                        console.log(rdata.data)
+                    $.post("/Security/changePassword", data, function (rdata) {
+                        console.log(rdata)
                         //rdata为后端返回的数据
-                        if (rdata.data == "success") {//若修改成功
+                        if (rdata == "success") {//若修改成功
                             $.gyAlert({ 
                                 title: "修改成功",
                                 contentText: "您的密码已修改成功，请重新登录",
@@ -93,7 +93,7 @@ function changePasswd() {
                         else {//若修改失败
                             $.gyAlert({//模态框插件来提示错误信息
                                 title: "修改失败",
-                                contentText: rdata.data,
+                                contentText: rdata,
                                 cancelButton: false
                             });
                             theModal.modal('hide');

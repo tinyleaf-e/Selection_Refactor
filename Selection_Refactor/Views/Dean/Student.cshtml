@@ -75,8 +75,8 @@
 
         $('#studentTable').DataTable({
             ajax: {
-                url: ' https://www.easy-mock.com/mock/5c96bc9d195f475394b7fb54/select/stulist',
-                dataSrc: 'data'
+                url: '/Dean/listStudents',
+                dataSrc: ''
             },
             "columns": [
                 {
@@ -86,9 +86,9 @@
                 },
                 { data: "id" },
                 { data: "name" },
-                { data: "infochecked" },
+                { data: "infoChecked" },
                 { data: "willchecked" },
-                { data: "finalwill" },
+                { data: "finalWill" },
                 {
                     data: function () {
                         return "<button class='btn btn-primary' id='info'>详情</button>"
@@ -106,15 +106,15 @@
                 name: r.name,
                 id: r.id,
                 age: r.age,
-                major: r.major,
-                phone: r.phone,
-                onthejob: r.onthejob,
-                mail: r.stumail,
-                resumeurl: r.resumeurl,
-                firstwill: r.firstwill,
-                secondwill: r.secondwill,
-                dispensedwill: r.dispensedwill,
-                finalwill: r.finalwill
+                major: r.Major,
+                phone: r.phoneNumber,
+                onthejob: r.onTheJob,
+                mail: r.email,
+                resumeurl: r.resumeUrl,
+                firstwill: r.firstWill,
+                secondwill: r.secondWill,
+                dispensedwill: r.dispensedWill,
+                finalwill: r.finalWill
             }
             $.cookie('data', JSON.stringify(data));
             location.href = "/Dean/StudentInfo"
