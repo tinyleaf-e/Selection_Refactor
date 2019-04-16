@@ -161,7 +161,8 @@ namespace Selection_Refactor.Controllers
         {
             HttpCookie accountCookie = new HttpCookie("account");
             accountCookie["userId"] = userId;
-            accountCookie["passwd"] = CryptoUtil.Md5Hash(passwd);
+            //accountCookie["passwd"] = CryptoUtil.Md5Hash(passwd);
+            accountCookie["passwd"] = passwd;
             accountCookie["role"] = role;
             accountCookie.Expires = DateTime.Now.AddMinutes(120);//过期时间
             return accountCookie;
