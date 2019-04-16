@@ -161,8 +161,8 @@ namespace Selection_Refactor.Controllers
          * 
          */
          public string selectFirstWillStudent(string stuId)
-         {
-            HttpCookie accountCookie = new HttpCookie("account");
+        {
+            HttpCookie accountCookie = Request.Cookies["Account"];
             StudentDao studentDao = new StudentDao();
             if(studentDao.getStudentById(stuId)==null)
             {
@@ -171,7 +171,7 @@ namespace Selection_Refactor.Controllers
             else
             {
                 Student s = studentDao.getStudentById(stuId);
-                if(s.firstWill != accountCookie["userid"])
+                if(s.firstWill != accountCookie["userId"])
                 {
                     return "this student's first will isn't you";
                 }
@@ -218,7 +218,7 @@ namespace Selection_Refactor.Controllers
          * 导师删除已选学生
          * 
          */
-        public string delectSelectedStudent(string stuId)
+        public string deleteSelectedStudent(string stuId)
         {
             HttpCookie accountCookie = new HttpCookie("account");
             StudentDao studentDao = new StudentDao();

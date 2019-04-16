@@ -5,14 +5,11 @@
     ViewBag.Role = "Student";
 }
 
-<form class="form-horizontal">
-    <div class="box-body">
-        <div class="form-group">
-            <label class="col-sm-2 control-label">最终确认导师</label>
-
-            <div class="col-sm-6">
-                <input type="text" class="form-control" readonly>
-            </div>
+<div class="box-body">
+    <div class="form-group">
+        <label class="col-sm-2 control-label">最终确认导师</label>
+        <div class="col-sm-6">
+            <input type="text" class="form-control" readonly value="@ViewBag.Final">
         </div>
     </div>
-</form>
+</div>

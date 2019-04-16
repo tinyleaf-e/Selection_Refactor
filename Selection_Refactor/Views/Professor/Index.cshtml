@@ -80,20 +80,18 @@
 
         var haveChosenTable = $('#haveChosenTable').DataTable({
             ajax: {
-                url: 'https://www.easy-mock.com/mock/5c8368e622c6e01a284aae50/selection-mock/',
+                url: '/Professor/getSelectedStudents',
 
                 dataSrc: ''
             },
             "columns": [
                 {
-                    data: function (row, type, set, meta) {
-                        return meta.row;
-                    }
+                    data: "id"
                 },
                 { data: "name" },
-                { data: "gender" },
+                { data: function (row, type, set, meta) {return row.gender?"男":"女"} },
                 { data: "age" },
-                { data: "majorId" },
+                { data: "major" },
                 { data: "onTheJob" },
                 { data: "graSchool" },
                 { data: "graMajor" },
@@ -112,19 +110,17 @@
         });
         var firstChoiceTable = $('#firstChoiceTable').DataTable({
             ajax: {
-                url: 'https://www.easy-mock.com/mock/5c8368e622c6e01a284aae50/selection-mock/',
+                url: '/Professor/getFirstWillStudents',
                 dataSrc: ''
             },
             "columns": [
                 {
-                    data: function (row, type, set, meta) {
-                        return meta.row;
-                    }
+                    data: "id"
                 },
                 { data: "name" },
-                { data: "gender" },
+                { data: function (row, type, set, meta) { return row.gender ? "男" : "女" } },
                 { data: "age" },
-                { data: "majorId" },
+                { data: "major" },
                 { data: "onTheJob" },
                 { data: "graSchool" },
                 { data: "graMajor" },
@@ -182,9 +178,10 @@
                     var data = {
                         id: row.id
                     };
-                    $.post("/Professor/deleteStudent", data, function (rdata) {
+                    $.post("/Professor/deleteSelectedStudent", data, function (rdata) {
                         if (rdata == "success") {
-                            table.ajax.reload();
+                            firstChoiceTable.ajax.reload();
+                            haveChosenTable.ajax.reload();
                             $.gyAlert({
                                 title: "删除成功",
                                 contentText: "您已成功删除该学生"
@@ -192,8 +189,8 @@
                         }
                         else
                             $.gyAlert({
-                                title: "删除失败",
-                                contentText: rdata.substring(5),
+                                title: "删除失败",  
+                                contentText: rdata,
                                 cancelButton: false
                             });
                     });
@@ -209,11 +206,12 @@
                 contentText: "确认选择该学生?",
                 confirm: function () {
                     var data = {
-                        id: row.id
+                        stuId: row.id
                     };
                     $.post("/Professor/selectFirstWillStudent", data, function (rdata) {
                         if (rdata == "success") {
-                            table.ajax.reload();
+                            firstChoiceTable.ajax.reload();
+                            haveChosenTable.ajax.reload();
                             $.gyAlert({
                                 title: "选择成功",
                                 contentText: "您已成功选择该学生"
@@ -222,7 +220,7 @@
                         else
                             $.gyAlert({
                                 title: "选择失败",
-                                contentText: rdata.substring(5),
+                                contentText: rdata,
                                 cancelButton: false
                             });
                     });
