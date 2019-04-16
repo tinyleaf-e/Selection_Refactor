@@ -21,9 +21,9 @@
 
 <div id="select-group" class="callout callout-gray">
     <label>第一志愿:</label>
-    <input id="first" readonly required class="send-text" style="margin-left:20px;margin-right:50px; height: 34px;border-radius:3px ;  border: 1px solid rgb(204,204,204) ;">
+    <input id="first" readonly required value="@ViewBag.FirstWill" class="send-text" style="margin-left:20px;margin-right:50px; height: 34px;border-radius:3px ;  border: 1px solid rgb(204,204,204) ;">
     <label>第二志愿:</label>
-    <input id="second" readonly required class="send-text" style="margin-left:20px;margin-right:50px; height: 34px;border-radius:3px ;  border: 1px solid rgb(204,204,204) ;">
+    <input id="second" readonly required value="@ViewBag.SecondWill" class="send-text" style="margin-left:20px;margin-right:50px; height: 34px;border-radius:3px ;  border: 1px solid rgb(204,204,204) ;">
     <button id="confirm" class="btn btn-success" style="right:auto;margin-left: 30px;">
         确认提交
     </button>
@@ -70,8 +70,8 @@
 
         var table = $('#professorTable').DataTable({
             ajax: {
-                url: ' https://www.easy-mock.com/mock/5c95a7bd39712840142751d9/professorlist/getPro',
-                dataSrc: 'data'
+                url: '/Student/listProfessors',
+                dataSrc: ''
             },
             "columns": [
                 {
@@ -79,8 +79,8 @@
                         return meta.row + 1;
                     }
                 },
-                { data: "ProName" },
-                { data: "ProTitle" },
+                { data: "name" },
+                { data: "title" },
                 {
                     data: function () {
                         return "<button id='checkInfo' class='btn btn-default'>查看</button>"
@@ -109,14 +109,14 @@
         function chooseFirstPro(btn) {
             var tr = $(btn).closest('tr');
             var row = table.row(tr).data();
-            $("#first").val(row.ProName);
+            $("#first").val(row.name);
             $("#first").attr("proId", row.id);
         }
 
         function chooseSecondPro(btn) {
             var tr = $(btn).closest('tr');
             var row = table.row(tr).data();
-            $("#second").val(row.ProName);
+            $("#second").val(row.name);
             $("#second").attr("proId", row.id);
         }
 
@@ -132,7 +132,7 @@
                         firstWill: $("#first").attr("proId"),
                         secondWill: $("#second").attr("proId")
                     };
-                    $.post("/Student/comfirmWill", data, function (rdata) {
+                    $.post("/Student/confirmWill", data, function (rdata) {
                         if (rdata.indexOf("success") != 0)
                             $.gyAlert({
                                 title: "提交失败",
