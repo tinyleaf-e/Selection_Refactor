@@ -21,6 +21,30 @@ namespace Selection_Refactor.Controllers
         //{
 
         //}
+        public ActionResult Index()
+        {
+            return View();
+        }
+
+        public ActionResult JiaoWu()
+        {
+            return View();
+        }
+
+        public ActionResult Major()
+        {
+            return View();
+        }
+
+        public ActionResult Setting()
+        {
+            return View();
+        }
+
+        public ActionResult Student()
+        {
+            return View();
+        }
 
 
         /*

@@ -28,14 +28,14 @@
                     <table id="student-table" class="table table-bordered table-striped dataTable">
                         <thead>
                             <tr role="row">
-                                <th style="width: 55px;">序号</th>
+                                <th style="width: 50px;">序号</th>
                                 <th style="width: 65px;">学号</th>
                                 <th style="width: 60px;">姓名</th>
-                                <th style="width: 70px;">专业方向</th>
+                                <th style="width: 60px;">专业方向</th>
                                 <th style="width: 70px;">信息是否提交</th>
-                                <th style="width: 70px;">是否两个志愿提交</th>
+                                <th style="width: 75px;">是否两个志愿提交</th>
                                 <th style="width: 70px;">最终确定导师</th>
-                                <th style="width: 120px;">操作</th>
+                                <th style="width: 130px;">操作</th>
                             </tr>
                         </thead>
                     </table>
@@ -318,7 +318,8 @@
         var initTable = function () {
             $('#student-table').DataTable({
                 ajax: {
-                    url: 'https://www.easy-mock.com/mock/5b1fe0f0f71e0743260935e1/example/getStuInfo',
+                    //url: 'https://www.easy-mock.com/mock/5b1fe0f0f71e0743260935e1/example/getStuInfo',
+                    url:'/Admin/getStudentInfo',
                     dataSrc: 'data'
                 },
                 "columns": [

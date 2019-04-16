@@ -130,11 +130,34 @@
 <script>
 
     var userType = 0;
-    function checkprofessor() {
-        alert("check");
+    function checkprofessor(btn) {
+        var tr = $(btn).closest('tr');
+        var row = $('#professor-table').DataTable().row(tr).data();
+        window.open("https://www.baidu.com?" + row.url);
     }
-    function deleteprofessor() {
-        $.gyAlert({ contentText: "确认删除该教师?", cancelButtonText: "取消" });
+    function deleteprofessor(btn) {
+        var tr = $(btn).closest('tr');
+        var row = $('#professor-table').DataTable().row(tr).data();
+        $.gyAlert({
+            contentText: "确认删除该教师吗?",
+            confirm: function () {
+                var data = {
+                    userId: row.id
+                };
+                $.post("/Admin/deleteSingleProfessor", data, function (rel) {
+                    if (rel == "success") {
+                        table.ajax.reload();
+                    }
+                    else
+                        $.gyAlert({
+                            title: "删除失败",
+                            contentText: rel.substring(5),
+                            cancelButton: false
+                        });
+                });
+            },
+            cancelButtonText: "取 消"
+        });
     }
     $(document).ready(function () {
         initTable();
@@ -145,6 +168,10 @@
             $("#directAdd-professor-modal").modal('show')
         });
         $("#addProfessor-submit-button").click(function () {
+            if ($("#name-input").val().trim() == "") {
+                $("#name-input").addClass("error-input");
+                return;
+            }
             var data = {
                 'name': $("#name-input").val(),
                 'number': $("#number-input").val(),
@@ -153,12 +180,20 @@
                 'url': $("#url-input").val(),
                 'needstudent': $("#needstudent-input").val(),
             }
-            alert("name:" + data.name + " number:" + data.number + " rank:" + data.rank + " maxstudent:" + data.maxstudent + " url:" + data.url + " needstudent:" + data.needstudent);
-            $("#directAdd-professor-modal").modal('hide');
-            $.post("/Gao_Home/changePassword", data, function (rel) {
+            $.post("/Admin/addSingleProfessor", data, function (rel) {
+                if (rel == "success") {
+                    table.ajax.reload();
+                }
+                else
+                    $.gyAlert({
+                        title: "添加失败",
+                        contentText: rel.substring(5),
+                        cancelButton: false
+                    });
+            });
+            //alert("name:" + data.name + " number:" + data.number + " rank:" + data.rank + " maxstudent:" + data.maxstudent + " url:" + data.url + " needstudent:" + data.needstudent);
 
-                $("#directAdd-professor-modal").modal('hide');
-            })
+            $("#directAdd-professor-modal").modal('hide');
         });
     });
 
@@ -176,6 +211,7 @@
         $('#example1').DataTable({
             ajax: {
                 url: 'https://www.easy-mock.com/mock/5b1fe0f0f71e0743260935e1/example/getProInfo',
+                //url:'/Admin/getProfessors',
                 dataSrc: 'data'
             },
             "columns": [
@@ -189,8 +225,8 @@
                 {
                     data: function (row, type, set, meta) {
                         return [
-                            '<button type="button" class="btn btn-block btn-info btn-check-professor" style="width:45%;display:inline;vertical-align:baseline;" onclick="checkprofessor()"> 查看</button> ',
-                            '<button type="button" class="btn btn-block btn-success btn-delete-professor" style="width:45%;display:inline;vertical-align:baseline;" onclick="deleteprofessor()"> 删除</button> ',
+                            '<button type="button" class="btn btn-block btn-info btn-check-professor" style="width:45%;display:inline;vertical-align:baseline;" onclick="checkprofessor(this)"> 查看</button> ',
+                            '<button type="button" class="btn btn-block btn-success btn-delete-professor" style="width:45%;display:inline;vertical-align:baseline;" onclick="deleteprofessor(this)"> 删除</button> ',
                         ].join('');
                     }
                 },
@@ -198,31 +234,9 @@
         });
     };
 
-    //var initJaowu = function () {
-    //    var s = document.cookie.split("=");
-    //    userType = s[s.length - 1];
-    //    if (userType == 1) {
-    //        $("#timesetting").remove();
-    //        $("#addProfessor").remove();
-    //        $("#uploadProfessors").remove();
-    //        $("#jiaowuinfo").remove();
-    //        $("#welcome").text("欢迎登陆 教务教师");
-    //    } else {
-    //        $("#welcome").text("欢迎登陆 管理员");
-
-    //    }
-    //};
-
-
     $("#input-file").fileinput({
         language: 'zh', //设置语言
-        uploadUrl: '/Gao_Admin/batchCreateTeachers',
+        uploadUrl: 'Admin/batchCreateTeachers',
         allowedFileExtensions: ['xlsx', 'xls'],//接收的文件后缀
-        previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
-        /*    initialPreview: "<div class='file-preview-text'>" +
-"<h2><i class='glyphicon glyphicon-file'></i></h2>" +
-"~/Content/img/bb.xlsx" + "</div>",
-*/
-        previewTemplates: "<img  src=\"~/Content/img/aa.jpg\"/>",
     });
 </script>
