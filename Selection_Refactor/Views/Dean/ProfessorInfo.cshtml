@@ -73,29 +73,29 @@
         $(function () {
             var data = $.cookie("data");
             var m = JSON.parse(data);
-            console.log(m.name)
             $('#ProName').html(m.name);
             $('#ProTitle').html(m.title);
             $('#ProId').html(m.id);
             $('#StuAmount').html(m.stuamount);
             $('#ProUrl').attr("href", m.url)
+            var id = $('#ProId').text()
+            $('#studentTable').DataTable({
+                ajax: {
+                    type: 'POST',
+                    url: '/Dean/listSelectedStudentsByProId',
+                    data: { 'proId': id },
+                    dataSrc: ''
+                },
+                "columns": [
+                    { data: "id" },
+                    { data: "name" },
+                    { data: "gender" },
+                    { data: "graMajor" },
+                    { data: "graSchool" },
+                ]
+            });
         });
-
-        $('#studentTable').DataTable({
-            ajax: {
-                type:'POST',
-                url: '/Dean/listSelectedStudentsByProId',
-                data: { proId: $('#ProId') },
-                dataSrc: ''
-            },
-            "columns": [
-                { data: "id" },
-                { data: "name" },
-                { data: "gender" },
-                { data: "gramajor" },
-                { data: "graschool" },
-            ]
-        });
+        
         
 
     </script>

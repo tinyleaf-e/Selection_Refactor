@@ -123,7 +123,7 @@ namespace Selection_Refactor.Controllers
                         if (dean != null && dean.password == oldpasswd)
                         {
                             deanDao.changeDeanPasswdById(dean.id, newpasswd);
-                            retStr = "successdean";
+                            retStr = "success";
                         }
                         else
                         {

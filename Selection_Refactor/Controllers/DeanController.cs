@@ -240,14 +240,14 @@ namespace Selection_Refactor.Controllers
                     listSelectedStudents.Add(s);
                 }
             }
-            if (listSelectedStudents.Count <= 0) return res;
-            else
-            {
+            //if (listSelectedStudents.Count <= 0) return res;
+            //else
+            //{
                 JavaScriptSerializer serializer = new JavaScriptSerializer();
                 var json = serializer.Serialize(listSelectedStudents);
                 res = json.ToString();
                 return res;
-            }
+            //}
         }
     }
 }
