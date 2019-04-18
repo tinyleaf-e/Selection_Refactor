@@ -5,60 +5,57 @@
 @section css{
     <link rel="stylesheet" type="text/css" href="~/Content/css/pages/login.css" />
 }
-
-    <div class="login-box">
-
-        <div class="login-logo">
-            <b>登录</b>
-        </div>
-            @*<div class="item">
-            <label>用户名：</label>
-            <input id="userid-input" class="form-control" placeholder="请输入用户名" />
-        </div>
-        <div class="item">
-            <label>密码：</label>
-            <input id="passwd-input" class="form-control" type="password" placeholder="请输入密码" />
-        </div>
-        <button id="login-btn" class="btn btn-default login-btn">登录</button>*@
-        <div class="login-box-body">
-            <ul id="role-tab" class="nav nav-tabs">
-                <li class="active">
-                    <a href="#tab_stu" data-toggle="tab">学生</a>
-                </li>
-                <li>
-                    <a href="#tab_pro" data-toggle="tab">教师</a>
-                </li>
-                <li>
-                    <a href="#tab_dean" data-toggle="tab">教务</a>
-                </li>
-                <li>
-                    <a href="#tab_admin" data-toggle="tab">管理员</a>
-                </li>
-            </ul>
-            <p class="login-box-msg"></p>
-            <div class="form-group has-feedback">
-                <span class="glyphicon glyphicon-user form-control-feedback"></span>
-                <input class="form-control" placeholder="学号" id="userid-input" />
-            </div>
-            <div class="form-group has-feedback">
-                <span class="glyphicon glyphicon-lock form-control-feedback"></span>
-                <input class="form-control" type="password" placeholder="密码" id="passwd-input" />
-            </div>
-            <div class="row">
-                <div class="col-xs-12">
-                    <button class="btn btn-primary btn-block" id="login-btn">登录</button>
+            <div class="login-page login-blur"></div>
+            <div class="login-box">
+                <div class="login-logo">
+                    <b>登录</b>
+                </div>
+                @*<div class="item">
+                    <label>用户名：</label>
+                    <input id="userid-input" class="form-control" placeholder="请输入用户名" />
+                </div>
+                <div class="item">
+                    <label>密码：</label>
+                    <input id="passwd-input" class="form-control" type="password" placeholder="请输入密码" />
+                </div>
+                <button id="login-btn" class="btn btn-default login-btn">登录</button>*@
+                <div class="login-box-body">
+                    <ul id="role-tab" class="nav nav-tabs">
+                        <li class="active">
+                            <a href="#tab_stu" data-toggle="tab">学生</a>
+                        </li>
+                        <li>
+                            <a href="#tab_pro" data-toggle="tab">教师</a>
+                        </li>
+                        <li>
+                            <a href="#tab_dean" data-toggle="tab">教务</a>
+                        </li>
+                        <li>
+                            <a href="#tab_admin" data-toggle="tab">管理员</a>
+                        </li>
+                    </ul>
+                    <p class="login-box-msg"></p>
+                    <div class="form-group has-feedback">
+                        <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                        <input class="form-control" placeholder="学号" id="userid-input" />
+                    </div>
+                    <div class="form-group has-feedback">
+                        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                        <input class="form-control" type="password" placeholder="密码" id="passwd-input" />
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <button class="btn btn-primary btn-block" id="login-btn">登录</button>
+                        </div>
+                    </div>
+                    <p></p>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <a class="pull-right">忘记密码</a>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <p></p>
-            <div class="row">
-                <div class="col-xs-12">
-                    <a class="pull-right">忘记密码</a>
-                </div>
-            </div>
-        </div>
-         
-    </div>
-
 @section script{
     <script src="~/Content/js/pages/login.js"></script>
     <script src="~/Content/js/gy-alert.js"></script>
@@ -71,9 +68,9 @@
                 case "学生":
                     msg = "学号"; break;
                 default:
-                    msg = "教工号"; 
+                    msg = "教工号";
             }
-            $('#userid-input').attr("placeholder",msg)
+            $('#userid-input').attr("placeholder", msg)
         })
     </script>
 }
