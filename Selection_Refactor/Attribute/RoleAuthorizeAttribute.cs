@@ -28,6 +28,8 @@ namespace Selection_Refactor.Attribute
             {
                 return false;
             }
+            //if (stage < 1)
+              //  return false;
 
             try
             {
@@ -40,17 +42,14 @@ namespace Selection_Refactor.Attribute
                             return false;
                         return true;
                     }
-                    else
-                        return false;
                 }
+                return false;
             }
             catch (Exception e)
             {
-
                 throw new Exception("权限控制错误"+e.Message);
             }
-
-            return false;
+            
         }
 
         public override void OnAuthorization(System.Web.Mvc.AuthorizationContext filterContext)

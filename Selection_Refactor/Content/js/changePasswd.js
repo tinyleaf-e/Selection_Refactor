@@ -59,8 +59,6 @@ function changePasswd() {
             $('#old-passwd-icon').attr("class", "fa fa-times-circle-o");
         }
         else {
-            $("#oldpwd").attr("class", "form-group has-success");
-            $('#old-passwd-icon').attr("class", "fa fa-check");
             if (oldPasswdInput.val() == newPasswdInput.val() || newPasswdInput.val() == "") {
                 $('#newpwd').attr("class", "form-group has-error");
                 $('#new-passwd-icon').attr('class', 'fa fa-times-circle-o');
@@ -73,17 +71,22 @@ function changePasswd() {
                     $('#check-passwd-icon').attr('class', 'fa fa-check');
                     //如果验证成功，向后端发送post请求
                     var data = {
-                        oldPasswd: oldPasswdInput.val(),
-                        newPasswd: newPasswdInput.val()
+                        oldpasswd: oldPasswdInput.val(),
+                        newpasswd: newPasswdInput.val()
                     }
-                    $.post("https://www.easy-mock.com/mock/5c96bc9d195f475394b7fb54/select/changepasswd", data, function (rdata) {
-                        console.log(rdata.data)
+                    $.post("/Security/changePassword", data, function (rdata) {
+                        console.log(rdata)
                         //rdata为后端返回的数据
-                        if (rdata.data == "success") {//若修改成功
+                        if (rdata == "success") {//若修改成功
+                            $("#oldpwd").attr("class", "form-group has-success");
+                            $('#old-passwd-icon').attr("class", "fa fa-check");
                             $.gyAlert({ 
                                 title: "修改成功",
                                 contentText: "您的密码已修改成功，请重新登录",
-                                cancelButton: false
+                                cancelButton: false,
+                                confirm: function () {
+                                    location.href="/Security/Login"
+                                },
                             });
                             theModal.modal('hide');
                             setTimeout(function () {
@@ -91,15 +94,17 @@ function changePasswd() {
                             }, 1000);
                         }
                         else {//若修改失败
+                            $("#oldpwd").attr("class", "form-group has-error");
+                            $('#old-passwd-icon').attr("class", "fa fa-times-circle-o");
                             $.gyAlert({//模态框插件来提示错误信息
                                 title: "修改失败",
-                                contentText: rdata.data,
+                                contentText: rdata.substring(5),
                                 cancelButton: false
                             });
-                            theModal.modal('hide');
-                            setTimeout(function () {
-                                theModal.remove();
-                            }, 1000);
+                            //theModal.modal('hide');
+                            //setTimeout(function () {
+                            //    theModal.remove();
+                            //}, 1000);
                         }
                     })
                 }
