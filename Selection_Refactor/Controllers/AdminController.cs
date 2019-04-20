@@ -46,28 +46,6 @@ namespace Selection_Refactor.Controllers
             return View();
         }
 
-        public ActionResult Index()
-        {
-            return View();
-        }
-        public ActionResult Student()
-        {
-            return View();
-        }
-        public ActionResult Jiaowu()
-        {
-            return View();
-        }
-        public ActionResult Setting()
-        {
-            return View();
-        }
-        public ActionResult Major()
-        {
-            return View();
-        }
-
-
         /*
          * Create By 高晔
          * 打包下载简历

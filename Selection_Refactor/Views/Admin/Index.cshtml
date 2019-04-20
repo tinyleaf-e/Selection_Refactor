@@ -25,14 +25,14 @@
                         <table id="example1" class="table table-bordered table-striped dataTable" role="grid" aria-describedby="example1_info">
                             <thead>
                                 <tr role="row">
-                                    <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-sort="ascending" data-field="ProName" style="width: 75px;">姓名</th>
-                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" data-field="ProTitle" style="width: 75px;">职称</th>
-                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" data-field="ProPlace" style="width: 60px;">最多名额</th>
-                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" data-field="FirstChoice" style="width: 80px;">第一志愿已选人数</th>
-                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" data-field="SecondChoice" style="width: 80px;">第二志愿已选人数</th>
-                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" data-field="DistributeNumber" style="width: 60px;">分配人数</th>
-                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" data-field="RestPlace" style="width: 60px;">剩余名额</th>
-                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" style="width: 100px;" data-formatter="operateFormatter" data-align='center' data-events='operateEvents'>操作</th>
+                                    <th class="sorting_asc" data-field="ProName" style="width: 75px;">姓名</th>
+                                    <th class="sorting" data-field="ProTitle" style="width: 75px;">职称</th>
+                                    <th class="sorting" data-field="ProPlace" style="width: 60px;">最多名额</th>
+                                    <th class="sorting" data-field="FirstChoice" style="width: 80px;">第一志愿已选人数</th>
+                                    <th class="sorting" data-field="SecondChoice" style="width: 80px;">第二志愿已选人数</th>
+                                    <th class="sorting" data-field="DistributeNumber" style="width: 60px;">分配人数</th>
+                                    <th class="sorting" data-field="RestPlace" style="width: 60px;">剩余名额</th>
+                                    <th class="sorting" style="width: 100px;" data-formatter="operateFormatter" data-align='center' data-events='operateEvents'>操作</th>
                                 </tr>
                             </thead>
                         </table>
@@ -100,10 +100,6 @@
                         <div class="column" style="float:left;padding-left:20px">
                             <label>介绍界面URL</label>
                             <input id="url-input" type="text" class="form-control" placeholder="" style="width:200px;">
-                        </div>
-                        <div class="column" style="float:left;padding-left:50px">
-                            <label>现在招收学生数</label>
-                            <input id="needstudent-input" type="text" class="form-control" placeholder="" style="width:200px;">
                         </div>
                     </div>
                 </form>
@@ -177,8 +173,7 @@
                 'number': $("#number-input").val(),
                 'rank': $("#rank-input").val(),
                 'maxstudent': $("#maxstudent-input").val(),
-                'url': $("#url-input").val(),
-                'needstudent': $("#needstudent-input").val(),
+                'url': $("#url-input").val()
             }
             $.post("/Admin/addSingleProfessor", data, function (rel) {
                 if (rel == "success") {
@@ -210,8 +205,8 @@
     var initTable = function () {
         $('#example1').DataTable({
             ajax: {
-                url: 'https://www.easy-mock.com/mock/5b1fe0f0f71e0743260935e1/example/getProInfo',
-                //url:'/Admin/getProfessors',
+                //url: 'https://www.easy-mock.com/mock/5b1fe0f0f71e0743260935e1/example/getProInfo',
+                url:'/Admin/getProfessors',
                 dataSrc: 'data'
             },
             "columns": [
