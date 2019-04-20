@@ -30,6 +30,7 @@ namespace Selection_Refactor.Controllers
             ViewBag.StuId = student.id;
             ViewBag.StuGraSchool = student.graSchool;
             ViewBag.StuGraMajor = student.graMajor;
+            ViewBag.ResumeUrl = student.resumeUrl;
             return View();
         }
         public ActionResult FinalWill()
@@ -129,7 +130,8 @@ namespace Selection_Refactor.Controllers
             //if (st != 1)
             //    return "invalid";
             HttpCookie accountCookie = Request.Cookies["Account"];
-            var severPath = this.Server.MapPath("/resume/ " + accountCookie["userId"] + "/");
+            string uuid = Guid.NewGuid().ToString();
+            var severPath = this.Server.MapPath("/resume/ " + accountCookie["userId"]+"_"+uuid + "/");
 
             if (!Directory.Exists(severPath))
             {
@@ -145,7 +147,8 @@ namespace Selection_Refactor.Controllers
             {
                 dir.Delete(true);
             }
-
+            Response.ContentType = "application/json";
+            Response.Charset = "utf-8";
             
             try
             {
@@ -158,7 +161,7 @@ namespace Selection_Refactor.Controllers
 
                 file.SaveAs(savePath);
                 Student student=studentDao.getStudentById(accountCookie["userId"]);
-                student.resumeUrl = accountCookie["userId"] + "/resume/ " + accountCookie["userId"] + "/" + file.FileName;
+                student.resumeUrl = "/resume/ " + accountCookie["userId"] +"_" + uuid + "/"+ file.FileName;
                 bool res = studentDao.update(student);
                 if(!res)
                 {
@@ -169,9 +172,13 @@ namespace Selection_Refactor.Controllers
             }
             catch (Exception e)
             {
-                return "fail:"+e.Message;
+                return "{\"error\":\""+e.Message+"\"}";
             }
-            return "success";
+            return "{"+
+                  "\"initialPreview\":"+
+                    "[\"<div style=\\\"text-align:center;padding:50px 25px;color:#00a65a\\\"><i class=\\\"fa fa-check-square-o\\\" style=\\\"font-size:60px;opacity:0.6\\\"></i><p style=\\\"padding-top:10px;font-size:18px\\\">简历上传成功</p></div>\"]"+
+                  ",\"url\":\""+ "/resume/ " + accountCookie["userId"] + "_" + uuid + "/" + file.FileName + "\""+
+                    "}";
         }
         /*  
         *  Create By zzw

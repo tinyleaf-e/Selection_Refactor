@@ -3,7 +3,6 @@
     ViewBag.CurrentTab = "index";
     ViewBag.BoxTitle = "个人信息";
     ViewBag.Role = "Student";
-    ViewBag.ResumeName = "个人简历_XXX.docx";
     ViewBag.Deadline = "2019/4/16";
 
 }
@@ -84,24 +83,29 @@
 
     <div class="col-md-6 form-horizontal">
         <div class="form-group">
-            <label class="col-sm-6">请上传个人简历（doc/docx,小于5M）</label>
-            <div class="col-sm-3" type="button">
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#uploadFileModal">
+            <label style="width:180px;text-align:right;margin-right:50px">上传个人简历: </label>
+            @if (string.IsNullOrEmpty(ViewBag.ResumeUrl))
+            {
+                <span id="resume-name" style="display:none"></span>
+                <a id="download-resume-a" class="btn btn-default" style="margin:0 20px;display:none" href="#" download="" >下载</a>
+                
+                <button id="upload-resume-btn" type="button" class="btn btn-primary" data-toggle="modal" data-target="#uploadFileModal">
                     上传简历
                 </button>
-            </div>
-        </div>
-        <div id="resumeDiv" class="form-group">
-            <label id="resume" class="col-sm-5 col-sm-offset-1">@ViewBag.ResumeName</label>
-            <div class="col-sm-3" type="button">
-                <button id="delete" class="btn btn-default">删除</button>
-            </div>
+            }
+            else
+            {
+                <span id="resume-name">@Path.GetFileName(ViewBag.ResumeUrl)</span>
+                <a id="download-resume-a" class="btn btn-default" style="margin:0 20px" href="@ViewBag.ResumeUrl" download="@Path.GetFileName(ViewBag.ResumeUrl)" >下载</a>
+                <button id="upload-resume-btn" type="button" class="btn btn-primary" data-toggle="modal" data-target="#uploadFileModal">
+                    重新上传
+                </button>
+            }
+            
         </div>
         <div class="form-group">
-            <label class="col-sm-6"> 信息上传截至时间：</label>
-            <div class="col-sm-3">
-                <input type="text" class="form-control" value="@ViewBag.Deadline" readonly>
-            </div>
+            <label style="width:180px;text-align:right;margin-right:50px"> 信息上传截至时间:</label>
+                <span>@ViewBag.Deadline</span>
         </div>
     </div>
 </div>
@@ -114,7 +118,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                <h4 class="modal-title">请上传doc或docx文件</h4>
+                <h4 class="modal-title">请上传doc或docx文件(小于5M）</h4>
             </div>
             <div class="modal-body">
                 <input type="file" name="file" id="inputFile">
@@ -137,14 +141,16 @@
             showCancel: true,
             uploadUrl: '/Student/submitResume',
             allowedFileExtensions: ['doc', 'docx'],//接收的文件后缀
-        }).on('fileuploaded', function (event, previewId, index, fileId) {
-            console.log('File Uploaded', 'ID: ' + fileId + ', Thumb ID: ' + previewId);
-        }).on('fileuploaderror', function (event, data, msg) {
-            console.log('File Upload Error', 'ID: ' + data.fileId + ', Thumb ID: ' + data.previewId);
-            $.gyAlert({
-                            title: "上传失败"
-                        });
-        }).on('filebatchuploadcomplete', function (event, preview, config, tags, extraData) {
+        }).on('fileuploaded', function (event, preview, config, tags, extraData) {
+            var url = preview.response.url;
+            if (url != "") {
+                $("#resume-name").text(preview.files[0].name)
+                $("#resume-name").show();
+                $("#download-resume-a").attr("download", preview.files[0].name);
+                $("#download-resume-a").attr("href", url);
+                $("#download-resume-a").show();
+                $("#upload-resume-btn").text("重新上传").show();
+            }
             console.log('File Batch Uploaded', preview, config, tags, extraData);
         });
 
