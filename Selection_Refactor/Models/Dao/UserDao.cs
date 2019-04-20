@@ -14,7 +14,36 @@ namespace Selection_Refactor.Models.Dao
          */
         public string certifyUser(string userId, string encryptedPasswd, string role)
         {
-            return "success";
+            switch (role)
+            {
+                case "student":
+                    StudentDao studentDao = new StudentDao();
+                    Student student = studentDao.getStudentById(userId);
+                    if (student != null && encryptedPasswd == student.password)
+                        return "success";
+                    break;
+                case "professor":
+                    ProfessorDao professorDao = new ProfessorDao();
+                    Professor professor = professorDao.getProfessorById(userId);
+                    if(professor != null && encryptedPasswd == professor.password)
+                        return "success";
+                    break;
+                case "dean":
+                    DeanDao deanDao = new DeanDao();
+                    Dean dean = deanDao.getDeanById(userId);
+                    if (dean != null && encryptedPasswd == dean.password)
+                        return "success";
+                    break;
+                case "admin":
+                    AdminDao adminDao = new AdminDao();
+                    Admin admin = adminDao.getAdminById(userId);
+                    if (admin != null && encryptedPasswd == admin.password)
+                        return "success";
+                    break;
+                default:
+                    break;
+            }
+            return "fail";
         }
 
 

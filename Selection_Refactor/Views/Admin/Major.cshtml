@@ -85,10 +85,6 @@
                 $.post("/Admin/deleteMajorById", data, function (rdata) {
                     if (rdata == "success") {
                         table.ajax.reload();
-                        $.gyAlert({
-                            title: "删除成功",
-                            contentText: "您已成功删除该专业"
-                        });
                     }
                     else
                         $.gyAlert({
@@ -126,10 +122,6 @@
                             theModal.remove();
                         }, 1000);
                         table.ajax.reload();
-                        $.gyAlert({
-                            title: "修改成功",
-                            contentText: "您已成功修改该专业"
-                        });
                     }
                     else {
                         theModal.modal('hide');
@@ -170,10 +162,6 @@
                             theModal.remove();
                         }, 1000);
                         table.ajax.reload();
-                        $.gyAlert({
-                            title: "添加成功",
-                            contentText: "您已成功添加该专业"
-                        });
                     }
                     else {
 

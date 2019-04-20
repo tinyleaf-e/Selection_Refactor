@@ -6,7 +6,7 @@
         var errorMsg = $(this).attr("error-msg");
         if (!errorMsg)
             errorMsg = "该页面未在开放时间内";
-        var url = location.origin + $(this).attr("href");
+        var url = location.origin + $(this).find("a").first().attr("to");
         if (accessStage[stage - 1] == '1')
             location.href = url;
         else
