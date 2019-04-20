@@ -171,7 +171,7 @@ namespace Selection_Refactor.Models.Dao
             }
             catch (Exception e)
             {
-                return -1;
+                return 1;
             }
         }
         /*

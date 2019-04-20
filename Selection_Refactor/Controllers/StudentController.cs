@@ -48,11 +48,20 @@ namespace Selection_Refactor.Controllers
             string id = accountCookie["userId"];
             StudentDao studentDao = new StudentDao();
             Student student = studentDao.getStudentById(id);
-            ProfessorDao professorDao = new ProfessorDao();
-            Professor professor = professorDao.getProfessorById(student.firstWill);
-            ViewBag.FirstWill = professor.name;
-            professor = professorDao.getProfessorById(student.secondWill);
-            ViewBag.SecondWill = professor.name;
+            if(string.IsNullOrEmpty(student.firstWill)|| string.IsNullOrEmpty(student.secondWill))
+            {
+                ViewBag.FirstWill = "";
+                ViewBag.SecondWill = "";
+            }
+            else
+            {
+                ProfessorDao professorDao = new ProfessorDao();
+                Professor professor = professorDao.getProfessorById(student.firstWill);
+                ViewBag.FirstWill = professor.name;
+                professor = professorDao.getProfessorById(student.secondWill);
+                ViewBag.SecondWill = professor.name;
+            }
+            
             return View();
         }
         /*  
