@@ -25,14 +25,14 @@
                         <table id="example1" class="table table-bordered table-striped dataTable" role="grid" aria-describedby="example1_info">
                             <thead>
                                 <tr role="row">
-                                    <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-sort="ascending" data-field="ProName" style="width: 75px;">姓名</th>
-                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" data-field="ProTitle" style="width: 75px;">职称</th>
-                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" data-field="ProPlace" style="width: 60px;">最多名额</th>
-                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" data-field="FirstChoice" style="width: 80px;">第一志愿已选人数</th>
-                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" data-field="SecondChoice" style="width: 80px;">第二志愿已选人数</th>
-                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" data-field="DistributeNumber" style="width: 60px;">分配人数</th>
-                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" data-field="RestPlace" style="width: 60px;">剩余名额</th>
-                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" style="width: 100px;" data-formatter="operateFormatter" data-align='center' data-events='operateEvents'>操作</th>
+                                    <th class="sorting_asc" data-field="ProName" style="width: 75px;">姓名</th>
+                                    <th class="sorting" data-field="ProTitle" style="width: 75px;">职称</th>
+                                    <th class="sorting" data-field="ProPlace" style="width: 60px;">最多名额</th>
+                                    <th class="sorting" data-field="FirstChoice" style="width: 80px;">第一志愿已选人数</th>
+                                    <th class="sorting" data-field="SecondChoice" style="width: 80px;">第二志愿已选人数</th>
+                                    <th class="sorting" data-field="DistributeNumber" style="width: 60px;">分配人数</th>
+                                    <th class="sorting" data-field="RestPlace" style="width: 60px;">剩余名额</th>
+                                    <th class="sorting" style="width: 100px;" data-formatter="operateFormatter" data-align='center' data-events='operateEvents'>操作</th>
                                 </tr>
                             </thead>
                         </table>
@@ -101,10 +101,6 @@
                             <label>介绍界面URL</label>
                             <input id="url-input" type="text" class="form-control" placeholder="" style="width:200px;">
                         </div>
-                        <div class="column" style="float:left;padding-left:50px">
-                            <label>现在招收学生数</label>
-                            <input id="needstudent-input" type="text" class="form-control" placeholder="" style="width:200px;">
-                        </div>
                     </div>
                 </form>
                 <div style="float:right;padding-right:20px;padding-top:25px">
@@ -130,11 +126,34 @@
 <script>
 
     var userType = 0;
-    function checkprofessor() {
-        alert("check");
+    function checkprofessor(btn) {
+        var tr = $(btn).closest('tr');
+        var row = $('#professor-table').DataTable().row(tr).data();
+        window.open("https://www.baidu.com?" + row.url);
     }
-    function deleteprofessor() {
-        $.gyAlert({ contentText: "确认删除该教师?", cancelButtonText: "取消" });
+    function deleteprofessor(btn) {
+        var tr = $(btn).closest('tr');
+        var row = $('#professor-table').DataTable().row(tr).data();
+        $.gyAlert({
+            contentText: "确认删除该教师吗?",
+            confirm: function () {
+                var data = {
+                    userId: row.id
+                };
+                $.post("/Admin/deleteSingleProfessor", data, function (rel) {
+                    if (rel == "success") {
+                        table.ajax.reload();
+                    }
+                    else
+                        $.gyAlert({
+                            title: "删除失败",
+                            contentText: rel.substring(5),
+                            cancelButton: false
+                        });
+                });
+            },
+            cancelButtonText: "取 消"
+        });
     }
     $(document).ready(function () {
         initTable();
@@ -145,20 +164,31 @@
             $("#directAdd-professor-modal").modal('show')
         });
         $("#addProfessor-submit-button").click(function () {
+            if ($("#name-input").val().trim() == "") {
+                $("#name-input").addClass("error-input");
+                return;
+            }
             var data = {
                 'name': $("#name-input").val(),
                 'number': $("#number-input").val(),
                 'rank': $("#rank-input").val(),
                 'maxstudent': $("#maxstudent-input").val(),
-                'url': $("#url-input").val(),
-                'needstudent': $("#needstudent-input").val(),
+                'url': $("#url-input").val()
             }
-            alert("name:" + data.name + " number:" + data.number + " rank:" + data.rank + " maxstudent:" + data.maxstudent + " url:" + data.url + " needstudent:" + data.needstudent);
-            $("#directAdd-professor-modal").modal('hide');
-            $.post("/Gao_Home/changePassword", data, function (rel) {
+            $.post("/Admin/addSingleProfessor", data, function (rel) {
+                if (rel == "success") {
+                    table.ajax.reload();
+                }
+                else
+                    $.gyAlert({
+                        title: "添加失败",
+                        contentText: rel.substring(5),
+                        cancelButton: false
+                    });
+            });
+            //alert("name:" + data.name + " number:" + data.number + " rank:" + data.rank + " maxstudent:" + data.maxstudent + " url:" + data.url + " needstudent:" + data.needstudent);
 
-                $("#directAdd-professor-modal").modal('hide');
-            })
+            $("#directAdd-professor-modal").modal('hide');
         });
     });
 
@@ -175,8 +205,9 @@
     var initTable = function () {
         $('#example1').DataTable({
             ajax: {
-                url: '/Admin/getProfessors',
-                dataSrc: ''
+                //url: 'https://www.easy-mock.com/mock/5b1fe0f0f71e0743260935e1/example/getProInfo',
+                url:'/Admin/getProfessors',
+                dataSrc: 'data'
             },
             "columns": [
                 { data: "ProName" },
@@ -189,8 +220,8 @@
                 {
                     data: function (row, type, set, meta) {
                         return [
-                            '<button type="button" class="btn btn-block btn-info btn-check-professor" style="width:45%;display:inline;vertical-align:baseline;" onclick="checkprofessor()"> 查看</button> ',
-                            '<button type="button" class="btn btn-block btn-success btn-delete-professor" style="width:45%;display:inline;vertical-align:baseline;" onclick="deleteprofessor()"> 删除</button> ',
+                            '<button type="button" class="btn btn-block btn-info btn-check-professor" style="width:45%;display:inline;vertical-align:baseline;" onclick="checkprofessor(this)"> 查看</button> ',
+                            '<button type="button" class="btn btn-block btn-success btn-delete-professor" style="width:45%;display:inline;vertical-align:baseline;" onclick="deleteprofessor(this)"> 删除</button> ',
                         ].join('');
                     }
                 },
@@ -198,25 +229,9 @@
         });
     };
 
-    //var initJaowu = function () {
-    //    var s = document.cookie.split("=");
-    //    userType = s[s.length - 1];
-    //    if (userType == 1) {
-    //        $("#timesetting").remove();
-    //        $("#addProfessor").remove();
-    //        $("#uploadProfessors").remove();
-    //        $("#jiaowuinfo").remove();
-    //        $("#welcome").text("欢迎登陆 教务教师");
-    //    } else {
-    //        $("#welcome").text("欢迎登陆 管理员");
-
-    //    }
-    //};
-
-
     $("#input-file").fileinput({
         language: 'zh', //设置语言
-        uploadUrl: '/Gao_Admin/batchCreateTeachers',
+        uploadUrl: '/Admin/batchCreateTeachers',
         allowedFileExtensions: ['xlsx', 'xls'],//接收的文件后缀
     });
 </script>
