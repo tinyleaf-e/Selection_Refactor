@@ -242,12 +242,8 @@
     <Content Include="Content\css\AdminLTE.min.css" />
     <Content Include="Content\css\pages\professor.css" />
     <Content Include="Content\css\vegas.min.css" />
-    <Content Include="Content\image\aa.jpg" />
     <Content Include="Content\image\arrow-down-placeholder.png" />
     <Content Include="Content\image\arrow-down.png" />
-    <Content Include="Content\image\bb.jpg" />
-    <Content Include="Content\image\cc.jpg" />
-    <Content Include="Content\image\dd.jpg" />
     <Content Include="Content\image\logo.png" />
     <Content Include="Content\image\bkgnd2.jpg" />
     <Content Include="Content\js\changePasswd.js" />

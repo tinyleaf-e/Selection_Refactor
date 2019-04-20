@@ -223,11 +223,12 @@
             $("#set-password-modal").modal('show');
         }
 
-        $.get("https://www.easy-mock.com/mock/5c8368e622c6e01a284aae50/selection-mock/getMajor", function (data) {
-            for (var i = 0; i < data.length; i++) {
-                $("#major-select").append('<option value="' + data[i].id + '">' + data[i].name + '</option>')
-            }
-        })
+        $.get("/Admin/getAllMajor", function (rel) {
+                var data = JSON.parse(rel);
+                for (var i = 0; i < data.length; i++) {
+                    $("#major-select").append('<option value="' + data[i].id + '">' + data[i].name + '</option>')
+                }
+            })
 
         $(document).ready(function () {
             initTable();
