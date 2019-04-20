@@ -1,10 +1,28 @@
-﻿.login-box{
-    width:360px;
-    margin:150px auto 50px;
+﻿.login-box {
+    width: 360px;
+    margin: 150px auto 50px;
     border:1px solid #ddd;
-    border-radius:5px;
-    padding:15px 10px;
+    border-radius: 5px;
+    padding: 15px 10px;
     box-shadow:rgba(0,0,0,0.1) 6px 6px 5px
+}
+
+.login-page {
+    background-image: url(../../image/bkgnd2.jpg);
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 96%;
+    width: 100%;
+    z-index: -1
+}
+
+.login-blur {
+    background-attachment: scroll;
+    background-repeat: no-repeat;
+    background-size: cover;
+    -webkit-filter: blur(2px);
+    
 }
 
 .login-logo{
@@ -12,6 +30,7 @@
     text-align:center;
     margin-bottom:25px;
     font-weight:300;
+    color:#ddd;
 }
 
 .login-box-body{
