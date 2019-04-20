@@ -29,8 +29,8 @@
                         <thead>
                             <tr role="row">
                                 <th style="width: 50px;">序号</th>
-                                <th style="width: 65px;">学号</th>
                                 <th style="width: 60px;">姓名</th>
+                                <th style="width: 65px;">学号</th>
                                 <th style="width: 60px;">专业方向</th>
                                 <th style="width: 70px;">信息是否提交</th>
                                 <th style="width: 75px;">是否两个志愿提交</th>
@@ -78,11 +78,11 @@
                 <form style="height:80%">
                     <div class="row" style="width:45%;display:inline;vertical-align:baseline;padding-left:50px;">
                         <div class="column" style="float:left;padding-left:20px">
-                            <label>姓名</label>
+                            <label>姓名</label><label style="color:red">&nbsp;*</label>
                             <input id="name-input" type="text" class="form-control" placeholder="" style="width:200px;">
                         </div>
                         <div class="column" style="float:left;padding-left:50px">
-                            <label>学号</label>
+                            <label>学号</label><label style="color:red">&nbsp;*</label>
                             <input id="id-input" type="text" class="form-control" placeholder="" style="width:200px;">
                         </div>
                     </div>
@@ -92,7 +92,7 @@
                             <input id="age-input" type="text" class="form-control" placeholder="" style="width:200px;">
                         </div>
                         <div class="column" style="float:left;padding-left:50px">
-                            <label>专业</label>
+                            <label>专业</label><label style="color:red">&nbsp;*</label>
                             <select id="major-select" class="form-control" style="width:200px"></select>
                         </div>
                     </div>
@@ -328,11 +328,11 @@
                             return meta.row + 1;
                         }
                     },
-                    { data: "StuNumber" },
                     { data: "StuName" },
-                    { data: "Major" },
-                    { data: "InfoCommited" },
-                    { data: "TwoWillCommited" },
+                    { data: "id" },
+                    { data: "major" },
+                    { data: "infoCommited" },
+                    { data: "twoWillCommited" },
                     { data: "FinalTutor" },
                     {
                         data: function (row, type, set, meta) {

@@ -78,27 +78,27 @@
                 <form style="height:80%">
                     <div class="row" style="width:45%;display:inline;vertical-align:baseline;padding-left:50px;">
                         <div class="column" style="float:left;padding-left:20px">
-                            <label>姓名</label>
+                            <label>姓名</label><label style="color:red">&nbsp;*</label>
                             <input id="name-input" type="text" class="form-control" placeholder="" style="width:200px;">
                         </div>
                         <div class="column" style="float:left;padding-left:50px">
-                            <label>工号</label>
+                            <label>工号</label><label style="color:red">&nbsp;*</label>
                             <input id="number-input" type="text" class="form-control" placeholder="" style="width:200px;">
                         </div>
                     </div>
                     <div class="row" style="width:45%;display:inline;vertical-align:baseline;padding-left:50px;">
                         <div class="column" style="float:left;padding-left:20px">
-                            <label>职称</label>
+                            <label>职称</label><label style="color:red">&nbsp;*</label>
                             <input id="rank-input" type="text" class="form-control" placeholder="" style="width:200px;">
                         </div>
                         <div class="column" style="float:left;padding-left:50px">
-                            <label>最大招收学生数</label>
+                            <label>最大招收学生数</label><label style="color:red">&nbsp;*</label>
                             <input id="maxstudent-input" type="text" class="form-control" placeholder="" style="width:200px;">
                         </div>
                     </div>
                     <div class="row" style="width:45%;display:inline;vertical-align:baseline;padding-left:50px;">
                         <div class="column" style="float:left;padding-left:20px">
-                            <label>介绍界面URL</label>
+                            <label>介绍界面URL</label><label style="color:red">&nbsp;*</label>
                             <input id="url-input" type="text" class="form-control" placeholder="" style="width:200px;">
                         </div>
                     </div>
@@ -210,13 +210,13 @@
                 dataSrc: 'data'
             },
             "columns": [
-                { data: "ProName" },
-                { data: "ProTitle" },
-                { data: "ProPlace" },
-                { data: "FirstChoice" },
-                { data: "SecondChoice" },
-                { data: "DistributeNumber" },
-                { data: "RestPlace" },
+                { data: "proName" },
+                { data: "proTitle" },
+                { data: "proQuota" },
+                { data: "ProFirstNum" },
+                { data: "ProSecondNum" },
+                { data: "ProAssignNum" },
+                { data: "ProRestNum" },
                 {
                     data: function (row, type, set, meta) {
                         return [
@@ -231,7 +231,7 @@
 
     $("#input-file").fileinput({
         language: 'zh', //设置语言
-        uploadUrl: 'Admin/batchCreateTeachers',
+        uploadUrl: '/Admin/batchCreateTeachers',
         allowedFileExtensions: ['xlsx', 'xls'],//接收的文件后缀
     });
 </script>
