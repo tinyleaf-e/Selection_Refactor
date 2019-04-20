@@ -183,6 +183,8 @@ namespace Selection_Refactor.Controllers
             List<Professor> proList = professor.listAllProfessor();
             List<ProfessorInfoForStu> proInfoForStu =new List<ProfessorInfoForStu>();
             string res = "";
+
+
             foreach(Professor p in proList)
             {
                 ProfessorInfoForStu pro = new ProfessorInfoForStu();

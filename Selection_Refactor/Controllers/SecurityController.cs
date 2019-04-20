@@ -39,7 +39,7 @@ namespace Selection_Refactor.Controllers
                     Student student = studentDao.getStudentById(userId);
                     if (student != null && passwd == student.password)
                     {
-                        Response.Cookies.Add(createCookie(userId, passwd, "student", 24 * 60));
+                        Response.Cookies.Add(createCookie(userId,student.name, passwd, "student", 24 * 60));
                         retStr = "success:/Student/Index";
                     }
                     break;
@@ -48,7 +48,7 @@ namespace Selection_Refactor.Controllers
                     Professor professor = professorDao.getProfessorById(userId);
                     if (professor != null && passwd == professor.password)
                     {
-                        Response.Cookies.Add(createCookie(userId, passwd, "professor", 24 * 60));
+                        Response.Cookies.Add(createCookie(userId, professor.name, passwd, "professor", 24 * 60));
                         retStr = "success:/professor/Index";
                     }
                         
@@ -58,7 +58,7 @@ namespace Selection_Refactor.Controllers
                     Dean dean = deanDao.getDeanById(userId);
                     if (dean != null && passwd == dean.password)
                     {
-                        Response.Cookies.Add(createCookie(userId, passwd, "dean", 24 * 60));
+                        Response.Cookies.Add(createCookie(userId,dean.name, passwd, "dean", 24 * 60));
                         retStr = "success:/dean/Student";
                     }
                     break;
@@ -67,7 +67,7 @@ namespace Selection_Refactor.Controllers
                     Admin admin = adminDao.getAdminById(userId);
                     if (admin != null && passwd == admin.password)
                     {
-                        Response.Cookies.Add(createCookie(userId, passwd, "admin", 24 * 60));
+                        Response.Cookies.Add(createCookie(userId,admin.name, passwd, "admin", 24 * 60));
                         retStr = "success:/admin/Student";
                     }
                     break;
@@ -157,13 +157,14 @@ namespace Selection_Refactor.Controllers
          * Create By 高晔
          * 生成一个保存用户登录状态的cookie
          */
-        HttpCookie createCookie(string userId,string passwd,string role,int minutes)
+        HttpCookie createCookie(string userId,string userName,string passwd,string role,int minutes)
         {
             HttpCookie accountCookie = new HttpCookie("account");
             accountCookie["userId"] = userId;
             //accountCookie["passwd"] = CryptoUtil.Md5Hash(passwd);
             accountCookie["passwd"] = passwd;
             accountCookie["role"] = role;
+            accountCookie["userName"] = HttpUtility.UrlEncode(userName);
             accountCookie.Expires = DateTime.Now.AddMinutes(120);//过期时间
             return accountCookie;
         }
