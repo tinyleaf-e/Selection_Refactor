@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using System.Web.Script.Serialization;
 using Selection_Refactor.Attribute;
 using Selection_Refactor.Models.Dao;
 using Selection_Refactor.Models.Entity;
 using Selection_Refactor.Util;
+using System.Web.Script.Serialization;
 
 namespace Selection_Refactor.Controllers
 {
@@ -32,7 +32,7 @@ namespace Selection_Refactor.Controllers
             return View();
         }
 
-        class TempStudent
+        class TempStudent:Controller
         {
             public string id { set; get; } //学号
 
@@ -68,7 +68,62 @@ namespace Selection_Refactor.Controllers
                 }
                 catch (Exception e)
                 {
+                    LogUtil.writeLogToFile(e, Request);
+                }
+            }
 
+        }
+        class TempStudent_special : Controller
+        {
+            public string id { set; get; } //学号
+
+            public string name { set; get; } //姓名 
+
+            public bool gender { get; set; } //性别
+
+            public int age { get; set; } //年龄
+
+            public string major { get; set; }//方向
+
+            public bool onTheJob { get; set; }//是否在职工作 1为在职（默认） 0为不在职
+
+            public string graSchool { get; set; }//毕业学校
+
+            public string graMajor { get; set; }//毕业专业
+
+            public string email { set; get; } //邮箱
+
+            public int will { set; get; } // 通过第几志愿选入
+
+            public void init(Student student, string professorId)
+            {
+                try
+                {
+                    this.id = student.id;
+                    this.name = student.name;
+                    this.gender = student.gender;
+                    this.age = student.age;
+                    this.onTheJob = student.onTheJob;
+                    this.graSchool = student.graSchool;
+                    this.graMajor = student.graMajor;
+                    this.email = student.email;
+                    this.major = new MajorDao().getMajorById(student.majorId).name;
+                    if(professorId == student.firstWill)
+                    {
+                        this.will = 1;
+                    }
+                    else if(professorId == student.secondWill)
+                    {
+                        this.will = 2;
+                    }
+                    else
+                    {
+                        this.will = 3;
+                    }
+                }
+                catch (Exception e)
+                {
+                    LogUtil.writeLogToFile(e, Request);
                 }
             }
 
@@ -138,15 +193,15 @@ namespace Selection_Refactor.Controllers
             HttpCookie accountCookie = Request.Cookies["Account"];
             StudentDao studentDao = new StudentDao();
             List<Student> students = studentDao.listAllStudent();
-            List<TempStudent> resultList = new List<TempStudent>();
+            List<TempStudent_special> resultList = new List<TempStudent_special>();
             foreach (var student in students)
             {
                 if ((student.firstWill == accountCookie["userId"] && student.firstWillState == 1)||
                     (student.secondWill == accountCookie["userId"]  && student.secondWillState == 1)||
                     (student.dispensedWill == accountCookie["userId"]))
                 {
-                    TempStudent tempStudent = new TempStudent();
-                    tempStudent.init(student);
+                    TempStudent_special tempStudent = new TempStudent_special();
+                    tempStudent.init(student, accountCookie["userId"]);
                     resultList.Add(tempStudent);
                 }
             }
