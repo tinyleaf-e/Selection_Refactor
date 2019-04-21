@@ -601,6 +601,7 @@ namespace Selection_Refactor.Controllers
                 foreach (Professor p in psList)
                 {
                     ap = new AdminProfessor();
+                    ap.proId = p.id;
                     ap.proName = p.name;
                     ap.proTitle = p.title;
                     ap.proQuota = (professorDao.getProfessorById(p.id)).quota;
@@ -660,7 +661,7 @@ namespace Selection_Refactor.Controllers
             }
             else
             {
-                res = "success";
+               
                 professorDao.addProfessor(professor);
             }
             return res;
@@ -828,7 +829,7 @@ namespace Selection_Refactor.Controllers
         }
         public class AdminProfessor
         {
-            public int Order { set; get; }
+            public string proId { set; get; }
             public string proName { set; get; }
             public string proTitle { set; get; }
             public int proQuota { set; get; }
@@ -883,6 +884,7 @@ namespace Selection_Refactor.Controllers
             }
             catch (Exception e)
             {
+                LogUtil.writeLogToFile(e, Request);
                 return "[]";
             }
         }
@@ -924,6 +926,7 @@ namespace Selection_Refactor.Controllers
             }
             catch (Exception e)
             {
+                LogUtil.writeLogToFile(e, Request);
                 return "fail:" + e.Message;
             }
         }
@@ -1031,6 +1034,7 @@ namespace Selection_Refactor.Controllers
             }
             catch (Exception e)
             {
+                LogUtil.writeLogToFile(e, Request);
                 if (e.Message.Equals("不是教师表"))
                 {
                     result = "fail:不是教师表";
@@ -1081,6 +1085,7 @@ namespace Selection_Refactor.Controllers
             }
             catch (Exception e)
             {
+                LogUtil.writeLogToFile(e, Request);
                 return "fail:" + e.Message;
             }
 
