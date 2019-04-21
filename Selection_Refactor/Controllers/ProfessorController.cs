@@ -134,7 +134,7 @@ namespace Selection_Refactor.Controllers
                 List<TempStudent> resultList = new List<TempStudent>();
                 foreach(var student in students)
                 {
-                    if (student.firstWill == accountCookie["userId"])
+                    if (student.firstWill == accountCookie["userId"] &&student.firstWillState == 0)
                     {
                         TempStudent tempStudent = new TempStudent();
                         tempStudent.init(student);
@@ -170,7 +170,7 @@ namespace Selection_Refactor.Controllers
                 List<TempStudent> resultList = new List<TempStudent>();
                 foreach (var student in students)
                 {
-                    if (student.secondWill == accountCookie["userId"])
+                    if (student.secondWill == accountCookie["userId"] || student.secondWillState == 0)
                     {
                         TempStudent tempStudent = new TempStudent();
                         tempStudent.init(student);
@@ -229,57 +229,88 @@ namespace Selection_Refactor.Controllers
          * 导师选择第一志愿学生
          * 
          */
-         public string selectFirstWillStudent(string stuId)
-        {
-            HttpCookie accountCookie = Request.Cookies["Account"];
-            StudentDao studentDao = new StudentDao();
-            if(studentDao.getStudentById(stuId)==null)
+        [RoleAuthorize(Role = "professor")]
+        public string selectFirstWillStudent(string stuId)
+         {
+            try
             {
-                return "Don't have this stuid";
-            }
-            else
-            {
-                Student s = studentDao.getStudentById(stuId);
-                if(s.firstWill != accountCookie["userId"])
+                HttpCookie accountCookie = new HttpCookie("account");
+                StudentDao studentDao = new StudentDao();
+                if(studentDao.getStudentById(stuId)==null)
                 {
-                    return "this student's first will isn't you";
+                    Exception e = new Exception("Don't have this stuid");
+                    throw (e);
                 }
                 else
                 {
-                    if (s.firstWillState == 1) return "already to choose this stu";
-                    s.firstWillState = 1;
-                    //studentDao.update(s);
-                    return "success";
+                    Student s = studentDao.getStudentById(stuId);
+                    if(s.firstWill != accountCookie["userid"])
+                    {
+                        Exception e = new Exception("this student's first will isn't you");
+                        throw (e);
+                    }
+                    else
+                    {
+                        if (s.firstWillState == 1)
+                        {
+                            Exception e = new Exception("already to choose this stu");
+                            throw (e);
+                        }
+                        s.firstWillState = 1;
+                        studentDao.update(s);
+                        return "success";
+                    }
                 }
             }
-         }
+            catch (Exception e)
+            {
+                LogUtil.writeLogToFile(e,Request);
+                return "平台出现异常，请联系管理员：XXX";
+            }
+
+        }
         /*
          * Create By zzw
          * 导师选择第二志愿学生
          * 
          */
+        [RoleAuthorize(Role = "professor")]
         public string selectSecondWillStudent(string stuId)
         {
-            HttpCookie accountCookie = new HttpCookie("account");
-            StudentDao studentDao = new StudentDao();
-            if (studentDao.getStudentById(stuId) == null)
+            try
             {
-                return "Don't have this stuid";
-            }
-            else
-            {
-                Student s = studentDao.getStudentById(stuId);
-                if (s.secondWill != accountCookie["userid"])
+                HttpCookie accountCookie = new HttpCookie("account");
+                StudentDao studentDao = new StudentDao();
+                if (studentDao.getStudentById(stuId) == null)
                 {
-                    return "this student's second will isn't you";
+                    Exception e = new Exception("Don't have this stuid");
+                    throw (e);
                 }
                 else
                 {
-                    if (s.secondWillState == 1) return "already to choose this stu";
-                    s.secondWillState = 1;
-                    //studentDao.update(s);
-                    return "success";
+                    Student s = studentDao.getStudentById(stuId);
+                    if (s.secondWill != accountCookie["userid"])
+                    {
+                        Exception e = new Exception("this student's second will isn't you");
+                        throw (e);
+                    }
+                    else
+                    {
+                        if (s.secondWillState == 1)
+                        {
+                            Exception e = new Exception("already to choose this stu");
+                            throw (e);
+                        }
+                        s.secondWillState = 1;
+                        studentDao.update(s);
+                        return "success";
+                    }
                 }
+            }
+            catch (Exception e)
+            {
+                LogUtil.writeLogToFile(e, Request);
+                return "平台出现异常，请联系管理员：XXX";
             }
         }
         /*
@@ -287,41 +318,63 @@ namespace Selection_Refactor.Controllers
          * 导师删除已选学生
          * 
          */
-        public string deleteSelectedStudent(string stuId)
+        [RoleAuthorize(Role = "professor")]
+        public string delectSelectedStudent(string stuId)
         {
-            HttpCookie accountCookie = new HttpCookie("account");
-            StudentDao studentDao = new StudentDao();
-            if (studentDao.getStudentById(stuId) == null)
+            try
             {
-                return "Don't have this stuid";
-            }
-            else
-            {
-                Student s = studentDao.getStudentById(stuId);
-                if (s.firstWill == accountCookie["userid"])
+                HttpCookie accountCookie = new HttpCookie("account");
+                StudentDao studentDao = new StudentDao();
+                if (studentDao.getStudentById(stuId) == null)
                 {
-                    if (s.firstWillState == 0) return "you haven't choosen this stu";
-                    else
-                    {
-                        s.firstWillState = 0;
-                        return "success";
-                    }
-                    
-                }
-                else if (s.secondWill == accountCookie["userid"])
-                {
-                    if (s.secondWillState == 0) return "you haven't choosen this stu";
-                    else
-                    {
-                        s.secondWillState = 0;
-                        return "success";
-                    }
+                    Exception e = new Exception("Don't have this stuid");
+                    throw (e);
                 }
                 else
                 {
-                    return "you haven't choosen this stu";
+                    Student s = studentDao.getStudentById(stuId);
+                    if (s.firstWill == accountCookie["userid"])
+                    {
+                        if (s.firstWillState == 0)
+                        {
+                            Exception e = new Exception("you haven't choosen this stu");
+                            throw (e);
+                        }
+                        else
+                        {
+                            s.firstWillState = 0;
+                            studentDao.update(s);
+                            return "success";
+                        }
+
+                    }
+                    else if (s.secondWill == accountCookie["userid"])
+                    {
+                        if (s.secondWillState == 0)
+                        {
+                            Exception e = new Exception("you haven't choosen this stu");
+                            throw (e);
+                        }
+                        else
+                        {
+                            s.secondWillState = 0;
+                            studentDao.update(s);
+                            return "success";
+                        }
+                    }
+                    else
+                    {
+                        Exception e = new Exception("you haven't choosen this stu");
+                        throw (e);
+                    }
                 }
             }
+            catch (Exception e)
+            {
+                LogUtil.writeLogToFile(e, Request);
+                return "平台出现异常，请联系管理员：XXX";
+            }
+
         }
     }
 }

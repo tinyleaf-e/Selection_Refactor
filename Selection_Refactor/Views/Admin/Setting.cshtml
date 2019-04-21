@@ -343,7 +343,7 @@
                 confirm: function (dialog) {
                     dialog.find("p").text("正在" + (state ? "开启" : "关闭") + "系统...");
                     dialog.find(".modal-footer").find("button[confirm]").attr("disabled", "disabled").css("cursor", "pointer");
-                    $.post("/Security/returnSuccess?Admin/closeSystem",
+                    $.post("/Admin/closeSystem",
                         { type: state },
                         function (rdata) {
                             dialog.modal('hide');
@@ -430,7 +430,7 @@
                 confirm: function (dialog) {
                     dialog.find("p").text("正在切换成" + (state ? "自动" : "手动") + "模式...");
                     dialog.find(".modal-footer").find("button[confirm]").attr("disabled", "disabled").css("cursor", "pointer");
-                    $.post("/Security/returnSuccess?Admin/changeMode",
+                    $.post("/Admin/changeMode",
                         { type: state },
                         function (rdata) {
                             dialog.modal('hide');
@@ -491,7 +491,7 @@
                     contentText: "您确认改变当前所处阶段吗？",
                     cancelButtonText: "取 消",
                     confirm: function (dialog) {
-                        $.post("/Security/returnSuccess?Admin/changeCurrentStage",
+                        $.post("/Admin/changeCurrentStage",
                             { stage: parseInt($(this).attr("stage")) },
                             function (rdata) {
                                 if (rdata.indexOf("success") == 0) {
@@ -532,7 +532,7 @@
                 secondStart: $("#second-start-input").val(),
                 secondENd: $("#second-end-input").val()
             }
-            $.post("/Security/returnSuccess?Admin/updateSettingTime", data, function (rdata) {
+            $.post("/Admin/updateSettingTime", data, function (rdata) {
                 if (rdata.indexOf("success") == 0) {
                     //TODO By 高晔 回头删掉下句
                     rdata = "success:1";

@@ -75,21 +75,39 @@ namespace Selection_Refactor.Controllers
                 this.email = student.email;
                 this.resumeUrl = student.resumeUrl;
                 ProfessorDao professorDao = new ProfessorDao();
-                this.firstWill = professorDao.getProfessorById(student.firstWill).name;
-                this.secondWill = professorDao.getProfessorById(student.secondWill).name;
+                if (professorDao.getProfessorById(student.firstWill) != null)
+                    this.firstWill = professorDao.getProfessorById(student.firstWill).name;
+                else
+                    this.firstWill = "";
+                if (professorDao.getProfessorById(student.secondWill) != null)
+                    this.secondWill = professorDao.getProfessorById(student.secondWill).name;
+                else
+                    this.secondWill = "";
                 if(student.firstWillState == 1)
                 {
-                    this.finalWill = professorDao.getProfessorById(student.firstWill).name;
+                    if (professorDao.getProfessorById(student.firstWill) != null)
+                        this.finalWill = professorDao.getProfessorById(student.firstWill).name;
+                    else
+                        this.finalWill = "";
                 }
                 else if(student.secondWillState == 1)
                 {
-                    this.finalWill = professorDao.getProfessorById(student.secondWill).name;
+                    if (professorDao.getProfessorById(student.secondWill) != null)
+                        this.finalWill = professorDao.getProfessorById(student.secondWill).name;
+                    else
+                        this.finalWill = "";
                 }
                 else
                 {
-                    this.finalWill = professorDao.getProfessorById(student.dispensedWill).name;
+                    if (professorDao.getProfessorById(student.dispensedWill) != null)
+                        this.finalWill = professorDao.getProfessorById(student.dispensedWill).name;
+                    else
+                        this.finalWill = "";
                 }
-                this.dispensedWill = professorDao.getProfessorById(student.dispensedWill).name;
+                if (professorDao.getProfessorById(student.dispensedWill) != null)
+                    this.dispensedWill = professorDao.getProfessorById(student.dispensedWill).name;
+                else
+                    this.dispensedWill = "";
                 
             }
 
@@ -240,34 +258,42 @@ namespace Selection_Refactor.Controllers
         [RoleAuthorize(Role = "dean")]
         public string listSelectedStudentsByProId(string proId)
         {
-            ProfessorDao professorDao = new ProfessorDao();
-            StudentDao studentDao = new StudentDao();
-            List<Student> stlist = studentDao.listAllStudent();
-            List<Student> listSelectedStudents = new List<Student>();
-            string res = "";
-            foreach (Student s in stlist)
+            try
             {
-                if (s.firstWill == proId && s.firstWillState == 1)
+                ProfessorDao professorDao = new ProfessorDao();
+                StudentDao studentDao = new StudentDao();
+                List<Student> stlist = studentDao.listAllStudent();
+                List<Student> listSelectedStudents = null;
+                string res = "";
+                foreach (Student s in stlist)
                 {
-                    listSelectedStudents.Add(s);
+                    if (s.firstWill == proId && s.firstWillState == 1)
+                    {
+                        listSelectedStudents.Add(s);
+                    }
+                    else if (s.secondWill == proId && s.secondWillState == 1)
+                    {
+                        listSelectedStudents.Add(s);
+                    }
+                    else if (s.dispensedWill == proId)
+                    {
+                        listSelectedStudents.Add(s);
+                    }
                 }
-                else if (s.secondWill == proId && s.secondWillState == 1)
+                if (listSelectedStudents.Count <= 0) return res;
+                else
                 {
-                    listSelectedStudents.Add(s);
-                }
-                else if (s.dispensedWill == proId)
-                {
-                    listSelectedStudents.Add(s);
+                    JavaScriptSerializer serializer = new JavaScriptSerializer();
+                    var json = serializer.Serialize(listSelectedStudents);
+                    res = json.ToString();
+                    return res;
                 }
             }
-            //if (listSelectedStudents.Count <= 0) return res;
-            //else
-            //{
-                JavaScriptSerializer serializer = new JavaScriptSerializer();
-                var json = serializer.Serialize(listSelectedStudents);
-                res = json.ToString();
-                return res;
-            //}
+            catch (Exception e)
+            {
+                LogUtil.writeLogToFile(e, Request);
+                return "平台出现异常，请联系管理员：XXX";
+            }
         }
     }
 }

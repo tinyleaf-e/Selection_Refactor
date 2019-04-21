@@ -9,7 +9,6 @@ using Selection_Refactor.Models.Entity;
 using Selection_Refactor.Util;
 using System.Web.Script.Serialization;
 using Newtonsoft.Json.Linq;
-using Spire.Xls;
 using Selection_Refactor.Attribute;
 
 
@@ -585,58 +584,67 @@ namespace Selection_Refactor.Controllers
         [RoleAuthorize(Role = "admin")]
         public string getProfessors()
         {
-            ProfessorDao professorDao = new ProfessorDao();
-            StudentDao studentDao = new StudentDao();
-            string res = "";
-            List<Professor> psList = null;
-            AdminProfessor ap = null;
-            List<AdminProfessor> apsList = new List<AdminProfessor>();
-            psList = professorDao.listAllProfessor();
-            if (psList == null)
+            try
             {
-                return res;
-            }
-            else
-            {
-                foreach (Professor p in psList)
+                ProfessorDao professorDao = new ProfessorDao();
+                StudentDao studentDao = new StudentDao();
+                string res = "";
+                List<Professor> psList = null;
+                AdminProfessor ap = null;
+                List<AdminProfessor> apsList = new List<AdminProfessor>();
+                psList = professorDao.listAllProfessor();
+                if (psList == null)
                 {
-                    ap = new AdminProfessor();
-                    ap.proName = p.name;
-                    ap.proTitle = p.title;
-                    ap.proQuota = (professorDao.getProfessorById(p.id)).quota;
-                    ap.ProInfoUrl = (professorDao.getProfessorById(p.id)).infoURL;
-                    int ProFirstNum = 0, ProSecondNum = 0, ProAssignNum = 0;
-                    List<Student> stlist = studentDao.listAllStudent();
-                    if (stlist != null && stlist.Count > 0)
+                    return res;
+                }
+                else
+                {
+                    foreach (Professor p in psList)
                     {
-                        foreach (Student s in stlist)
+                        ap = new AdminProfessor();
+                        ap.proId = p.id;
+                        ap.proName = p.name;
+                        ap.proTitle = p.title;
+                        ap.proQuota = (professorDao.getProfessorById(p.id)).quota;
+                        ap.ProInfoUrl = (professorDao.getProfessorById(p.id)).infoURL;
+                        int ProFirstNum = 0, ProSecondNum = 0, ProAssignNum = 0;
+                        List<Student> stlist = studentDao.listAllStudent();
+                        if (stlist != null && stlist.Count > 0)
                         {
-                            if (s.firstWill == p.id && s.firstWillState == 1)
+                            foreach (Student s in stlist)
                             {
-                                ProFirstNum++;
-                            }
-                            else if (s.secondWill == p.id && s.secondWillState == 1)
-                            {
-                                ProSecondNum++;
-                            }
-                            else if (s.dispensedWill == p.id)
-                            {
-                                ProAssignNum++;
+                                if (s.firstWill == p.id && s.firstWillState == 1)
+                                {
+                                    ProFirstNum++;
+                                }
+                                else if (s.secondWill == p.id && s.secondWillState == 1)
+                                {
+                                    ProSecondNum++;
+                                }
+                                else if (s.dispensedWill == p.id)
+                                {
+                                    ProAssignNum++;
+                                }
                             }
                         }
+                        ap.ProFirstNum = ProFirstNum;
+                        ap.ProSecondNum = ProSecondNum;
+                        ap.ProAssignNum = ProAssignNum;
+                        ap.ProRestNum = ap.proQuota - ProFirstNum - ProSecondNum - ProAssignNum;
+                        apsList.Add(ap);
                     }
-                    ap.ProFirstNum = ProFirstNum;
-                    ap.ProSecondNum = ProSecondNum;
-                    ap.ProAssignNum = ProAssignNum;
-                    ap.ProRestNum = ap.proQuota - ProFirstNum - ProSecondNum - ProAssignNum;
-                    apsList.Add(ap);
+                    JavaScriptSerializer serializer = new JavaScriptSerializer();
+                    var json = serializer.Serialize(apsList);
+                    res = json.ToString();
+                    serializer = null;
                 }
-                JavaScriptSerializer serializer = new JavaScriptSerializer();
-                var json = serializer.Serialize(apsList);
-                res = json.ToString();
-                serializer = null;
+                return res;
             }
-            return res;
+            catch (Exception e)
+            {
+                LogUtil.writeLogToFile(e,  Request);
+                return "平台出现异常，请联系管理员：XXX";
+            }
         }
         /*
          * Create By zzw
@@ -645,24 +653,33 @@ namespace Selection_Refactor.Controllers
         [RoleAuthorize(Role = "admin")]
         public string addSingleProfessor(string name, string number, string title, string url, int needstudent)
         {
-            ProfessorDao professorDao = new ProfessorDao();
-            string res = "";
-            Professor professor = new Professor();
-            professor.name = name;
-            professor.id = number;
-            professor.title = title;
-            professor.infoURL = url;
-            professor.quota = needstudent;
-            if (professorDao.getProfessorById(number) != null)
+            try
             {
-                res = "fail:这个id已经存在";
+                ProfessorDao professorDao = new ProfessorDao();
+                string res = "";
+                Professor professor = new Professor();
+                professor.name = name;
+                professor.id = number;
+                professor.title = title;
+                professor.infoURL = url;
+                professor.quota = needstudent;
+                Exception e = new Exception("教师id重复");
+                if (professorDao.getProfessorById(number) != null)
+                {
+                    throw (e);
+                }
+                else
+                {
+                    res = "success";
+                    professorDao.addProfessor(professor);
+                }
+                return res;
             }
-            else
+            catch (Exception e)
             {
-                res = "success";
-                professorDao.addProfessor(professor);
+                LogUtil.writeLogToFile( e, Request);
+                return "平台出现异常，请联系管理员：XXX";
             }
-            return res;
         }
         /*
          * Create By zzw
@@ -788,18 +805,8 @@ namespace Selection_Refactor.Controllers
             }
             catch (Exception e)
             {
-                if (e.Message.Equals("数据库更新出错"))
-                {
-                    result = "{\"error\":\"" + error + "\"}";
-                }
-                else if (e.Message.Equals("文件格式不正确"))
-                {
-                    result = "{\"error\":\"文件格式不正确\"}";
-                }
-                else
-                {
-                    result = "{\"error\":\"在服务器端发生错误请联系管理员\"}";
-                }
+                LogUtil.writeLogToFile(e, Request);
+                return "平台出现异常，请联系管理员：XXX";
             }
             finally
             {
@@ -816,18 +823,26 @@ namespace Selection_Refactor.Controllers
         [RoleAuthorize(Role = "admin")]
         public string deleteSingleProfessor(string proId)
         {
-            ProfessorDao professorDao = new ProfessorDao();
-            int res1 = professorDao.deleteProfessorById(proId);
-            if (res1 == 1)
+            try
             {
-                return "success";
+                ProfessorDao professorDao = new ProfessorDao();
+                int res1 = professorDao.deleteProfessorById(proId);
+                if (res1 == 1)
+                {
+                    return "success";
+                }
+                return "fail:没有找到对应的教师";
             }
-            else if (res1 == 0) return "fail:没有找到对应的教师";
-            else return "fail:删除失败，请联系管理员";
+            catch(Exception e)
+            {
+                LogUtil.writeLogToFile(e, Request);
+                return "平台出现异常，请联系管理员：XXX";
+            }
+            
         }
         public class AdminProfessor
         {
-            public int Order { set; get; }
+            public string proId { set; get; }
             public string proName { set; get; }
             public string proTitle { set; get; }
             public int proQuota { set; get; }
@@ -882,6 +897,7 @@ namespace Selection_Refactor.Controllers
             }
             catch (Exception e)
             {
+                LogUtil.writeLogToFile(e, Request);
                 return "[]";
             }
         }
@@ -923,6 +939,7 @@ namespace Selection_Refactor.Controllers
             }
             catch (Exception e)
             {
+                LogUtil.writeLogToFile(e, Request);
                 return "fail:" + e.Message;
             }
         }
@@ -1030,6 +1047,7 @@ namespace Selection_Refactor.Controllers
             }
             catch (Exception e)
             {
+                LogUtil.writeLogToFile(e, Request);
                 if (e.Message.Equals("不是教师表"))
                 {
                     result = "fail:不是教师表";
@@ -1080,6 +1098,7 @@ namespace Selection_Refactor.Controllers
             }
             catch (Exception e)
             {
+                LogUtil.writeLogToFile(e, Request);
                 return "fail:" + e.Message;
             }
 
