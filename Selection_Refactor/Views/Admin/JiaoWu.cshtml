@@ -189,7 +189,14 @@
                             ].join('');
                         }
                     },
-                ]
+                ],
+                dom: "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
+                    "<'row'<'col-sm-12'tr>>" +
+                    "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+                language: {
+                    url: "/Content/plugins/datatables.net/Chinese.json"
+                },
+                lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, "全部"]]
             });
         }
 
