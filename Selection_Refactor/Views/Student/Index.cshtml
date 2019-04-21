@@ -210,7 +210,10 @@
                     });
                 }
                 else {
-                    alert("提交成功");
+                    $.gyAlert({
+                        title: "提示",
+                        contentText: "提交成功",
+                    });
                     var data = {
                         age: $("#stuAge").val(),
                         phoneNumber: $("#stuTel").val(),

@@ -51,7 +51,8 @@
                     <p></p>
                     <div class="row">
                         <div class="col-xs-12">
-                            <a class="pull-right">忘记密码</a>
+                            <div id="alert1" style="color:red;display:none">账号或密码不正确</div>
+                            <div id="alert2" style="color:red;display:none">账号或密码不能为空</div>
                         </div>
                     </div>
                 </div>
@@ -66,9 +67,15 @@
             var msg;
             switch (role) {
                 case "学生":
-                    msg = "学号"; break;
+                    msg = "学号";
+                    $("#alert2").hide();
+                    $("#alert1").hide();
+                    break;
                 default:
                     msg = "教工号";
+                    $("#alert2").hide();
+                    $("#alert1").hide();
+                    break;
             }
             $('#userid-input').attr("placeholder", msg)
         })
