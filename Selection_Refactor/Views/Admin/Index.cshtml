@@ -136,7 +136,7 @@
             contentText: "确认删除该教师吗?",
             confirm: function () {
                 var data = {
-                    userId: row.id
+                    proId: row.id
                 };
                 $.post("/Admin/deleteSingleProfessor", data, function (rel) {
                     if (rel == "success") {
