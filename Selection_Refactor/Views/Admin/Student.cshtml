@@ -294,7 +294,11 @@
                     $("#id-input").addClass("error-input");
                     return;
                 }
-
+                var value = $("email-input").val();
+                var reg=/^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
+                if($("#email-input").val().trim()!="" &&!reg.test(value)){
+                    $("#email-input").addClass("error-input")
+                }
                 var data = {
                     'name': $("#name-input").val(),
                     'id': $("#id-input").val(),
