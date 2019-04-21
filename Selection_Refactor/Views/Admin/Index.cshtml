@@ -19,10 +19,9 @@
             <button id="addProfessor" class="btn btn-block btn-primary bg-green color-palette" style="width:8%;margin-left:5px;display:inline;vertical-align:baseline;">新增教师</button>
         </div>
         <div class="box-body">
-            <div id="professor-table" class="dataTables_wrapper form-inline dt-bootstrap">
                 <div class="row">
                     <div class="col-sm-12">
-                        <table id="example1" class="table table-bordered table-striped dataTable" role="grid" aria-describedby="example1_info">
+                        <table id="professor-table" class="table table-bordered table-striped dataTable" role="grid" aria-describedby="example1_info">
                             <thead>
                                 <tr role="row">
                                     <th class="sorting_asc" data-field="ProName" style="width: 75px;">姓名</th>
@@ -37,7 +36,6 @@
                             </thead>
                         </table>
                     </div>
-                </div>
             </div>
         </div>
         <!-- /.box-body -->
@@ -78,27 +76,27 @@
                 <form style="height:80%">
                     <div class="row" style="width:45%;display:inline;vertical-align:baseline;padding-left:50px;">
                         <div class="column" style="float:left;padding-left:20px">
-                            <label>姓名</label>
+                            <label>姓名</label><label style="color:red">&nbsp;*</label>
                             <input id="name-input" type="text" class="form-control" placeholder="" style="width:200px;">
                         </div>
                         <div class="column" style="float:left;padding-left:50px">
-                            <label>工号</label>
+                            <label>工号</label><label style="color:red">&nbsp;*</label>
                             <input id="number-input" type="text" class="form-control" placeholder="" style="width:200px;">
                         </div>
                     </div>
                     <div class="row" style="width:45%;display:inline;vertical-align:baseline;padding-left:50px;">
                         <div class="column" style="float:left;padding-left:20px">
-                            <label>职称</label>
+                            <label>职称</label><label style="color:red">&nbsp;*</label>
                             <input id="rank-input" type="text" class="form-control" placeholder="" style="width:200px;">
                         </div>
                         <div class="column" style="float:left;padding-left:50px">
-                            <label>最大招收学生数</label>
+                            <label>最大招收学生数</label><label style="color:red">&nbsp;*</label>
                             <input id="maxstudent-input" type="text" class="form-control" placeholder="" style="width:200px;">
                         </div>
                     </div>
                     <div class="row" style="width:45%;display:inline;vertical-align:baseline;padding-left:50px;">
                         <div class="column" style="float:left;padding-left:20px">
-                            <label>介绍界面URL</label>
+                            <label>介绍界面URL</label><label style="color:red">&nbsp;*</label>
                             <input id="url-input" type="text" class="form-control" placeholder="" style="width:200px;">
                         </div>
                     </div>
@@ -171,8 +169,8 @@
             var data = {
                 'name': $("#name-input").val(),
                 'number': $("#number-input").val(),
-                'rank': $("#rank-input").val(),
-                'maxstudent': $("#maxstudent-input").val(),
+                'title': $("#rank-input").val(),
+                'needstudent': $("#maxstudent-input").val(),
                 'url': $("#url-input").val()
             }
             $.post("/Admin/addSingleProfessor", data, function (rel) {
@@ -203,20 +201,20 @@
     //        })
     //    })
     var initTable = function () {
-        $('#example1').DataTable({
+        table = $('#professor-table').DataTable({
             ajax: {
                 //url: 'https://www.easy-mock.com/mock/5b1fe0f0f71e0743260935e1/example/getProInfo',
                 url:'/Admin/getProfessors',
-                dataSrc: 'data'
+                dataSrc: ''
             },
             "columns": [
-                { data: "ProName" },
-                { data: "ProTitle" },
-                { data: "ProPlace" },
-                { data: "FirstChoice" },
-                { data: "SecondChoice" },
-                { data: "DistributeNumber" },
-                { data: "RestPlace" },
+                { data: "proName" },
+                { data: "proTitle" },
+                { data: "proQuota" },
+                { data: "ProFirstNum" },
+                { data: "ProSecondNum" },
+                { data: "ProAssignNum" },
+                { data: "ProRestNum" },
                 {
                     data: function (row, type, set, meta) {
                         return [
