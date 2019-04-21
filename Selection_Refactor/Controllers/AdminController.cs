@@ -1120,6 +1120,7 @@ namespace Selection_Refactor.Controllers
                 }
             }catch (Exception e)
             {
+                LogUtil.writeLogToFile(e, Request);
                 return "fail:" + e.Message;
             }
         }
@@ -1146,6 +1147,7 @@ namespace Selection_Refactor.Controllers
             }
             catch(Exception e)
             {
+                LogUtil.writeLogToFile(e, Request);
                 return "fail:查询失败！";
             }
         }
@@ -1175,6 +1177,7 @@ namespace Selection_Refactor.Controllers
             }
             catch (Exception e)
             {
+                LogUtil.writeLogToFile(e, Request);
                 return "fail:" + e.Message;
             }
         }
@@ -1210,6 +1213,7 @@ namespace Selection_Refactor.Controllers
             }
             catch (Exception e)
             {
+                LogUtil.writeLogToFile(e, Request);
                 return "fail:" + e.Message;
             }
         }
