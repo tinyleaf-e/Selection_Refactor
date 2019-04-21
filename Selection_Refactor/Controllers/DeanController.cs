@@ -220,34 +220,42 @@ namespace Selection_Refactor.Controllers
         [RoleAuthorize(Role = "dean")]
         public string listSelectedStudentsByProId(string proId)
         {
-            ProfessorDao professorDao = new ProfessorDao();
-            StudentDao studentDao = new StudentDao();
-            List<Student> stlist = studentDao.listAllStudent();
-            List<Student> listSelectedStudents = new List<Student>();
-            string res = "";
-            foreach (Student s in stlist)
+            try
             {
-                if (s.firstWill == proId && s.firstWillState == 1)
+                ProfessorDao professorDao = new ProfessorDao();
+                StudentDao studentDao = new StudentDao();
+                List<Student> stlist = studentDao.listAllStudent();
+                List<Student> listSelectedStudents = null;
+                string res = "";
+                foreach (Student s in stlist)
                 {
-                    listSelectedStudents.Add(s);
+                    if (s.firstWill == proId && s.firstWillState == 1)
+                    {
+                        listSelectedStudents.Add(s);
+                    }
+                    else if (s.secondWill == proId && s.secondWillState == 1)
+                    {
+                        listSelectedStudents.Add(s);
+                    }
+                    else if (s.dispensedWill == proId)
+                    {
+                        listSelectedStudents.Add(s);
+                    }
                 }
-                else if (s.secondWill == proId && s.secondWillState == 1)
+                if (listSelectedStudents.Count <= 0) return res;
+                else
                 {
-                    listSelectedStudents.Add(s);
-                }
-                else if (s.dispensedWill == proId)
-                {
-                    listSelectedStudents.Add(s);
+                    JavaScriptSerializer serializer = new JavaScriptSerializer();
+                    var json = serializer.Serialize(listSelectedStudents);
+                    res = json.ToString();
+                    return res;
                 }
             }
-            //if (listSelectedStudents.Count <= 0) return res;
-            //else
-            //{
-                JavaScriptSerializer serializer = new JavaScriptSerializer();
-                var json = serializer.Serialize(listSelectedStudents);
-                res = json.ToString();
-                return res;
-            //}
+            catch (Exception e)
+            {
+                LogUtil.writeLogToFile(e, Request);
+                return "平台出现异常，请联系管理员：XXX";
+            }
         }
     }
 }
