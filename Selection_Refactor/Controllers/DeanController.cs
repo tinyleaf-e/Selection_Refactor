@@ -32,7 +32,7 @@ namespace Selection_Refactor.Controllers
             return View();
         }
 
-        class TempStudent:Controller
+        class TempStudent
         {
             public string id { set; get; } //学号
 
@@ -64,38 +64,33 @@ namespace Selection_Refactor.Controllers
 
             public void init(Student student)
             {
-                try { 
-                    this.id = student.id;
-                    this.name = student.name;
-                    this.infoChecked = student.infoChecked;
-                    this.willchecked = ((student.firstWill != null) && (student.secondWill != null));
-                    this.age = student.age;
-                    this.Major = new MajorDao().getMajorById(student.majorId).name;
-                    this.phoneNumber = student.phoneNumber;
-                    this.onTheJob = student.onTheJob;
-                    this.email = student.email;
-                    this.resumeUrl = student.resumeUrl;
-                    ProfessorDao professorDao = new ProfessorDao();
-                    this.firstWill = professorDao.getProfessorById(student.firstWill).name;
-                    this.secondWill = professorDao.getProfessorById(student.secondWill).name;
-                    if(student.firstWillState == 1)
-                    {
-                        this.finalWill = professorDao.getProfessorById(student.firstWill).name;
-                    }
-                    else if(student.secondWillState == 1)
-                    {
-                        this.finalWill = professorDao.getProfessorById(student.secondWill).name;
-                    }
-                    else
-                    {
-                        this.finalWill = professorDao.getProfessorById(student.dispensedWill).name;
-                    }
-                    this.dispensedWill = professorDao.getProfessorById(student.dispensedWill).name;
-                }
-                catch (Exception e)
+                this.id = student.id;
+                this.name = student.name;
+                this.infoChecked = student.infoChecked;
+                this.willchecked = ((student.firstWill != null) && (student.secondWill != null));
+                this.age = student.age;
+                this.Major = new MajorDao().getMajorById(student.majorId).name;
+                this.phoneNumber = student.phoneNumber;
+                this.onTheJob = student.onTheJob;
+                this.email = student.email;
+                this.resumeUrl = student.resumeUrl;
+                ProfessorDao professorDao = new ProfessorDao();
+                this.firstWill = professorDao.getProfessorById(student.firstWill).name;
+                this.secondWill = professorDao.getProfessorById(student.secondWill).name;
+                if(student.firstWillState == 1)
                 {
-                    LogUtil.writeLogToFile(e, Request);
+                    this.finalWill = professorDao.getProfessorById(student.firstWill).name;
                 }
+                else if(student.secondWillState == 1)
+                {
+                    this.finalWill = professorDao.getProfessorById(student.secondWill).name;
+                }
+                else
+                {
+                    this.finalWill = professorDao.getProfessorById(student.dispensedWill).name;
+                }
+                this.dispensedWill = professorDao.getProfessorById(student.dispensedWill).name;
+                
             }
 
         }
