@@ -653,6 +653,7 @@ namespace Selection_Refactor.Controllers
             professor.title = title;
             professor.infoURL = url;
             professor.quota = needstudent;
+            professor.password = "12345";
             if (professorDao.getProfessorById(number) != null)
             {
                 res = "fail:这个id已经存在";

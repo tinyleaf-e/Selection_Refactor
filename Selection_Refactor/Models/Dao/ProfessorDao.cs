@@ -40,18 +40,9 @@ namespace Selection_Refactor.Models.Dao
          */
         public int addProfessor(Professor professor)
         {
-            try
-            {
-                ProfessorDBContext professorDB = new ProfessorDBContext();
-                professorDB.professors.Add(professor);
-                return professorDB.SaveChanges();
-            }
-            catch (Exception e)
-            {
-                //throw e;
-                //LogUtil.writeLogToFile(e);
-                return -1;
-            }
+            ProfessorDBContext professorDB = new ProfessorDBContext();
+            professorDB.professors.Add(professor);
+            return professorDB.SaveChanges();
         }
         /*
          * Create By zzw
