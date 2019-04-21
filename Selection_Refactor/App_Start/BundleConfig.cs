@@ -27,10 +27,10 @@ namespace Selection_Refactor
                       "~/Content/js/changePasswd.js"));
 
             bundles.Add(new StyleBundle("~/css/bootstrap").Include(
-                      "~/Content/plugins/bootstrap-3.3.7/css/bootstrap.min.css"));
+                      "~/Content/plugins/bootstrap-3.3.7/css/bootstrap.min.css", new CssRewriteUrlTransform()));
             bundles.Add(new StyleBundle("~/css/site").Include(
-                      "~/Content/css/global.css",
-                      "~/Content/plugins/font-awesome/css/font-awesome.css"));
+                      "~/Content/css/global.css")
+                      .Include("~/Content/plugins/font-awesome/css/font-awesome.css", new CssRewriteUrlTransform()));
             bundles.Add(new StyleBundle("~/css/AdminLTE").Include(
                        "~/Content/css/AdminLTE.min.css",
                        "~/Content/css/_all-skins.css"));
