@@ -229,7 +229,8 @@ namespace Selection_Refactor.Controllers
          * 导师选择第一志愿学生
          * 
          */
-         public string selectFirstWillStudent(string stuId)
+        [RoleAuthorize(Role = "professor")]
+        public string selectFirstWillStudent(string stuId)
         {
             HttpCookie accountCookie = Request.Cookies["Account"];
             StudentDao studentDao = new StudentDao();
@@ -258,6 +259,7 @@ namespace Selection_Refactor.Controllers
          * 导师选择第二志愿学生
          * 
          */
+        [RoleAuthorize(Role = "professor")]
         public string selectSecondWillStudent(string stuId)
         {
             HttpCookie accountCookie = new HttpCookie("account");
@@ -287,6 +289,7 @@ namespace Selection_Refactor.Controllers
          * 导师删除已选学生
          * 
          */
+        [RoleAuthorize(Role = "professor")]
         public string deleteSelectedStudent(string stuId)
         {
             HttpCookie accountCookie = new HttpCookie("account");
