@@ -844,7 +844,7 @@ namespace Selection_Refactor.Controllers
         {
             public string Number { get; set; }
             public string TeacherName { get; set; }
-            public int MajorResponsible { get; set; }
+            public string MajorResponsible { get; set; }
         }
         /*
             * Create By 蒋予飞
@@ -861,14 +861,18 @@ namespace Selection_Refactor.Controllers
             {
                 JavaScriptSerializer serializer = new JavaScriptSerializer();
                 DeanDao deanDao = new DeanDao();
+                MajorDao majorDao = new MajorDao();
+
                 List<Dean> deans = new List<Dean>();
                 deans = deanDao.listAllDeans();
                 List<RetDean> ret = new List<RetDean>();
+                Major tmpMajor = new Major();
                 foreach(Dean tmp in deans)
                 {
                     RetDean tmpdean = new RetDean();
+                    tmpMajor = majorDao.getMajorById(tmp.majorId);
                     tmpdean.Number = tmp.id;
-                    tmpdean.MajorResponsible = tmp.majorId;
+                    tmpdean.MajorResponsible = tmpMajor.name;
                     tmpdean.TeacherName = tmp.name;
                     ret.Add(tmpdean);
                 }
