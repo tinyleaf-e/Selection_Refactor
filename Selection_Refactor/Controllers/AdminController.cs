@@ -241,7 +241,6 @@ namespace Selection_Refactor.Controllers
             StudentDao studentDao = new StudentDao();
             List<Student> students = studentDao.listAllStudent();
             List<AdminStudent> adminStudents = new List<AdminStudent>();
-            AdminStudent Astudent=new AdminStudent();
             if (students == null)
             {
                 return res;
@@ -250,6 +249,7 @@ namespace Selection_Refactor.Controllers
             {
                 foreach(Student s in students)
                 {
+                    AdminStudent Astudent=new AdminStudent();
                     Astudent.id = s.id;
                     Astudent.StuName = s.name;
                     Astudent.major = s.majorId;
