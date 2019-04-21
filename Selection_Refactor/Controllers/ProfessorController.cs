@@ -32,7 +32,7 @@ namespace Selection_Refactor.Controllers
             return View();
         }
 
-        class TempStudent:Controller
+        class TempStudent
         {
             public string id { set; get; } //学号
 
@@ -54,22 +54,67 @@ namespace Selection_Refactor.Controllers
 
             public void init (Student student)
             {
-                try
+                
+                this.id = student.id;
+                this.name = student.name;
+                this.gender = student.gender;
+                this.age = student.age;
+                this.onTheJob = student.onTheJob;
+                this.graSchool = student.graSchool;
+                this.graMajor = student.graMajor;
+                this.email = student.email;
+                this.major = new MajorDao().getMajorById(student.majorId).name;
+                
+            }
+
+        }
+        class TempStudent_special
+        {
+            public string id { set; get; } //学号
+
+            public string name { set; get; } //姓名 
+
+            public bool gender { get; set; } //性别
+
+            public int age { get; set; } //年龄
+
+            public string major { get; set; }//方向
+
+            public bool onTheJob { get; set; }//是否在职工作 1为在职（默认） 0为不在职
+
+            public string graSchool { get; set; }//毕业学校
+
+            public string graMajor { get; set; }//毕业专业
+
+            public string email { set; get; } //邮箱
+
+            public int will { set; get; } // 通过第几志愿选入
+
+            public void init(Student student, string professorId)
+            {
+                
+                this.id = student.id;
+                this.name = student.name;
+                this.gender = student.gender;
+                this.age = student.age;
+                this.onTheJob = student.onTheJob;
+                this.graSchool = student.graSchool;
+                this.graMajor = student.graMajor;
+                this.email = student.email;
+                this.major = new MajorDao().getMajorById(student.majorId).name;
+                if(professorId == student.firstWill)
                 {
-                    this.id = student.id;
-                    this.name = student.name;
-                    this.gender = student.gender;
-                    this.age = student.age;
-                    this.onTheJob = student.onTheJob;
-                    this.graSchool = student.graSchool;
-                    this.graMajor = student.graMajor;
-                    this.email = student.email;
-                    this.major = new MajorDao().getMajorById(student.majorId).name;
+                    this.will = 1;
                 }
-                catch (Exception e)
+                else if(professorId == student.secondWill)
                 {
-                    LogUtil.writeLogToFile(e, Request);
+                    this.will = 2;
                 }
+                else
+                {
+                    this.will = 3;
+                }
+               
             }
 
         }
@@ -81,23 +126,31 @@ namespace Selection_Refactor.Controllers
         [RoleAuthorize(Role = "professor")]
         public string getFirstWillStudents()
         {
-            HttpCookie accountCookie = Request.Cookies["Account"];
-            StudentDao studentDao = new StudentDao();
-            List<Student> students = studentDao.listAllStudent();
-            List<TempStudent> resultList = new List<TempStudent>();
-            foreach(var student in students)
+            try
             {
-                if (student.firstWill == accountCookie["userId"])
+                HttpCookie accountCookie = Request.Cookies["Account"];
+                StudentDao studentDao = new StudentDao();
+                List<Student> students = studentDao.listAllStudent();
+                List<TempStudent> resultList = new List<TempStudent>();
+                foreach(var student in students)
                 {
-                    TempStudent tempStudent = new TempStudent();
-                    tempStudent.init(student);
-                    resultList.Add(tempStudent);
+                    if (student.firstWill == accountCookie["userId"])
+                    {
+                        TempStudent tempStudent = new TempStudent();
+                        tempStudent.init(student);
+                        resultList.Add(tempStudent);
+                    }
                 }
+                JavaScriptSerializer serializer = new JavaScriptSerializer();
+                var json = serializer.Serialize(resultList);
+                string retStr = json.ToString();
+                return retStr;
             }
-            JavaScriptSerializer serializer = new JavaScriptSerializer();
-            var json = serializer.Serialize(resultList);
-            string retStr = json.ToString();
-            return retStr;
+            catch (Exception e)
+            {
+                LogUtil.writeLogToFile(e, Request);
+                return "[]";
+            }
         }
 
        
@@ -109,23 +162,31 @@ namespace Selection_Refactor.Controllers
         [RoleAuthorize(Role = "professor")]
         public string getSecondWillStudents()
         {
-            HttpCookie accountCookie = Request.Cookies["Account"];
-            StudentDao studentDao = new StudentDao();
-            List<Student> students = studentDao.listAllStudent();
-            List<TempStudent> resultList = new List<TempStudent>();
-            foreach (var student in students)
+            try
             {
-                if (student.secondWill == accountCookie["userId"])
+                HttpCookie accountCookie = Request.Cookies["Account"];
+                StudentDao studentDao = new StudentDao();
+                List<Student> students = studentDao.listAllStudent();
+                List<TempStudent> resultList = new List<TempStudent>();
+                foreach (var student in students)
                 {
-                    TempStudent tempStudent = new TempStudent();
-                    tempStudent.init(student);
-                    resultList.Add(tempStudent);
+                    if (student.secondWill == accountCookie["userId"])
+                    {
+                        TempStudent tempStudent = new TempStudent();
+                        tempStudent.init(student);
+                        resultList.Add(tempStudent);
+                    }
                 }
+                JavaScriptSerializer serializer = new JavaScriptSerializer();
+                var json = serializer.Serialize(resultList);
+                string retStr = json.ToString();
+                return retStr;
             }
-            JavaScriptSerializer serializer = new JavaScriptSerializer();
-            var json = serializer.Serialize(resultList);
-            string retStr = json.ToString();
-            return retStr;
+            catch (Exception e)
+            {
+                LogUtil.writeLogToFile(e, Request);
+                return "[]";
+            }
         }
 
         /*
@@ -135,25 +196,33 @@ namespace Selection_Refactor.Controllers
         [RoleAuthorize(Role = "professor")]
         public string getSelectedStudents()
         {
-            HttpCookie accountCookie = Request.Cookies["Account"];
-            StudentDao studentDao = new StudentDao();
-            List<Student> students = studentDao.listAllStudent();
-            List<TempStudent> resultList = new List<TempStudent>();
-            foreach (var student in students)
+            try
             {
-                if ((student.firstWill == accountCookie["userId"] && student.firstWillState == 1)||
-                    (student.secondWill == accountCookie["userId"]  && student.secondWillState == 1)||
-                    (student.dispensedWill == accountCookie["userId"]))
+                HttpCookie accountCookie = Request.Cookies["Account"];
+                StudentDao studentDao = new StudentDao();
+                List<Student> students = studentDao.listAllStudent();
+                List<TempStudent_special> resultList = new List<TempStudent_special>();
+                foreach (var student in students)
                 {
-                    TempStudent tempStudent = new TempStudent();
-                    tempStudent.init(student);
-                    resultList.Add(tempStudent);
+                    if ((student.firstWill == accountCookie["userId"] && student.firstWillState == 1) ||
+                        (student.secondWill == accountCookie["userId"] && student.secondWillState == 1) ||
+                        (student.dispensedWill == accountCookie["userId"]))
+                    {
+                        TempStudent_special tempStudent = new TempStudent_special();
+                        tempStudent.init(student, accountCookie["userId"]);
+                        resultList.Add(tempStudent);
+                    }
                 }
+                JavaScriptSerializer serializer = new JavaScriptSerializer();
+                var json = serializer.Serialize(resultList);
+                string retStr = json.ToString();
+                return retStr;
             }
-            JavaScriptSerializer serializer = new JavaScriptSerializer();
-            var json = serializer.Serialize(resultList);
-            string retStr = json.ToString();
-            return retStr;
+            catch (Exception e)
+            {
+                LogUtil.writeLogToFile(e, Request);
+                return "[]";
+            }
         }
         /*
          * Create By zzw
