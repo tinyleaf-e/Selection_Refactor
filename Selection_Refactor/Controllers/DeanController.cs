@@ -90,11 +90,12 @@ namespace Selection_Refactor.Controllers
                     this.finalWill = professorDao.getProfessorById(student.dispensedWill).name;
                 }
                 this.dispensedWill = professorDao.getProfessorById(student.dispensedWill).name;
+                
             }
 
         }
 
-        class TempProfessor
+        class TempProfessor : Controller
         {
             public string id { get; set; } //教师工号
             public string name { get; set; } //姓名
@@ -104,22 +105,29 @@ namespace Selection_Refactor.Controllers
 
             public void init(Professor professor)
             {
-                this.id = professor.id;
-                this.name = professor.name;
-                this.title = professor.title;
-                this.infoURL = professor.infoURL;
-                List<Student> students = new StudentDao().listAllStudent();
-                int numOfSelect = 0;
-                foreach (var student in students)
+                try
                 {
-                    if ((student.firstWill == professor.id && student.firstWillState == 1) ||
-                        (student.firstWillState == 0 && student.secondWill == professor.id && student.secondWillState == 1) ||
-                        (student.dispensedWill == professor.id))
+                    this.id = professor.id;
+                    this.name = professor.name;
+                    this.title = professor.title;
+                    this.infoURL = professor.infoURL;
+                    List<Student> students = new StudentDao().listAllStudent();
+                    int numOfSelect = 0;
+                    foreach (var student in students)
                     {
-                        numOfSelect++;
+                        if ((student.firstWill == professor.id && student.firstWillState == 1) ||
+                            (student.firstWillState == 0 && student.secondWill == professor.id && student.secondWillState == 1) ||
+                            (student.dispensedWill == professor.id))
+                        {
+                            numOfSelect++;
+                        }
                     }
+                    this.studentamount = numOfSelect;
+                    }
+                catch (Exception e)
+                {
+                    LogUtil.writeLogToFile(e, Request);
                 }
-                this.studentamount = numOfSelect;
             }
         }
         
@@ -131,10 +139,10 @@ namespace Selection_Refactor.Controllers
         [RoleAuthorize(Role = "dean")]
         public string listStudents()
         {
-            StudentDao studentDao = new StudentDao();
-            string retStr = "";
             try
             {
+                StudentDao studentDao = new StudentDao();
+                string retStr = "";
                 List<Student> students = studentDao.listAllStudent();
                 List<TempStudent> resultStu = new List<TempStudent>();
                 if (students != null)
@@ -145,16 +153,17 @@ namespace Selection_Refactor.Controllers
                         tempStudent.init(student);
                         resultStu.Add(tempStudent);
                     }
-                    JavaScriptSerializer serializer = new JavaScriptSerializer();
-                    var json = serializer.Serialize(resultStu);
-                    retStr = json.ToString();
                 }
+                JavaScriptSerializer serializer = new JavaScriptSerializer();
+                var json = serializer.Serialize(resultStu);
+                retStr = json.ToString();
+                return retStr;
             }
             catch (Exception e)
             {
-
+                LogUtil.writeLogToFile(e, Request);
+                return "[]";
             }
-            return retStr;
         }
 
         /*
@@ -164,10 +173,11 @@ namespace Selection_Refactor.Controllers
         [RoleAuthorize(Role = "dean")]
         public string listProfessors()
         {
-            ProfessorDao professorDao = new ProfessorDao();
-            string retStr = "";
+            
             try
             {
+                ProfessorDao professorDao = new ProfessorDao();
+                string retStr = "";
                 List<Professor> professors = professorDao.listAllProfessor();
                 List<TempProfessor> resultPro = new List<TempProfessor>();
                 if (professors != null)
@@ -178,39 +188,49 @@ namespace Selection_Refactor.Controllers
                         tempProfessor.init(professor);
                         resultPro.Add(tempProfessor);
                     }
-                    JavaScriptSerializer serializer = new JavaScriptSerializer();
-                    var json = serializer.Serialize(resultPro);
-                    retStr = json.ToString();
                 }
+                JavaScriptSerializer serializer = new JavaScriptSerializer();
+                var json = serializer.Serialize(resultPro);
+                retStr = json.ToString();
+                return retStr;
             }
             catch (Exception e)
             {
+                LogUtil.writeLogToFile(e, Request);
+                return "[]";
             }
-            return retStr;
+            
         }
 
         /*
          * Create By 付文欣
          * 修改密码接口
-         * 
          */
         //[RoleAuthorize(Role = "dean")]
         public String ChangePassword(String oldpasswd,String newpasswd)
         {
-            HttpCookie accountCookie = new HttpCookie("account");
-            StudentDao studentDao = new StudentDao();
-            Student student = studentDao.getStudentById(accountCookie["userId"]);
-            String retStr = "";
-            if (student != null && student.password == oldpasswd)
+            try
             {
-                student.password = newpasswd;
-                retStr = "success";
+                HttpCookie accountCookie = new HttpCookie("account");
+                StudentDao studentDao = new StudentDao();
+                Student student = studentDao.getStudentById(accountCookie["userId"]);
+                String retStr = "";
+                if (student != null && student.password == oldpasswd)
+                {
+                    student.password = newpasswd;
+                    retStr = "success";
+                }
+                else
+                {
+                    retStr = "fail:登录失败，用户不存在或密码错误";
+                }
+                return retStr;
             }
-            else
+            catch (Exception e)
             {
-                retStr = "fail:登录失败，用户不存在或密码错误";
+                LogUtil.writeLogToFile(e, Request);
+                return "fail:数据库异常";
             }
-            return retStr;
         }
         /*
          * Create By zzw

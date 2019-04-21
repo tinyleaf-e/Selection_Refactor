@@ -286,11 +286,14 @@
             });
 
             $("#add-student-submit-btn").click(function () {
-                if ($("#name-input").val().trim() == "" || $("#name-input").val().trim() == "") {
-                    $("#name-input,#id-input").addClass("error-input");
+                if ($("#name-input").val().trim() == "") {
+                    $("#name-input").addClass("error-input");
                     return;
                 }
-
+                if ($("#id-input").val().trim() == "") {
+                    $("#id-input").addClass("error-input");
+                    return;
+                }
 
                 var data = {
                     'name': $("#name-input").val(),
@@ -298,7 +301,7 @@
                     'major': $("#major-select").val(),
                     'age': $("#age-input").val(),
                     'telephone': $("#telephone-input").val(),
-                    'isWorking': $("#isworking-input").val(),
+                    'isWorking': Boolean($("#isworking-input").val()),
                     'email': $("#email-input").val(),
                 }
                 $.post("/Admin/addSingleStudent", data, function (rel) {
@@ -312,7 +315,7 @@
                             cancelButton: false
                         });
                 });
-                $("#directAdd-professor-modal").modal('hide');
+                $("#add-student-modal").modal('hide');
             });
         });
 

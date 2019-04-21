@@ -166,11 +166,27 @@
                 $("#name-input").addClass("error-input");
                 return;
             }
+            if ($("#number-input").val().trim() == "") {
+                $("#number-input").addClass("error-input");
+                return;
+            }
+            if ($("#rank-input").val().trim() == "") {
+                $("#rank-input").addClass("error-input");
+                return;
+            }
+            if ($("#maxstudent-input").val().trim() == "") {
+                $("#maxstudent-input").addClass("error-input");
+                return;
+            }
+            if ($("#url-input").val().trim() == "") {
+                $("#url-input").addClass("error-input");
+                return;
+            }
             var data = {
                 'name': $("#name-input").val(),
                 'number': $("#number-input").val(),
-                'rank': $("#rank-input").val(),
-                'maxstudent': $("#maxstudent-input").val(),
+                'title': $("#rank-input").val(),
+                'needstudent': $("#maxstudent-input").val(),
                 'url': $("#url-input").val()
             }
             $.post("/Admin/addSingleProfessor", data, function (rel) {
