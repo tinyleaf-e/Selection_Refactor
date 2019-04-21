@@ -409,6 +409,7 @@
     <Content Include="Views\Dean\StudentInfo.cshtml" />
     <Content Include="Views\Admin\Setting.cshtml" />
     <Content Include="Views\Admin\Major.cshtml" />
+    <Content Include="Views\Professor\profile.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
