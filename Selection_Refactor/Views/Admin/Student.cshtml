@@ -286,11 +286,14 @@
             });
 
             $("#add-student-submit-btn").click(function () {
-                if ($("#name-input").val().trim() == "" || $("#name-input").val().trim() == "") {
-                    $("#name-input,#id-input").addClass("error-input");
+                if ($("#name-input").val().trim() == "") {
+                    $("#name-input").addClass("error-input");
                     return;
                 }
-
+                if ($("#id-input").val().trim() == "") {
+                    $("#id-input").addClass("error-input");
+                    return;
+                }
 
                 var data = {
                     'name': $("#name-input").val(),
