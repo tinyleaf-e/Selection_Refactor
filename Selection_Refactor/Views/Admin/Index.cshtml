@@ -169,8 +169,8 @@
             var data = {
                 'name': $("#name-input").val(),
                 'number': $("#number-input").val(),
-                'rank': $("#rank-input").val(),
-                'maxstudent': $("#maxstudent-input").val(),
+                'title': $("#rank-input").val(),
+                'needstudent': $("#maxstudent-input").val(),
                 'url': $("#url-input").val()
             }
             $.post("/Admin/addSingleProfessor", data, function (rel) {

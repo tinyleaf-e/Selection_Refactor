@@ -298,7 +298,7 @@
                     'major': $("#major-select").val(),
                     'age': $("#age-input").val(),
                     'telephone': $("#telephone-input").val(),
-                    'isWorking': $("#isworking-input").val(),
+                    'isWorking': Boolean($("#isworking-input").val()),
                     'email': $("#email-input").val(),
                 }
                 $.post("/Admin/addSingleStudent", data, function (rel) {
@@ -312,7 +312,7 @@
                             cancelButton: false
                         });
                 });
-                $("#directAdd-professor-modal").modal('hide');
+                $("#add-student-modal").modal('hide');
             });
         });
 
