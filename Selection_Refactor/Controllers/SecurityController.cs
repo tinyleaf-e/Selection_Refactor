@@ -59,7 +59,7 @@ namespace Selection_Refactor.Controllers
                     if (dean != null && passwd == dean.password)
                     {
                         Response.Cookies.Add(createCookie(userId,dean.name, passwd, "dean", 24 * 60));
-                        retStr = "success:/dean/Student";
+                        retStr = "success:/dean/Index";
                     }
                     break;
                 case 4:
@@ -68,7 +68,7 @@ namespace Selection_Refactor.Controllers
                     if (admin != null && passwd == admin.password)
                     {
                         Response.Cookies.Add(createCookie(userId,admin.name, passwd, "admin", 24 * 60));
-                        retStr = "success:/admin/Student";
+                        retStr = "success:/admin/Index";
                     }
                     break;
                 default:
