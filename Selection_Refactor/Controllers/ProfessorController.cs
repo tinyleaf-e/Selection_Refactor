@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using System.Web.Script.Serialization;
 using Selection_Refactor.Attribute;
 using Selection_Refactor.Models.Dao;
 using Selection_Refactor.Models.Entity;
 using Selection_Refactor.Util;
+using System.Web.Script.Serialization;
 
 namespace Selection_Refactor.Controllers
 {
@@ -32,7 +32,7 @@ namespace Selection_Refactor.Controllers
             return View();
         }
 
-        class TempStudent
+        class TempStudent:Controller
         {
             public string id { set; get; } //学号
 
@@ -68,7 +68,7 @@ namespace Selection_Refactor.Controllers
                 }
                 catch (Exception e)
                 {
-
+                    LogUtil.writeLogToFile(e, Request);
                 }
             }
 
