@@ -134,7 +134,7 @@ namespace Selection_Refactor.Controllers
                 List<TempStudent> resultList = new List<TempStudent>();
                 foreach(var student in students)
                 {
-                    if (student.firstWill == accountCookie["userId"])
+                    if (student.firstWill == accountCookie["userId"] &&student.firstWillState == 0)
                     {
                         TempStudent tempStudent = new TempStudent();
                         tempStudent.init(student);
@@ -170,7 +170,7 @@ namespace Selection_Refactor.Controllers
                 List<TempStudent> resultList = new List<TempStudent>();
                 foreach (var student in students)
                 {
-                    if (student.secondWill == accountCookie["userId"])
+                    if (student.secondWill == accountCookie["userId"] || student.secondWillState == 0)
                     {
                         TempStudent tempStudent = new TempStudent();
                         tempStudent.init(student);

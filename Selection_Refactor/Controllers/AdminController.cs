@@ -897,6 +897,7 @@ namespace Selection_Refactor.Controllers
             }
             catch (Exception e)
             {
+                LogUtil.writeLogToFile(e, Request);
                 return "[]";
             }
         }
@@ -938,6 +939,7 @@ namespace Selection_Refactor.Controllers
             }
             catch (Exception e)
             {
+                LogUtil.writeLogToFile(e, Request);
                 return "fail:" + e.Message;
             }
         }
@@ -1045,6 +1047,7 @@ namespace Selection_Refactor.Controllers
             }
             catch (Exception e)
             {
+                LogUtil.writeLogToFile(e, Request);
                 if (e.Message.Equals("不是教师表"))
                 {
                     result = "fail:不是教师表";
@@ -1095,6 +1098,7 @@ namespace Selection_Refactor.Controllers
             }
             catch (Exception e)
             {
+                LogUtil.writeLogToFile(e, Request);
                 return "fail:" + e.Message;
             }
 

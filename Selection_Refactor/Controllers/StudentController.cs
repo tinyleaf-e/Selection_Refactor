@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using System.IO;
+using Selection_Refactor.Util;
 
 namespace Selection_Refactor.Controllers
 {
@@ -182,6 +183,7 @@ namespace Selection_Refactor.Controllers
             }
             catch (Exception e)
             {
+                LogUtil.writeLogToFile(e, Request);
                 return "{\"error\":\""+e.Message+"\"}";
             }
             return "{"+

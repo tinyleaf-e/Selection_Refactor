@@ -75,21 +75,39 @@ namespace Selection_Refactor.Controllers
                 this.email = student.email;
                 this.resumeUrl = student.resumeUrl;
                 ProfessorDao professorDao = new ProfessorDao();
-                this.firstWill = professorDao.getProfessorById(student.firstWill).name;
-                this.secondWill = professorDao.getProfessorById(student.secondWill).name;
+                if (professorDao.getProfessorById(student.firstWill) != null)
+                    this.firstWill = professorDao.getProfessorById(student.firstWill).name;
+                else
+                    this.firstWill = "";
+                if (professorDao.getProfessorById(student.secondWill) != null)
+                    this.secondWill = professorDao.getProfessorById(student.secondWill).name;
+                else
+                    this.secondWill = "";
                 if(student.firstWillState == 1)
                 {
-                    this.finalWill = professorDao.getProfessorById(student.firstWill).name;
+                    if (professorDao.getProfessorById(student.firstWill) != null)
+                        this.finalWill = professorDao.getProfessorById(student.firstWill).name;
+                    else
+                        this.finalWill = "";
                 }
                 else if(student.secondWillState == 1)
                 {
-                    this.finalWill = professorDao.getProfessorById(student.secondWill).name;
+                    if (professorDao.getProfessorById(student.secondWill) != null)
+                        this.finalWill = professorDao.getProfessorById(student.secondWill).name;
+                    else
+                        this.finalWill = "";
                 }
                 else
                 {
-                    this.finalWill = professorDao.getProfessorById(student.dispensedWill).name;
+                    if (professorDao.getProfessorById(student.dispensedWill) != null)
+                        this.finalWill = professorDao.getProfessorById(student.dispensedWill).name;
+                    else
+                        this.finalWill = "";
                 }
-                this.dispensedWill = professorDao.getProfessorById(student.dispensedWill).name;
+                if (professorDao.getProfessorById(student.dispensedWill) != null)
+                    this.dispensedWill = professorDao.getProfessorById(student.dispensedWill).name;
+                else
+                    this.dispensedWill = "";
                 
             }
 
