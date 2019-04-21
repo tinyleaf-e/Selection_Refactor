@@ -105,9 +105,9 @@
                 contentText: "确认删除该教务老师?",
                 confirm: function () {
                     var data = {
-                        userId: row.id
+                        id: row.Number
                     };
-                    $.post("/Admin/deleteDeanById", data, function (rel) {
+                    $.post("/Admin/deleteDean", data, function (rel) {
                         if (rel == "success") {
                             table.ajax.reload();
                         }

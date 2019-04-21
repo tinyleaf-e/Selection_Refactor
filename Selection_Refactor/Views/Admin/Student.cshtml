@@ -219,7 +219,7 @@
         function setStudentPassword(btn) {
             var tr = $(btn).closest('tr');
             var row = $('#student-table').DataTable().row(tr).data();
-            $("password-input").attr("student-id", row.id);
+            $("#password-input").attr("student-id", row.id);
             $("#set-password-modal").modal('show');
         }
 
@@ -269,19 +269,21 @@
 
                 var data = {
                     'password': $("#password-input").val(),
-                    'id': $("password-input").attr("student-id")
+                    'stuId': $("#password-input").attr("student-id")
                 }
-                $.post("/Admin/setStudentPassword", data, function (rel) {
+                $.post("/Admin/resetStudentPassword", data, function (rel) {
                     if (rel == "success") {
                         table.ajax.reload();
                         $("#set-password-modal").modal('hide');
                     }
-                    else
+                    else {
                         $.gyAlert({
                             title: "修改失败",
                             contentText: rel.substring(5),
                             cancelButton: false
                         });
+                    }
+                    $("#password-input").val("");
                 });
             });
 
@@ -294,7 +296,6 @@
                     $("#id-input").addClass("error-input");
                     return;
                 }
-
                 var data = {
                     'name': $("#name-input").val(),
                     'id': $("#id-input").val(),
@@ -315,7 +316,16 @@
                             cancelButton: false
                         });
                 });
+
                 $("#add-student-modal").modal('hide');
+                $("#name-input").val("");
+                $("#id-input").val("");
+                $("#major-select").val("");
+                $("#age-input").val("");
+                $("#telephone-input").val("");
+                $("#isworking-input").val("");
+                $("#email-input").val("");
+
             });
         });
 
@@ -335,8 +345,22 @@
                     { data: "StuName" },
                     { data: "id" },
                     { data: "major" },
-                    { data: "infoCommited" },
-                    { data: "twoWillCommited" },
+                    {
+                        data: function (row, type, set, meta) {
+                            if (row.infoCommited == false)
+                                return "否";
+                            else
+                                return "是";
+                        }
+                    },
+                    {
+                        data: function (row, type, set, meta) {
+                            if (row.twoWillCommited == false)
+                                return "否";
+                            else
+                                return "是";
+                        }
+                    },
                     { data: "FinalTutor" },
                     {
                         data: function (row, type, set, meta) {
@@ -349,6 +373,12 @@
                     },
                 ]
             });
+            var trList = $('#student-table').children("thead").children("tr")
+            for (var i = 0; i < trList.length; i++) {
+                var thArr = trList.eq(i).find("th");
+                var a = thArr.eq(5).val();
+                var b = thArr.eq(6).val();
+            }
         }
 
 
