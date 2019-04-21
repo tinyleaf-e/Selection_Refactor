@@ -197,9 +197,9 @@
                 contentText: "确认删除该学生吗?",
                 confirm: function () {
                     var data = {
-                        userId: row.id
+                        stuId: row.id
                     };
-                    $.post("/Admin/deleteStudentById", data, function (rel) {
+                    $.post("/Admin/deleteSingleStudent", data, function (rel) {
                         if (rel == "success") {
                             table.ajax.reload();
                         }
@@ -295,13 +295,13 @@
                 var data = {
                     'name': $("#name-input").val(),
                     'id': $("#id-input").val(),
-                    'age': $("#age-input").val(),
                     'major': $("#major-select").val(),
+                    'age': $("#age-input").val(),
                     'telephone': $("#telephone-input").val(),
-                    'isworking': $("#isworking-input").val(),
+                    'isWorking': $("#isworking-input").val(),
                     'email': $("#email-input").val(),
                 }
-                $.post("/Admin/addStudent", data, function (rel) {
+                $.post("/Admin/addSingleStudent", data, function (rel) {
                     if (rel == "success") {
                         table.ajax.reload();
                     }
@@ -317,11 +317,11 @@
         });
 
         var initTable = function () {
-            $('#student-table').DataTable({
+            table=$('#student-table').DataTable({
                 ajax: {
                     //url: 'https://www.easy-mock.com/mock/5b1fe0f0f71e0743260935e1/example/getStuInfo',
                     url:'/Admin/getStudentInfo',
-                    dataSrc: 'data'
+                    dataSrc: ''
                 },
                 "columns": [
                     {

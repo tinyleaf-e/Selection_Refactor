@@ -62,7 +62,7 @@ namespace Selection_Refactor.Models.Dao
             ProfessorDBContext professorDB = new ProfessorDBContext();
             professorDB.professors.Find("");
             SettingDBContext settingDBContext = new SettingDBContext();
-            settingDBContext.settings.Find("");
+            //settingDBContext.settings.Find("");
             MajorDBContext majorDBContext = new MajorDBContext();
             majorDBContext.majors.Find(0);
         }

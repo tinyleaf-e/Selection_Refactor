@@ -19,10 +19,9 @@
             <button id="addProfessor" class="btn btn-block btn-primary bg-green color-palette" style="width:8%;margin-left:5px;display:inline;vertical-align:baseline;">新增教师</button>
         </div>
         <div class="box-body">
-            <div id="professor-table" class="dataTables_wrapper form-inline dt-bootstrap">
                 <div class="row">
                     <div class="col-sm-12">
-                        <table id="example1" class="table table-bordered table-striped dataTable" role="grid" aria-describedby="example1_info">
+                        <table id="professor-table" class="table table-bordered table-striped dataTable" role="grid" aria-describedby="example1_info">
                             <thead>
                                 <tr role="row">
                                     <th class="sorting_asc" data-field="ProName" style="width: 75px;">姓名</th>
@@ -37,7 +36,6 @@
                             </thead>
                         </table>
                     </div>
-                </div>
             </div>
         </div>
         <!-- /.box-body -->
@@ -203,11 +201,11 @@
     //        })
     //    })
     var initTable = function () {
-        $('#example1').DataTable({
+        table = $('#professor-table').DataTable({
             ajax: {
                 //url: 'https://www.easy-mock.com/mock/5b1fe0f0f71e0743260935e1/example/getProInfo',
                 url:'/Admin/getProfessors',
-                dataSrc: 'data'
+                dataSrc: ''
             },
             "columns": [
                 { data: "proName" },
