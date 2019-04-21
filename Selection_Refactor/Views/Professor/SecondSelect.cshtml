@@ -86,7 +86,7 @@
 
         var waitChooseTable = $('#waitChooseTable').DataTable({
             ajax: {
-                url: 'https://www.easy-mock.com/mock/5c8368e622c6e01a284aae50/selection-mock/',
+                url: '/Professor/getSecondWillStudents',
 
                 dataSrc: ''
             },
@@ -124,7 +124,7 @@
         });
         var selectedTable = $('#selectedTable').DataTable({
             ajax: {
-                url: 'https://www.easy-mock.com/mock/5c8368e622c6e01a284aae50/selection-mock/',
+                url: '/Professor/getSelectedStudents',
                 dataSrc: ''
             },
             "columns": [
