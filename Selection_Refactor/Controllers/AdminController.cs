@@ -662,6 +662,7 @@ namespace Selection_Refactor.Controllers
                 professor.id = number;
                 professor.title = title;
                 professor.infoURL = url;
+                professor.password = "12345";
                 professor.quota = needstudent;
                 Exception e = new Exception("教师id重复");
                 if (professorDao.getProfessorById(number) != null)

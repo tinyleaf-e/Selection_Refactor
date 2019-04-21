@@ -234,7 +234,7 @@ namespace Selection_Refactor.Controllers
          {
             try
             {
-                HttpCookie accountCookie = new HttpCookie("account");
+                HttpCookie accountCookie = Request.Cookies["Account"];
                 StudentDao studentDao = new StudentDao();
                 if(studentDao.getStudentById(stuId)==null)
                 {
@@ -279,7 +279,7 @@ namespace Selection_Refactor.Controllers
         {
             try
             {
-                HttpCookie accountCookie = new HttpCookie("account");
+                HttpCookie accountCookie = Request.Cookies["Account"];
                 StudentDao studentDao = new StudentDao();
                 if (studentDao.getStudentById(stuId) == null)
                 {
@@ -323,7 +323,7 @@ namespace Selection_Refactor.Controllers
         {
             try
             {
-                HttpCookie accountCookie = new HttpCookie("account");
+                HttpCookie accountCookie = Request.Cookies["Account"];
                 StudentDao studentDao = new StudentDao();
                 if (studentDao.getStudentById(stuId) == null)
                 {
