@@ -40,18 +40,9 @@ namespace Selection_Refactor.Models.Dao
          */
         public int addProfessor(Professor professor)
         {
-            try
-            {
-                ProfessorDBContext professorDB = new ProfessorDBContext();
-                professorDB.professors.Add(professor);
-                return professorDB.SaveChanges();
-            }
-            catch (Exception e)
-            {
-                //throw e;
-                //LogUtil.writeLogToFile(e);
-                return -1;
-            }
+            ProfessorDBContext professorDB = new ProfessorDBContext();
+            professorDB.professors.Add(professor);
+            return professorDB.SaveChanges();
         }
         /*
          * Create By zzw
@@ -85,46 +76,37 @@ namespace Selection_Refactor.Models.Dao
          */
         public int deleteProfessorById(string id)
         {
-            try
-            {
-                ProfessorDBContext professorDB = new ProfessorDBContext();
-                Professor professor = professorDB.professors.Find(id);
-                professorDB.professors.Remove(professor);
-                return professorDB.SaveChanges();
-            }
-            catch (Exception e)
-            {
-                //throw e;
-                //LogUtil.writeLogToFile(e);
-                return -1;
-            }
-        }
-        /*
-         * Create By zzw
-         * 删除教师 by ids
-         * 成功插入返回1，失败返回0，异常返回-1
-         */
-        public int deleteProfessorByIds(string[] ids)
-        {
-            List<Professor> deleteProfessors = new List<Professor>();
             ProfessorDBContext professorDB = new ProfessorDBContext();
-            for (int i = 0; i < ids.Length; i++)
-            {
-                Professor professor = professorDB.professors.Find(ids[i]);
-                deleteProfessors.Add(professor);
-            }
-            try
-            {
-                professorDB.professors.RemoveRange(deleteProfessors);
-                return professorDB.SaveChanges();
-            }
-            catch (Exception e)
-            {
-                //throw e;
-                //LogUtil.writeLogToFile(e);
-                return -1;
-            }
+            Professor professor = professorDB.professors.Find(id);
+            professorDB.professors.Remove(professor);
+            return professorDB.SaveChanges();
         }
+        ///*
+        // * Create By zzw
+        // * 删除教师 by ids
+        // * 成功插入返回1，失败返回0，异常返回-1
+        // */
+        //public int deleteProfessorByIds(string[] ids)
+        //{
+        //    List<Professor> deleteProfessors = new List<Professor>();
+        //    ProfessorDBContext professorDB = new ProfessorDBContext();
+        //    for (int i = 0; i < ids.Length; i++)
+        //    {
+        //        Professor professor = professorDB.professors.Find(ids[i]);
+        //        deleteProfessors.Add(professor);
+        //    }
+        //    try
+        //    {
+        //        professorDB.professors.RemoveRange(deleteProfessors);
+        //        return professorDB.SaveChanges();
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        //throw e;
+        //        //LogUtil.writeLogToFile(e);
+        //        return -1;
+        //    }
+        //}
         /*
          * Create By zzw
          * 更改密码

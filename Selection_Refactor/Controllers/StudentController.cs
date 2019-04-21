@@ -1,6 +1,7 @@
 ﻿using Selection_Refactor.Attribute;
 using Selection_Refactor.Models.Dao;
 using Selection_Refactor.Models.Entity;
+using Selection_Refactor.Util;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -81,23 +82,31 @@ namespace Selection_Refactor.Controllers
         */
         public string listProfessors()
         {
-            ProfessorDao professor = new ProfessorDao();
-            List<Professor> proList = professor.listAllProfessor();
-            List<ProfessorInfoForStu> proInfoForStu = null;
-            ProfessorInfoForStu pro = new ProfessorInfoForStu();
-            string res = "";
-            foreach(Professor p in proList)
+            try
             {
-                pro.id = p.id;
-                pro.name = p.name;
-                pro.title = p.title;
-                pro.infoUrl = p.infoURL;
-                proInfoForStu.Add(pro);
+                ProfessorDao professor = new ProfessorDao();
+                List<Professor> proList = professor.listAllProfessor();
+                List<ProfessorInfoForStu> proInfoForStu = null;
+                ProfessorInfoForStu pro = new ProfessorInfoForStu();
+                string res = "";
+                foreach (Professor p in proList)
+                {
+                    pro.id = p.id;
+                    pro.name = p.name;
+                    pro.title = p.title;
+                    pro.infoUrl = p.infoURL;
+                    proInfoForStu.Add(pro);
+                }
+                JavaScriptSerializer serializer = new JavaScriptSerializer();
+                var json = serializer.Serialize(proInfoForStu);
+                res = json.ToString();
+                return res;
             }
-            JavaScriptSerializer serializer = new JavaScriptSerializer();
-            var json = serializer.Serialize(proInfoForStu);
-            res = json.ToString();
-            return res;
+            catch (Exception e)
+            {
+                LogUtil.writeLogToFile(e, Request);
+                return "平台出现异常，请联系管理员：XXX";
+            }
         }
         /*  
         *  Create By zzw
