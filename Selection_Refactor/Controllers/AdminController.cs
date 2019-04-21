@@ -601,6 +601,7 @@ namespace Selection_Refactor.Controllers
                 foreach (Professor p in psList)
                 {
                     ap = new AdminProfessor();
+                    ap.proId = p.id;
                     ap.proName = p.name;
                     ap.proTitle = p.title;
                     ap.proQuota = (professorDao.getProfessorById(p.id)).quota;
@@ -653,13 +654,14 @@ namespace Selection_Refactor.Controllers
             professor.title = title;
             professor.infoURL = url;
             professor.quota = needstudent;
+            professor.password = "12345";
             if (professorDao.getProfessorById(number) != null)
             {
                 res = "fail:这个id已经存在";
             }
             else
             {
-                res = "success";
+               
                 professorDao.addProfessor(professor);
             }
             return res;
@@ -827,7 +829,7 @@ namespace Selection_Refactor.Controllers
         }
         public class AdminProfessor
         {
-            public int Order { set; get; }
+            public string proId { set; get; }
             public string proName { set; get; }
             public string proTitle { set; get; }
             public int proQuota { set; get; }
@@ -844,7 +846,7 @@ namespace Selection_Refactor.Controllers
         {
             public string Number { get; set; }
             public string TeacherName { get; set; }
-            public int MajorResponsible { get; set; }
+            public string MajorResponsible { get; set; }
         }
         /*
             * Create By 蒋予飞
@@ -861,14 +863,18 @@ namespace Selection_Refactor.Controllers
             {
                 JavaScriptSerializer serializer = new JavaScriptSerializer();
                 DeanDao deanDao = new DeanDao();
+                MajorDao majorDao = new MajorDao();
+
                 List<Dean> deans = new List<Dean>();
                 deans = deanDao.listAllDeans();
                 List<RetDean> ret = new List<RetDean>();
+                Major tmpMajor = new Major();
                 foreach(Dean tmp in deans)
                 {
                     RetDean tmpdean = new RetDean();
+                    tmpMajor = majorDao.getMajorById(tmp.majorId);
                     tmpdean.Number = tmp.id;
-                    tmpdean.MajorResponsible = tmp.majorId;
+                    tmpdean.MajorResponsible = tmpMajor.name;
                     tmpdean.TeacherName = tmp.name;
                     ret.Add(tmpdean);
                 }
@@ -878,6 +884,7 @@ namespace Selection_Refactor.Controllers
             }
             catch (Exception e)
             {
+                LogUtil.writeLogToFile(e, Request);
                 return "[]";
             }
         }
@@ -919,6 +926,7 @@ namespace Selection_Refactor.Controllers
             }
             catch (Exception e)
             {
+                LogUtil.writeLogToFile(e, Request);
                 return "fail:" + e.Message;
             }
         }
@@ -1026,6 +1034,7 @@ namespace Selection_Refactor.Controllers
             }
             catch (Exception e)
             {
+                LogUtil.writeLogToFile(e, Request);
                 if (e.Message.Equals("不是教师表"))
                 {
                     result = "fail:不是教师表";
@@ -1076,6 +1085,7 @@ namespace Selection_Refactor.Controllers
             }
             catch (Exception e)
             {
+                LogUtil.writeLogToFile(e, Request);
                 return "fail:" + e.Message;
             }
 
