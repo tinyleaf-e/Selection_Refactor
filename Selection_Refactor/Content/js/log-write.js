@@ -20,9 +20,11 @@ function _LogWrite(serverUrl,projectTicket,formatId,logData){
             }
         }
     }
-	
-    xmlHttp.open( "post" , url , true );
-    xmlHttp.setRequestHeader( "Content-Type" , "application/x-www-form-urlencoded" );
+
+
+
+    xmlHttp.open("post", serverUrl, true);
+    xmlHttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded" );
     xmlHttp.onreadystatechange = function () {
         if( xmlHttp.readyState == 4 ) {
             if( xmlHttp.status == 200 ) {
@@ -33,5 +35,10 @@ function _LogWrite(serverUrl,projectTicket,formatId,logData){
             }
         }
     }
-    xmlHttp.send( logData );
+
+    var str = [];
+    for (var p in logData)
+        str.push(encodeURIComponent(p) + "=" + encodeURIComponent(logData[p]));
+
+    xmlHttp.send(str.join("&"));
 }
