@@ -248,6 +248,7 @@
     <Content Include="Content\image\bkgnd2.jpg" />
     <Content Include="Content\js\changePasswd.js" />
     <Content Include="Content\js\jquery.cookie.js" />
+    <Content Include="Content\js\log-write.js" />
     <Content Include="Content\js\vegas.js" />
     <Content Include="Content\plugins\bootstrap-switch\css\bootstrap-switch.css" />
     <Content Include="Content\plugins\bootstrap-switch\css\bootstrap-switch.min.css" />

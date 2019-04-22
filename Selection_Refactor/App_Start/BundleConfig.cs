@@ -21,16 +21,17 @@ namespace Selection_Refactor
                       "~/Content/js/render.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/site").Include(
+                      "~/Content/js/log-write.js",
                       "~/Content/js/global.js",
                       "~/Content/js/gy-alert.js",
                       "~/Content/js/adminlte.min.js",
                       "~/Content/js/changePasswd.js"));
 
             bundles.Add(new StyleBundle("~/css/bootstrap").Include(
-                      "~/Content/plugins/bootstrap-3.3.7/css/bootstrap.min.css", new CssRewriteUrlTransform()));
+                      "~/Content/plugins/bootstrap-3.3.7/css/bootstrap.css", new CssRewriteUrlTransformWrapper()));
             bundles.Add(new StyleBundle("~/css/site").Include(
                       "~/Content/css/global.css")
-                      .Include("~/Content/plugins/font-awesome/css/font-awesome.css", new CssRewriteUrlTransform()));
+                      .Include("~/Content/plugins/font-awesome/css/font-awesome.css", new CssRewriteUrlTransformWrapper()));
             bundles.Add(new StyleBundle("~/css/AdminLTE").Include(
                        "~/Content/css/AdminLTE.min.css",
                        "~/Content/css/_all-skins.css"));
@@ -38,6 +39,14 @@ namespace Selection_Refactor
             //bundles.Add(new StyleBundle("~/Content/css").Include(
             //          "~/Content/bootstrap.css",
             //          "~/Content/site.css"));
+        }
+    }
+
+    public class CssRewriteUrlTransformWrapper : IItemTransform
+    {
+        public string Process(string includedVirtualPath, string input)
+        {
+            return new CssRewriteUrlTransform().Process("~" + VirtualPathUtility.ToAbsolute(includedVirtualPath), input);
         }
     }
 }
