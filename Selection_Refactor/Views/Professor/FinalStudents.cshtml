@@ -40,7 +40,7 @@
 
         var table = $('#selectedTable').DataTable({
             ajax: {
-                url: 'https://www.easy-mock.com/mock/5c8368e622c6e01a284aae50/selection-mock/',
+                url: '/Professor/getSelectedStudents',
 
                 dataSrc: ''
             },
@@ -51,9 +51,9 @@
                     }
                 },
                 { data: "name" },
-                { data: "gender" },
+                { data: function (row, type, set, meta) { return row.gender ? "男" : "女" } },
                 { data: "age" },
-                { data: "majorId" },
+                { data: "major" },
                 { data: "onTheJob" },
                 { data: "graSchool" },
                 { data: "graMajor" },
@@ -81,14 +81,20 @@
         function viewStudentInfo(btn) {
             var tr = $(btn).closest('tr');
             var row = table.row(tr).data();
-            alert("查看学生" + row.name + "的信息");
+            window.open("/Professor/Student?stuID=" + row.id)
         }
 
         //表格行内“下载个人简历”按钮的点击事件
         function downloadStudentResume(btn) {
             var tr = $(btn).closest('tr');
             var row = table.row(tr).data();
-            alert("下载学生" + row.name + "的简历");
+
+
+            var a = document.createElement('a');
+            var event = new MouseEvent('click');
+            //a.download = row.id+'-'+row.name+'-简历'+;
+            //a.href = row.ResumeUrl
+            a.dispatchEvent(event)
         }
 
     </script>

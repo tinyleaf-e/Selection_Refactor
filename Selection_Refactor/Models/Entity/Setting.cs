@@ -6,9 +6,9 @@ using System;
 namespace Selection_Refactor.Models.Entity
 {
 
+    [Table("setting")]
     public class Setting
     {
-        
         [Required]
         [Key]
         public string yearId { set; get; } // 年份ID

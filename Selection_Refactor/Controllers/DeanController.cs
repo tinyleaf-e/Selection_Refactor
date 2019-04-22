@@ -75,26 +75,45 @@ namespace Selection_Refactor.Controllers
                 this.email = student.email;
                 this.resumeUrl = student.resumeUrl;
                 ProfessorDao professorDao = new ProfessorDao();
-                this.firstWill = professorDao.getProfessorById(student.firstWill).name;
-                this.secondWill = professorDao.getProfessorById(student.secondWill).name;
+                if (professorDao.getProfessorById(student.firstWill) != null)
+                    this.firstWill = professorDao.getProfessorById(student.firstWill).name;
+                else
+                    this.firstWill = "";
+                if (professorDao.getProfessorById(student.secondWill) != null)
+                    this.secondWill = professorDao.getProfessorById(student.secondWill).name;
+                else
+                    this.secondWill = "";
                 if(student.firstWillState == 1)
                 {
-                    this.finalWill = professorDao.getProfessorById(student.firstWill).name;
+                    if (professorDao.getProfessorById(student.firstWill) != null)
+                        this.finalWill = professorDao.getProfessorById(student.firstWill).name;
+                    else
+                        this.finalWill = "";
                 }
                 else if(student.secondWillState == 1)
                 {
-                    this.finalWill = professorDao.getProfessorById(student.secondWill).name;
+                    if (professorDao.getProfessorById(student.secondWill) != null)
+                        this.finalWill = professorDao.getProfessorById(student.secondWill).name;
+                    else
+                        this.finalWill = "";
                 }
                 else
                 {
-                    this.finalWill = professorDao.getProfessorById(student.dispensedWill).name;
+                    if (professorDao.getProfessorById(student.dispensedWill) != null)
+                        this.finalWill = professorDao.getProfessorById(student.dispensedWill).name;
+                    else
+                        this.finalWill = "";
                 }
-                this.dispensedWill = professorDao.getProfessorById(student.dispensedWill).name;
+                if (professorDao.getProfessorById(student.dispensedWill) != null)
+                    this.dispensedWill = professorDao.getProfessorById(student.dispensedWill).name;
+                else
+                    this.dispensedWill = "";
+                
             }
 
         }
 
-        class TempProfessor
+        class TempProfessor : Controller
         {
             public string id { get; set; } //教师工号
             public string name { get; set; } //姓名
@@ -104,22 +123,29 @@ namespace Selection_Refactor.Controllers
 
             public void init(Professor professor)
             {
-                this.id = professor.id;
-                this.name = professor.name;
-                this.title = professor.title;
-                this.infoURL = professor.infoURL;
-                List<Student> students = new StudentDao().listAllStudent();
-                int numOfSelect = 0;
-                foreach (var student in students)
+                try
                 {
-                    if ((student.firstWill == professor.id && student.firstWillState == 1) ||
-                        (student.firstWillState == 0 && student.secondWill == professor.id && student.secondWillState == 1) ||
-                        (student.dispensedWill == professor.id))
+                    this.id = professor.id;
+                    this.name = professor.name;
+                    this.title = professor.title;
+                    this.infoURL = professor.infoURL;
+                    List<Student> students = new StudentDao().listAllStudent();
+                    int numOfSelect = 0;
+                    foreach (var student in students)
                     {
-                        numOfSelect++;
+                        if ((student.firstWill == professor.id && student.firstWillState == 1) ||
+                            (student.firstWillState == 0 && student.secondWill == professor.id && student.secondWillState == 1) ||
+                            (student.dispensedWill == professor.id))
+                        {
+                            numOfSelect++;
+                        }
                     }
+                    this.studentamount = numOfSelect;
+                    }
+                catch (Exception e)
+                {
+                    LogUtil.writeLogToFile(e, Request);
                 }
-                this.studentamount = numOfSelect;
             }
         }
         
@@ -131,10 +157,10 @@ namespace Selection_Refactor.Controllers
         [RoleAuthorize(Role = "dean")]
         public string listStudents()
         {
-            StudentDao studentDao = new StudentDao();
-            string retStr = "";
             try
             {
+                StudentDao studentDao = new StudentDao();
+                string retStr = "";
                 List<Student> students = studentDao.listAllStudent();
                 List<TempStudent> resultStu = new List<TempStudent>();
                 if (students != null)
@@ -145,16 +171,17 @@ namespace Selection_Refactor.Controllers
                         tempStudent.init(student);
                         resultStu.Add(tempStudent);
                     }
-                    JavaScriptSerializer serializer = new JavaScriptSerializer();
-                    var json = serializer.Serialize(resultStu);
-                    retStr = json.ToString();
                 }
+                JavaScriptSerializer serializer = new JavaScriptSerializer();
+                var json = serializer.Serialize(resultStu);
+                retStr = json.ToString();
+                return retStr;
             }
             catch (Exception e)
             {
-
+                LogUtil.writeLogToFile(e, Request);
+                return "[]";
             }
-            return retStr;
         }
 
         /*
@@ -164,10 +191,11 @@ namespace Selection_Refactor.Controllers
         [RoleAuthorize(Role = "dean")]
         public string listProfessors()
         {
-            ProfessorDao professorDao = new ProfessorDao();
-            string retStr = "";
+            
             try
             {
+                ProfessorDao professorDao = new ProfessorDao();
+                string retStr = "";
                 List<Professor> professors = professorDao.listAllProfessor();
                 List<TempProfessor> resultPro = new List<TempProfessor>();
                 if (professors != null)
@@ -178,39 +206,49 @@ namespace Selection_Refactor.Controllers
                         tempProfessor.init(professor);
                         resultPro.Add(tempProfessor);
                     }
-                    JavaScriptSerializer serializer = new JavaScriptSerializer();
-                    var json = serializer.Serialize(resultPro);
-                    retStr = json.ToString();
                 }
+                JavaScriptSerializer serializer = new JavaScriptSerializer();
+                var json = serializer.Serialize(resultPro);
+                retStr = json.ToString();
+                return retStr;
             }
             catch (Exception e)
             {
+                LogUtil.writeLogToFile(e, Request);
+                return "[]";
             }
-            return retStr;
+            
         }
 
         /*
          * Create By 付文欣
          * 修改密码接口
-         * 
          */
         //[RoleAuthorize(Role = "dean")]
         public String ChangePassword(String oldpasswd,String newpasswd)
         {
-            HttpCookie accountCookie = new HttpCookie("account");
-            StudentDao studentDao = new StudentDao();
-            Student student = studentDao.getStudentById(accountCookie["userId"]);
-            String retStr = "";
-            if (student != null && student.password == oldpasswd)
+            try
             {
-                student.password = newpasswd;
-                retStr = "success";
+                HttpCookie accountCookie = new HttpCookie("account");
+                StudentDao studentDao = new StudentDao();
+                Student student = studentDao.getStudentById(accountCookie["userId"]);
+                String retStr = "";
+                if (student != null && student.password == oldpasswd)
+                {
+                    student.password = newpasswd;
+                    retStr = "success";
+                }
+                else
+                {
+                    retStr = "fail:登录失败，用户不存在或密码错误";
+                }
+                return retStr;
             }
-            else
+            catch (Exception e)
             {
-                retStr = "fail:登录失败，用户不存在或密码错误";
+                LogUtil.writeLogToFile(e, Request);
+                return "fail:数据库异常";
             }
-            return retStr;
         }
         /*
          * Create By zzw
@@ -220,34 +258,42 @@ namespace Selection_Refactor.Controllers
         [RoleAuthorize(Role = "dean")]
         public string listSelectedStudentsByProId(string proId)
         {
-            ProfessorDao professorDao = new ProfessorDao();
-            StudentDao studentDao = new StudentDao();
-            List<Student> stlist = studentDao.listAllStudent();
-            List<Student> listSelectedStudents = new List<Student>();
-            string res = "";
-            foreach (Student s in stlist)
+            try
             {
-                if (s.firstWill == proId && s.firstWillState == 1)
+                ProfessorDao professorDao = new ProfessorDao();
+                StudentDao studentDao = new StudentDao();
+                List<Student> stlist = studentDao.listAllStudent();
+                List<Student> listSelectedStudents = null;
+                string res = "";
+                foreach (Student s in stlist)
                 {
-                    listSelectedStudents.Add(s);
+                    if (s.firstWill == proId && s.firstWillState == 1)
+                    {
+                        listSelectedStudents.Add(s);
+                    }
+                    else if (s.secondWill == proId && s.secondWillState == 1)
+                    {
+                        listSelectedStudents.Add(s);
+                    }
+                    else if (s.dispensedWill == proId)
+                    {
+                        listSelectedStudents.Add(s);
+                    }
                 }
-                else if (s.secondWill == proId && s.secondWillState == 1)
+                if (listSelectedStudents.Count <= 0) return res;
+                else
                 {
-                    listSelectedStudents.Add(s);
-                }
-                else if (s.dispensedWill == proId)
-                {
-                    listSelectedStudents.Add(s);
+                    JavaScriptSerializer serializer = new JavaScriptSerializer();
+                    var json = serializer.Serialize(listSelectedStudents);
+                    res = json.ToString();
+                    return res;
                 }
             }
-            //if (listSelectedStudents.Count <= 0) return res;
-            //else
-            //{
-                JavaScriptSerializer serializer = new JavaScriptSerializer();
-                var json = serializer.Serialize(listSelectedStudents);
-                res = json.ToString();
-                return res;
-            //}
+            catch (Exception e)
+            {
+                LogUtil.writeLogToFile(e, Request);
+                return "平台出现异常，请联系管理员：XXX";
+            }
         }
     }
 }

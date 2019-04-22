@@ -5,42 +5,55 @@
     ViewBag.BoxTitle = "学生信息";
     ViewBag.Role = "Professor";
 }
-<div class="row">
-    <div class="col-sm-6">
-        <label style="padding-left:30px">姓名：</label>
-        <input name="StuName" value="张三" readonly required class="send-text" style="margin-top: 10px; margin-left:10px; height: 34px;  border:none">
+
+@section css{
+    <style>
+        .form-group div {
+            padding-top: 6px;
+            font-size: 16px;
+        }
+        .form-group label{
+            width: 35%;
+        }
+    </style>
+}
+
+
+<div class="col-md-6 form-horizontal">
+    <div class="form-group">
+        <label class="col-sm-3 control-label">姓名：</label>
+        <div class="col-sm-6">@ViewBag.StuName</div>
     </div>
-    <div class="col-sm-6">
-        <label style="padding-left:30px">学号：</label>
-        <input id="StuID" name="StuID" value="00000000" readonly required class="send-text" style="margin-top: 10px; margin-left:10px;height: 34px; border:none">
+    <div class="form-group">
+        <label class="col-sm-3 control-label">学号：</label>
+        <div class="col-sm-6">@ViewBag.StuId</div>
     </div>
-</div>
-<div class="row">
-    <div class="col-sm-6">
-        <label style="padding-left:30px">年龄：</label>
-        <input name="Age" value="21" readonly class="send-text" style="margin-top: 10px; margin-left:10px;height: 34px;border:none">
+    <div class="form-group">
+        <label class="col-sm-3 control-label">年龄：</label>
+        <div class="col-sm-6">@ViewBag.StuAge</div>
     </div>
-    <div class="col-sm-6">
-        <label style="padding-left:30px">专业：</label>
-        <input name="Age" value="unknown" readonly class="send-text" style="margin-top: 10px; margin-left:10px;height: 34px;border:none">
+    <div class="form-group">
+        <label class="col-sm-3 control-label">电话：</label>
+        <div class="col-sm-6">@ViewBag.StuTel</div>
     </div>
-</div>
-<div class="row">
-    <div class="col-sm-6">
-        <label style="padding-left:30px">电话：</label>
-        <input name="StuTel" value="156xxxxxxxx" readonly class="send-text" style="margin-top: 10px; margin-left:10px;height: 34px;border:none">
+    <div class="form-group">
+        <label class="col-sm-3 control-label">邮箱：</label>
+        <div class="col-sm-6">@ViewBag.StuEmail</div>
     </div>
-    <div class="col-sm-6">
-        <label style="padding-left:30px">在职：</label>
-        <input name="Age" value="unknown" readonly class="send-text" style="margin-top: 10px; margin-left:10px;height: 34px;border:none">
+    <div class="form-group">
+        <label class="col-sm-3 control-label">专业：</label>
+        <div class="col-sm-6">@ViewBag.StuMajor</div>
     </div>
-</div>
-<div class="row">
-    <div class="col-sm-6">
-        <label style="padding-left:30px">邮箱：</label>
-        <input name="StuMail" value="123456789@qq.com" readonly class="send-text" style="margin-top:10px; margin-left:10px; height: 34px;  border:none;">
+    <div class="form-group">
+        <label class="col-sm-3 control-label">在职/脱产：</label>
+        <div class="col-sm-6">@ViewBag.StuOnTheJob</div>
     </div>
-    <div class="col-sm-6" style="padding: 10px 0px 0px 50px">
-        <input value="学生简历" type="button" style="background-color: cornflowerblue; border-radius:10px;border-color:cornflowerblue; color:white;" onclick="alert('下载学生简历')"/>
+    <div class="form-group">
+        <label class="col-sm-3 control-label">本科毕业学校：</label>
+        <div class="col-sm-6">@ViewBag.StuGraSchool</div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label">本科毕业专业：</label>
+        <div class="col-sm-6">@ViewBag.StuGraMajor</div>
     </div>
 </div>

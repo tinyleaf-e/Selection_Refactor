@@ -23,8 +23,8 @@
                         <thead>
                             <tr>
                                 <th style="width: 55px;">序号</th>
-                                <th style="width: 55px;">教师工号</th>
                                 <th style="width: 65px;">姓名</th>
+                                <th style="width: 55px;">教师工号</th>
                                 <th style="width: 60px;">负责专业方向</th>
                                 <th style="width: 120px;">操作</th>
                             </tr>
@@ -105,9 +105,9 @@
                 contentText: "确认删除该教务老师?",
                 confirm: function () {
                     var data = {
-                        userId: row.id
+                        id: row.Number
                     };
-                    $.post("/Admin/deleteDeanById", data, function (rel) {
+                    $.post("/Admin/deleteDean", data, function (rel) {
                         if (rel == "success") {
                             table.ajax.reload();
                         }
@@ -179,8 +179,8 @@
                             return meta.row + 1;
                         }
                     },
-                    { data: "Number" },
                     { data: "TeacherName" },
+                    { data: "Number" },
                     { data: "MajorResponsible" },
                     {
                         data: function (row, type, set, meta) {
@@ -189,7 +189,14 @@
                             ].join('');
                         }
                     },
-                ]
+                ],
+                dom: "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
+                    "<'row'<'col-sm-12'tr>>" +
+                    "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+                language: {
+                    url: "/Content/plugins/datatables.net/Chinese.json"
+                },
+                lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, "全部"]]
             });
         }
 
