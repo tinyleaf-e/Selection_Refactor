@@ -83,7 +83,7 @@
                 { data: "title" },
                 {
                     data: function () {
-                        return "<button id='checkInfo' class='btn btn-default'>查看</button>"
+                        return "<button id='checkInfo' class='btn btn-default' onclick='checkInfo(this)'>查看</button>"
                     }
                 },
                 {
@@ -120,6 +120,12 @@
             $("#second").attr("proId", row.id);
         }
 
+        function checkInfo(btn) {
+            var tr = $(btn).closest('tr');
+            var row = table.row(tr).data();
+            location.href = "https://" + row.infoUrl;
+        }
+
         $(document).ready(function () {
             $("#confirm").click(function () {
                 if ($("#first").val() == "" || $("#second").val() == "") {
@@ -145,10 +151,6 @@
                             });
                     });
                 }
-            });
-
-            $("body").on('click', "#checkInfo", function () {
-                location.href = "http://baidu.com";
             });
         })
 

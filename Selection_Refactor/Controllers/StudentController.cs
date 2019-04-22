@@ -31,6 +31,11 @@ namespace Selection_Refactor.Controllers
             ViewBag.StuGraSchool = student.graSchool;
             ViewBag.StuGraMajor = student.graMajor;
             ViewBag.ResumeUrl = student.resumeUrl;
+            ViewBag.OnTheJob = student.onTheJob;
+
+            MajorDao majorDao = new MajorDao();
+            Major major = majorDao.getMajorById(student.majorId);
+            ViewBag.StuMajor = major.name;
             return View();
         }
         public ActionResult FinalWill()
