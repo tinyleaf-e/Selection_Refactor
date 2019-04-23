@@ -250,7 +250,7 @@
                 }
 
                 var data = {
-                    'password': $("#password-input").val(),
+                    'password': hex_md5($("#password-input").val()),
                     'stuId': $("#password-input").attr("student-id")
                 }
                 $.post("/Admin/resetStudentPassword", data, function (rel) {

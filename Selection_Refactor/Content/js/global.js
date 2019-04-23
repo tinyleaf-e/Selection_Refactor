@@ -24,7 +24,7 @@
 })
 
 function logPage() {
-    var logServerUrl = "http://localhost:8011/log";
+    var logServerUrl = "http://10.251.254.211:8011/log";
     var projectTicket = "ae9cccfd-4d9d-4f46-8598-af4856fdfd78";
     var formatId = "48fbc64f-da79-473b-bc4c-5a5c4fb7a30d";
     var role = "";

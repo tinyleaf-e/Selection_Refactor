@@ -5,7 +5,7 @@
             "教师": 2,
             "教务": 3,
             "管理员": 4
-        }
+        };
         if ($("#userid-input").val() == "" || $("#passwd-input").val() == "") {
             $("#alert1").hide();
             $("#alert2").show();
@@ -13,7 +13,7 @@
         else {
             var data = {
                 userId: $("#userid-input").val(),
-                passwd: $("#passwd-input").val(),
+                passwd: hex_md5($("#passwd-input").val()),
                 role: roleMap[$("#role-tab li.active a").text()]
             };
             $.post("/Security/doLogin", data, function (rdata) {
