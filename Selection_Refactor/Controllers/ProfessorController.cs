@@ -17,6 +17,11 @@ namespace Selection_Refactor.Controllers
 
         public ActionResult Index()
         {
+            HttpCookie accountCookie = Request.Cookies["Account"];
+            string id = accountCookie["userId"];
+            ProfessorDao studentDao = new ProfessorDao();
+            Professor professor = studentDao.getProfessorById(id);
+            //ViewBag.RemainNum = professor.
             return View();
         }
         public ActionResult Student(string stuID)
