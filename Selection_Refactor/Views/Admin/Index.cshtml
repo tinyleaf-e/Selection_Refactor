@@ -13,8 +13,7 @@
     <link href="~/Content/plugins/fileinput/css/fileinput.min.css" rel="stylesheet" />
 }
 <div id="page-wrapper">
-    <div class="box">
-        <div style="padding-left:10px;padding-top:10px">
+        <div style="padding-left:10px;padding-bottom:10px">
             <button id="uploadProfessors" class="btn btn-block btn-primary bg-light-blue color-palette" style="width:8%;display:inline;vertical-align:baseline;">上传教师</button>
             <button id="addProfessor" class="btn btn-block btn-primary bg-green color-palette" style="width:8%;margin-left:5px;display:inline;vertical-align:baseline;">新增教师</button>
         </div>
@@ -38,8 +37,6 @@
                     </div>
             </div>
         </div>
-        <!-- /.box-body -->
-    </div>
 
 </div>
 <div style="clear:both">
@@ -53,11 +50,11 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="table.ajax.reload()"><span aria-hidden="true">&times;</span></button>
                 <h4>请上传xlsx或xls文件</h4>
             </div>
             <div class="modal-body">
-                <a href="~/ExcelFiles/template/教师批量录入.xlsx" class="form-control" style="margin-bottom:10px">下载导入模板</a>
+                <a href="~/Content/template/professor_template.xlsx" class="form-control" style="margin-bottom:10px">下载导入模板</a>
                 <input id="input-file" type="file" data-preview-file-type="text" name="file">
             </div>
         </div>
@@ -87,7 +84,12 @@
                     <div class="row" style="width:45%;display:inline;vertical-align:baseline;padding-left:50px;">
                         <div class="column" style="float:left;padding-left:20px">
                             <label>职称</label><label style="color:red">&nbsp;*</label>
-                            <input id="rank-input" type="text" class="form-control" placeholder="" style="width:200px;">
+                                             <select id="rank-input" type="text" class="form-control" placeholder="" style="width:200px;">
+                                                 <option value="教授">教授</option>
+                                                 <option value="副教授">副教授</option>
+                                                 <option value="讲师">讲师</option>
+                                                 <option value="高级工程师">高级工程师</option>
+                                             </select>
                         </div>
                         <div class="column" style="float:left;padding-left:50px">
                             <label>最大招收学生数</label><label style="color:red">&nbsp;*</label>
@@ -136,7 +138,7 @@
             contentText: "确认删除该教师吗?",
             confirm: function () {
                 var data = {
-                    proId: row.id
+                    proId: row.proId
                 };
                 $.post("/Admin/deleteSingleProfessor", data, function (rel) {
                     if (rel == "success") {
@@ -162,24 +164,29 @@
             $("#directAdd-professor-modal").modal('show')
         });
         $("#addProfessor-submit-button").click(function () {
+            flag = true;
             if ($("#name-input").val().trim() == "") {
                 $("#name-input").addClass("error-input");
-                return;
+                flag = false;
             }
+            //var numberreg = /^\d{1,8}$/;
             if ($("#number-input").val().trim() == "") {
                 $("#number-input").addClass("error-input");
-                return;
+                flag = false;
             }
             if ($("#rank-input").val().trim() == "") {
                 $("#rank-input").addClass("error-input");
-                return;
+                flag = false;
             }
             if ($("#maxstudent-input").val().trim() == "") {
                 $("#maxstudent-input").addClass("error-input");
-                return;
+                flag = false;
             }
             if ($("#url-input").val().trim() == "") {
                 $("#url-input").addClass("error-input");
+                flag = false;
+            }
+            if (!flag) {
                 return;
             }
             var data = {
@@ -239,7 +246,14 @@
                         ].join('');
                     }
                 },
-            ]
+            ],
+            dom: "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
+                "<'row'<'col-sm-12'tr>>" +
+                "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+            language: {
+                url: "/Content/plugins/datatables.net/Chinese.json"
+            },
+            lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, "全部"]]
         });
     };
 

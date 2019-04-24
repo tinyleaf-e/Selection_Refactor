@@ -86,9 +86,6 @@
     <Reference Include="Spire.OfficeViewer.Forms, Version=4.4.0.18040, Culture=neutral, PublicKeyToken=663f351905198cb3, processorArchitecture=MSIL">
       <HintPath>..\packages\Spire.Office.4.4.0\lib\net40\Spire.OfficeViewer.Forms.dll</HintPath>
     </Reference>
-    <Reference Include="Spire.Pdf, Version=5.4.9.2046, Culture=neutral, PublicKeyToken=663f351905198cb3, processorArchitecture=MSIL">
-      <HintPath>..\packages\Spire.XLS.9.4.6\lib\net46\Spire.Pdf.dll</HintPath>
-    </Reference>
     <Reference Include="Spire.PdfViewer.Asp, Version=4.4.1.18040, Culture=neutral, PublicKeyToken=663f351905198cb3, processorArchitecture=MSIL">
       <HintPath>..\packages\Spire.Office.4.4.0\lib\net40\Spire.PdfViewer.Asp.dll</HintPath>
     </Reference>
@@ -248,6 +245,8 @@
     <Content Include="Content\image\bkgnd2.jpg" />
     <Content Include="Content\js\changePasswd.js" />
     <Content Include="Content\js\jquery.cookie.js" />
+    <Content Include="Content\js\log-write.js" />
+    <Content Include="Content\js\md5.js" />
     <Content Include="Content\js\vegas.js" />
     <Content Include="Content\plugins\bootstrap-switch\css\bootstrap-switch.css" />
     <Content Include="Content\plugins\bootstrap-switch\css\bootstrap-switch.min.css" />
@@ -385,6 +384,7 @@
     <Content Include="Content\plugins\bootstrap-3.3.7\fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="Content\plugins\datatables.net\Chinese.json" />
     <Content Include="Content\plugins\bootstrap-switch\docs\CNAME" />
+    <Content Include="Content\template\professor_template.xlsx" />
     <None Include="packages.config" />
     <Content Include="Views\Security\Login.cshtml" />
     <Content Include="Views\Security\Error.cshtml" />

@@ -19,7 +19,33 @@
     $('input').bind('input propertychange', function () {
         $(this).removeClass("error-input");
     });
+
+    logPage();
 })
+
+function logPage() {
+    var logServerUrl = "http://10.251.254.211:8011/log";
+    var projectTicket = "ae9cccfd-4d9d-4f46-8598-af4856fdfd78";
+    var formatId = "48fbc64f-da79-473b-bc4c-5a5c4fb7a30d";
+    var role = "";
+    var userid = "";
+    var page = location.pathname;
+        var roleReg = new RegExp("(?:^|&)role=(.*?)(?:&|$)");
+        var userIdReg = new RegExp("(?:^|&|=)userId=(.*?)(?:&|$)");
+        if (arr = document.cookie.match(roleReg)) {
+            role = unescape(arr[1])
+        }
+        if (arr = document.cookie.match(userIdReg)) {
+            userid = unescape(arr[1])
+        }
+    
+    var logData = {
+        role: role,
+        userid: userid,
+        page: page
+    };
+    _LogWrite(logServerUrl, projectTicket, formatId, logData);
+}
 
 function logout() {
     var date = new Date();
