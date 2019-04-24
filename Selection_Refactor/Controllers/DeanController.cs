@@ -113,7 +113,7 @@ namespace Selection_Refactor.Controllers
 
         }
 
-        class TempProfessor : Controller
+        class TempProfessor 
         {
             public string id { get; set; } //教师工号
             public string name { get; set; } //姓名
@@ -123,29 +123,22 @@ namespace Selection_Refactor.Controllers
 
             public void init(Professor professor)
             {
-                try
+                this.id = professor.id;
+                this.name = professor.name;
+                this.title = professor.title;
+                this.infoURL = professor.infoURL;
+                List<Student> students = new StudentDao().listAllStudent();
+                int numOfSelect = 0;
+                foreach (var student in students)
                 {
-                    this.id = professor.id;
-                    this.name = professor.name;
-                    this.title = professor.title;
-                    this.infoURL = professor.infoURL;
-                    List<Student> students = new StudentDao().listAllStudent();
-                    int numOfSelect = 0;
-                    foreach (var student in students)
+                    if ((student.firstWill == professor.id && student.firstWillState == 1) ||
+                        (student.firstWillState == 0 && student.secondWill == professor.id && student.secondWillState == 1) ||
+                        (student.dispensedWill == professor.id))
                     {
-                        if ((student.firstWill == professor.id && student.firstWillState == 1) ||
-                            (student.firstWillState == 0 && student.secondWill == professor.id && student.secondWillState == 1) ||
-                            (student.dispensedWill == professor.id))
-                        {
-                            numOfSelect++;
-                        }
+                        numOfSelect++;
                     }
-                    this.studentamount = numOfSelect;
-                    }
-                catch (Exception e)
-                {
-                    LogUtil.writeLogToFile(e, Request);
                 }
+                this.studentamount = numOfSelect;
             }
         }
         

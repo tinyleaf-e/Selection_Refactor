@@ -69,6 +69,8 @@ namespace Selection_Refactor.Controllers
 
             public string email { set; get; } //邮箱
 
+            public string resumeUrl { get; set; }//简历文件Url
+
             public void init (Student student)
             {
                 
@@ -80,6 +82,7 @@ namespace Selection_Refactor.Controllers
                 this.graSchool = student.graSchool;
                 this.graMajor = student.graMajor;
                 this.email = student.email;
+                this.resumeUrl = student.resumeUrl;
                 this.major = new MajorDao().getMajorById(student.majorId).name;
                 
             }
@@ -107,6 +110,8 @@ namespace Selection_Refactor.Controllers
 
             public int will { set; get; } // 通过第几志愿选入
 
+            public string resumeUrl { get; set; }//简历文件Url
+
             public void init(Student student, string professorId)
             {
                 
@@ -119,7 +124,8 @@ namespace Selection_Refactor.Controllers
                 this.graMajor = student.graMajor;
                 this.email = student.email;
                 this.major = new MajorDao().getMajorById(student.majorId).name;
-                if(professorId == student.firstWill)
+                this.resumeUrl = student.resumeUrl;
+                if (professorId == student.firstWill)
                 {
                     this.will = 1;
                 }
