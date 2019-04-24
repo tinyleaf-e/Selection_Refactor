@@ -92,8 +92,8 @@
 
             var a = document.createElement('a');
             var event = new MouseEvent('click');
-            //a.download = row.id+'-'+row.name+'-简历'+;
-            //a.href = row.ResumeUrl
+            a.download = row.id+'-'+row.name+'-简历.doc';
+            a.href = row.resumeUrl;
             a.dispatchEvent(event)
         }
 

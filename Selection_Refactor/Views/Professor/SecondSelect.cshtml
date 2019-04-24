@@ -170,7 +170,11 @@
         function downloadSelectedStudentResume(btn) {
             var tr = $(btn).closest('tr');
             var row = selectedTable.row(tr).data();
-            alert("下载学生" + row.name + "的简历");
+            var a = document.createElement('a');
+            var event = new MouseEvent('click');
+            a.download = row.id + '-' + row.name + '-简历.doc';
+            a.href = row.resumeUrl;
+            a.dispatchEvent(event);
         }
         //没选择的学生的表格行内按钮的点击事件
         function viewUnselectedStudentInfo(btn) {
@@ -181,7 +185,11 @@
         function downloadUnselectedStudentResume(btn) {
             var tr = $(btn).closest('tr');
             var row = waitChooseTable.row(tr).data();
-            alert("下载学生" + row.name + "的简历");
+            var a = document.createElement('a');
+            var event = new MouseEvent('click');
+            a.download = row.id + '-' + row.name + '-简历.doc';
+            a.href = row.resumeUrl;
+            a.dispatchEvent(event);
         }
 
         function deleteStudent(btn) {

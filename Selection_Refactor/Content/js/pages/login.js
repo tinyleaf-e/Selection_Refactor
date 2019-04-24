@@ -14,6 +14,7 @@
             var data = {
                 userId: $("#userid-input").val(),
                 passwd: hex_md5($("#passwd-input").val()),
+                //passwd: $("#passwd-input").val(),
                 role: roleMap[$("#role-tab li.active a").text()]
             };
             $.post("/Security/doLogin", data, function (rdata) {
