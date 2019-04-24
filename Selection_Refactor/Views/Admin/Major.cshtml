@@ -11,7 +11,7 @@
 
 <div id="page-wrapper">
     <div style="padding:0 0 5px 15px" class="form-inline">
-        <button id="add-major" class="btn btn-default" style="margin-right:20px"><i class="fa fa-plus"> 新增专业</i></button>
+        <button id="add-major" class="btn btn-success" style="margin-right:20px"><i class="fa fa-plus"> 新增专业</i></button>
     </div>
     <div class="box-body">
         <div id="major-table-div" class="dataTables_wrapper form-inline dt-bootstrap">
@@ -70,7 +70,14 @@
                     ].join('');
                 }
             },
-        ]
+        ],
+        dom: "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
+            "<'row'<'col-sm-12'tr>>" +
+            "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+        language: {
+            url: "/Content/plugins/datatables.net/Chinese.json"
+        },
+        lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, "全部"]]
     });
 
     function deleteMajor(btn) {

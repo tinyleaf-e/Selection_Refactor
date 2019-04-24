@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>师生双选系统-@ViewBag.Title</title>
-    @Styles.Render("~/css/bootstrap")
+    <link rel="stylesheet" type="text/css" href="~/Content/plugins/bootstrap-3.3.7/css/bootstrap.min.css" />
     @Scripts.Render("~/bundles/jquery")
     @RenderSection("css", required: false)
 
@@ -25,8 +25,7 @@
 
     </div>
     <footer style="position:fixed;bottom:0;width:100%">
-        <hr style="margin-bottom:0" />
-        <p style="padding-bottom:0 15px;text-align:center">&copy; 信息化实验室</p>
+        <p style="padding:15px 0;text-align:center">&copy; 信息化实验室</p>
     </footer>
 
     @Scripts.Render("~/bundles/modernizr")

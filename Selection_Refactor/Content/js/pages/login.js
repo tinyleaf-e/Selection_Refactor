@@ -5,32 +5,31 @@
             "教师": 2,
             "教务": 3,
             "管理员": 4
+        };
+        if ($("#userid-input").val() == "" || $("#passwd-input").val() == "") {
+            $("#alert1").hide();
+            $("#alert2").show();
         }
-        if ($("#userid-input").val() == "" || $("#passwd-input").val() == "")
-            $.gyAlert({
-                title: "提示",
-                contentText: "用户名或密码不能为空"
-            });
         else {
             var data = {
                 userId: $("#userid-input").val(),
-                passwd: $("#passwd-input").val(),
+                passwd: hex_md5($("#passwd-input").val()),
                 role: roleMap[$("#role-tab li.active a").text()]
             };
             $.post("/Security/doLogin", data, function (rdata) {
-                if (rdata.indexOf("success")!=0)
-                    $.gyAlert({
-                        title: "登录失败",
-                        contentText: rdata
-                    });
-                else
-                    location.href = rdata.substring(8)
+                if (rdata.indexOf("success") != 0) {
+                    $("#alert2").hide();
+                    $("#alert1").show();
+                }
+                else 
+                    location.href = rdata.substring(8);
+                    
             });
         }
     });
 
     //输入框回车登录
-    $("#passwd-input").keydown(function () {
+    $("body").keydown(function () {
         if (event.keyCode == 13) {
             $("#login-btn").click();
         }

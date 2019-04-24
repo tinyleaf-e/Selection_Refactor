@@ -71,8 +71,8 @@ function changePasswd() {
                     $('#check-passwd-icon').attr('class', 'fa fa-check');
                     //如果验证成功，向后端发送post请求
                     var data = {
-                        oldpasswd: oldPasswdInput.val(),
-                        newpasswd: newPasswdInput.val()
+                        oldpasswd: hex_md5(oldPasswdInput.val()),
+                        newpasswd: hex_md5(newPasswdInput.val())
                     }
                     $.post("/Security/changePassword", data, function (rdata) {
                         console.log(rdata)

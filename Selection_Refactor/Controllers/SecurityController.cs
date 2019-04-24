@@ -37,6 +37,7 @@ namespace Selection_Refactor.Controllers
                 case 1:
                     StudentDao studentDao = new StudentDao();
                     Student student = studentDao.getStudentById(userId);
+                    string s=CryptoUtil.Md5Hash(passwd);
                     if (student != null && passwd == student.password)
                     {
                         Response.Cookies.Add(createCookie(userId,student.name, passwd, "student", 24 * 60));

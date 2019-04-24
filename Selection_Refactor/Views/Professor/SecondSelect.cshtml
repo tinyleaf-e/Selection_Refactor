@@ -97,9 +97,9 @@
                     }
                 },
                 { data: "name" },
-                { data: "gender" },
+                { data: function (row, type, set, meta) { return row.gender ? "男" : "女" } },
                 { data: "age"},
-                { data: "majorId" },
+                { data: "major" },
                 { data: "onTheJob" },
                 { data: "graSchool" },
                 { data: "graMajor" },
@@ -134,9 +134,9 @@
                     }
                 },
                 { data: "name" },
-                { data: "gender" },
+                { data: function (row, type, set, meta) { return row.gender ? "男" : "女" } },
                 { data: "age" },
-                { data: "majorId" },
+                { data: "major" },
                 { data: "onTheJob" },
                 { data: "graSchool" },
                 { data: "graMajor" },
@@ -165,7 +165,7 @@
         function viewSelectedStudentInfo(btn) {
             var tr = $(btn).closest('tr');
             var row = selectedTable.row(tr).data();
-            alert("查看学生" + row.name + "的信息");
+            window.open("/Professor/Student?stuID=" + row.id)
         }
         function downloadSelectedStudentResume(btn) {
             var tr = $(btn).closest('tr');
@@ -176,7 +176,7 @@
         function viewUnselectedStudentInfo(btn) {
             var tr = $(btn).closest('tr');
             var row = waitChooseTable.row(tr).data();
-            alert("查看学生" + row.name + "的信息");
+            window.open("/Professor/Student?stuID=" + row.id)
         }
         function downloadUnselectedStudentResume(btn) {
             var tr = $(btn).closest('tr');

@@ -135,9 +135,9 @@
                     }
                 }
             ],
-            dom: "<'row'<'col-sm-12 col-md-6'i><'col-sm-12 col-md-6'f>>" +
+            dom: "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
                 "<'row'<'col-sm-12'tr>>" +
-                "<'row'<'col-sm-12 col-md-5'l><'col-sm-12 col-md-7'p>>",
+                "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
             language: {
                 url: "/Content/plugins/datatables.net/Chinese.json"
             },
@@ -147,20 +147,25 @@
         function viewStudentInfo2(btn) {
             var tr = $(btn).closest('tr');
             var row = firstChoiceTable.row(tr).data();
-            alert("查看学生" + row.name + "的信息");
+            window.open("/Professor/Student?stuID="+row.id)
         }
 
         function downloadStudentResume2(btn) {
             var tr = $(btn).closest('tr');
             var row = firstChoiceTable.row(tr).data();
-            alert("下载学生" + row.name + "的简历");
+
+            var a = document.createElement('a');
+            var event = new MouseEvent('click');
+            a.download = '双选系统-学生简历打包.zip';
+            //a.href = row.
+            a.dispatchEvent(event)
         }
 
         //已经选择的学生列表内的按钮事件
         function viewStudentInfo1(btn) {
             var tr = $(btn).closest('tr');
             var row = haveChosenTable.row(tr).data();
-            alert("查看学生" + row.name + "的信息");
+            window.open("/Professor/Student?stuID=" + row.id)
         }
 
         function downloadStudentResume1(btn) {

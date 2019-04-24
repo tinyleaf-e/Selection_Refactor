@@ -1161,6 +1161,23 @@ namespace Selection_Refactor.Controllers
             }
         }
 
+        public string getAllMajor2()
+        {
+            try
+            {
+                MajorDao majorDao = new MajorDao();
+                List<Major> majors = majorDao.listAllByMajor();
+                JavaScriptSerializer serializer = new JavaScriptSerializer();
+                var json = serializer.Serialize(majors);
+                return json;
+
+            }
+            catch (Exception e)
+            {
+                return "fail:查询失败！";
+            }
+        }
+
         /* 
             * Create By 付文欣
             * 根据id修改专业

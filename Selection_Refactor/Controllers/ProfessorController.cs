@@ -19,8 +19,20 @@ namespace Selection_Refactor.Controllers
         {
             return View();
         }
-        public ActionResult Student()
+        public ActionResult Student(string stuID)
         {
+            StudentDao studentDao = new StudentDao();
+            Student student = studentDao.getStudentById(stuID);
+            ViewBag.StuName = student.name;
+            ViewBag.StuAge = student.age.ToString();
+            ViewBag.StuTel = student.phoneNumber;
+            ViewBag.StuEmail = student.email;
+            ViewBag.StuId = student.id;
+            ViewBag.StuGraSchool = student.graSchool;
+            ViewBag.StuGraMajor = student.graMajor;
+            ViewBag.ResumeUrl = student.resumeUrl;
+            ViewBag.StuOnTheJob = student.onTheJob?"在职":"脱产";
+            ViewBag.StuMajor = new MajorDao().getMajorById(student.majorId).name;
             return View();
         }
         public ActionResult SecondSelect()
