@@ -46,9 +46,7 @@
             },
             "columns": [
                 {
-                    data: function (row, type, set, meta) {
-                        return meta.row + 1;
-                    }
+                    data: "id"
                 },
                 { data: "name" },
                 { data: function (row, type, set, meta) { return row.gender ? "男" : "女" } },

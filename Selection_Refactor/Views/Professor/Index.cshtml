@@ -185,7 +185,7 @@
                 contentText: "确认删除该学生?",
                 confirm: function () {
                     var data = {
-                        id: row.id
+                        stuId: row.id
                     };
                     $.post("/Professor/deleteSelectedStudent", data, function (rdata) {
                         if (rdata == "success") {

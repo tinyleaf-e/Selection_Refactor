@@ -342,7 +342,7 @@ namespace Selection_Refactor.Controllers
          * 
          */
         [RoleAuthorize(Role = "professor")]
-        public string delectSelectedStudent(string stuId)
+        public string deleteSelectedStudent(string stuId)
         {
             try
             {
