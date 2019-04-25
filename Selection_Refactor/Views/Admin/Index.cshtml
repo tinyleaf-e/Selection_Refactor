@@ -129,7 +129,7 @@
     function checkprofessor(btn) {
         var tr = $(btn).closest('tr');
         var row = $('#professor-table').DataTable().row(tr).data();
-        window.open("https://www.baidu.com?" + row.url);
+        window.open("/Admin/ProfessorInfo?proId=" + row.proId);
     }
     function deleteprofessor(btn) {
         var tr = $(btn).closest('tr');
@@ -261,5 +261,7 @@
         language: 'zh', //设置语言
         uploadUrl: '/Admin/batchCreateTeachers',
         allowedFileExtensions: ['xlsx', 'xls'],//接收的文件后缀
-    });
+    }).on('fileuploaded', function () {
+            table.ajax.reload();
+        });
 </script>

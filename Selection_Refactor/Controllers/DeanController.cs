@@ -23,12 +23,42 @@ namespace Selection_Refactor.Controllers
         {
             return View();
         }
-        public ActionResult ProfessorInfo()
+        public ActionResult ProfessorInfo(string proId)
         {
+            ProfessorDao professorDao = new ProfessorDao();
+            Professor p = professorDao.getProfessorById(proId);
+            ViewBag.Name = p.name;
+            ViewBag.Id = p.id;
+            ViewBag.Url = p.infoURL;
+            ViewBag.ProTitle = p.title;
             return View();
         }
-        public ActionResult StudentInfo()
+        public ActionResult StudentInfo(string stuId)
         {
+            ProfessorDao professorDao = new ProfessorDao();
+            StudentDao studentDao = new StudentDao();
+            MajorDao majorDao = new MajorDao();
+            Student s = studentDao.getStudentById(stuId);
+            ViewBag.Id = s.id;
+            ViewBag.Name = s.name;
+            ViewBag.Age = s.age;
+            ViewBag.Email = s.email;
+            ViewBag.Major = majorDao.getMajorById(s.majorId).name;
+            ViewBag.OnJob = (s.onTheJob ? "在职" : "脱产");
+            ViewBag.Phone = s.phoneNumber;
+            ViewBag.ResumeUrl = s.resumeUrl;
+            if(s.firstWill!=null)
+                ViewBag.FirstWillName = professorDao.getProfessorById(s.firstWill).name;
+            if (s.secondWill != null)
+                ViewBag.SecondWillName = professorDao.getProfessorById(s.secondWill).name;
+            if (s.firstWillState == 1)
+                ViewBag.FinalWillName = ViewBag.FirstWillName;
+            else if(s.secondWillState==1)
+                ViewBag.FinalWillName = ViewBag.SecondWillName;
+            else if(s.dispensedWill!=null&& s.dispensedWill != "")
+                ViewBag.FinalWillName = professorDao.getProfessorById(s.dispensedWill).name;
+            else
+                ViewBag.FinalWillName = "无";
             return View();
         }
 
@@ -248,7 +278,7 @@ namespace Selection_Refactor.Controllers
          * 通过proId列出教师已选学生列表
          * 
          */
-        [RoleAuthorize(Role = "dean")]
+        //[RoleAuthorize(Role = "dean")]
         public string listSelectedStudentsByProId(string proId)
         {
             try
@@ -256,7 +286,7 @@ namespace Selection_Refactor.Controllers
                 ProfessorDao professorDao = new ProfessorDao();
                 StudentDao studentDao = new StudentDao();
                 List<Student> stlist = studentDao.listAllStudent();
-                List<Student> listSelectedStudents = null;
+                List<Student> listSelectedStudents = new List<Student>();
                 string res = "";
                 foreach (Student s in stlist)
                 {

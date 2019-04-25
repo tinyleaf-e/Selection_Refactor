@@ -63,6 +63,10 @@
                         <label style="width:100px;text-align:right">负责专业方向:</label>
                         <select id="major-select" type="text" class="form-control" style="width:calc(60% - 100px);margin-left:25px;margin-right:30px;display:inline-block"></select>
                     </div>
+                    <div style="padding:8px 0px">
+                        <label style="width:100px;text-align:right">密码:</label>
+                        <input id="passwd-input" type="text" class="form-control" placeholder="请输入密码" style="width:calc(60% - 100px);margin-left:25px;margin-right:30px;display:inline-block">
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">
@@ -84,7 +88,7 @@
                 <h4>请上传xlsx或xls文件</h4>
             </div>
             <div class="modal-body">
-                <a href="~/ExcelFiles/template/教师批量录入.xlsx" class="form-control" style="margin-bottom:10px">下载导入模板</a>
+                <a href="~/Content/template/dean_template.xlsx" class="form-control" style="margin-bottom:10px">下载导入模板</a>
                 <input id="file-input" type="file" data-preview-file-type="text" name="file">
             </div>
         </div>
@@ -152,6 +156,7 @@
                     'name': $("#name-input").val(),
                     'number': $("#id-input").val(),
                     'major': $("#major-select").val(),
+                    'passwd': $("#passwd-input").val(),
                 }
                 $.post("/Admin/addDean", data, function (rel) {
                     if (rel == "success") {
@@ -204,6 +209,8 @@
             language: 'zh', //设置语言
             uploadUrl: '/Admin/addDeans',
             allowedFileExtensions: ['xlsx', 'xls'],//接收的文件后缀
+        }).on('fileuploaded', function () {
+            table.ajax.reload();
         });
     </script>
 }

@@ -123,7 +123,7 @@
         function checkInfo(btn) {
             var tr = $(btn).closest('tr');
             var row = table.row(tr).data();
-            location.href = "https://" + row.infoUrl;
+            window.open(row.infoUrl);
         }
 
         $(document).ready(function () {

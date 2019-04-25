@@ -146,9 +146,11 @@
             height: 30px;
             position: absolute;
             bottom: -130px;
-            border-radius: 3px;
+            border-radius: 1px;
             padding: 2px 5px;
-            text-align: center
+            text-align: center;
+            border: 1px solid #ccc;
+            transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
         }
 
             .time-input.left {
@@ -226,7 +228,7 @@
         }
 
         .edit-btns.selectable button {
-            display: none
+            display: none!important
         }
     </style>
 }
@@ -234,12 +236,12 @@
 <div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12" style="height:50px">
         <label class="label-custom">系统开启：</label>
-        <input id="system-switch" class="switch" style="display:none" data-on-color="success" data-on-text="开启" data-off-text="关闭" type="checkbox" checked />
+        <input id="system-switch" class="switch" style="display:none" data-on-color="success" data-on-text="开启" data-off-text="关闭" type="checkbox" @(ViewBag.On==1?"checked":"") />
         <i class="fa fa-question-circle tip" title="关闭时，系统除管理员外不可登录，只能访问登录页"></i>
     </div>
     <div class="col-md-12 col-sm-12 col-xs-12" style="height:50px">
         <label class="label-custom">模式：</label>
-        <input id="mode-switch" class="switch" style="display:none" data-on-color="info" data-on-text="自动" data-off-color="warning" data-off-text="手动" type="checkbox" checked />
+        <input id="mode-switch" class="switch" style="display:none" data-on-color="info" data-on-text="自动" data-off-color="warning" data-off-text="手动" type="checkbox"  @(ViewBag.Mode==1?"checked":"") />
         <i class="fa fa-question-circle tip" title="自动模式：设定时间节点，系统自动调整当前阶段;手动模式：手动指定当前所处的阶段"></i>
     </div>
     <div class="col-md-12 col-sm-12 col-xs-12 edit-btns" style="height:50px">
@@ -257,11 +259,11 @@
             <div class="line-x"></div>
             <div class="square" stage="2">
                 <div class="arrow-down"></div>
-                <input id="info-start-input" class="time-input left form-control" origin-time="2019-11-12 12:21" value="2019-11-12 12:21" disabled="disabled" />
+                <input id="info-start-input" class="time-input left" origin-time="@ViewBag.InfoStart" value="@ViewBag.InfoStart" disabled="disabled" />
                 <div class="line-y left"></div>
                 <div class="square-content">学生完善资料</div>
                 <div class="line-y right"></div>
-                <input id="info-start-end" class="time-input right form-control" origin-time="2019-11-12 12:21" value="2019-11-12 12:21" disabled="disabled" />
+                <input id="info-end-input" class="time-input right" origin-time="@ViewBag.InfoEnd" value="@ViewBag.InfoEnd" disabled="disabled" />
             </div>
             <div class="line-x"></div>
             <div class="circle" stage="3">
@@ -270,28 +272,35 @@
             <div class="line-x"></div>
             <div class="square" stage="4">
                 <div class="arrow-down"></div>
-                <input id="first-start-input" class="time-input left form-control" origin-time="2019-11-12 12:21" value="2019-11-12 12:21" disabled="disabled" />
+                <input id="first-start-input" class="time-input left" origin-time="@ViewBag.FirstStart" value="@ViewBag.FirstStart" disabled="disabled" />
                 <div class="line-y left"></div>
                 <div class="square-content">第一志愿选择</div>
                 <div class="line-y right"></div>
-                <input id="first-end-input" class="time-input right form-control" origin-time="2019-11-12 12:21" value="2019-11-12 12:21" disabled="disabled" />
+                <input id="first-end-input" class="time-input right" origin-time="@ViewBag.FirstEnd" value="@ViewBag.FirstEnd" disabled="disabled" />
             </div>
             <div class="line-x"></div>
             <div class="circle" stage="5">
                 <div class="arrow-down"></div>
             </div>
             <div class="line-x"></div>
-            <div class="square active" stage="6">
+            <div class="square" stage="6">
                 <div class="arrow-down"></div>
-                <input id="second-start-input" class="time-input left form-control" origin-time="2019-11-12 12:21" value="2019-11-12 12:21" disabled="disabled" />
+                <input id="second-start-input" class="time-input left" origin-time="@ViewBag.SecondStart" value="@ViewBag.SecondStart" disabled="disabled" />
                 <div class="line-y left"></div>
                 <div class="square-content">第二志愿选择</div>
                 <div class="line-y right"></div>
-                <input id="second-end-input" class="time-input right form-control" origin-time="2019-11-12 12:21" value="2019-11-12 12:21" disabled="disabled" />
+                <input id="second-end-input" class="time-input right" origin-time="@ViewBag.SecondEnd" value="@ViewBag.SecondEnd" disabled="disabled" />
             </div>
             <div class="line-x"></div>
             <div class="circle" stage="7">
                 <div class="arrow-down"></div>
+            </div>
+            <div class="line-x"></div>
+            <div class="square" stage="8">
+                <div class="arrow-down"></div>
+                <input id="publish-start-input" class="time-input left" origin-time="@ViewBag.SecondStart" value="@ViewBag.SecondStart" disabled="disabled" />
+                <div class="line-y left"></div>
+                <div class="square-content">公布结果</div>
             </div>
             <div class="line-x"></div>
         </div>
@@ -395,6 +404,7 @@
                 $("#stage-line,.edit-btns").removeClass("selectable");
             else
                 $("#stage-line,.edit-btns").addClass("selectable");
+            $(".circle[stage=" + stage + "],.square[stage=" + stage + "]").addClass("active");
         }
 
         function openOrCloseSystem(state) {
@@ -486,20 +496,19 @@
         $(".circle,.square-content").click(function () {
             if ($("#stage-line").hasClass("selectable") && !$(this).hasClass("active") && !$(this).parent().hasClass("active")) {
                 _this = $(this);
+                if ($(this).attr("stage") == undefined)
+                    _this = $(this).parent();
                 $.gyAlert({
                     title: "确认操作",
                     contentText: "您确认改变当前所处阶段吗？",
                     cancelButtonText: "取 消",
                     confirm: function (dialog) {
                         $.post("/Admin/changeCurrentStage",
-                            { stage: parseInt($(this).attr("stage")) },
+                            { stage: parseInt(_this.attr("stage")) },
                             function (rdata) {
                                 if (rdata.indexOf("success") == 0) {
                                     $(".circle,.square").removeClass("active");
-                                    if (_this.hasClass("circle"))
                                         _this.addClass("active");
-                                    else
-                                        _this.parent().addClass("active");
                                     /*$.gyAlert({
                                         title: "设置成功",
                                         contentText: "您已设置成功",
@@ -528,14 +537,14 @@
                 infoStart: $("#info-start-input").val(),
                 infoEnd: $("#info-end-input").val(),
                 firstStart: $("#first-start-input").val(),
-                fisrtEnd: $("#fisrt-end-input").val(),
+                firstEnd: $("#first-end-input").val(),
                 secondStart: $("#second-start-input").val(),
-                secondENd: $("#second-end-input").val()
+                secondEnd: $("#second-end-input").val(),
+                publishStart: $("#publish-start-input").val()
             }
             $.post("/Admin/updateSettingTime", data, function (rdata) {
                 if (rdata.indexOf("success") == 0) {
                     //TODO By 高晔 回头删掉下句
-                    rdata = "success:1";
                     $(".cancel-edit,.confirm-edit").hide();
                     $(".edit-time").show();
                     $(".circle,.square").removeClass("active");

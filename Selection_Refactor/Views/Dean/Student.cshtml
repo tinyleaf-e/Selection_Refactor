@@ -60,7 +60,7 @@
                             return true;
                         break;
                     case "3":
-                        if (data[5] != "")
+                        if (data[5] == "")
                             return true;
                         break;
                     default: return false;
@@ -86,8 +86,22 @@
                 },
                 { data: "id" },
                 { data: "name" },
-                { data: "infoChecked" },
-                { data: "willchecked" },
+                {
+                    data: function (row, type, set, meta) {
+                            if (row.infoChecked == false)
+                                return "否";
+                            else
+                                return "是";
+                    }
+                },
+                {
+                    data: function (row, type, set, meta) {
+                            if (row.willchecked == false)
+                                return "否";
+                            else
+                                return "是";
+                    }
+                },
                 { data: "finalWill" },
                 {
                     data: function () {
@@ -117,7 +131,7 @@
                 finalwill: r.finalWill
             }
             $.cookie('data', JSON.stringify(data));
-            location.href = "/Dean/StudentInfo"
+            location.href = "/Dean/StudentInfo?stuId="+r.id
         })
     </script>
 }

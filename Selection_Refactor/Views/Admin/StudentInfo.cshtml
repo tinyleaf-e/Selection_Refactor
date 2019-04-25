@@ -1,16 +1,13 @@
 ﻿
+
 @{
-    ViewBag.Title = "学生列表";
-    ViewBag.CurrentTab = "student";
-    ViewBag.BoxTitle = "学生主页";
-    ViewBag.Role = "Dean";
-    ViewBag.Show = true;
+    ViewBag.Title = "学生详情";
+    ViewBag.BoxTitle = "学生详情";
+    ViewBag.Role = "Admin";
 }
 
 <section class="content">
     <div class="row">
-        @if(ViewBag.Show)
-        {
             <div class="col-md-4">
                 <div class="box">
                     <div class="box-header">
@@ -34,8 +31,8 @@
                     </div>
                 </div>
             </div>
-        }
         
+
         <div class="col-md-7 pull-right">
             <div class="box">
                 <div class="box-header">
@@ -82,33 +79,12 @@
                 </div>
             </div>
         </div>
-        
+
     </div>
 </section>
 
 @section script{
     <script src="~/Content/js/jquery.cookie.js"></script>
 
-    <script>
-        $(function () {
-            return;
-            var data = $.cookie("data");
-            var m = JSON.parse(data);
-            console.log(m.name)
-            $('#StuName').html(m.name);
-            $('#StuId').html(m.id)
-            $('#StuAge').html(m.age)
-            $('#StuMajor').html(m.major)
-            $('#StuPhone').html(m.phone)
-            $('#StuOnthejob').html(m.onthejob)
-            $('#StuMail').html(m.mail)
-            $('#ResumeUrl').attr("href",m.resumeurl)
-            $('#FirstWill').html(m.firstwill)
-            $('#SecondWill').html(m.secondwill)
-            $('#FinalWill').html(m.finalwill)
-            $('#DispensedWill').html(m.dispensedwill)
-
-        })
-    </script>
-    }
+}
 

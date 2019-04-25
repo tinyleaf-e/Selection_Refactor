@@ -3,7 +3,6 @@
     ViewBag.CurrentTab = "index";
     ViewBag.BoxTitle = "个人信息";
     ViewBag.Role = "Student";
-    ViewBag.Deadline = "2019/4/16";
 
 }
 @section css{
@@ -71,8 +70,8 @@
                 <input type="text" class="form-control" id="stuGraMajor" value="@ViewBag.StuGraMajor">
             </div>
         </div>
-        <div class="box-footer center-block">
-            <button id="updateStuInfo" type="button" class="btn btn-primary center-block" style="margin-top:10px">更新个人信息</button>
+        <div class="form-group">
+            <button id="updateStuInfo" type="button" class="btn btn-primary" style="margin-top:10px;margin-right:calc(25% + 15px);float:right">更新个人信息</button>
         </div>
     </div>
 
@@ -98,10 +97,13 @@
             }
             
         </div>
-        <div class="form-group">
-            <label style="width:180px;text-align:right;margin-right:50px"> 信息上传截至时间:</label>
-                <span>@ViewBag.Deadline</span>
-        </div>
+        @if (ViewBag.Deadline != "")
+        {
+            <div class="form-group">
+                <label style="width:180px;text-align:right;margin-right:50px"> 信息上传截至时间:</label>
+                    <span>@ViewBag.Deadline</span>
+            </div>
+        }
     </div>
 </div>
 

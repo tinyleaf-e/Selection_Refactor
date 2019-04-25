@@ -52,10 +52,10 @@
                 { data: function (row, type, set, meta) { return row.gender ? "男" : "女" } },
                 { data: "age" },
                 { data: "major" },
-                { data: "onTheJob" },
+                { data: function (row, type, set, meta) { return row.onTheJob ? "在职" : "脱产" } },
                 { data: "graSchool" },
                 { data: "graMajor" },
-                { data: "will" },
+                { data: function (row, type, set, meta) { return row.will==1 ? "第一志愿" : "第二志愿" } },
                 { data: "email" },
                 {
                     data: function (row, type, set, meta) {

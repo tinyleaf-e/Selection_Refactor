@@ -38,14 +38,39 @@ namespace Selection_Refactor.Controllers
             MajorDao majorDao = new MajorDao();
             Major major = majorDao.getMajorById(student.majorId);
             ViewBag.StuMajor = major.name;
+
+            SettingDao settingDao = new SettingDao();
+            Setting setting = settingDao.getCurrentSetting();
+            if (setting.mode == 1)
+                ViewBag.Deadline = setting.infoEnd;
+            else
+                ViewBag.Deadline = "";
             return View();
         }
         public ActionResult FinalWill()
         {
-            HttpCookie accountCookie = Request.Cookies["Account"];
-            string id = accountCookie["userId"];
-            StudentDao studentDao = new StudentDao();
-            Student student = studentDao.getStudentById(id);
+            try
+            {
+                HttpCookie accountCookie = Request.Cookies["Account"];
+                string id = accountCookie["userId"];
+                StudentDao studentDao = new StudentDao();
+                ProfessorDao professorDao = new ProfessorDao();
+                Student student = studentDao.getStudentById(id);
+                if (student.firstWillState == 1)
+                    ViewBag.Final = professorDao.getProfessorById(student.firstWill).name;
+                else if (student.secondWillState == 1)
+                    ViewBag.Final = professorDao.getProfessorById(student.secondWill).name;
+                else if (student.dispensedWill != null)
+                    ViewBag.Final = professorDao.getProfessorById(student.dispensedWill).name;
+                else
+                    ViewBag.Final = "无";
+            }
+            catch (Exception e)
+            {
+                LogUtil.writeLogToFile(e, Request);
+                ViewBag.Final = "出现错误，请联系管理员";
+            }
+
             //ViewBag.Final-最后选择结果
             return View();
         }
@@ -207,11 +232,14 @@ namespace Selection_Refactor.Controllers
             {
                 ProfessorDao professor = new ProfessorDao();
                 List<Professor> proList = professor.listAllProfessor();
-                List<ProfessorInfoForStu> proInfoForStu = null;
-                ProfessorInfoForStu pro = new ProfessorInfoForStu();
+                List<ProfessorInfoForStu> proInfoForStu = new List<ProfessorInfoForStu>();
                 string res = "";
                 foreach (Professor p in proList)
                 {
+                    ProfessorInfoForStu pro = new ProfessorInfoForStu();
+                    //不显示没有名额的老师
+                    if (p.quota < 1)
+                        continue;
                     pro.id = p.id;
                     pro.name = p.name;
                     pro.title = p.title;

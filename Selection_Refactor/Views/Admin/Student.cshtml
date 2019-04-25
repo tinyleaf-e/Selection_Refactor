@@ -60,7 +60,7 @@
                 <h4>请上传xlsx或xls文件</h4>
             </div>
             <div class="modal-body">
-                <a href="~/ExcelFiles/template/教师批量录入.xlsx" class="form-control" style="margin-bottom:10px">下载导入模板</a>
+                <a href="~/Content/template/student_template.xlsx" class="form-control" style="margin-bottom:10px">下载导入模板</a>
                 <input id="file-input" type="file" data-preview-file-type="text" name="file">
             </div>
         </div>
@@ -75,26 +75,24 @@
                 <h4 class="modal-title" style="padding-left:20px">新增学生</h4>
             </div>
             <div class="modal-body">
-                <form style="height:80%">
-                    <div class="row" style="width:45%;display:inline;vertical-align:baseline;padding-left:50px;">
-                        <div class="column" style="float:left;padding-left:25px">
-                            <label>姓名</label><label style="color:red">&nbsp;*</label>
-                            <input id="name-input" type="text" class="form-control" placeholder="" style="width:200px;">
-                        </div>
+                <div style="text-align:center">
+                    <div style="padding:8px 0px">
+                        <label style="width:100px;text-align:right">学号:</label>
+                        <input id="id-input" type="text" class="form-control" placeholder="请输入学号" style="width:calc(60% - 100px);margin-left:25px;margin-right:30px;display:inline-block">
                     </div>
-                    <div class="row" style="width:45%;display:inline;vertical-align:baseline;padding-left:50px;">
-                        <div class="column" style="float:left;padding-left:25px">
-                            <label>学号</label><label style="color:red">&nbsp;*</label>
-                            <input id="id-input" type="text" class="form-control" placeholder="" style="width:200px;">
-                        </div>
+                    <div style="padding:8px 0px">
+                        <label style="width:100px;text-align:right">姓名:</label>
+                        <input id="name-input" type="text" class="form-control" placeholder="请输入姓名" style="width:calc(60% - 100px);margin-left:25px;margin-right:30px;display:inline-block">
                     </div>
-                    <div class="row" style="width:45%;display:inline;vertical-align:baseline;padding-left:50px;">
-                        <div class="column" style="float:left;padding-left:25px">
-                            <label>专业</label><label style="color:red">&nbsp;*</label>
-                            <select id="major-select" class="form-control" style="width:200px"></select>
-                        </div>
+                    <div style="padding:8px 0px">
+                        <label style="width:100px;text-align:right">专业方向:</label>
+                        <select id="major-select" type="text" class="form-control" style="width:calc(60% - 100px);margin-left:25px;margin-right:30px;display:inline-block"></select>
                     </div>
-                </form>
+                    <div style="padding:8px 0px">
+                        <label style="width:100px;text-align:right">密码:</label>
+                        <input id="passwd-input" type="text" class="form-control" placeholder="请输入密码" style="width:calc(60% - 100px);margin-left:25px;margin-right:30px;display:inline-block">
+                    </div>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
@@ -170,7 +168,7 @@
         function viewStudentInfo(btn) {
             var tr = $(btn).closest('tr');
             var row = $('#student-table').DataTable().row(tr).data();
-            window.open("https://www.baidu.com?" + row.url);
+            window.open("/Admin/StudentInfo?stuId=" + row.id);
         }
         function deletestudent(btn) {
             var tr = $(btn).closest('tr');
@@ -281,11 +279,8 @@
                 var data = {
                     'name': $("#name-input").val(),
                     'id': $("#id-input").val(),
-                    'major': $("#major-select").val(),
-                    'age': $("#age-input").val(),
-                    'telephone': $("#telephone-input").val(),
-                    'isWorking': Boolean($("#isworking-input").val()),
-                    'email': $("#email-input").val(),
+                    'majorId': $("#major-select").val(),
+                    'passwd': $("#passwd-input").val()
                 }
                 $.post("/Admin/addSingleStudent", data, function (rel) {
                     if (rel == "success") {
@@ -371,10 +366,12 @@
         }
 
 
-        $("#file-input").fileinput({
-            language: 'zh', //设置语言
-            uploadUrl: 'https://www.easy-mock.com/mock/5c8324b3e0e0f75c24623747/selection/file?batchAddStudents',
-            allowedFileExtensions: ['xlsx', 'xls'],//接收的文件后缀
-        });
+    $("#file-input").fileinput({
+        language: 'zh', //设置语言
+        uploadUrl: '/Admin/batchAddStudents',
+        allowedFileExtensions: ['xlsx', 'xls'],//接收的文件后缀
+    }).on('fileuploaded', function (event, preview, config, tags, extraData) {
+        table.ajax.reload();
+    });
     </script>
 }

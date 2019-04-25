@@ -145,6 +145,8 @@ namespace Selection_Refactor.Models.Dao
                 Setting setting = settingDBContext.settings.First();
                 if (setting != null)
                 {
+                    if (setting.on == 0)
+                        return 0;
                     if (setting.mode == 2)
                         return setting.stage;
                     else
@@ -162,16 +164,18 @@ namespace Selection_Refactor.Models.Dao
                             return 5;
                         else if (currentTime.CompareTo(setting.secondEnd) <= 0)
                             return 6;
-                        else
+                        else if (currentTime.CompareTo(setting.publishStart) <= 0)
                             return 7;
+                        else
+                            return 8;
                     }
                 }
                 else
-                    return 1;
+                    return -1;
             }
             catch (Exception e)
             {
-                return 1;
+                return -1;
             }
         }
         /*

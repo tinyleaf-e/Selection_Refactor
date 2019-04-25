@@ -7,12 +7,19 @@
         if (!errorMsg)
             errorMsg = "该页面未在开放时间内";
         var url = location.origin + $(this).find("a").first().attr("to");
-        if (accessStage[stage - 1] == '1')
-            location.href = url;
+        if (stage > 0) {
+            if (accessStage[stage - 1] == '1')
+                 location.href = url;
+            else
+                $.gyAlert({
+                    title: "提示",
+                    contentText: errorMsg
+                });
+        } 
         else
             $.gyAlert({
                 title: "提示",
-                contentText: errorMsg
+                contentText: "系统已关闭，无法访问"
             });
     });
 

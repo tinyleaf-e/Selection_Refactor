@@ -19,9 +19,18 @@ namespace Selection_Refactor.Controllers
         {
             HttpCookie accountCookie = Request.Cookies["Account"];
             string id = accountCookie["userId"];
-            ProfessorDao studentDao = new ProfessorDao();
-            Professor professor = studentDao.getProfessorById(id);
-            //ViewBag.RemainNum = professor.
+            Professor professor = new ProfessorDao().getProfessorById(id);
+            SettingDao settingDao = new SettingDao();
+            ViewBag.EndTime = settingDao.getCurrentSetting().firstEnd;
+            int count = 0;
+            StudentDao studentDao = new StudentDao();
+            foreach(Student s in studentDao.listAllStudent())
+            {
+                if (s.firstWill == id && s.firstWillState == 1 || s.secondWill == id && s.secondWillState == 1)
+                    count++;
+            }
+
+            ViewBag.RemainNum = professor.quota - count;
             return View();
         }
         public ActionResult Student(string stuID)
@@ -42,6 +51,22 @@ namespace Selection_Refactor.Controllers
         }
         public ActionResult SecondSelect()
         {
+            HttpCookie accountCookie = Request.Cookies["Account"];
+            string id = accountCookie["userId"];
+            Professor professor = new ProfessorDao().getProfessorById(id);
+            SettingDao settingDao = new SettingDao();
+            ViewBag.EndTime = settingDao.getCurrentSetting().secondEnd;
+
+
+            int count = 0;
+            StudentDao studentDao = new StudentDao();
+            foreach (Student s in studentDao.listAllStudent())
+            {
+                if (s.firstWill == id && s.firstWillState == 1 || s.secondWill == id && s.secondWillState == 1)
+                    count++;
+            }
+
+            ViewBag.RemainNum = professor.quota - count;
             return View();
         }
         public ActionResult FinalStudents()
@@ -193,7 +218,7 @@ namespace Selection_Refactor.Controllers
                 List<TempStudent> resultList = new List<TempStudent>();
                 foreach (var student in students)
                 {
-                    if (student.secondWill == accountCookie["userId"] || student.secondWillState == 0)
+                    if (student.firstWillState==0&& student.secondWill == accountCookie["userId"] && student.secondWillState == 0)
                     {
                         TempStudent tempStudent = new TempStudent();
                         tempStudent.init(student);
@@ -348,49 +373,25 @@ namespace Selection_Refactor.Controllers
             {
                 HttpCookie accountCookie = Request.Cookies["Account"];
                 StudentDao studentDao = new StudentDao();
-                if (studentDao.getStudentById(stuId) == null)
-                {
-                    Exception e = new Exception("Don't have this stuid");
-                    throw (e);
-                }
-                else
-                {
                     Student s = studentDao.getStudentById(stuId);
-                    if (s.firstWill == accountCookie["userid"])
+                    if (s.firstWill == accountCookie["userId"]&&s.firstWillState==1)
                     {
-                        if (s.firstWillState == 0)
-                        {
-                            Exception e = new Exception("you haven't choosen this stu");
-                            throw (e);
-                        }
-                        else
-                        {
                             s.firstWillState = 0;
                             studentDao.update(s);
                             return "success";
-                        }
 
                     }
-                    else if (s.secondWill == accountCookie["userid"])
+                    else if (s.secondWill == accountCookie["userId"]&&s.secondWillState==1)
                     {
-                        if (s.secondWillState == 0)
-                        {
-                            Exception e = new Exception("you haven't choosen this stu");
-                            throw (e);
-                        }
-                        else
-                        {
                             s.secondWillState = 0;
                             studentDao.update(s);
                             return "success";
-                        }
                     }
                     else
                     {
                         Exception e = new Exception("you haven't choosen this stu");
                         throw (e);
                     }
-                }
             }
             catch (Exception e)
             {

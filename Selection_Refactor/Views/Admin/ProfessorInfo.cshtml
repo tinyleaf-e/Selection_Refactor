@@ -1,9 +1,9 @@
 ﻿
+
 @{
-    ViewBag.Title = "导师列表"; //页面标题
-    ViewBag.CurrentTab = "professor"; //用于和侧边栏菜单关联，和文件名称一致即可，用小写
-    ViewBag.BoxTitle = "教师主页";//内容区的标题
-    ViewBag.Role = "Dean";//页面所属角色
+    ViewBag.Title = "导师详情"; //页面标题
+    ViewBag.BoxTitle = "导师详情";//内容区的标题
+    ViewBag.Role = "Admin";//页面所属角色
 }
 
 @section css{
@@ -71,14 +71,6 @@
 
     <script>
         $(function () {
-            /*var data = $.cookie("data");
-            var m = JSON.parse(data);
-            $('#ProName').html(m.name);
-            $('#ProTitle').html(m.title);
-            $('#ProId').html(m.id);
-            $('#StuAmount').html(m.stuamount);
-            $('#ProUrl').attr("href", m.url)
-            var id = $('#ProId').text()*/
             $('#studentTable').DataTable({
                 ajax: {
                     type: 'POST',
@@ -95,10 +87,9 @@
                 ]
             });
         });
-        
-        
+
+
 
     </script>
-
 
 }

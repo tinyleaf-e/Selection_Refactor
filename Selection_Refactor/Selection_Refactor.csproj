@@ -385,6 +385,8 @@
     <Content Include="Content\plugins\datatables.net\Chinese.json" />
     <Content Include="Content\plugins\bootstrap-switch\docs\CNAME" />
     <Content Include="Content\template\professor_template.xlsx" />
+    <Content Include="Content\template\dean_template.xlsx" />
+    <Content Include="Content\template\student_template.xlsx" />
     <None Include="packages.config" />
     <Content Include="Views\Security\Login.cshtml" />
     <Content Include="Views\Security\Error.cshtml" />
@@ -409,6 +411,8 @@
     <Content Include="Views\Admin\Setting.cshtml" />
     <Content Include="Views\Admin\Major.cshtml" />
     <Content Include="Views\Professor\profile.cshtml" />
+    <Content Include="Views\Admin\StudentInfo.cshtml" />
+    <Content Include="Views\Admin\ProfessorInfo.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

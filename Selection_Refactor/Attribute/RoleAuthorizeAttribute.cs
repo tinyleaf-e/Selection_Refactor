@@ -28,9 +28,6 @@ namespace Selection_Refactor.Attribute
             {
                 return false;
             }
-            //if (stage < 1)
-              //  return false;
-
             try
             {
                 foreach (string item in RoleInfos)
@@ -38,6 +35,10 @@ namespace Selection_Refactor.Attribute
                     string[] role = item.Split('-');
                     if (role[0] == cookieRole)
                     {
+                        if (role[0] == "admin")
+                            return true;
+                        else if (stage < 1)
+                            return false;
                         if (role.Length > 1 && role[1][stage - 1] == '0')
                             return false;
                         return true;

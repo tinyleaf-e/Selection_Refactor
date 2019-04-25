@@ -23,7 +23,7 @@ namespace Selection_Refactor.Models.Dao
          * Create By 付文欣
          * 列出所有专业
          */
-        public List<Major> listAllByMajor()
+        public List<Major> listAllMajor()
         {
             return new MajorDBContext().majors.ToList();
         }

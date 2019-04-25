@@ -37,6 +37,17 @@ namespace Selection_Refactor.Controllers
 
         public ActionResult Setting()
         {
+            SettingDao settingDao = new SettingDao();
+            Setting setting = settingDao.getCurrentSetting();
+            ViewBag.On = setting.on;
+            ViewBag.Mode = setting.mode;
+            ViewBag.Stage = setting.stage;
+            ViewBag.InfoStart = setting.infoStart;
+            ViewBag.InfoEnd = setting.infoEnd;
+            ViewBag.FirstStart = setting.firstStart;
+            ViewBag.FirstEnd = setting.firstEnd;
+            ViewBag.SecondStart = setting.secondStart;
+            ViewBag.SecondEnd = setting.secondEnd;
             return View();
         }
 
@@ -44,6 +55,46 @@ namespace Selection_Refactor.Controllers
         {
             return View();
         }
+
+        public ActionResult ProfessorInfo(string proId)
+        {
+            ProfessorDao professorDao = new ProfessorDao();
+            Professor p = professorDao.getProfessorById(proId);
+            ViewBag.Name = p.name;
+            ViewBag.Id = p.id;
+            ViewBag.Url = p.infoURL;
+            ViewBag.ProTitle = p.title;
+            return View();
+        }
+        public ActionResult StudentInfo(string stuId)
+        {
+            ProfessorDao professorDao = new ProfessorDao();
+            StudentDao studentDao = new StudentDao();
+            MajorDao majorDao = new MajorDao();
+            Student s = studentDao.getStudentById(stuId);
+            ViewBag.Id = s.id;
+            ViewBag.Name = s.name;
+            ViewBag.Age = s.age;
+            ViewBag.Email = s.email;
+            ViewBag.Major = majorDao.getMajorById(s.majorId).name;
+            ViewBag.OnJob = (s.onTheJob ? "在职" : "脱产");
+            ViewBag.Phone = s.phoneNumber;
+            ViewBag.ResumeUrl = s.resumeUrl;
+            if (s.firstWill != null)
+                ViewBag.FirstWillName = professorDao.getProfessorById(s.firstWill).name;
+            if (s.secondWill != null)
+                ViewBag.SecondWillName = professorDao.getProfessorById(s.secondWill).name;
+            if (s.firstWillState == 1)
+                ViewBag.FinalWillName = ViewBag.FirstWillName;
+            else if (s.secondWillState == 1)
+                ViewBag.FinalWillName = ViewBag.SecondWillName;
+            else if (s.dispensedWill != null && s.dispensedWill != "")
+                ViewBag.FinalWillName = professorDao.getProfessorById(s.dispensedWill).name;
+            else
+                ViewBag.FinalWillName = "无";
+            return View();
+        }
+
 
         /*
          * Create By 高晔
@@ -122,7 +173,7 @@ namespace Selection_Refactor.Controllers
             {
                 SettingDao settingDao = new SettingDao();
                 Setting setting = settingDao.getCurrentSetting();
-                setting.mode = type ? 1 : 0;
+                setting.on = type ? 1 : 0;
                 int result = settingDao.updateSetting(setting);
                 return result > 0 ? "success" : "fail:" + "系统数据连接错误";
             }
@@ -145,7 +196,7 @@ namespace Selection_Refactor.Controllers
             {
                 SettingDao settingDao = new SettingDao();
                 Setting setting = settingDao.getCurrentSetting();
-                if (setting.mode == 0)
+                if (setting.on == 0)
                     return "fail:" + "系统还未开启";
                 setting.mode = type ? 1 : 2;
                 int result = settingDao.updateSetting(setting);
@@ -166,17 +217,17 @@ namespace Selection_Refactor.Controllers
                   操作失败时返回fail:失败原因
          */
         //[RoleAuthorize(Role = "admin")]
-        public string changeCurrentStage(int state)
+        public string changeCurrentStage(int stage)
         {
             try
             {
                 SettingDao settingDao = new SettingDao();
                 Setting setting = settingDao.getCurrentSetting();
-                if (setting.mode == 0)
+                if (setting.on == 0)
                     return "fail:" + "系统还未开启";
                 if (setting.mode == 1)
                     return "fail:" + "系统不是手动模式";
-                setting.stage = state;
+                setting.stage = stage;
                 int result = settingDao.updateSetting(setting);
                 return result > 0 ? "success" : "fail:" + "系统数据连接错误";
             }
@@ -193,13 +244,13 @@ namespace Selection_Refactor.Controllers
                   操作失败时返回fail:失败原因
          */
         //[RoleAuthorize(Role = "admin")]
-        public string updateSettingTime(string infoStart, string infoEnd, string firstStart, string firstEnd, string secondStart, string secondEnd)
+        public string updateSettingTime(string infoStart, string infoEnd, string firstStart, string firstEnd, string secondStart, string secondEnd, string publishStart)
         {
             try
             {
                 SettingDao settingDao = new SettingDao();
                 Setting setting = settingDao.getCurrentSetting();
-                if (setting.mode == 0)
+                if (setting.on == 0)
                     return "fail:" + "系统还未开启";
                 if (setting.mode == 2)
                     return "fail:" + "系统不是自动模式";
@@ -209,8 +260,9 @@ namespace Selection_Refactor.Controllers
                 setting.firstEnd = firstEnd;
                 setting.secondStart = secondStart;
                 setting.secondEnd = secondEnd;
+                setting.publishStart = publishStart;
                 int result = settingDao.updateSetting(setting);
-                return result > 0 ? "success" : "fail:" + "系统数据连接错误";
+                return result > 0 ? "success:"+settingDao.getCurrentStage() : "fail:" + "系统数据连接错误";
             }
             catch (Exception e)
             {
@@ -294,7 +346,7 @@ namespace Selection_Refactor.Controllers
          *  A10:新增单个学生接口
          */
         //[RoleAuthorize(Role = "admin")]
-        public string addSingleStudent(string name, string id, string major, int age, string telephone, bool isWorking, string email)
+        public string addSingleStudent(string name, string id, int majorId, string passwd)
         {
          //   StudentDBContext studentDBContext = new StudentDBContext();
             StudentDao studentDao = new StudentDao();
@@ -303,12 +355,8 @@ namespace Selection_Refactor.Controllers
             {
                 s.name = name;
                 s.id = id;
-                s.password = "12345";
-                s.graMajor = major;
-                s.age = age;
-                s.phoneNumber = telephone;
-                s.onTheJob = isWorking;
-                s.email = email;
+                s.password = CryptoUtil.Md5Hash(passwd);
+                s.majorId = majorId;
                 int res = studentDao.addStudent(s);
                 if (res == 1)
                 {
@@ -340,11 +388,15 @@ namespace Selection_Refactor.Controllers
             Student student = null;
             StudentDao studentDao = new StudentDao();
             string result = "{}";
+            bool flag = false;
             int addres = 0;
             List<Student> listStudents = new List<Student>();
             Workbook workbook = new Workbook();
             Worksheet sheet = null;
-            string error = "";
+
+            Response.ContentType = "application/json";
+            Response.Charset = "utf-8";
+
             try
             {
                 if (string.Empty.Equals(file.FileName) || (".xls" != Path.GetExtension(file.FileName) && ".xlsx" != Path.GetExtension(file.FileName)))
@@ -359,25 +411,13 @@ namespace Selection_Refactor.Controllers
                 int col = sheet.Columns.Length;//获取不为空的列数
                 string tempId;
                 string tempName;
-                string tempGender;
-                string tempAge;
-                string tempGraSchool;
-                string tempGraMajor;
-                string tempPhonenumber;
-                string tempEmail;
-                string tempOnTheJob;
-                string tempMajorId;
+                string tempPasswd;
+                string tempMajor;
 
                 int idcol = -11;
                 int namecol = -11;
-                int Gendercol = -11;
-                int Agecol = -11;
-                int GraSchoolcol = -11;
-                int GraMajorcol = -11;
+                int Passwdcol = -11;
                 int Majorcol = -11;
-                int PhoneNumbercol = -11;
-                int Emailcol = -11;
-                int OnTheJobcol = -11;
                 int idrow = -11;
                 //int maxnumcol = -11;
                 CellRange[] cellrange = sheet.Cells;
@@ -396,37 +436,13 @@ namespace Selection_Refactor.Controllers
                         {
                             namecol = j;
                         }
-                        else if (tempId.Equals("性别"))
+                        else if (tempId.Equals("密码"))
                         {
-                            Gendercol = j;
-                        }
-                        else if (tempId.Equals("年龄"))
-                        {
-                            Agecol = j;
-                        }
-                        else if (tempId.Equals("毕业院校"))
-                        {
-                            GraSchoolcol = j;
-                        }
-                        else if (tempId.Equals("毕业专业"))
-                        {
-                            GraMajorcol = j;
+                            Passwdcol = j;
                         }
                         else if (tempId.Equals("专业方向"))
                         {
                             Majorcol = j;
-                        }
-                        else if (tempId.Equals("电话"))
-                        {
-                            PhoneNumbercol = j;
-                        }
-                        else if (tempId.Equals("邮箱"))
-                        {
-                            Emailcol = j;
-                        }
-                        else if (tempId.Equals("是否在职工作"))
-                        {
-                            OnTheJobcol = j;
                         }
                     
                     }
@@ -438,77 +454,59 @@ namespace Selection_Refactor.Controllers
 
                 if (idcol < 0 || namecol < 0)
                 {
-                    throw new Exception("不是学生表");
+                    throw new Exception("表格格式不正确");
                 }
+
+                MajorDao majorDao = new MajorDao();
+                List<Major> majors = majorDao.listAllMajor();
+
                 for (int i = idrow; i < row; i++)
                 {
                     tempId = cellrange[i * col + idcol].Value;
                     tempName = cellrange[i * col + namecol].Value;
-                    tempGender = cellrange[i * col + Gendercol].Value;
-                    tempAge = cellrange[i * col + Agecol].Value;
-                    tempGraSchool = cellrange[i * col + GraSchoolcol].Value;
-                    tempGraMajor = cellrange[i * col + GraMajorcol].Value;
-                    tempMajorId = cellrange[i * col + Majorcol].Value;
-                    tempPhonenumber = cellrange[i * col + PhoneNumbercol].Value;
-                    tempEmail = cellrange[i * col + Emailcol].Value;
-                    tempOnTheJob = cellrange[i * col + OnTheJobcol].Value;
+                    tempPasswd = cellrange[i * col + Passwdcol].Value;
+                    tempMajor = cellrange[i * col + Majorcol].Value;
                     if (tempName != "")
                     {
+                        if (studentDao.getStudentById(tempId) != null)
+                        {
+                            flag = true;
+                            result += "已存在教师：id:" + tempId + " 姓名:" + tempName + " 专业：" + tempId + "\n";
+                            continue;
+                        }
                         student = new Student();
                         student.id = tempId;
                         student.name = tempName;
-                        student.password = "12345";
-                        student.age = int.Parse(tempAge);
-                        if (tempGender.Equals("男"))
+                        bool majorExist = false;
+                        foreach (Major m in majors)
                         {
-                            student.gender = true;
+                            if (m.name == tempMajor)
+                            {
+                                student.majorId = m.id;
+                                majorExist = true;
+                            }
                         }
-                        else
+                        if (!majorExist)
                         {
-                            student.gender = false;
+                            result += "无法识别名为‘" + tempMajor + "’的专业名称：id:" + tempId + " 姓名:" + tempName + " 专业：" + tempId + "\n";
+                            flag = true;
+                            continue;
                         }
-                        student.majorId = int.Parse(tempMajorId);                       
-                        student.graSchool = tempGraSchool;
-                        student.graMajor = tempGraMajor;
-                        student.phoneNumber = tempPhonenumber;
-                        student.email = tempEmail;
-                        if (tempGender.Equals("是"))
-                        {
-                            student.onTheJob = true;
-                        }
-                        else
-                        {
-                            student.onTheJob = false;
-                        }
+                        student.password = CryptoUtil.Md5Hash(tempPasswd);
                         addres = studentDao.addStudent(student);
-                        if (addres == -1)
+                        if (addres < 1)
                         {
-                            throw new Exception("已存在教师：id" + tempId + " 姓名:" + tempName + " 专业：" + tempId);
+                            throw new Exception("数据库连接出错");
 
-                        }//listStudents.Add(student);
                         }
+                    }
 
-                }
-                //error = dbhelper.batchAddStudents(listStudents);
-                if (error.StartsWith("error"))
-                {
-                    throw new Exception("数据库更新出错");
                 }
             }
             catch (Exception e)
             {
-                if (e.Message.Equals("不是学生表"))
-                {
-                    result = "{\"error\":\"不是学生表\"}";
-                }
-                else if (e.Message.Equals("文件格式不正确"))
-                {
-                    result = "{\"error\":\"文件格式不正确\"}";
-                }
-                else
-                {
-                    result = "{\"error\":\"在服务器端发生错误请联系管理员\"}";
-                }
+                LogUtil.writeLogToFile(e, Request);
+                return "{\"error\":\"" + e.Message + "\"}";
             }
             finally
             {
@@ -516,7 +514,12 @@ namespace Selection_Refactor.Controllers
                 sheet = null;
                 workbook = null;
             }
-            return result;
+            if (flag)
+                return "{\"error\":\"" + result + "\"}";
+            return "{" +
+                  "\"initialPreview\":" +
+                    "[\"<div style=\\\"text-align:center;padding:50px 25px;color:#00a65a\\\"><i class=\\\"fa fa-check-square-o\\\" style=\\\"font-size:60px;opacity:0.6\\\"></i><p style=\\\"padding-top:10px;font-size:18px\\\">添加成功</p></div>\"]" +
+                  "}";
         }
         /*  
          *  Create By 徐子一
@@ -651,7 +654,7 @@ namespace Selection_Refactor.Controllers
          * 增加一位教师
          */
         [RoleAuthorize(Role = "admin")]
-        public string addSingleProfessor(string name, string number, string title, string url, int needstudent)
+        public string addSingleProfessor(string name, string number, string title, string url, int needstudent,string passwd)
         {
             try
             {
@@ -662,7 +665,7 @@ namespace Selection_Refactor.Controllers
                 professor.id = number;
                 professor.title = title;
                 professor.infoURL = url;
-                professor.password = "12345";
+                professor.password = CryptoUtil.Md5Hash(passwd);
                 professor.quota = needstudent;
                 Exception e = new Exception("教师id重复");
                 if (professorDao.getProfessorById(number) != null)
@@ -697,10 +700,15 @@ namespace Selection_Refactor.Controllers
             var savePath = Path.Combine(severPath, file.FileName);
             Professor professor = null;
             string result = "{}";
+            bool flag = false;
             List<Professor> proList = new List<Professor>();
             Workbook workbook = new Workbook();
             Worksheet sheet = null;
             int error = 0;
+
+            Response.ContentType = "application/json";
+            Response.Charset = "utf-8";
+
             try
             {
                 if (string.Empty.Equals(file.FileName) || (".xls" != Path.GetExtension(file.FileName) && ".xlsx" != Path.GetExtension(file.FileName)))
@@ -719,7 +727,6 @@ namespace Selection_Refactor.Controllers
                 string tempUrl;
                 string tempQuota;
                 string tempPass;
-                string tempRemark;
                 int idcol = -11;
                 int namecol = -11;
                 int titlecol = -11;
@@ -727,7 +734,6 @@ namespace Selection_Refactor.Controllers
                 int urlcol = -11;
                 int quotacol = -11;
                 int passwordcol = -11;
-                int remarkcol = -11;
                 ProfessorDao professorDao = new ProfessorDao();
                 CellRange[] cellrange = sheet.Cells;
                 int rangelength = cellrange.Length;
@@ -761,10 +767,6 @@ namespace Selection_Refactor.Controllers
                         {
                             passwordcol = j;
                         }
-                        if (tempId.Equals("简介"))
-                        {
-                            remarkcol = j;
-                        }
                     }
                     if (idcol >= 0 && namecol >= 0)
                     {
@@ -774,7 +776,7 @@ namespace Selection_Refactor.Controllers
 
                 if (idcol < 0 || namecol < 0)
                 {
-                    throw new Exception("不是教师表");
+                    throw new Exception("表格格式不正确");
                 }
                 for (int i = idrow; i < row; i++)
                 {
@@ -785,7 +787,12 @@ namespace Selection_Refactor.Controllers
                     tempUrl = cellrange[i * col + urlcol].Value;
                     tempQuota = cellrange[i * col + quotacol].Value;
                     tempPass = cellrange[i * col + passwordcol].Value;
-                    tempRemark = cellrange[i * col + remarkcol].Value;
+                    if (professorDao.getProfessorById(tempId) != null)
+                    {
+                        flag = true;
+                        result += "已存在教师：id:" + tempId + " 姓名:" + tempName + " 专业：" + tempId + "\n";
+                        continue;
+                    }
                     if (tempName != "")
                     {
                         professor = new Professor();
@@ -794,10 +801,9 @@ namespace Selection_Refactor.Controllers
                         professor.title = tempTitle;
                         professor.infoURL = tempUrl;
                         professor.quota = int.Parse(tempQuota);
-                        professor.password = tempPass;
-                        professor.remark = tempRemark;
+                        professor.password = CryptoUtil.Md5Hash(tempPass);
                         error = professorDao.addProfessor(professor);
-                        if (error == -1)
+                        if (error < 1)
                         {
                             throw new Exception("数据库更新出错");
                         }
@@ -807,7 +813,7 @@ namespace Selection_Refactor.Controllers
             catch (Exception e)
             {
                 LogUtil.writeLogToFile(e, Request);
-                return "平台出现异常，请联系管理员：XXX";
+                return "{\"error\":\"" + e.Message + "\"}";
             }
             finally
             {
@@ -815,7 +821,12 @@ namespace Selection_Refactor.Controllers
                 sheet = null;
                 workbook = null;
             }
-            return result;
+            if(flag)
+                return "{\"error\":\"" + result + "\"}";
+            return "{" +
+                  "\"initialPreview\":" +
+                    "[\"<div style=\\\"text-align:center;padding:50px 25px;color:#00a65a\\\"><i class=\\\"fa fa-check-square-o\\\" style=\\\"font-size:60px;opacity:0.6\\\"></i><p style=\\\"padding-top:10px;font-size:18px\\\">添加成功</p></div>\"]" +
+                  "}";
         }
         /*
          * Create By zzw
@@ -912,7 +923,7 @@ namespace Selection_Refactor.Controllers
             * 返回值：操作成功时返回success
                     操作失败时返回fail
             */
-        public string addDean(string name, string number, string major)
+        public string addDean(string name, string number, string major,string passwd)
         {
             //string rel = "";
             try
@@ -927,7 +938,7 @@ namespace Selection_Refactor.Controllers
                 dean.name = name;
                 dean.id = number;
                 dean.majorId = majorId;
-                dean.password = "12345";
+                dean.password = CryptoUtil.Md5Hash(passwd);
                 int rel = deanDao.addDean(dean);
                 if (rel == 1)
                 {
@@ -968,6 +979,9 @@ namespace Selection_Refactor.Controllers
             int addres = 0;
             bool flag=false;//表中出现插入错误 
 
+            Response.ContentType = "application/json";
+            Response.Charset = "utf-8";
+
             try
             {
                 if (string.Empty.Equals(file.FileName) || (".xls" != Path.GetExtension(file.FileName) && ".xlsx" != Path.GetExtension(file.FileName)))
@@ -983,10 +997,12 @@ namespace Selection_Refactor.Controllers
                 string tempId;
                 string tempName;
                 string tempMajor;
+                string tempPasswd;
 
                 int idcol = -11;
                 int namecol = -11;
-                int titlecol = -11;
+                int majorcol = -11;
+                int passwdcol = -11;
                 int idrow = -11;
                 CellRange[] cellrange = sheet.Cells;
                 int rangelength = cellrange.Length;
@@ -995,7 +1011,7 @@ namespace Selection_Refactor.Controllers
                     for (int j = 0; j < col; j++)
                     {
                         tempId = cellrange[i * col + j].Value;
-                        if (tempId.Equals("教务教师编号"))
+                        if (tempId.Equals("工号"))
                         {
                             idcol = j;
                             idrow = i + 1;
@@ -1004,12 +1020,16 @@ namespace Selection_Refactor.Controllers
                         {
                             namecol = j;
                         }
-                        if (tempId.Equals("负责专业编号"))
+                        if (tempId.Equals("专业方向"))
                         {
-                            titlecol = j;
+                            majorcol = j;
+                        }
+                        if (tempId.Equals("密码"))
+                        {
+                            passwdcol = j;
                         }
                     }
-                    if (idcol >= 0 && namecol >= 0)
+                    if (idcol >= 0 && namecol >= 0 && majorcol >= 0 && passwdcol >= 0)
                     {
                         break;
                     }
@@ -1017,29 +1037,48 @@ namespace Selection_Refactor.Controllers
 
                 if (idcol < 0 || namecol < 0)
                 {
-                    throw new Exception("不是教师表");
+                    throw new Exception("表格格式不正确");
                 }
+                MajorDao majorDao = new MajorDao();
+                List<Major> majors = majorDao.listAllMajor();
+                
+
                 for (int i = idrow; i < row; i++)
                 {
                     tempId = cellrange[i * col + idcol].Value;
                     tempName = cellrange[i * col + namecol].Value;
-                    tempMajor = cellrange[i * col + titlecol].Value;
+                    tempMajor = cellrange[i * col + majorcol].Value;
+                    tempPasswd = cellrange[i * col + passwdcol].Value;
                     if (tempName != "")
                     {
                         if (deandao.getDeanById(tempId) != null)
                         {
                             flag = true;
-                            result += "已存在教师：id" + tempId + " 姓名:" + tempName + " 专业：" + tempId + "\n";
+                            result += "已存在教师：id:" + tempId + " 姓名:" + tempName + " 专业：" + tempId + "\n";
                             continue;
                         }
                         dean = new Dean();
                         dean.id = tempId;
                         dean.name = tempName;
-                        dean.majorId = int.Parse(tempMajor);
-                        dean.password = "12345";
+                        bool majorExist = false;
+                        foreach(Major m in majors) {
+                            if (m.name == tempMajor)
+                            {
+                                dean.majorId = m.id;
+                                majorExist = true;
+                            }
+                        }
+                        if (!majorExist)
+                        {
+                            result +="无法识别名为‘" + tempMajor + "’的专业名称：id:" + tempId + " 姓名:" + tempName + " 专业：" + tempId + "\n";
+                            flag = true;
+                            continue;
+                        }
+
+                        dean.password = CryptoUtil.Md5Hash(tempPasswd);
                         
                         addres = deandao.addDean(dean);
-                        if (addres == -1)
+                        if (addres < 1)
                         {
                             throw new Exception("数据库链接异常");
                         }
@@ -1049,18 +1088,7 @@ namespace Selection_Refactor.Controllers
             catch (Exception e)
             {
                 LogUtil.writeLogToFile(e, Request);
-                if (e.Message.Equals("不是教师表"))
-                {
-                    result = "fail:不是教师表";
-                }
-                else if (e.Message.Equals("文件格式不正确"))
-                {
-                    result = "fail:文件格式不正确";
-                }
-                else
-                {
-                    result = "fail:"+e.Message;
-                }
+                return "{\"error\":\"" + e.Message + "\"}";
             }
             finally
             {
@@ -1070,9 +1098,12 @@ namespace Selection_Refactor.Controllers
             }
             if (flag)
             {
-                return result;
+                return "{\"error\":\"" + result + "\"}";
             }
-            return "success";
+            return "{" +
+                  "\"initialPreview\":" +
+                    "[\"<div style=\\\"text-align:center;padding:50px 25px;color:#00a65a\\\"><i class=\\\"fa fa-check-square-o\\\" style=\\\"font-size:60px;opacity:0.6\\\"></i><p style=\\\"padding-top:10px;font-size:18px\\\">添加成功</p></div>\"]" +
+                  "}";
         }
 
         /* 
@@ -1147,7 +1178,7 @@ namespace Selection_Refactor.Controllers
             try
             {
                 MajorDao majorDao = new MajorDao();
-                List<Major> majors = majorDao.listAllByMajor();
+                List<Major> majors = majorDao.listAllMajor();
                 JavaScriptSerializer serializer = new JavaScriptSerializer();
                 var json = serializer.Serialize(majors);
                 string retStr = json.ToString();
@@ -1166,7 +1197,7 @@ namespace Selection_Refactor.Controllers
             try
             {
                 MajorDao majorDao = new MajorDao();
-                List<Major> majors = majorDao.listAllByMajor();
+                List<Major> majors = majorDao.listAllMajor();
                 JavaScriptSerializer serializer = new JavaScriptSerializer();
                 var json = serializer.Serialize(majors);
                 return json;

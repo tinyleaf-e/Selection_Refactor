@@ -13,7 +13,7 @@
     <div class="row">
         <div class="col-sm-12">
             <h3>
-                <label> 截至时间:@ViewData["EndTime"]</label>
+                <label> 截至时间:@ViewBag.EndTime</label>
             </h3>
         </div>
     </div>
@@ -23,7 +23,7 @@
             <label> 申请学生列表</label>
         </div>
         <div class="col-sm-6">
-            <label>您还可以选择学生数量为：</label><label id="selectNum">@ViewData["SelectNum"]</label>
+            <label>您还可以选择学生数量为：</label><label id="selectNum">@ViewBag.RemainNum</label>
         </div>
 
     </div>
@@ -100,7 +100,7 @@
                 { data: function (row, type, set, meta) { return row.gender ? "男" : "女" } },
                 { data: "age"},
                 { data: "major" },
-                { data: "onTheJob" },
+                { data: function (row, type, set, meta) { return row.onTheJob ? "在职" : "脱产" } },
                 { data: "graSchool" },
                 { data: "graMajor" },
                 { data: "email" },
@@ -137,10 +137,10 @@
                 { data: function (row, type, set, meta) { return row.gender ? "男" : "女" } },
                 { data: "age" },
                 { data: "major" },
-                { data: "onTheJob" },
+                { data: function (row, type, set, meta) { return row.onTheJob ? "在职" : "脱产" } },
                 { data: "graSchool" },
                 { data: "graMajor" },
-                { data: "will" },
+                { data: function (row, type, set, meta) { return row.will==1 ? "第一志愿" : "第二志愿" } },
                 { data: "email" },
                 {
                     data: function (row, type, set, meta) {
@@ -203,7 +203,9 @@
                     };
                     $.post("/Professor/deleteSelectedStudent", data, function (rdata) {
                         if (rdata == "success") {
-                            table.ajax.reload();
+                            waitChooseTable.ajax.reload();
+                            selectedTable.ajax.reload();
+                            $("#selectNum").text(parseInt($("#selectNum").text()) + 1);
                             $.gyAlert({
                                 title: "删除成功",
                                 contentText: "您已成功删除该学生"
@@ -228,11 +230,13 @@
                 contentText: "确认选择该学生?",
                 confirm: function () {
                     var data = {
-                        id: row.id
+                        stuId: row.id
                     };
                     $.post("/Professor/selectSecondWillStudent", data, function (rdata) {
                         if (rdata == "success") {
-                            table.ajax.reload();
+                            waitChooseTable.ajax.reload();
+                            selectedTable.ajax.reload();
+                            $("#selectNum").text(parseInt($("#selectNum").text()) - 1);
                             $.gyAlert({
                                 title: "选择成功",
                                 contentText: "您已成功选择该学生"
