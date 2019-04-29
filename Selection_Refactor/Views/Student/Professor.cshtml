@@ -127,6 +127,9 @@
         }
 
         $(document).ready(function () {
+            if (stage > 1)
+                $("#confirm").attr("disabled", "disabled");
+
             $("#confirm").click(function () {
                 if ($("#first").val() == "" || $("#second").val() == "") {
                     $.gyAlert({
