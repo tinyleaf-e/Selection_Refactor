@@ -28,7 +28,7 @@
                             </li>
                             <li class="list-group-item">
                                 <b>最终导师</b>
-                                <p class="pull-right" id="FinalWill">@ViewBag.FinalWillName</p>
+                                <p class="pull-right" id="FinalWill"></p>
                             </li>
                         </ul>
                     </div>
@@ -88,26 +88,11 @@
 
 @section script{
     <script src="~/Content/js/jquery.cookie.js"></script>
-
     <script>
-        $(function () {
-            return;
-            var data = $.cookie("data");
-            var m = JSON.parse(data);
-            console.log(m.name)
-            $('#StuName').html(m.name);
-            $('#StuId').html(m.id)
-            $('#StuAge').html(m.age)
-            $('#StuMajor').html(m.major)
-            $('#StuPhone').html(m.phone)
-            $('#StuOnthejob').html(m.onthejob)
-            $('#StuMail').html(m.mail)
-            $('#ResumeUrl').attr("href",m.resumeurl)
-            $('#FirstWill').html(m.firstwill)
-            $('#SecondWill').html(m.secondwill)
-            $('#FinalWill').html(m.finalwill)
-            $('#DispensedWill').html(m.dispensedwill)
-
+        $(document).ready(function() {
+            if (stage < 8)
+                $('#FinalWill').html("未公布");
+            else $('#FinalWill').html(@ViewBag.FinalWillName);
         })
     </script>
     }

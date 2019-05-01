@@ -27,8 +27,11 @@
                 <th>序号</th>
                 <th>学号</th>
                 <th>名字</th>
-                <th>信息是否提交</th>
-                <th>是否两个志愿提交</th>
+                <th>个人信息情况</th>
+                <th>简历提交情况</th>
+                <th>两个志愿是否提交</th>
+                <th>第一志愿</th>
+                <th>第二志愿</th>
                 <th>最终确定导师</th>
                 <th>操作</th>
             </tr>
@@ -86,15 +89,21 @@
                 },
                 { data: "id" },
                 { data: "name" },
-                {
+                {//个人信息
                     data: function (row, type, set, meta) {
                             if (row.infoChecked == false)
-                                return "否";
+                                return "未提交";
                             else
-                                return "是";
+                                return "提交";
                     }
                 },
-                {
+                {//简历提交情况
+                    data: function (row, type, set, meta) {
+                        if (row.resumeUrl == null) return "未提交";
+                        else return "提交";
+                    }
+                },
+                {//是否两个志愿提交
                     data: function (row, type, set, meta) {
                             if (row.willchecked == false)
                                 return "否";
@@ -102,7 +111,24 @@
                                 return "是";
                     }
                 },
-                { data: "finalWill" },
+                {//第一志愿
+                    data: function (row, type, set, meta) {
+                        if (row.firstwill != "" && row.finalWill == row.firstwill) return "接收";
+                        else return "未接收";
+                    }
+                },
+                {//第二志愿
+                    data: function (row, type, set, meta) {
+                        if (row.secondWill!="" && row.finalWill == row.secondWill) return "接收";
+                        else return "未接收";
+                    }
+                },
+                {//最终确定导师 公布结果（第8阶段）之前显示为未公布 
+                    data: function (row, type, set, meta) {
+                        if (stage == 8) return row.finalWill;
+                        else return "未公布";
+                    }
+                },
                 {
                     data: function () {
                         return "<button class='btn btn-primary' id='info'>详情</button>"
@@ -116,21 +142,6 @@
             var table = $('#studentTable').DataTable();
             var t = $(this).closest('tr')
             var r = table.row(t).data()
-            var data = {
-                name: r.name,
-                id: r.id,
-                age: r.age,
-                major: r.Major,
-                phone: r.phoneNumber,
-                onthejob: r.onTheJob,
-                mail: r.email,
-                resumeurl: r.resumeUrl,
-                firstwill: r.firstWill,
-                secondwill: r.secondWill,
-                dispensedwill: r.dispensedWill,
-                finalwill: r.finalWill
-            }
-            $.cookie('data', JSON.stringify(data));
             location.href = "/Dean/StudentInfo?stuId="+r.id
         })
     </script>
