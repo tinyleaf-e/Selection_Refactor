@@ -173,6 +173,7 @@ namespace Selection_Refactor.Controllers
 
         public ActionResult Error()
         {
+            LogUtil.writeLogToLogSystem(new Exception("test"), Request);
             return View();
         }
     }

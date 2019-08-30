@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Web;
 
@@ -8,7 +9,7 @@ namespace Selection_Refactor.Util
 {
     public class LogUtil
     {
-        static public void writeLogToFile(Exception ex,HttpRequestBase httpRequest)
+        static public void writeLogToFile(Exception ex, HttpRequestBase httpRequest)
         {
             var accountCookie = httpRequest.Cookies["account"];
             while (ex.InnerException != null)
@@ -43,5 +44,55 @@ namespace Selection_Refactor.Util
             string savePath = path + month + "/" + currentDate + ".log";
             System.IO.File.AppendAllText(savePath, _builder.ToString(), System.Text.Encoding.Default);
         }
+        public static void writeLogToLogSystem(Exception ex, HttpRequestBase httpRequest)
+        {
+            var accountCookie = httpRequest.Cookies["account"];
+            while (ex.InnerException != null)
+            {
+                ex = ex.InnerException;
+            }
+
+            LogPostInfo logPostInfo = new LogPostInfo();
+            logPostInfo.Add("page", httpRequest.Url.ToString());
+            logPostInfo.Add("exception_msg", ex.Message);
+            logPostInfo.Add("user_id_cookie", accountCookie != null ? accountCookie["id"] : "null");
+            logPostInfo.Add("user_role_cookie", accountCookie != null ? accountCookie["role"] : "null");
+            logPostInfo.Add("user_agent", httpRequest.UserAgent);
+            logPostInfo.Add("http_method", httpRequest.HttpMethod);
+            logPostInfo.Add("query_string",httpRequest.QueryString.ToString() );
+            logPostInfo.Add("form",httpRequest.Form.ToString() );
+            logPostInfo.Add("user_ip_address",httpRequest.UserHostAddress.ToString() );
+            logPostInfo.Add("exception_source",ex.Source );
+            logPostInfo.Add("exception_stack",ex.StackTrace );
+
+            logPostInfo.Add("formatId", "e24401ec-a083-42f5-8698-ca45b40dc60b");
+
+            HttpRequestUtil.HttpPost("http://localhost:8011/log", logPostInfo.Get());
+
+
+        }
+        private void UploadDataCompleted(object sender, UploadDataCompletedEventArgs e)
+        {
+
+            //Response.Write(Encoding.GetEncoding("GB2312").GetString(e.Result));
+        }
+
+        private class LogPostInfo{
+            string data = "";
+            public LogPostInfo()
+            {
+                this.data = "";
+            }
+
+            public void Add(string key,string value) {
+                this.data += (this.data == "" ? "" : "&") + key + "=" + HttpUtility.UrlEncode( value);
+            }
+            public string Get()
+            {
+                return this.data;
+            }
+        }
     }
+
+    
 }

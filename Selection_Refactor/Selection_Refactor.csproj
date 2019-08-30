@@ -230,6 +230,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Util\CommonUtil.cs" />
     <Compile Include="Util\CryptoUtil.cs" />
+    <Compile Include="Util\HttpRequestUtil.cs" />
     <Compile Include="Util\LogUtil.cs" />
     <Compile Include="Util\TimeUtil.cs" />
     <Compile Include="Util\ZipUtil.cs" />
