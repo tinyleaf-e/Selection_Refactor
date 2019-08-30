@@ -50,6 +50,7 @@
                     <table class="table table-bordered table-striped" id="studentTable">
                         <thead>
                             <tr>
+                                <th>序号</th>
                                 <th>学号</th>
                                 <th>姓名</th>
                                 <th>性别</th>
@@ -87,9 +88,19 @@
                     dataSrc: ''
                 },
                 "columns": [
+                    {
+                        data: function (row, type, set, meta) {
+                            return meta.row+1
+                        }
+                    },
                     { data: "id" },
                     { data: "name" },
-                    { data: "gender" },
+                    {
+                        data: function (row, type, set, meta) {
+                            if (row.gender) return "男";
+                            return "女";
+                        }
+                    },
                     { data: "graMajor" },
                     { data: "graSchool" },
                 ]

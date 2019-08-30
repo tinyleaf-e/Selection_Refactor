@@ -152,6 +152,17 @@
         });
         
         $(document).ready(function () {
+            if (stage > 1) {
+                $("#stuAge").attr("readonly", "readonly");
+                $("#stuTel").attr("readonly", "readonly");
+                $("#stuEmail").attr("readonly", "readonly");
+                $("#stuOnTheJob").attr("disabled", "disabled");
+                $("#stuGraSchool").attr("readonly", "readonly");
+                $("#stuGraMajor").attr("readonly", "readonly");
+                $("#updateStuInfo").hide();
+                $("#upload-resume-btn").hide();
+            }
+
             $("#stuOnTheJob option[value='@ViewBag.OnTheJob']").attr("selected", "selected");
 
             $("#updateStuInfo").click(function () {

@@ -85,19 +85,19 @@
                             //TODO By 高晔 以下菜单需要根据实际情况改动
                             case "Student":
                                 {
-                                    <li class="page-tab index" access-stage="1111111" error-msg="奏是点不开">
+                                    <li class="page-tab index" access-stage="11111111" error-msg="奏是点不开">
                                         <a to="/Student/index">
                                             <i class="fa fa-info-circle"></i>
                                             <span>个人资料</span>
                                         </a>
                                     </li>
-                                    <li class="page-tab professor" access-stage="1111110">
+                                    <li class="page-tab professor" access-stage="11111111">
                                         <a to="/Student/professor">
                                             <i class="fa fa-hand-pointer-o"></i>
                                             <span>志愿提交</span>
                                         </a>
                                     </li>
-                                    <li class="page-tab finalwill" access-stage="1111111">
+                                    <li class="page-tab finalwill" access-stage="00000001">
                                         <a to="/Student/finalwill">
                                             <i class="fa fa-check-square-o"></i>
                                             <span>查看结果</span>
@@ -108,19 +108,19 @@
                             case "Professor":
                                 {
                                     
-                                    <li class="page-tab" access-stage="1111111">
+                                    <li class="page-tab" access-stage="11111111">
                                         <a to="/Professor/Index">
                                             <i class="fa fa-pie-chart"></i>
                                             <span>第一志愿选择页</span>
                                         </a>
                                     </li>
-                                    <li class="page-tab" access-stage="1111111">
+                                    <li class="page-tab" access-stage="11111111">
                                         <a to="/Professor/SecondSelect">
                                             <i class="fa fa-pie-chart"></i>
                                             <span>第二志愿选择页</span>
                                         </a>
                                     </li>
-                                    <li class="page-tab" access-stage="1111111">
+                                    <li class="page-tab" access-stage="11111111">
                                         <a to="/Professor/FinalStudents">
                                             <i class="fa fa-pie-chart"></i>
                                             <span>最终学生列表页</span>
@@ -130,13 +130,13 @@
                                 break;
                             case "Dean":
                                 {
-                                    <li class="page-tab profile" access-stage="1111111" error-msg="奏是点不开">
+                                    <li class="page-tab profile" access-stage="11111111" error-msg="奏是点不开">
                                         <a to="/Dean/Student">
                                             <i class="fa fa-list-ul"></i>
                                             <span>学生信息</span>
                                         </a>
                                     </li>
-                                    <li class="page-tab" access-stage="1111111">
+                                    <li class="page-tab" access-stage="11111111">
                                         <a to="/Dean/Professor">
                                             <i class="fa fa-list-ul"></i>
                                             <span>教师信息</span>
@@ -146,31 +146,31 @@
                                 break;
                             case "Admin":
                                 {
-                                    <li class="page-tab index" access-stage="1111111">
+                                    <li class="page-tab index" access-stage="11111111">
                                         <a to="/Admin/Index">
                                             <i class="fa fa-desktop"></i>
                                             <span>教师信息</span>
                                         </a>
                                     </li>
-                                    <li class="page-tab student" access-stage="1111111">
+                                    <li class="page-tab student" access-stage="11111111">
                                         <a to="/Admin/Student">
                                             <i class="fa fa-bar-chart-o"></i>
                                             <span>学生信息</span>
                                         </a>
                                     </li>
-                                    <li class="page-tab jiaowu" access-stage="1111111">
+                                    <li class="page-tab jiaowu" access-stage="11111111">
                                         <a to="/Admin/JiaoWu">
                                             <i class="fa fa-qrcode"></i>
                                             <span>教务教师信息</span>
                                         </a>
                                     </li>
-                                    <li class="page-tab major" access-stage="1111111">
+                                    <li class="page-tab major" access-stage="11111111">
                                         <a to="/Admin/Major">
                                             <i class="fa fa-qrcode"></i>
                                             <span>专业管理</span>
                                         </a>
                                     </li>
-                                    <li class="page-tab setting" access-stage="1111111">
+                                    <li class="page-tab setting" access-stage="11111111">
                                         <a to="/Admin/Setting">
                                             <i class="fa fa-dashboard"></i>
                                             <span>系统设置</span>
@@ -247,5 +247,6 @@
 
 
     @RenderSection("script", required: false)
+
 </body>
 </html>
