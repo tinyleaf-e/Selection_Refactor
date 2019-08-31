@@ -13,30 +13,30 @@
     <link href="~/Content/plugins/fileinput/css/fileinput.min.css" rel="stylesheet" />
 }
 <div id="page-wrapper">
-        <div style="padding-left:10px;padding-bottom:10px">
-            <button id="uploadProfessors" class="btn btn-block btn-primary bg-light-blue color-palette" style="width:8%;display:inline;vertical-align:baseline;">上传教师</button>
-            <button id="addProfessor" class="btn btn-block btn-primary bg-green color-palette" style="width:8%;margin-left:5px;display:inline;vertical-align:baseline;">新增教师</button>
-        </div>
-        <div class="box-body">
-                <div class="row">
-                    <div class="col-sm-12">
-                        <table id="professor-table" class="table table-bordered table-striped dataTable" role="grid" aria-describedby="example1_info">
-                            <thead>
-                                <tr role="row">
-                                    <th class="sorting_asc" data-field="ProName" style="width: 75px;">姓名</th>
-                                    <th class="sorting" data-field="ProTitle" style="width: 75px;">职称</th>
-                                    <th class="sorting" data-field="ProPlace" style="width: 60px;">最多名额</th>
-                                    <th class="sorting" data-field="FirstChoice" style="width: 80px;">第一志愿已选人数</th>
-                                    <th class="sorting" data-field="SecondChoice" style="width: 80px;">第二志愿已选人数</th>
-                                    <th class="sorting" data-field="DistributeNumber" style="width: 60px;">分配人数</th>
-                                    <th class="sorting" data-field="RestPlace" style="width: 60px;">剩余名额</th>
-                                    <th class="sorting" style="width: 100px;" data-formatter="operateFormatter" data-align='center' data-events='operateEvents'>操作</th>
-                                </tr>
-                            </thead>
-                        </table>
-                    </div>
+    <div style="padding-left:10px;padding-bottom:10px">
+        <button id="uploadProfessors" class="btn btn-block btn-primary bg-light-blue color-palette" style="width:8%;display:inline;vertical-align:baseline;">上传教师</button>
+        <button id="addProfessor" class="btn btn-block btn-primary bg-green color-palette" style="width:8%;margin-left:5px;display:inline;vertical-align:baseline;">新增教师</button>
+    </div>
+    <div class="box-body">
+        <div class="row">
+            <div class="col-sm-12">
+                <table id="professor-table" class="table table-bordered table-striped dataTable" role="grid" aria-describedby="example1_info">
+                    <thead>
+                        <tr role="row">
+                            <th class="sorting_asc" data-field="ProName" style="width: 75px;">姓名</th>
+                            <th class="sorting" data-field="ProTitle" style="width: 75px;">职称</th>
+                            <th class="sorting" data-field="ProPlace" style="width: 60px;">最多名额</th>
+                            <th class="sorting" data-field="FirstChoice" style="width: 80px;">第一志愿已选人数</th>
+                            <th class="sorting" data-field="SecondChoice" style="width: 80px;">第二志愿已选人数</th>
+                            <th class="sorting" data-field="DistributeNumber" style="width: 60px;">分配人数</th>
+                            <th class="sorting" data-field="RestPlace" style="width: 60px;">剩余名额</th>
+                            <th class="sorting" style="width: 100px;" data-formatter="operateFormatter" data-align='center' data-events='operateEvents'>操作</th>
+                        </tr>
+                    </thead>
+                </table>
             </div>
         </div>
+    </div>
 
 </div>
 <div style="clear:both">
@@ -84,12 +84,12 @@
                     <div class="row" style="width:45%;display:inline;vertical-align:baseline;padding-left:50px;">
                         <div class="column" style="float:left;padding-left:20px">
                             <label>职称</label><label style="color:red">&nbsp;*</label>
-                                             <select id="rank-input" type="text" class="form-control" placeholder="" style="width:200px;">
-                                                 <option value="教授">教授</option>
-                                                 <option value="副教授">副教授</option>
-                                                 <option value="讲师">讲师</option>
-                                                 <option value="高级工程师">高级工程师</option>
-                                             </select>
+                            <select id="rank-input" type="text" class="form-control" placeholder="" style="width:200px;">
+                                <option value="教授">教授</option>
+                                <option value="副教授">副教授</option>
+                                <option value="讲师">讲师</option>
+                                <option value="高级工程师">高级工程师</option>
+                            </select>
                         </div>
                         <div class="column" style="float:left;padding-left:50px">
                             <label>最大招收学生数</label><label style="color:red">&nbsp;*</label>
@@ -112,6 +112,30 @@
     </div>
 </div>
 <!--以上是直接新增教师模态框-->
+<!--以下是修改密码模态框-->
+<div class="modal" id="set-password-modal" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">设置密码</h4>
+            </div>
+            <div class="modal-body">
+                <div style="text-align:center">
+                    <div style="padding:8px 0px">
+                        <label style="width:100px;text-align:right">密码:</label>
+                        <input id="password-input" type="text" class="form-control" placeholder="请输入密码" style="width:calc(60% - 100px);margin-left:25px;margin-right:30px;display:inline-block">
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+                <button id="password-submit-btn" type="submit" class="btn btn-primary">确认提交</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--以上是修改密码模态框-->
 <!-- /. WRAPPER  -->
 <!-- JS Scripts-->
 <!-- jQuery Js -->
@@ -155,6 +179,13 @@
             cancelButtonText: "取 消"
         });
     }
+    
+    function setProfessorPassword(btn) {
+        var tr = $(btn).closest('tr');
+        var row = $('#professor-table').DataTable().row(tr).data();
+        $("#password-input").attr("professor-id", row.proId);
+        $("#set-password-modal").modal('show');
+    }
     $(document).ready(function () {
         initTable();
         $("#uploadProfessors").click(function () {
@@ -163,6 +194,32 @@
         $("#addProfessor").click(function () {
             $("#directAdd-professor-modal").modal('show')
         });
+        $("#password-submit-btn").click(function () {
+                if ($("#password-input").val().trim() == "") {
+                    $("#password-input").addClass("error-input");
+                    return;
+                }
+
+                var data = {
+                    'password': hex_md5($("#password-input").val()),
+                    'proId': $("#password-input").attr("professor-id")
+                }
+                $.post("/Admin/resetProfessorPassword", data, function (rel) {
+                    if (rel == "success") {
+                        table.ajax.reload();
+                        $("#set-password-modal").modal('hide');
+                    }
+                    else {
+                        $.gyAlert({
+                            title: "修改失败",
+                            contentText: rel.substring(5),
+                            cancelButton: false
+                        });
+                    }
+                    $("#password-input").val("");
+                });
+            });
+
         $("#addProfessor-submit-button").click(function () {
             flag = true;
             if ($("#name-input").val().trim() == "") {
@@ -227,7 +284,7 @@
         table = $('#professor-table').DataTable({
             ajax: {
                 //url: 'https://www.easy-mock.com/mock/5b1fe0f0f71e0743260935e1/example/getProInfo',
-                url:'/Admin/getProfessors',
+                url: '/Admin/getProfessors',
                 dataSrc: ''
             },
             "columns": [
@@ -241,8 +298,9 @@
                 {
                     data: function (row, type, set, meta) {
                         return [
-                            '<button type="button" class="btn btn-block btn-info btn-check-professor" style="width:45%;display:inline;vertical-align:baseline;" onclick="checkprofessor(this)"> 查看</button> ',
-                            '<button type="button" class="btn btn-block btn-success btn-delete-professor" style="width:45%;display:inline;vertical-align:baseline;" onclick="deleteprofessor(this)"> 删除</button> ',
+                            '<button type="button" class="btn btn-info btn-check-professor" onclick="checkprofessor(this)"> 查看</button> ',
+                            '<button type="button" class="btn btn-success btn-delete-professor" onclick="deleteprofessor(this)"> 删除</button> ',
+                            '<button type="button" class="btn btn-primary" style="background-color:#3c8dbc" onclick="setProfessorPassword(this)">重置密码</button> '
                         ].join('');
                     }
                 },
@@ -262,6 +320,6 @@
         uploadUrl: '/Admin/batchCreateTeachers',
         allowedFileExtensions: ['xlsx', 'xls'],//接收的文件后缀
     }).on('fileuploaded', function () {
-            table.ajax.reload();
-        });
+        table.ajax.reload();
+    });
 </script>

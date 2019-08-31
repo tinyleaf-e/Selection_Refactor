@@ -17,6 +17,10 @@
             <div class="box">
                 <ul class="list-group list-group-unbordered">
                     <li class="list-group-item">
+                        <b>工号</b>
+                        <p class="pull-right" id="ProId">@ViewBag.Id</p>
+                    </li>
+                    <li class="list-group-item">
                         <b>姓名</b>
                         <p class="pull-right" id="ProName">@ViewBag.Name</p>
                     </li>
@@ -25,13 +29,10 @@
                         <p class="pull-right" id="ProTitle">@ViewBag.ProTitle</p>
                     </li>
                     <li class="list-group-item">
-                        <b>工号</b>
-                        <p class="pull-right" id="ProId">@ViewBag.Id</p>
+                        <b>名额</b>
+                        <p class="pull-right" id="ProQuota">@ViewBag.Quota</p>
+                        <button style="margin-left:20px" class="btn btn-info" onclick="$('#quota-input').val(@ViewBag.Quota);$('#set-quota-modal').modal('show');">修改名额</button>
                     </li>
-                    <!--<li class="list-group-item">
-                        <b>现在招生数</b>
-                        <p class="pull-right" id="StuAmount"></p>
-                    </li>-->
                     <li class="list-group-item">
                         <b>介绍页面</b>
                         <a class="pull-right" id="ProUrl" href="@ViewBag.Url">
@@ -62,6 +63,32 @@
             </div>
         </div>
     </div>
+
+
+    <!--以下是修改名额模态框-->
+    <div class="modal" id="set-quota-modal" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">修改名额</h4>
+                </div>
+                <div class="modal-body">
+                    <div style="text-align:center">
+                        <div style="padding:8px 0px">
+                            <label style="width:100px;text-align:right">密码:</label>
+                            <input id="quota-input" type="number" class="form-control" placeholder="请输入密码" style="width:calc(60% - 100px);margin-left:25px;margin-right:30px;display:inline-block">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+                    <button id="quota-submit-btn" type="submit" onclick="setQuotaSubmit()" class="btn btn-primary">确认提交</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--以上是修改名额模态框-->
 </section>
 
 @section script{
@@ -87,7 +114,30 @@
                 ]
             });
         });
+        function setQuotaSubmit() {
+            if ($("#quota-input").val().trim() == "") {
+                $("#quota-input").addClass("error-input");
+                return;
+            }
 
+            var data = {
+                'quota': $("#quota-input").val(),
+                'proId': $("#ProId").text()
+            }
+            $.post("/Admin/setProfessorQuota", data, function (rel) {
+                if (rel == "success") {
+                    $("#ProQuota").text($("#quota-input").val());
+                    $("#set-quota-modal").modal('hide');
+                }
+                else {
+                    $.gyAlert({
+                        title: "修改失败",
+                        contentText: rel.substring(5),
+                        cancelButton: false
+                    });
+                }
+            });
+        }
 
 
     </script>

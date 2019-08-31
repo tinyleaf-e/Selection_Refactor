@@ -27,6 +27,7 @@ namespace Selection_Refactor.Controllers
             Student student = studentDao.getStudentById(id);
             ViewBag.StuName = student.name;
             ViewBag.StuAge = student.age.ToString();
+            ViewBag.StuGender = student.gender ? "男" : "女";
             ViewBag.StuTel = student.phoneNumber;
             ViewBag.StuEmail = student.email;
             ViewBag.StuId = student.id;

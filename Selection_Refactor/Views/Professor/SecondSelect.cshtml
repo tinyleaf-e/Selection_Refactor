@@ -109,7 +109,7 @@
                         return [
                             '<button type="button" class="btn btn-info" onclick="viewUnselectedStudentInfo(this)"> 查看学生信息 </button> ',
                             '<button type="button" class="btn btn-warning" onclick="downloadUnselectedStudentResume(this)"> 下载个人简历 </button> ',
-                            '<button type="button" class="btn btn-success" onclick="chooseStudent(this)"> 选择 </button> '
+                            stage==6?'<button type="button" class="btn btn-success" onclick="chooseStudent(this)"> 选择 </button> ':''
                         ].join('');
                     }
                 }
@@ -147,7 +147,7 @@
                         return [
                             '<button type="button" class="btn btn-info" onclick="viewSelectedStudentInfo(this)"> 查看学生信息 </button> ',
                             '<button type="button" class="btn btn-warning" onclick="downloadSelectedStudentResume(this)"> 下载个人简历 </button> ',
-                            '<button type="button" class="btn btn-error" onclick="deleteStudent(this)"> 删除 </button> '
+                            stage==6?'<button type="button" class="btn btn-error" '+(row.will==1?'disabled="disabled"':'')+' onclick="deleteStudent(this)"> 删除 </button> ':''
                         ].join('');
                     }
                 }

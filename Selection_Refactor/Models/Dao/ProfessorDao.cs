@@ -133,6 +133,23 @@ namespace Selection_Refactor.Models.Dao
             }
             return false;
         }
+        /*
+         * Create By zzw
+         * 更改密码
+         * 成功插入返回true，失败返回false
+         */
+        public bool changeQuotaById(string id, int quota)
+        {
+            ProfessorDBContext professorDB = new ProfessorDBContext();
+            Professor professor = professorDB.professors.Find(id);
+            if (professor != null)
+            {
+                professor.quota = quota;
+                professorDB.SaveChanges();
+                return true;
+            }
+            return false;
+        }
         ///*
         // * Create By zzw
         // * 更改额度

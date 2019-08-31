@@ -62,6 +62,7 @@ namespace Selection_Refactor.Controllers
             Professor p = professorDao.getProfessorById(proId);
             ViewBag.Name = p.name;
             ViewBag.Id = p.id;
+            ViewBag.Quota = p.quota;
             ViewBag.Url = p.infoURL;
             ViewBag.ProTitle = p.title;
             return View();
@@ -75,6 +76,7 @@ namespace Selection_Refactor.Controllers
             ViewBag.Id = s.id;
             ViewBag.Name = s.name;
             ViewBag.Age = s.age;
+            ViewBag.Gender = s.gender ? "男" : "女";
             ViewBag.Email = s.email;
             ViewBag.Major = majorDao.getMajorById(s.majorId).name;
             ViewBag.OnJob = (s.onTheJob ? "在职" : "脱产");
@@ -274,7 +276,7 @@ namespace Selection_Refactor.Controllers
             // public int Order { set; get; }
             public string StuName { set; get; }
             public string id { set; get; }          
-            public int major { set; get; }
+            public string major { set; get; }
             public bool infoCommited { set; get; }
             public bool twoWillCommited { set; get; }
             public string FinalTutor { set; get; }       
@@ -290,8 +292,10 @@ namespace Selection_Refactor.Controllers
         {
             string res = "";
             StudentDao studentDao = new StudentDao();
+            MajorDao majorDao = new MajorDao();
             List<Student> students = studentDao.listAllStudent();
             List<AdminStudent> adminStudents = new List<AdminStudent>();
+            List<Major> majors = majorDao.listAllMajor();
             if (students == null)
             {
                 return res;
@@ -303,7 +307,7 @@ namespace Selection_Refactor.Controllers
                     AdminStudent Astudent=new AdminStudent();
                     Astudent.id = s.id;
                     Astudent.StuName = s.name;
-                    Astudent.major = s.majorId;
+                    Astudent.major = majorDao.getMajorById(s.majorId).name;
                     //专业方向？
                     Astudent.infoCommited = s.infoChecked;
                     if (s.firstWill != null && s.secondWill != null)
@@ -413,11 +417,13 @@ namespace Selection_Refactor.Controllers
                 string tempName;
                 string tempPasswd;
                 string tempMajor;
+                string tempGender;
 
                 int idcol = -11;
                 int namecol = -11;
                 int Passwdcol = -11;
                 int Majorcol = -11;
+                int Gendercol = -11;
                 int idrow = -11;
                 //int maxnumcol = -11;
                 CellRange[] cellrange = sheet.Cells;
@@ -444,7 +450,11 @@ namespace Selection_Refactor.Controllers
                         {
                             Majorcol = j;
                         }
-                    
+                        else if (tempId.Equals("性别"))
+                        {
+                            Gendercol = j;
+                        }
+
                     }
                     if (idcol >= 0 && namecol >= 0)
                     {
@@ -466,6 +476,7 @@ namespace Selection_Refactor.Controllers
                     tempName = cellrange[i * col + namecol].Value;
                     tempPasswd = cellrange[i * col + Passwdcol].Value;
                     tempMajor = cellrange[i * col + Majorcol].Value;
+                    tempGender = cellrange[i * col + Gendercol].Value;
                     if (tempName != "")
                     {
                         if (studentDao.getStudentById(tempId) != null)
@@ -493,6 +504,7 @@ namespace Selection_Refactor.Controllers
                             continue;
                         }
                         student.password = CryptoUtil.Md5Hash(tempPasswd);
+                        student.gender = tempGender == "女" ? false : true;
                         addres = studentDao.addStudent(student);
                         if (addres < 1)
                         {
@@ -852,6 +864,55 @@ namespace Selection_Refactor.Controllers
             }
             
         }
+
+        /*  
+         *  Create By 高晔
+         *  重置教师密码接口
+         */
+        //[RoleAuthorize(Role = "admin")]
+        public string resetProfessorPassword(string proId, string password)
+        {
+            ProfessorDao professorDao = new ProfessorDao();
+            try
+            {
+                if (professorDao.getProfessorById(proId) == null)
+                    return "fail:未找到用户";
+                if (professorDao.changePasswordById(proId, password))
+                {
+                    return "success";
+                }
+                return "fail:修改失败";
+            }
+            catch (Exception e)
+            {
+                return "fail:" + e.Message;
+            }
+        }
+
+        /*  
+         *  Create By 高晔
+         *  修改教师名额接口
+         */
+        //[RoleAuthorize(Role = "admin")]
+        public string setProfessorQuota(string proId, int quota)
+        {
+            ProfessorDao professorDao = new ProfessorDao();
+            try
+            {
+                if (professorDao.getProfessorById(proId) == null)
+                    return "fail:未找到用户";
+                if (professorDao.changeQuotaById(proId, quota))
+                {
+                    return "success";
+                }
+                return "fail:修改失败";
+            }
+            catch (Exception e)
+            {
+                return "fail:" + e.Message;
+            }
+        }
+
         public class AdminProfessor
         {
             public string proId { set; get; }

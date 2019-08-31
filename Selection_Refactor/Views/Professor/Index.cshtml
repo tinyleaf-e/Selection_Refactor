@@ -1,7 +1,6 @@
 ﻿@{
     ViewBag.Title = "第一志愿选择";
     ViewBag.CurrentTab = "index";
-    ViewBag.Stage = 2;
     ViewBag.BoxTitle = "第一志愿选择";
     ViewBag.Role = "Professor";
 }
@@ -100,7 +99,7 @@
                         return [
                             '<button type="button" class="btn btn-info" onclick="viewStudentInfo1(this)"> 查看学生信息 </button> ',
                             '<button type="button" class="btn btn-warning" onclick="downloadStudentResume1(this)"> 下载个人简历 </button> ',
-                            '<button type="button" class="btn btn-success" onclick="chooseStudent(this)"> 选择 </button> '
+                            stage==4?'<button type="button" class="btn btn-success" onclick="chooseStudent(this)"> 选择 </button> ':''
                         ].join('');
                     }
                 }
@@ -137,7 +136,7 @@
                         return [
                             '<button type="button" class="btn btn-info" onclick="viewStudentInfo2(this)"> 查看学生信息 </button> ',
                             '<button type="button" class="btn btn-warning" onclick="downloadStudentResume2(this)"> 下载个人简历 </button> ',
-                            '<button type="button" class="btn btn-error" onclick="deleteStudent(this)"> 删除 </button> '
+                            stage==4?'<button type="button" class="btn btn-error" onclick="deleteStudent(this)"> 删除 </button> ':''
                         ].join('');
                     }
                 }
