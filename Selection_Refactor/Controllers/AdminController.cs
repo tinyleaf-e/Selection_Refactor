@@ -20,21 +20,29 @@ namespace Selection_Refactor.Controllers
         //{
 
         //}
+
+        [RoleAuthorize(Role = "admin")]
         public ActionResult Index()
         {
             return View();
         }
 
+
+        [RoleAuthorize(Role = "admin")]
         public ActionResult JiaoWu()
         {
             return View();
         }
 
+
+        [RoleAuthorize(Role = "admin")]
         public ActionResult Major()
         {
             return View();
         }
 
+
+        [RoleAuthorize(Role = "admin")]
         public ActionResult Setting()
         {
             SettingDao settingDao = new SettingDao();
@@ -51,11 +59,15 @@ namespace Selection_Refactor.Controllers
             return View();
         }
 
+
+        [RoleAuthorize(Role = "admin")]
         public ActionResult Student()
         {
             return View();
         }
 
+
+        [RoleAuthorize(Role = "admin")]
         public ActionResult ProfessorInfo(string proId)
         {
             ProfessorDao professorDao = new ProfessorDao();
@@ -67,6 +79,8 @@ namespace Selection_Refactor.Controllers
             ViewBag.ProTitle = p.title;
             return View();
         }
+
+        [RoleAuthorize(Role = "admin")]
         public ActionResult StudentInfo(string stuId)
         {
             ProfessorDao professorDao = new ProfessorDao();
@@ -105,7 +119,7 @@ namespace Selection_Refactor.Controllers
          * 返回值：操作成功时返回success:压缩包相对地址
                   操作失败时返回fail:失败原因
          */
-        //[RoleAuthorize(Role = "admin")]
+        [RoleAuthorize(Role = "admin")]
         public string zipDownloadResumes()
         {
             try
@@ -168,7 +182,7 @@ namespace Selection_Refactor.Controllers
          * 返回值：操作成功时返回success
                   操作失败时返回fail:失败原因
          */
-        //[RoleAuthorize(Role = "admin")]
+        [RoleAuthorize(Role = "admin")]
         public string closeSystem(bool type)
         {
             try
@@ -191,7 +205,7 @@ namespace Selection_Refactor.Controllers
          * 返回值：操作成功时返回success
                   操作失败时返回fail:失败原因
          */
-        //[RoleAuthorize(Role = "admin")]
+        [RoleAuthorize(Role = "admin")]
         public string changeMode(bool type)
         {
             try
@@ -218,7 +232,7 @@ namespace Selection_Refactor.Controllers
          * 返回值：操作成功时返回success
                   操作失败时返回fail:失败原因
          */
-        //[RoleAuthorize(Role = "admin")]
+        [RoleAuthorize(Role = "admin")]
         public string changeCurrentStage(int stage)
         {
             try
@@ -245,7 +259,7 @@ namespace Selection_Refactor.Controllers
          * 返回值：操作成功时返回success
                   操作失败时返回fail:失败原因
          */
-        //[RoleAuthorize(Role = "admin")]
+        [RoleAuthorize(Role = "admin")]
         public string updateSettingTime(string infoStart, string infoEnd, string firstStart, string firstEnd, string secondStart, string secondEnd, string publishStart)
         {
             try
@@ -287,7 +301,8 @@ namespace Selection_Refactor.Controllers
          *  Create By 徐子一
          *  A9:请求全部学生信息
          */
-        //[RoleAuthorize(Role = "admin")]
+
+        [RoleAuthorize(Role = "admin")]
         public string getStudentInfo()
         {
             string res = "";
@@ -349,7 +364,7 @@ namespace Selection_Refactor.Controllers
          *  Create By 徐子一
          *  A10:新增单个学生接口
          */
-        //[RoleAuthorize(Role = "admin")]
+        [RoleAuthorize(Role = "admin")]
         public string addSingleStudent(string name, string id, int majorId, string passwd)
         {
          //   StudentDBContext studentDBContext = new StudentDBContext();
@@ -380,7 +395,7 @@ namespace Selection_Refactor.Controllers
          *  Create By 徐子一
          *  A11:上传多个学生接口
          */
-        //[RoleAuthorize(Role = "admin")]
+        [RoleAuthorize(Role = "admin")]
         public string batchAddStudents(HttpPostedFileBase file)
         {
             var severPath = this.Server.MapPath("/ExcelFiles/");
@@ -537,7 +552,7 @@ namespace Selection_Refactor.Controllers
          *  Create By 徐子一
          *  A12:删除学生接口
          */
-        //[RoleAuthorize(Role = "admin")]
+        [RoleAuthorize(Role = "admin")]
         public string deleteSingleStudent(string stuId)
         {
 
@@ -564,7 +579,7 @@ namespace Selection_Refactor.Controllers
          *  Create By 徐子一
          *  A13:重置学生密码接口
          */
-        //[RoleAuthorize(Role = "admin")]
+        [RoleAuthorize(Role = "admin")]
         public string resetStudentPassword(string stuId, string password)
         {
             StudentDao studentDao = new StudentDao();
@@ -869,7 +884,7 @@ namespace Selection_Refactor.Controllers
          *  Create By 高晔
          *  重置教师密码接口
          */
-        //[RoleAuthorize(Role = "admin")]
+        [RoleAuthorize(Role = "admin")]
         public string resetProfessorPassword(string proId, string password)
         {
             ProfessorDao professorDao = new ProfessorDao();
@@ -893,7 +908,7 @@ namespace Selection_Refactor.Controllers
          *  Create By 高晔
          *  修改教师名额接口
          */
-        //[RoleAuthorize(Role = "admin")]
+        [RoleAuthorize(Role = "admin")]
         public string setProfessorQuota(string proId, int quota)
         {
             ProfessorDao professorDao = new ProfessorDao();
@@ -941,7 +956,7 @@ namespace Selection_Refactor.Controllers
             * 返回值：操作成功时返回请求的教务教师json串
                     操作失败时返回空json串
             */
-        //[RoleAuthorize(Role = "admin")]
+        [RoleAuthorize(Role = "admin")]
         public string getAllDeans()
         {
             string rel = "";
@@ -984,6 +999,8 @@ namespace Selection_Refactor.Controllers
             * 返回值：操作成功时返回success
                     操作失败时返回fail
             */
+
+        [RoleAuthorize(Role = "admin")]
         public string addDean(string name, string number, string major,string passwd)
         {
             //string rel = "";
@@ -1023,6 +1040,8 @@ namespace Selection_Refactor.Controllers
             * 返回值：操作成功时返回success
                     操作失败时返回fail
             */
+
+        [RoleAuthorize(Role = "admin")]
         public string addDeans(HttpPostedFileBase file)
         {
             DeanDao deandao = new DeanDao();
@@ -1174,6 +1193,8 @@ namespace Selection_Refactor.Controllers
             * 返回值：操作成功时返回success
                     操作失败时返回fail：失败原因
             */
+
+        [RoleAuthorize(Role = "admin")]
         public string deleteDean(string id)
         {
             try
@@ -1204,7 +1225,7 @@ namespace Selection_Refactor.Controllers
             * 返回值：操作成功时返回success
                     操作失败时返回fail：失败原因
             */
-        //[RoleAuthorize(Role = "admin")]
+        [RoleAuthorize(Role = "admin")]
         public string deleteMajorById(string id)
         {
             try
@@ -1233,7 +1254,7 @@ namespace Selection_Refactor.Controllers
             * 返回值：操作成功时返回全部专业
                     操作失败时返回fail：失败原因
             */
-        //[RoleAuthorize(Role = "admin")]
+        [RoleAuthorize(Role = "admin")]
         public string getAllMajor()
         {
             try
@@ -1253,6 +1274,7 @@ namespace Selection_Refactor.Controllers
             }
         }
 
+        [RoleAuthorize(Role = "admin")]
         public string getAllMajor2()
         {
             try
@@ -1277,7 +1299,7 @@ namespace Selection_Refactor.Controllers
             * 返回值：操作成功时返回success
                     操作失败时返回fail：失败原因
             */
-        //[RoleAuthorize(Role = "admin")]
+        [RoleAuthorize(Role = "admin")]
         public string editMajor(string id,string name)
         {
             try
@@ -1309,7 +1331,7 @@ namespace Selection_Refactor.Controllers
        * 返回值：操作成功时返回success
                操作失败时返回fail：失败原因
        */
-        //[RoleAuthorize(Role = "admin")]
+        [RoleAuthorize(Role = "admin")]
         public string addMajor(string name)
         {
             try

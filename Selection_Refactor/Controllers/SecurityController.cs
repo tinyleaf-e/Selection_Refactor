@@ -16,7 +16,7 @@ namespace Selection_Refactor.Controllers
         public ActionResult Login()
         {
             //TODO By 高晔 后期删除下面这句，现在是为了创建初始化本地数据库
-            UserDao.initLocalDB();
+            //UserDao.initLocalDB();
             return View();
         }
 

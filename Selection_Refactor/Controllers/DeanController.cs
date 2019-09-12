@@ -15,14 +15,20 @@ namespace Selection_Refactor.Controllers
     public class DeanController : Controller
     {
         // GET: Dean
+
+        [RoleAuthorize(Role = "dean")]
         public ActionResult Professor()
         {
             return View();
         }
+
+        [RoleAuthorize(Role = "dean")]
         public ActionResult Student()
         {
             return View();
         }
+
+        [RoleAuthorize(Role = "dean")]
         public ActionResult ProfessorInfo(string proId)
         {
             ProfessorDao professorDao = new ProfessorDao();
@@ -33,6 +39,8 @@ namespace Selection_Refactor.Controllers
             ViewBag.ProTitle = p.title;
             return View();
         }
+
+        [RoleAuthorize(Role = "dean")]
         public ActionResult StudentInfo(string stuId)
         {
             ProfessorDao professorDao = new ProfessorDao();
@@ -247,7 +255,7 @@ namespace Selection_Refactor.Controllers
          * Create By 付文欣
          * 修改密码接口
          */
-        //[RoleAuthorize(Role = "dean")]
+        [RoleAuthorize(Role = "dean")]
         public String ChangePassword(String oldpasswd,String newpasswd)
         {
             try
@@ -278,7 +286,7 @@ namespace Selection_Refactor.Controllers
          * 通过proId列出教师已选学生列表
          * 
          */
-        //[RoleAuthorize(Role = "dean")]
+        [RoleAuthorize(Role = "dean")]
         public string listSelectedStudentsByProId(string proId)
         {
             try

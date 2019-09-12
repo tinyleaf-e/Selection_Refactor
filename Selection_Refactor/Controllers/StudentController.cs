@@ -48,6 +48,8 @@ namespace Selection_Refactor.Controllers
                 ViewBag.Deadline = "";
             return View();
         }
+
+        [RoleAuthorize(Role = "student,professor")]
         public ActionResult FinalWill()
         {
             try
@@ -75,6 +77,8 @@ namespace Selection_Refactor.Controllers
             //ViewBag.Final-最后选择结果
             return View();
         }
+
+        [RoleAuthorize(Role = "student")]
         public ActionResult Professor()
         {
             HttpCookie accountCookie = Request.Cookies["Account"];
@@ -101,6 +105,7 @@ namespace Selection_Refactor.Controllers
         *  Create By 徐子一
         *  S2:学生提交志愿
         */
+        [RoleAuthorize(Role = "student-01000000")]
         public string confirmWill(string firstWill, string secondWill)
         {
             HttpCookie accountCookie = Request.Cookies["Account"];
@@ -130,6 +135,7 @@ namespace Selection_Refactor.Controllers
         *  Create By 徐子一
         *  S3:学生更新个人信息
         */
+        [RoleAuthorize(Role = "student-01000000")]
         public string saveInfo(int age, string phoneNumber, string email, bool onTheJob, string graSchool, string graMajor)
         {
             HttpCookie accountCookie = Request.Cookies["Account"];
@@ -164,6 +170,7 @@ namespace Selection_Refactor.Controllers
         *  成功返回success
         *  失败返回fail:失败原因
         */
+        [RoleAuthorize(Role = "student-01000000")]
         public string submitResume(HttpPostedFileBase file)
         {
             SettingDao settingdao = new SettingDao();
@@ -227,6 +234,7 @@ namespace Selection_Refactor.Controllers
         *  Create By zzw
         *  S1:学生获取老师信息
         */
+        [RoleAuthorize(Role = "student")]
         public string listProfessors()
         {
             try

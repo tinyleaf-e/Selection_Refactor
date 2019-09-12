@@ -15,6 +15,8 @@ namespace Selection_Refactor.Controllers
     {
 
 
+
+        [RoleAuthorize(Role = "professor")]
         public ActionResult Index()
         {
             HttpCookie accountCookie = Request.Cookies["Account"];
@@ -33,6 +35,7 @@ namespace Selection_Refactor.Controllers
             ViewBag.RemainNum = professor.quota - count;
             return View();
         }
+        [RoleAuthorize(Role = "professor")]
         public ActionResult Student(string stuID)
         {
             StudentDao studentDao = new StudentDao();
@@ -49,6 +52,7 @@ namespace Selection_Refactor.Controllers
             ViewBag.StuMajor = new MajorDao().getMajorById(student.majorId).name;
             return View();
         }
+        [RoleAuthorize(Role = "professor")]
         public ActionResult SecondSelect()
         {
             HttpCookie accountCookie = Request.Cookies["Account"];
@@ -69,6 +73,7 @@ namespace Selection_Refactor.Controllers
             ViewBag.RemainNum = professor.quota - count;
             return View();
         }
+        [RoleAuthorize(Role = "professor")]
         public ActionResult FinalStudents()
         {
             return View();
