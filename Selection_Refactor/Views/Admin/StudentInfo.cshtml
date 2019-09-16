@@ -8,30 +8,35 @@
 
 <section class="content">
     <div class="row">
-            <div class="col-md-4">
-                <div class="box">
-                    <div class="box-header">
-                        <h3 class="box-title">志愿选择</h3>
-                    </div>
-                    <div class="box-body">
-                        <ul class="list-group list-group-unbordered">
-                            <li class="list-group-item">
-                                <b>第一志愿</b>
-                                <p class="pull-right" id="FirstWill">@ViewBag.FirstWillName</p>
-                            </li>
-                            <li class="list-group-item">
-                                <b>第二志愿</b>
-                                <p class="pull-right" id="SecondWill">@ViewBag.SecondWillName</p>
-                            </li>
-                            <li class="list-group-item">
-                                <b>最终导师</b>
-                                <p class="pull-right" id="FinalWill">@ViewBag.FinalWillName</p>
-                            </li>
-                        </ul>
-                    </div>
+        <div class="col-md-4">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">志愿选择</h3>
+                </div>
+                <div class="box-body">
+                    <ul class="list-group list-group-unbordered">
+                        <li class="list-group-item">
+                            <b>第一志愿</b>
+                            <p class="pull-right" id="FirstWill">@ViewBag.FirstWillName</p>
+                        </li>
+                        <li class="list-group-item">
+                            <b>第二志愿</b>
+                            <p class="pull-right" id="SecondWill">@ViewBag.SecondWillName</p>
+                        </li>
+                        <li class="list-group-item">
+                            <b>调剂导师</b>
+                            <p class="pull-right" id="stu-dispensed-will">@ViewBag.DispensedWillName</p>
+                            <button style="margin-left:20px" class="btn btn-info" onclick="$('#dispensed-will-input').val('');$('#set-dispensed-will-modal').modal('show');">设置调剂导师</button>
+                        </li>
+                        <li class="list-group-item">
+                            <b>最终导师</b>
+                            <p class="pull-right" id="FinalWill">@ViewBag.FinalWillName</p>
+                        </li>
+                    </ul>
                 </div>
             </div>
-        
+        </div>
+
 
         <div class="col-md-7 pull-right">
             <div class="box">
@@ -84,11 +89,62 @@
             </div>
         </div>
 
+        <!--以下是修改调剂导师模态框-->
+        <div class="modal" id="set-dispensed-will-modal" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">修改名额</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div style="text-align:center">
+                            <div style="padding:8px 0px">
+                                <label style="width:100px;text-align:right">调剂导师工号:</label>
+                                <input id="dispensed-will-input" type="number" class="form-control" placeholder="请输入调剂导师工号" style="width:calc(60% - 100px);margin-left:25px;margin-right:30px;display:inline-block">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+                        <button id="dispensed-will-submit-btn" type="submit" onclick="setDispensedWillSubmit()" class="btn btn-primary">确认提交</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--以上是修改调剂导师模态框-->
+
     </div>
 </section>
 
 @section script{
     <script src="~/Content/js/jquery.cookie.js"></script>
+    <script>
+        function setDispensedWillSubmit() {
+            if ($("#dispensed-will-input").val().trim() == "") {
+                $("#dispensed-will-input").addClass("error-input");
+                return;
+            }
 
+            var data = {
+                'proId': $("#dispensed-will-input").val(),
+                'stuId': $("#StuId").text()
+            }
+            $.post("/Admin/setStudentDispensedWill", data, function (rel) {
+                if (rel == "success") {
+                    location.reload();
+                    //$("#StuDispensedWill").text($("#dispensed-will-input").val());
+                    //$("#set-dispensed-will-modal").modal('hide');
+                }
+                else {
+                    $.gyAlert({
+                        title: "修改失败",
+                        contentText: rel.substring(5),
+                        cancelButton: false
+                    });
+                }
+            });
+        }
+    </script>
 }
 

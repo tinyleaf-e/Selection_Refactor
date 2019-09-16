@@ -100,12 +100,14 @@ namespace Selection_Refactor.Controllers
                 ViewBag.FirstWillName = professorDao.getProfessorById(s.firstWill).name;
             if (s.secondWill != null)
                 ViewBag.SecondWillName = professorDao.getProfessorById(s.secondWill).name;
+            if (s.dispensedWill != null)
+                ViewBag.DispensedWillName = professorDao.getProfessorById(s.dispensedWill).name;
             if (s.firstWillState == 1)
                 ViewBag.FinalWillName = ViewBag.FirstWillName;
             else if (s.secondWillState == 1)
                 ViewBag.FinalWillName = ViewBag.SecondWillName;
             else if (s.dispensedWill != null && s.dispensedWill != "")
-                ViewBag.FinalWillName = professorDao.getProfessorById(s.dispensedWill).name;
+                ViewBag.FinalWillName = ViewBag.DispensedWillName;
             else
                 ViewBag.FinalWillName = "无";
             return View();
@@ -308,6 +310,7 @@ namespace Selection_Refactor.Controllers
             string res = "";
             StudentDao studentDao = new StudentDao();
             MajorDao majorDao = new MajorDao();
+            ProfessorDao professorDao = new ProfessorDao();
             List<Student> students = studentDao.listAllStudent();
             List<AdminStudent> adminStudents = new List<AdminStudent>();
             List<Major> majors = majorDao.listAllMajor();
@@ -335,20 +338,19 @@ namespace Selection_Refactor.Controllers
                     }
                     if (s.firstWillState == 1)
                     {
-                        Astudent.FinalTutor = s.firstWill;
+                        Astudent.FinalTutor = professorDao.getProfessorById(s.firstWill).name;
                     }
                     else if (s.secondWillState == 1)
                     {
-                        Astudent.FinalTutor = s.secondWill;
+                        Astudent.FinalTutor = professorDao.getProfessorById(s.secondWill).name;
                     }
-                    else if (s.firstWillState + s.secondWillState == 0)
+                    else if (s.dispensedWill == null || s.dispensedWill == "")
                     {
                         Astudent.FinalTutor = null;
                     }
                     else
                     {
-
-                        Astudent.FinalTutor = s.dispensedWill;
+                        Astudent.FinalTutor = professorDao.getProfessorById(s.dispensedWill).name;
                     }
                     adminStudents.Add(Astudent);
                 }
@@ -605,6 +607,32 @@ namespace Selection_Refactor.Controllers
             }
             
 
+        }
+
+        /*  
+         *  Create By 高晔
+         *  设置调剂导师接口
+         */
+        [RoleAuthorize(Role = "admin")]
+        public string setStudentDispensedWill(string stuId, string proId)
+        {
+            StudentDao studentDao = new StudentDao();
+            try
+            {
+                Student student = studentDao.getStudentById(stuId);
+                if (student == null)
+                    return "fail:未找到用户";
+                student.dispensedWill = proId;
+                if (studentDao.update(student))
+                {
+                    return "success";
+                }
+                return "fail:修改失败";
+            }
+            catch (Exception e)
+            {
+                return "fail:" + e.Message;
+            }
         }
 
         /*
