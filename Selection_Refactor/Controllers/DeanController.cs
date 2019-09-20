@@ -286,7 +286,7 @@ namespace Selection_Refactor.Controllers
          * 通过proId列出教师已选学生列表
          * 
          */
-        [RoleAuthorize(Role = "dean")]
+        [RoleAuthorize(Role = "dean,admin")]
         public string listSelectedStudentsByProId(string proId)
         {
             try

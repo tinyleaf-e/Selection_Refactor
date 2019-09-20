@@ -191,10 +191,6 @@
                             firstChoiceTable.ajax.reload();
                             haveChosenTable.ajax.reload();
                             $("#selectNum").text(parseInt($("#selectNum").text()) + 1);
-                            $.gyAlert({
-                                title: "删除成功",
-                                contentText: "您已成功删除该学生"
-                            });
                         }
                         else
                             $.gyAlert({
@@ -211,6 +207,14 @@
         function chooseStudent(btn) {
             var tr = $(btn).closest('tr');
             var row = firstChoiceTable.row(tr).data();
+            if ($("#selectNum").text() == '0') {
+                $.gyAlert({
+                    title:"选择失败",
+                    contentText: "您已选择的学生数已达到名额上限！",
+                    cancelButton: false
+                });
+                return;
+            } 
             $.gyAlert({
                 contentText: "确认选择该学生?",
                 confirm: function () {
@@ -222,10 +226,6 @@
                             firstChoiceTable.ajax.reload();
                             haveChosenTable.ajax.reload();
                             $("#selectNum").text(parseInt($("#selectNum").text()) - 1);
-                            $.gyAlert({
-                                title: "选择成功",
-                                contentText: "您已成功选择该学生"
-                            });
                         }
                         else
                             $.gyAlert({

@@ -1,7 +1,6 @@
 ﻿@{
     ViewBag.Title = "二次选择";
-    ViewBag.CurrentTab = "index";
-    ViewBag.Stage = 2;
+    ViewBag.CurrentTab = "second";
     ViewBag.BoxTitle = "二次选择";
     ViewBag.Role = "Professor";
 }
@@ -92,9 +91,7 @@
             },
             "columns": [
                 {
-                    data: function (row, type, set,meta) {
-                        return meta.row;
-                    }
+                    data: "id"
                 },
                 { data: "name" },
                 { data: function (row, type, set, meta) { return row.gender ? "男" : "女" } },
@@ -129,9 +126,7 @@
             },
             "columns": [
                 {
-                    data: function (row, type, set, meta) {
-                        return meta.row;
-                    }
+                    data: "id"
                 },
                 { data: "name" },
                 { data: function (row, type, set, meta) { return row.gender ? "男" : "女" } },
@@ -206,10 +201,6 @@
                             waitChooseTable.ajax.reload();
                             selectedTable.ajax.reload();
                             $("#selectNum").text(parseInt($("#selectNum").text()) + 1);
-                            $.gyAlert({
-                                title: "删除成功",
-                                contentText: "您已成功删除该学生"
-                            });
                         }
                         else
                             $.gyAlert({
@@ -226,6 +217,14 @@
         function chooseStudent(btn) {
             var tr = $(btn).closest('tr');
             var row = waitChooseTable.row(tr).data();
+            if ($("#selectNum").text() == '0') {
+                $.gyAlert({
+                    title:"选择失败",
+                    contentText: "您已选择的学生数已达到名额上限！",
+                    cancelButton: false
+                });
+                return;
+            } 
             $.gyAlert({
                 contentText: "确认选择该学生?",
                 confirm: function () {
@@ -237,10 +236,6 @@
                             waitChooseTable.ajax.reload();
                             selectedTable.ajax.reload();
                             $("#selectNum").text(parseInt($("#selectNum").text()) - 1);
-                            $.gyAlert({
-                                title: "选择成功",
-                                contentText: "您已成功选择该学生"
-                            });
                         }
                         else
                             $.gyAlert({

@@ -113,13 +113,13 @@
                 },
                 {//第一志愿
                     data: function (row, type, set, meta) {
-                        if (row.firstwill != "" && row.finalWill == row.firstwill) return "接收";
+                        if (row.firstWill != "" && row.finalWill == row.firstWill) return "<span style='display:inline-block;background:green;padding:2px 4px;color:white'>接收</span>";
                         else return "未接收";
                     }
                 },
                 {//第二志愿
                     data: function (row, type, set, meta) {
-                        if (row.secondWill!="" && row.finalWill == row.secondWill) return "接收";
+                        if (row.secondWill!="" && row.finalWill == row.secondWill) return "<span style='display:inline-block;background:green;padding:2px 4px;color:white'>接收</span>";
                         else return "未接收";
                     }
                 },

@@ -181,6 +181,8 @@ namespace Selection_Refactor.Controllers
         {
             try
             {
+                SettingDao settingDao = new SettingDao();
+                if (settingDao.getCurrentStage() < 4) return "[]";
                 HttpCookie accountCookie = Request.Cookies["Account"];
                 StudentDao studentDao = new StudentDao();
                 List<Student> students = studentDao.listAllStudent();
