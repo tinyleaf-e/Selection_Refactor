@@ -13,8 +13,8 @@ namespace Selection_Refactor.Attribute
         {
             Util.LogUtil.writeLogToFile(filterContext.Exception, filterContext.RequestContext.HttpContext.Request);
             //filterContext.ExceptionHandled = true;
-            //filterContext.RequestContext.HttpContext.Server.ClearError();
-            //filterContext.RequestContext.HttpContext.Response.Redirect("/Security/Error");
+            filterContext.RequestContext.HttpContext.Server.ClearError();
+            filterContext.RequestContext.HttpContext.Response.Redirect("/Security/Error");
         }
 
         private Exception BuildErrorMessage(Exception ex)
