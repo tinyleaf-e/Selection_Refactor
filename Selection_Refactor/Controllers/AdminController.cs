@@ -709,7 +709,7 @@ namespace Selection_Refactor.Controllers
          * 增加一位教师
          */
         [RoleAuthorize(Role = "admin")]
-        public string addSingleProfessor(string name, string number, string title, string url, int needstudent,string passwd)
+        public string addSingleProfessor(string name, string number, string title, string url, int needstudent,string passwd="12345")
         {
             try
             {
