@@ -155,6 +155,8 @@ namespace Selection_Refactor.Controllers
                 s.onTheJob = onTheJob;
                 s.graSchool = graSchool;
                 s.graMajor = graMajor;
+                if (s.age != 0 && s.graSchool != null && graMajor != null && phoneNumber != null )
+                    s.infoChecked = true;
                 studentDao.update(s);
                 rel = "success";
             }
