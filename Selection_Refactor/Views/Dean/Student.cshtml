@@ -19,6 +19,14 @@
             <option value="3">没有确定导师学生</option>
         </select>
     </div>
+    <div style="padding:0 0 15px 15px" class="form-inline">
+        <select id="filter-select2" class="form-control">
+            <option value="0">全部专业</option>
+            <option value="1">人工智能</option>
+            <option value="2">青岛研究院</option>
+            <option value="3">大数据技术与应用</option>
+        </select>
+    </div>
 </div>
 <div class="col-md-12 col-sm-12 col-xs-12">
     <table id="studentTable" class="table table-bordered table-striped" data-toggle="table" data-url="/Gao_JiaoWu/getStudents?p=0" data-row-style="rowStyle">
@@ -27,6 +35,7 @@
                 <th>序号</th>
                 <th>学号</th>
                 <th>名字</th>
+                <th>专业</th>
                 <th>个人信息情况</th>
                 <th>简历提交情况</th>
                 <th>两个志愿是否提交</th>
@@ -55,15 +64,15 @@
                 switch (type) {
                     case "0": return true;
                     case "1":
-                        if (data[3] == "否")
+                        if (data[4] == "未提交")
                             return true;
                         break;
                     case "2":
-                        if (data[4] == "否")
+                        if (data[5] == "未提交")
                             return true;
                         break;
                     case "3":
-                        if (data[5] == "")
+                        if (data[6] == "否")
                             return true;
                         break;
                     default: return false;
@@ -72,7 +81,31 @@
             }
         );
 
+        $.fn.dataTable.ext.search.push(
+            function (settings, data, dataIndex) {
+                var type = $('#filter-select2').val();
+                switch (type) {
+                    case "0": return true;
+                    case "1":
+                        return data[3] == "人工智能"
+                        break;
+                    case "2":
+                        return data[3] == "青岛研究院"
+                        break;
+                    case "3":
+                        return data[3] == "大数据技术与应用"
+                        break;
+                    default: return false;
+                }
+                return false;
+            }
+        );
+
         $("#filter-select").change(function () {
+            $('#studentTable').DataTable().draw()
+        });
+
+        $("#filter-select2").change(function () {
             $('#studentTable').DataTable().draw()
         });
 
@@ -89,6 +122,7 @@
                 },
                 { data: "id" },
                 { data: "name" },
+                { data: "Major"},
                 {//个人信息
                     data: function (row, type, set, meta) {
                             if (row.infoChecked == false)
